@@ -3,9 +3,11 @@ public class Slot {
 	
 	private Token occupyingToken;
 	private boolean occupied;
+	private Player occupiedBy;
 	
 	public Slot() {
 		occupied = false;
+		occupiedBy = null;
 		occupyingToken = null;
 	}
 	
@@ -25,4 +27,7 @@ public class Slot {
 		occupyingToken = slotToken;
 	}
 	
+	public Player getSlotOccupant() {
+		return occupiedBy;
+	}
 }
