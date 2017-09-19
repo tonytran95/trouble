@@ -2,17 +2,21 @@ package game.trouble;
 
 public class Player {
 	
-	private String username;
-	private int colour;
-	private Token[] tokens;
-	
 	public static final int RED = 0;
 	public static final int BLUE = 1;
 	public static final int YELLOW = 2;
 	public static final int GREEN = 3;
+	public static final int NUM_TOKENS = 4;
 	
-	public Player(String username) {
+	private String username;
+	private int id;
+	private int colour;
+	private Token[] tokens;
+	
+	public Player(int pid, String username) {
+		this.id = pid;
 		this.username = username;
+		createPlayerTokens();
 	}
 	
 	public String getUsername() {
@@ -27,17 +31,39 @@ public class Player {
 		return this.colour;
 	}
 	
-	// we can remove one of these depending on how we use Tokens in Board/Game
-	public void setTokens(Token[] tokens) {
-		this.tokens = tokens;
+	/**
+	 * Generates 4 tokens for the current player with ids relative to their 
+	 * position in tokens[] and owner equal to the current player
+	 */
+	private void createPlayerTokens() {
+		if(tokens == null) {
+			tokens = new Token[NUM_TOKENS];
+			
+			for(int i = 0; i < NUM_TOKENS; i++) {
+				tokens[i] = new Token(i, this);
+			}
+		}
 	}
 	
-	public void setTokens(Token t1, Token t2, Token t3, Token t4) {
-		tokens = new Token[]{t1, t2, t3, t4};
-	}
-	
-	public Token[] getTokens() {
+	/**
+	 * Get all tokens managed by this player
+	 * @return Token array containing all of this players tokens
+	 */
+	public Token[] getPlayerTokens() {
 		return tokens;
+	}
+	
+	/**
+	 * Get a specific token belonging to this player
+	 * @param tokenId The id of the token to get
+	 * @return The token with the specified id
+	 */
+	public Token getToken(int tokenId) {
+		if(tokenId < 0 || tokenId >= tokens.length) {
+			return null;
+		} else {
+			return tokens[tokenId];
+		}
 	}
 	
 	// player is same is colour is same

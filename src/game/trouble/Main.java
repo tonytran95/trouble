@@ -1,5 +1,8 @@
 package game.trouble;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import game.trouble.client.SwingUI;
 
 /**
@@ -13,10 +16,8 @@ public class Main {
 
 	public static void main(String args[]) {
 		
-		Die d = new Die();
-		System.out.println(d.rollRie());
-		
 		new SwingUI();
+		
 	}
 	
 }
