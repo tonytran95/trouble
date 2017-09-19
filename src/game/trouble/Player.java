@@ -1,3 +1,4 @@
+package game.trouble;
 
 public class Player {
 	
@@ -47,5 +48,12 @@ public class Player {
 	        }
 		}
 		return false;
+	}
+	
+	// TODO Write new hashode method
+	@Override
+	public int hashCode() {
+		
+		return super.hashCode();
 	}
 }

@@ -1,22 +1,19 @@
+package game.trouble;
 
 public class Slot {
 	
 	private Token occupyingToken;
-	private boolean occupied;
-	private Player occupiedBy;
 	
 	public Slot() {
-		occupied = false;
-		occupiedBy = null;
 		occupyingToken = null;
 	}
 	
-	public void setOccupiedState(boolean isOccupied) {
-		occupied = isOccupied;
-	}
-	
+	/**
+	 * Determine whether the current slot has another token in it or not.
+	 * @return true if the slot has a token in it, false if it is unoccupied
+	 */
 	public boolean isOccupied() {
-		return occupied;
+		return occupyingToken != null;
 	}
 	
 	public Token getOccupyingToken() {
@@ -25,9 +22,5 @@ public class Slot {
 	
 	public void setSlotToken(Token slotToken) {
 		occupyingToken = slotToken;
-	}
-	
-	public Player getSlotOccupant() {
-		return occupiedBy;
 	}
 }
