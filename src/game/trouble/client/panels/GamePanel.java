@@ -87,14 +87,43 @@ public class GamePanel extends JPanel {
 		if (!tiles.isEmpty())
 			return;
 		for (int i = 0; i < 28; i++) {
-			// sets the location of the tiles
+			
+			// sets the location for the normal tiles
 			int tileSize = 25;
 			Rectangle rectangle = new Rectangle(i * tileSize, tileSize, tileSize - 2, tileSize - 2);
-			if (i == 0) this.tiles.add(new Tile(Color.RED, rectangle));
-			else if (i == 7) this.tiles.add(new Tile(Color.BLUE, rectangle));
-			else if (i == 14) this.tiles.add(new Tile(Color.YELLOW, rectangle));
-			else if (i == 21) this.tiles.add(new Tile(Color.GREEN, rectangle));
-			else this.tiles.add(new Tile(Color.LIGHT_GRAY, rectangle));
+			if (i == 0)
+				this.tiles.add(new Tile(Color.RED, rectangle));
+			else if (i == 7)
+				this.tiles.add(new Tile(Color.BLUE, rectangle));
+			else if (i == 14)
+				this.tiles.add(new Tile(Color.YELLOW, rectangle));
+			else if (i == 21)
+				this.tiles.add(new Tile(Color.GREEN, rectangle));
+			else
+				this.tiles.add(new Tile(Color.LIGHT_GRAY, rectangle));
+			
+			// sets the location for the spawn tiles
+			if (i == 6) {
+				for (int j = 2; j < 6; j++) {
+					Rectangle spawnRectangle = new Rectangle(i * tileSize, j * tileSize, tileSize - 2, tileSize - 2);
+					this.tiles.add(new Tile(Color.BLUE, spawnRectangle));
+				}
+			} else if (i == 13) {
+				for (int j = 2; j < 6; j++) {
+					Rectangle spawnRectangle = new Rectangle(i * tileSize, j * tileSize, tileSize - 2, tileSize - 2);
+					this.tiles.add(new Tile(Color.YELLOW, spawnRectangle));
+				}
+			} else if (i == 20) {
+				for (int j = 2; j < 6; j++) {
+					Rectangle spawnRectangle = new Rectangle(i * tileSize, j * tileSize, tileSize - 2, tileSize - 2);
+					this.tiles.add(new Tile(Color.GREEN, spawnRectangle));
+				}
+			} else if (i == 27) {
+				for (int j = 2; j < 6; j++) {
+					Rectangle spawnRectangle = new Rectangle(i * tileSize, j * tileSize, tileSize - 2, tileSize - 2);
+					this.tiles.add(new Tile(Color.RED, spawnRectangle));
+				}
+			}
 		}
 	}
 	
