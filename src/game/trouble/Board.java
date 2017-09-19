@@ -23,7 +23,6 @@ public class Board {
 	public Board() {
 		
 		positions = new Slot[NUM_BOARD_SLOTS];
-		positions[-1].getOccupyingToken();
 	}
 	
 }
