@@ -21,8 +21,8 @@ public class Board {
 	public static final int GREEN_END = 20;
 	
 	public Board() {
-		
 		positions = new Slot[NUM_BOARD_SLOTS];
+		die = new Die();
 	}
 	
 }

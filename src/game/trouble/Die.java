@@ -11,10 +11,10 @@ public class Die {
 	private int value;
 	
 	/**
-	 * Creates a default die with the value set to -1
+	 * Creates a default die which is rolled upon creation to generate an initial value
 	 */
 	public Die() {
-		value = -1;
+		value = rollRie();
 	}
 	
 	/**
@@ -28,7 +28,7 @@ public class Die {
 	
 	/**
 	 * Get the value last rolled on this die without re-rolling
-	 * @return The last value rolled on this die. If die has not yet been rolled, -1 will be returned
+	 * @return The last value rolled on this die
 	 */
 	public int getLastRolledValue() {
 		return value;
