@@ -23,8 +23,25 @@ public class Token {
 		return this.id;
 	}
 	
+	
 	public int getCurrPos() {
 		return this.currPos;
 	}
 	
+	public Player getOwner() {
+		return this.owner;
+	}
+	
+	public int getColour() {
+		return this.colour;
+	}
+	
+	public boolean equals(Object o) {
+		if (o instanceof Token) {
+			if (((Token)o).getTokenID() == this.getTokenID() && ((Token)o).getOwner() == this.getOwner()){
+	            return true;
+	        }
+		}
+		return false;
+	}
 }

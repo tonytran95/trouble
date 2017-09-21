@@ -18,9 +18,7 @@ public class Game {
 	}
 	
 	private void createPlayers() {
-		players = new ArrayList<Player>();
-		
-		
+		players = new ArrayList<Player>();		
 	}
 
 	public void movePlayerToken(Token token, int diceValue) {
@@ -32,8 +30,6 @@ public class Game {
 		if(target >= Board.NUM_BOARD_SLOTS) {
 			target -= Board.NUM_BOARD_SLOTS;
 		}
-		
-		
 		
 	}
 	
