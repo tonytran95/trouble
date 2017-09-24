@@ -8,41 +8,40 @@ public class Game {
 	public static final int MAX_PLAYERS = 4;
 	
 	private Board board;
-	private ArrayList<Player> players;
+	private Player[] players;
 	private Calendar startTime;
+	private String[] availableColours;
 	
 	public Game(int numPlayers) {
 		startTime = Calendar.getInstance();
-		board = new Board();
-		createPlayers();
+		availableColours = new String[]{"R", "B", "Y", "G"};
+		players = new Player[numPlayers];
+		board = new Board(players);
 	}
 	
-	private void createPlayers() {
-		players = new ArrayList<Player>();		
-	}
-
+	// Move the selected token the number of slots rolled on the die
 	public void movePlayerToken(Token token, int diceValue) {
 		
-		int start = token.getCurrPos();
-		int target = start + diceValue;
+		int currPos = token.getCurrPos();
+		int target = currPos + diceValue;
 		
 		// Wraparound
-		if(target >= Board.NUM_BOARD_SLOTS) {
-			target -= Board.NUM_BOARD_SLOTS;
+		if(target >= Board.NUM_MAIN_SLOTS) {
+			target -= Board.NUM_MAIN_SLOTS;
 		}
 		
-	}
-	
-	// returns true if successfully added, false if player already exists or game full (4 players)
-	public boolean addPlayer(Player p) {
-		if (players.size() >= MAX_PLAYERS) return false;
-		
-		for (Player q: players) {
-			if (p.equals(q)) return false;
+		if(token.getColour() == Player.RED && currPos > target) {
+			
+		} else if(currPos < token.getTokenStart() && target > token.getTokenEnd()) {
+			
+			if(target - token.getTokenEnd() < 5) {
+				
+			}
+			
+		} else {
+			
 		}
 		
-		players.add(p);
-		return true;
 	}
 	
 	public String getStartTimeMessage() {

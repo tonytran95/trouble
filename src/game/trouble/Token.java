@@ -36,6 +36,24 @@ public class Token {
 		return this.colour;
 	}
 	
+	public int getTokenStart() {
+		switch(getColour()) {
+			case Player.RED: return Board.RED_START;
+			case Player.BLUE: return Board.BLUE_START;
+			case Player.GREEN: return Board.GREEN_START;
+			default: return Board.YELLOW_START;
+		}
+	}
+	
+	public int getTokenEnd() {
+		switch(getColour()) {
+			case Player.RED: return Board.RED_END;
+			case Player.BLUE: return Board.BLUE_END;
+			case Player.GREEN: return Board.GREEN_END;
+			default: return Board.YELLOW_END;
+		}
+	}
+	
 	@Override
 	public boolean equals(Object o) {
 		if (o instanceof Token) {
