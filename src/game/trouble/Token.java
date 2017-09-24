@@ -36,6 +36,7 @@ public class Token {
 		return this.colour;
 	}
 	
+	@Override
 	public boolean equals(Object o) {
 		if (o instanceof Token) {
 			if (((Token)o).getTokenID() == this.getTokenID() && ((Token)o).getOwner() == this.getOwner()){
@@ -44,4 +45,15 @@ public class Token {
 		}
 		return false;
 	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + colour;
+		result = prime * result + id;
+		result = prime * result + ((owner == null) ? 0 : owner.hashCode());
+		return result;
+	}
+	
 }
