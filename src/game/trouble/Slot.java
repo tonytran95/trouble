@@ -3,9 +3,15 @@ package game.trouble;
 public class Slot {
 	
 	private Token occupyingToken;
+	private int slotLocation;
 	
-	public Slot() {
+	public Slot(int location) {
 		occupyingToken = null;
+	}
+	
+	public Slot(Token token, int location) {
+		occupyingToken = token;
+		slotLocation = location;
 	}
 	
 	/**
@@ -14,6 +20,26 @@ public class Slot {
 	 */
 	public boolean isOccupied() {
 		return occupyingToken != null;
+	}
+	
+	public String slotLocationToString() {
+		switch(getSlotLocation()) {
+			case Board.SLOT_HOME: 
+				return "Home base";
+			case Board.SLOT_END: 
+				return "Endzone";
+			default: return "Main board";
+		}
+	}
+	
+	public int getSlotLocation() {
+		return this.slotLocation;
+	}
+	
+	public void setSlotLocation(int location) {
+		if(location >= Board.SLOT_HOME || location <= Board.SLOT_END) {
+			this.slotLocation = location;
+		}
 	}
 	
 	/**

@@ -1,5 +1,7 @@
 package game.trouble;
 
+import java.util.Arrays;
+
 public class Player {
 	
 	public static final int RED = 0;
@@ -13,9 +15,10 @@ public class Player {
 	private int colour;
 	private Token[] tokens;
 	
-	public Player(int pid, String username) {
+	public Player(int pid, String username, int colour) {
 		this.id = pid;
 		this.username = username;
+		this.colour = colour;
 		createPlayerTokens();
 	}
 	
@@ -66,7 +69,7 @@ public class Player {
 		}
 	}
 	
-	// player is same is colour is same
+	@Override
 	public boolean equals(Object o) {
 		if (o instanceof Player) {
 			if (((Player)o).getColour() == this.getColour() ){
@@ -76,10 +79,15 @@ public class Player {
 		return false;
 	}
 	
-	// TODO Write new hashode method
 	@Override
 	public int hashCode() {
-		
-		return super.hashCode();
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + colour;
+		result = prime * result + id;
+		result = prime * result + Arrays.hashCode(tokens);
+		result = prime * result + ((username == null) ? 0 : username.hashCode());
+		return result;
 	}
+	
 }

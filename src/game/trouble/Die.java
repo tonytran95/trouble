@@ -14,14 +14,14 @@ public class Die {
 	 * Creates a default die which is rolled upon creation to generate an initial value
 	 */
 	public Die() {
-		value = rollRie();
+		value = rollDie();
 	}
 	
 	/**
 	 * Rolls the die and updates the value of the previous roll to be this roll
 	 * @return The value that was rolled
 	 */
-	public int rollRie() {
+	public int rollDie() {
 		value = new Random().nextInt(6) + 1;
 		return value;
 	}
