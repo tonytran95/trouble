@@ -1,3 +1,5 @@
+package game.trouble.network;
+
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
