@@ -4,18 +4,14 @@ import java.util.Arrays;
 
 public class Player {
 	
-	public static final int RED = 0;
-	public static final int BLUE = 1;
-	public static final int YELLOW = 2;
-	public static final int GREEN = 3;
 	public static final int NUM_TOKENS = 4;
 	
 	private String username;
 	private int id;
-	private int colour;
+	private Colour colour;
 	private Token[] tokens;
 	
-	public Player(int pid, String username, int colour) {
+	public Player(int pid, String username, Colour colour) {
 		this.id = pid;
 		this.username = username;
 		this.colour = colour;
@@ -26,11 +22,11 @@ public class Player {
 		return username;
 	}
 	
-	public void setColour(int col) {
+	public void setColour(Colour col) {
 		this.colour = col;
 	}
 	
-	public int getColour() {
+	public Colour getColour() {
 		return this.colour;
 	}
 	
@@ -83,7 +79,7 @@ public class Player {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + colour;
+		result = prime * result + colour.hashCode();
 		result = prime * result + id;
 		result = prime * result + Arrays.hashCode(tokens);
 		result = prime * result + ((username == null) ? 0 : username.hashCode());

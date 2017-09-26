@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class Board {
 	
+	// Number of slot constants
 	public static final int NUM_MAIN_SLOTS = 28;
 	public static final int NUM_HOME_SLOTS = 4;
 	public static final int NUM_END_SLOTS = 4;
@@ -38,11 +39,13 @@ public class Board {
 	private ArrayList<Slot> blueEndZone;
 	private ArrayList<Slot> yellowEndZone;
 	private ArrayList<Slot> greenEndZone;
+	
+	// The die
 	private Die die;
 	
 	public Board(Player[] players) {
-		mainSlots = new ArrayList<Slot>(NUM_MAIN_SLOTS);
 		die = new Die();
+		generateMainZone();
 		generateHomeZones(players);
 		generateEndZones(players);
 	}
@@ -72,6 +75,44 @@ public class Board {
 		}
 	}
 	
+	public void generateMainZone() {
+		
+		mainSlots = new ArrayList<Slot>(NUM_MAIN_SLOTS);
+		generateSlots(mainSlots, SLOT_MAIN, NUM_MAIN_SLOTS);
+		
+	}
+	
+	/**
+	 * Generate new slots to fill the zone arraylist with. Slots will be unoccupied and have the type zoneType
+	 * @param zone Collection of slots from a specific area of the board
+	 * @param zoneType The area on the board the slots belong with
+	 * @param numSlots The number of slots to create
+	 */
+	public void generateSlots(ArrayList<Slot> zone, int zoneType, int numSlots) {
+		
+		for(int i = 0; i < numSlots; i++) {
+			zone.add(new Slot(zoneType));
+		}
+		
+	}
+	
+	/**
+	 * Generate new slots to fill the zone arraylist with. Slots will be occupied by tokens belonging to the 
+	 * owner player and will have the type zoneType.
+	 * @param zone Collection of slots from a specific area of the board
+	 * @param owner The owner of the given zone
+	 * @param zoneType The area on the board the slots belong with
+	 * @param numSlots The number of slots to create
+	 */
+	public void generateSlots(ArrayList<Slot> zone, Player owner, int zoneType, int numSlots) {
+		
+		for(int i = 0; i < numSlots; i++) {
+			Token curr = owner.getToken(i);
+			zone.add(new Slot(curr, zoneType));
+		}
+		
+	}
+	
 	/**
 	 * Generate start zones for the required players
 	 * @param players Array of all players who are going to play the game
@@ -79,18 +120,19 @@ public class Board {
 	private void generateHomeZones(Player[] players) {
 		for(Player p : players) {
 			switch(p.getColour()) {
-				case Player.RED: 
+				case RED: 
 					redHomeZone = new ArrayList<Slot>(NUM_HOME_SLOTS);
 					break;
-				case Player.BLUE: 
+				case BLUE: 
 					blueHomeZone = new ArrayList<Slot>(NUM_HOME_SLOTS);
 					break;
-				case Player.GREEN: 
+				case GREEN: 
 					greenHomeZone = new ArrayList<Slot>(NUM_HOME_SLOTS);
 					break;
 				default: 
 					yellowHomeZone = new ArrayList<Slot>(NUM_HOME_SLOTS);
 			}
+			generateSlots(getPlayerHomeZone(p), p, SLOT_HOME, NUM_HOME_SLOTS);
 		}
 	}
 	
@@ -101,18 +143,19 @@ public class Board {
 	private void generateEndZones(Player[] players) {
 		for(Player p: players) {
 			switch(p.getColour()) {
-				case Player.BLUE: 
+				case BLUE: 
 					blueEndZone = new ArrayList<Slot>(NUM_END_SLOTS);
 					break;
-				case Player.YELLOW: 
+				case YELLOW: 
 					yellowEndZone = new ArrayList<Slot>(NUM_END_SLOTS);
 					break;
-				case Player.GREEN: 
+				case GREEN: 
 					greenEndZone = new ArrayList<Slot>(NUM_END_SLOTS);
 					break;
 				default: 
 					redEndZone = new ArrayList<Slot>(NUM_END_SLOTS);
 			}
+			generateSlots(getPlayerEndZone(p), SLOT_END, NUM_END_SLOTS);
 		}
 	}
 	
@@ -123,9 +166,9 @@ public class Board {
 	 */
 	public ArrayList<Slot> getPlayerHomeZone(Player player) {
 		switch(player.getColour()) {
-			case Player.RED: return redHomeZone;
-			case Player.BLUE: return blueHomeZone;
-			case Player.GREEN: return greenHomeZone;
+			case RED: return redHomeZone;
+			case BLUE: return blueHomeZone;
+			case GREEN: return greenHomeZone;
 			default: return yellowHomeZone;
 		}
 	}
@@ -137,9 +180,9 @@ public class Board {
 	 */
 	public ArrayList<Slot> getPlayerEndZone(Player player) {
 		switch(player.getColour()) {
-			case Player.RED: return redEndZone;
-			case Player.BLUE: return blueEndZone;
-			case Player.GREEN: return greenEndZone;
+			case RED: return redEndZone;
+			case BLUE: return blueEndZone;
+			case GREEN: return greenEndZone;
 			default: return yellowEndZone;
 		}
 	}
@@ -150,6 +193,30 @@ public class Board {
 	 */
 	public Die getDie() {
 		return die;
+	}
+	
+	/**
+	 * Checks that the board has the valid properties
+	 * @return true if board is valid. false if there was an error in generation
+	 */
+	public boolean isValidBoard() {
+		
+		if(mainSlots.size() != NUM_MAIN_SLOTS) {
+			return false;
+		} else if ((redHomeZone != null && redHomeZone.size() != NUM_HOME_SLOTS) ||
+				(yellowHomeZone != null && yellowHomeZone.size() != NUM_HOME_SLOTS) || 
+				(blueHomeZone != null && blueHomeZone.size() != NUM_HOME_SLOTS) || 
+				(greenHomeZone != null && greenHomeZone.size() != NUM_HOME_SLOTS)) {
+			return false;
+		} else if ((redEndZone != null && redEndZone.size() != NUM_END_SLOTS) ||
+				(yellowEndZone != null && yellowEndZone.size() != NUM_END_SLOTS) || 
+				(blueEndZone != null && blueEndZone.size() != NUM_END_SLOTS) || 
+				(greenEndZone != null && greenEndZone.size() != NUM_END_SLOTS)) {
+			return false;
+		} else {
+			return true;
+		}
+		
 	}
 	
 }

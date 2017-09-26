@@ -11,17 +11,17 @@ public class Game {
 	private Board board;
 	private Player[] players;
 	private Calendar startTime;
-	private ArrayList<Integer> availableColours;
+	private ArrayList<Colour> availableColours;
 	
-	public Game(int numPlayers, int numHumans) {
+	public Game(int numPlayers, int numHumans, String p1, Colour c1, String p2, Colour c2, String p3, Colour c3) {
 		startTime = Calendar.getInstance();
 		setAvailableColours();
 		createPlayers(numPlayers, numHumans);
-		//TODO distribute player colours here
 		board = new Board(players);
 	}
 	
-	// TODO Possibly randomise assignment order to mix up order of play within the 
+	// TODO Randomise assignment order to mix up order of play within the game
+	// TODO Assign actual requested colours to players instead of random colours
 	// game so turn play does not always go all humans followed by all AI's
 	/**
 	 * Creates players for AI and human users who want to play a game
@@ -32,9 +32,9 @@ public class Game {
 		players = new Player[numPlayers];
 		for(int i = 0; i < players.length; i++) {
 			if(i < numHumans) {
-				players[i] = createHumanPlayer(i);
+				players[i] = createHumanPlayer(i, Colour.RANDOM);
 			} else {
-				players[i] = createAIPlayer(i);
+				players[i] = createAIPlayer(i, Colour.RANDOM);
 			}
 		}
 	}
@@ -44,11 +44,9 @@ public class Game {
 	 * @param id The index of the array in which the player sits. Will be used as player id
 	 * @return A newly created player
 	 */
-	public Player createHumanPlayer(int id) {
-		int randColour = new Random().nextInt(availableColours.size());
+	public Player createHumanPlayer(int id, Colour c) {
 		
-		Player tmp = new Player(id, "Mr noName", availableColours.get(randColour));
-		availableColours.remove(randColour);
+		Player tmp = new Player(id, "Mr noName", assignPlayerColour(c));
 		return tmp;
 	}
 	
@@ -57,11 +55,9 @@ public class Game {
 	 * Creates a new AI
 	 * @return The newly created AI
 	 */
-	public AI createAIPlayer(int id) {
-		int randColour = new Random().nextInt(availableColours.size());
+	public AI createAIPlayer(int id, Colour c) {
 		
-		AI tmp = new AI(id, "Mr noName", availableColours.get(randColour));
-		availableColours.remove(randColour);
+		AI tmp = new AI(id, "Mr noName", assignPlayerColour(c));
 		return tmp;
 	}
 	
@@ -69,11 +65,27 @@ public class Game {
 	 * Add the four playable colours to the list of available colours
 	 */
 	public void setAvailableColours() {
-		availableColours = new ArrayList<Integer>();
-		availableColours.add(Player.RED);
-		availableColours.add(Player.BLUE);
-		availableColours.add(Player.GREEN);
-		availableColours.add(Player.YELLOW);
+		availableColours = new ArrayList<Colour>();
+		availableColours.add(Colour.RED);
+		availableColours.add(Colour.BLUE);
+		availableColours.add(Colour.GREEN);
+		availableColours.add(Colour.YELLOW);
+	}
+	
+	/**
+	 * If player wants a random colour give out random colour from available colours otherwise assign player requested colour
+	 * @param colour Colour the player has requested
+	 * @return The next available colour
+	 */
+	public Colour assignPlayerColour(Colour colour) {
+		
+		if(colour == Colour.RANDOM || availableColours.contains(colour) == false) {
+			int rand = new Random().nextInt(availableColours.size());
+			colour = availableColours.get(rand);
+		}
+		
+		availableColours.remove(colour);
+		return colour;
 	}
 	
 	// Move the selected token the number of slots rolled on the die
@@ -87,7 +99,7 @@ public class Game {
 			target -= Board.NUM_MAIN_SLOTS;
 		}
 		
-		if(token.getColour() == Player.RED && currPos > target) {
+		if(token.getColour() == Colour.RED && currPos > target) {
 			
 			// Red token has finished their board rotation and can go to the endzone 
 			// if they havent rolled too high a number

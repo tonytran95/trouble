@@ -5,7 +5,7 @@ public class Token {
 	private int id;
 	private int currPos;
 	private Player owner;
-	private int colour;
+	private Colour colour;
 	
 	public Token(int tokenID, Player owner) {
 		id = tokenID;
@@ -32,24 +32,24 @@ public class Token {
 		return this.owner;
 	}
 	
-	public int getColour() {
+	public Colour getColour() {
 		return this.colour;
 	}
 	
 	public int getTokenStart() {
 		switch(getColour()) {
-			case Player.RED: return Board.RED_START;
-			case Player.BLUE: return Board.BLUE_START;
-			case Player.GREEN: return Board.GREEN_START;
+			case RED: return Board.RED_START;
+			case BLUE: return Board.BLUE_START;
+			case GREEN: return Board.GREEN_START;
 			default: return Board.YELLOW_START;
 		}
 	}
 	
 	public int getTokenEnd() {
 		switch(getColour()) {
-			case Player.RED: return Board.RED_END;
-			case Player.BLUE: return Board.BLUE_END;
-			case Player.GREEN: return Board.GREEN_END;
+			case RED: return Board.RED_END;
+			case BLUE: return Board.BLUE_END;
+			case GREEN: return Board.GREEN_END;
 			default: return Board.YELLOW_END;
 		}
 	}
@@ -68,7 +68,7 @@ public class Token {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + colour;
+		result = prime * result + colour.hashCode();
 		result = prime * result + id;
 		result = prime * result + ((owner == null) ? 0 : owner.hashCode());
 		return result;
