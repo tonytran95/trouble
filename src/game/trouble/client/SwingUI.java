@@ -24,17 +24,17 @@ public class SwingUI extends JFrame {
 	/**
 	 * The title of the game.
 	 */
-	public static String GAME_NAME = "Trouble";
+	public final static String GAME_NAME = "Trouble";
 	
 	/**
 	 * The height of the display.
 	 */
-	public static int HEIGHT = 800;
+	public final static int HEIGHT = 800;
 	
 	/**
 	 * The width of the display.
 	 */
-	public static int WIDTH = 700;
+	public final static int WIDTH = 700;
 	
 	/**
 	 * The current panel being displayed.
