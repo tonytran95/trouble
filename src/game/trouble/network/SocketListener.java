@@ -61,26 +61,28 @@ public class SocketListener {
 				
 				System.out.println("A user has connected from " + clientSocket.getInetAddress());
 				
+				// setup the connection mapping
+				try {
+                	// Establish the client's input stream.
+	                BufferedReader clientInput = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+	                
+	                // Establish the server's output stream.
+	                DataOutputStream clientOutput = new DataOutputStream(clientSocket.getOutputStream());
+	                
+	                Connection c = new Connection(clientSocket, clientInput, clientOutput);
+	                this.addConnection(c);
+	                
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
 				Thread thread = new Thread(new Runnable() {
 					@Override
 					public void run() {
-		                
-		                try {
-		                	// Establish the client's input stream.
-			                BufferedReader clientInput = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-			                
-			                // Establish the server's output stream.
-			                DataOutputStream clientOutput = new DataOutputStream(clientSocket.getOutputStream());
-			                
-			                Connection c = new Connection(clientSocket, clientInput, clientOutput);
-			                server.addConnection(c);
-			                
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
 
 					}
+
 				});
 				thread.start();
 			}

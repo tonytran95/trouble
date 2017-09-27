@@ -8,6 +8,7 @@ import game.trouble.model.AI;
 import game.trouble.model.Board;
 import game.trouble.model.Colour;
 import game.trouble.model.Player;
+import game.trouble.model.board.Slot;
 import game.trouble.model.board.Token;
 
 public class Game {
