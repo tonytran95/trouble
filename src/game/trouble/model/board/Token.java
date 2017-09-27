@@ -1,4 +1,8 @@
-package game.trouble;
+package game.trouble.model.board;
+
+import game.trouble.model.Board;
+import game.trouble.model.Colour;
+import game.trouble.model.Player;
 
 public class Token {
 	

@@ -1,6 +1,10 @@
-package game.trouble;
+package game.trouble.model;
 
 import java.util.ArrayList;
+
+import game.trouble.model.board.Die;
+import game.trouble.model.board.Slot;
+import game.trouble.model.board.Token;
 
 public class Board {
 	

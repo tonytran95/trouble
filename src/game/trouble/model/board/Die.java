@@ -1,4 +1,4 @@
-package game.trouble;
+package game.trouble.model.board;
 import java.util.Random;
 
 /**

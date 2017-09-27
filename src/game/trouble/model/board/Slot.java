@@ -1,4 +1,6 @@
-package game.trouble;
+package game.trouble.model.board;
+
+import game.trouble.model.Board;
 
 public class Slot {
 	

@@ -1,4 +1,4 @@
-package game.trouble;
+package game.trouble.model;
 
 public class AI extends Player {
 
