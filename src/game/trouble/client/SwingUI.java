@@ -24,17 +24,22 @@ public class SwingUI extends JFrame {
 	/**
 	 * The title of the game.
 	 */
-	public static String GAME_NAME = "Trouble";
+	public final static String GAME_NAME = "Trouble";
 	
 	/**
 	 * The height of the display.
 	 */
-	public static int HEIGHT = 800;
+	public final static int HEIGHT = 780;
 	
 	/**
 	 * The width of the display.
 	 */
-	public static int WIDTH = 700;
+	public final static int WIDTH = 300;
+	
+	/**
+	 * The stretch value.
+	 */
+	public final static int STRETCH = 50;
 	
 	/**
 	 * The current panel being displayed.
@@ -69,10 +74,27 @@ public class SwingUI extends JFrame {
 			this.setTitle(SwingUI.GAME_NAME);
 			this.setLayout(new BorderLayout());
 			this.setBackground(Color.WHITE);
-			this.setPreferredSize(new Dimension(SwingUI.HEIGHT, SwingUI.WIDTH));
+			this.setPreferredSize(new Dimension(
+					SwingUI.HEIGHT + SwingUI.STRETCH, SwingUI.WIDTH + (SwingUI.STRETCH * 2)));
 			this.setVisible(true);
 			this.setResizable(false);
 			this.switchPanel(currentPanel);
+			
+			/**
+			 * Side panels.
+			 */
+			JPanel westPanel = new JPanel();
+			JPanel eastPanel = new JPanel();
+			JPanel southPanel = new JPanel();
+			JPanel northPanel = new JPanel();
+			westPanel.setPreferredSize(new Dimension(SwingUI.STRETCH, SwingUI.STRETCH));
+			eastPanel.setPreferredSize(new Dimension(SwingUI.STRETCH, SwingUI.STRETCH));
+			northPanel.setPreferredSize(new Dimension(SwingUI.STRETCH * 2, SwingUI.STRETCH * 2));
+			southPanel.setPreferredSize(new Dimension(SwingUI.STRETCH * 2, SwingUI.STRETCH * 2));
+			this.add(westPanel, BorderLayout.WEST);
+			this.add(eastPanel, BorderLayout.EAST);
+			this.add(southPanel, BorderLayout.SOUTH);
+			this.add(northPanel, BorderLayout.NORTH);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -85,7 +107,7 @@ public class SwingUI extends JFrame {
 	public void switchPanel(JPanel newPanel) {
 		this.setResizable(true);
 		this.getContentPane().remove(currentPanel);
-		this.getContentPane().add(newPanel);
+		this.getContentPane().add(newPanel, BorderLayout.CENTER);
 		this.currentPanel = newPanel;
 		this.pack();
 	}

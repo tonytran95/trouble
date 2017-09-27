@@ -4,6 +4,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Random;
 
+import game.trouble.model.AI;
+import game.trouble.model.Board;
+import game.trouble.model.Colour;
+import game.trouble.model.Player;
+import game.trouble.model.board.Token;
+
 public class Game {
 	
 	public static final int MAX_PLAYERS = 4;
@@ -148,7 +154,7 @@ public class Game {
 			
 			String date = new SimpleDateFormat("EEEE, dd/MM/yyyy").format(startTime.getTime());
 			String time = new SimpleDateFormat("hh:mm:ss.SSS a").format(startTime.getTime());
-			message = "Game was started on " + date + " at " + time;
+			message = "[Game] Game was started on " + date + " at " + time;
 			 
 		}
 		
