@@ -73,7 +73,7 @@ public class SocketListener {
 			                DataOutputStream clientOutput = new DataOutputStream(clientSocket.getOutputStream());
 			                
 			                Connection c = new Connection(clientSocket, clientInput, clientOutput);
-			                server.addConnection(c);
+			                addConnection(c);
 			                
 						} catch (IOException e) {
 							// TODO Auto-generated catch block
