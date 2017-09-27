@@ -36,17 +36,19 @@ public class GameServer {
 	 * Constructs a new server.
 	 */
 	public GameServer() {
-		/**
-		 * Initializes the socket listener.
-		 */
-		this.socketListener = new SocketListener(GameServer.PORT);
-		this.socketListener.init();
+		System.out.println("[Game Server] Starting game server...");
 		
 		/**
 		 * Initializes the game engine.
 		 */
 		this.gameEngine = new GameEngine();
 		this.gameEngine.init();
+		
+		/**
+		 * Initializes the socket listener.
+		 */
+		this.socketListener = new SocketListener(GameServer.PORT);
+		this.socketListener.init();
 	}
 
 	/**

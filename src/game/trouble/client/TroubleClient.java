@@ -1,13 +1,10 @@
 package game.trouble.client;
 
-import java.io.IOException;
-import java.net.Socket;
-import java.net.UnknownHostException;
-
 public class TroubleClient {
 
-	/* public static void main(String[] args) {
-		if (args.length != 1) {
+	public static void main(String[] args) {
+		new SwingUI();
+		/*if (args.length != 1) {
 			System.out.println("usage: java -jar TroubleClient.jar <ip> <port>");
 			return;
 		}
@@ -22,7 +19,7 @@ public class TroubleClient {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
-	} */
+		}*/
+	} 
 	
 }

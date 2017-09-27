@@ -6,7 +6,7 @@ import game.trouble.model.Colour;
 public class GameEngine {
 	
 	public GameEngine() {
-		
+		System.out.println("[GameEngine] Initializing game engine...");
 	}
 	
 	public void init() {
@@ -24,5 +24,6 @@ public class GameEngine {
 		
 		Game g1 = new Game(4, 3, n1, c1, n2, c2, n3, c3);
 		System.out.println(g1.getStartTimeMessage());
+		System.out.println("[GameEngine] Added Bob, Kelly and Mary");
 	}
 }

@@ -13,10 +13,10 @@ public class SocketListener {
 	private boolean listening;
 	
 	public SocketListener(int port) {
+		System.out.println("[SocketListener] Initializing socket listener...");
 		this.port = port;
 		clients = new ArrayList<Socket>();
 		listening = true;
-		
 		try {
 			socket = new ServerSocket(port);
 		} catch (IOException e) {
@@ -45,6 +45,7 @@ public class SocketListener {
 	}
 	
 	public void init() {
+		System.out.println("[SocketListener] Socket listening on port: " + this.port);
 		try {
 			while (this.isListening()) {
 				Socket clientSocket = this.getSocket().accept();

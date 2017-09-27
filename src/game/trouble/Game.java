@@ -135,7 +135,7 @@ public class Game {
 			
 			String date = new SimpleDateFormat("EEEE, dd/MM/yyyy").format(startTime.getTime());
 			String time = new SimpleDateFormat("hh:mm:ss.SSS a").format(startTime.getTime());
-			message = "Game was started on " + date + " at " + time;
+			message = "[Game] Game was started on " + date + " at " + time;
 			 
 		}
 		
