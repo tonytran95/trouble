@@ -4,6 +4,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Random;
 
+import game.trouble.model.AI;
+import game.trouble.model.Board;
+import game.trouble.model.Colour;
+import game.trouble.model.Player;
+import game.trouble.model.board.Token;
+
 public class Game {
 	
 	public static final int MAX_PLAYERS = 4;

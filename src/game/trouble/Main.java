@@ -1,6 +1,7 @@
 package game.trouble;
 
 import game.trouble.client.SwingUI;
+import game.trouble.model.Colour;
 
 /**
  * 
