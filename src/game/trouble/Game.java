@@ -12,12 +12,14 @@ public class Game {
 	private Player[] players;
 	private Calendar startTime;
 	private ArrayList<Colour> availableColours;
+	private int turnNum;
 	
 	public Game(int numPlayers, int numHumans, String p1, Colour c1, String p2, Colour c2, String p3, Colour c3) {
 		startTime = Calendar.getInstance();
 		setAvailableColours();
 		createPlayers(numPlayers, numHumans);
 		board = new Board(players);
+		turnNum = 0;
 	}
 	
 	// TODO Randomise assignment order to mix up order of play within the game
@@ -119,6 +121,23 @@ public class Game {
 			
 		}
 		
+	}
+	
+	// checks if the game is over by looking at all the player's home slots
+	public boolean isOver() {
+		for (Player p: players) {
+			ArrayList<Slot> homeslot = board.getPlayerEndZone(p);
+			int filledSlots = 0;
+			for (Slot s: homeslot) {
+				if (s.isOccupied()) filledSlots++;
+			}
+			if (filledSlots == Player.NUM_TOKENS) return true;
+		}
+		return false;
+	}
+	
+	public int getTurnNum() {
+		return this.turnNum;
 	}
 	
 	public String getStartTimeMessage() {
