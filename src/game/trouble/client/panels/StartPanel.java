@@ -1,5 +1,9 @@
 package game.trouble.client.panels;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import game.trouble.client.ClientState;
@@ -26,7 +30,7 @@ public class StartPanel extends JPanel {
 	 */
 	public StartPanel(SwingUI swingUI) {
 		this.swingUI = swingUI;
-		swingUI.setClientState(ClientState.START);
+		//swingUI.setClientState(ClientState.START);
 		init();
 	}
 	
@@ -34,7 +38,14 @@ public class StartPanel extends JPanel {
 	 * Initializes the start panel.
 	 */
 	public void init() {
-		// TODO Auto-generated method stub
+		JButton play = new JButton("Play");
+		play.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				swingUI.setClientState(ClientState.IN_GAME);
+			}
+		});
+		this.add(play);
 	}
 
 	/**

@@ -26,7 +26,7 @@ public class LoginPanel extends JPanel {
 	 */
 	public LoginPanel(SwingUI swingUI) {
 		this.swingUI = swingUI;
-		swingUI.setClientState(ClientState.LOGIN);
+		//swingUI.setClientState(ClientState.LOGIN);
 		init();
 	}
 	

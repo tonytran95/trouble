@@ -3,6 +3,9 @@ package game.trouble.client;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -61,13 +64,19 @@ public class SwingUI extends JFrame {
 	 */
 	private ClientState clientState;
 	
+	private BufferedReader in;
+	private PrintWriter out;
+	
 	/**
 	 * The constructor for the swing user interface.
 	 */
-	public SwingUI() {
+	public SwingUI(BufferedReader in, PrintWriter out) {
+		this.in = in;
+		this.out = out;
+		
 		this.startPanel = new StartPanel(this);
 		this.gamePanel = new GamePanel(this);
-		this.currentPanel = gamePanel; // this should be changed to start panel. (Currently debugging game panel)
+		this.currentPanel = startPanel; // this should be changed to start panel. (Currently debugging game panel)
 		try {
 			JPopupMenu.setDefaultLightWeightPopupEnabled(false);
 			JFrame.setDefaultLookAndFeelDecorated(true);
@@ -131,6 +140,24 @@ public class SwingUI extends JFrame {
 	 * @param clientState is the client state of the player.
 	 */
 	public void setClientState(ClientState clientState) {
+		switch (clientState) {
+			case START:
+				switchPanel(startPanel);
+			case IN_GAME:
+				switchPanel(gamePanel);
+			case LOBBY:
+				break;
+			case LOGIN:
+				break;
+		}
 		this.clientState = clientState;
+	}
+	
+	public void send(String message) {
+		out.println(message);
+	}
+	
+	public String read() throws IOException {
+		return in.readLine();
 	}
 }

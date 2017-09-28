@@ -4,16 +4,15 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.event.KeyListener;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JPanel;
 
-import game.trouble.client.ClientState;
 import game.trouble.client.SwingUI;
 import game.trouble.client.UserInput;
+import game.trouble.model.board.Tile;
 
 /**
  * 
@@ -33,7 +32,7 @@ public class GamePanel extends JPanel {
 	/**
 	 * The user input.
 	 */
-	private KeyListener userInput;
+	private MouseListener userInput;
 	
 	/**
 	 * The list of tiles.
@@ -41,14 +40,22 @@ public class GamePanel extends JPanel {
 	private List<Tile> tiles;
 	
 	/**
+	 * The list of tokens.
+	 */
+	private List<Tile> tokens;
+	
+	/**
 	 * The constructor for the start panel.
 	 * @param swingUI is the swing user interface.
 	 */
 	public GamePanel(SwingUI swingUI) {
 		this.swingUI = swingUI;
-		this.userInput = new UserInput(swingUI);
 		this.tiles = new ArrayList<Tile>();
-		swingUI.setClientState(ClientState.IN_GAME);
+		this.tokens = new ArrayList<Tile>();
+		this.createTiles();
+		this.createTokens();
+		this.userInput = new UserInput(swingUI, tiles);
+		//swingUI.setClientState(ClientState.IN_GAME);
 		this.init();
 	}
 
@@ -56,8 +63,8 @@ public class GamePanel extends JPanel {
 	 * Initializes the game panel.
 	 */
 	public void init() {
-		this.addKeyListener(this.userInput);
-		this.swingUI.addKeyListener(this.userInput);
+		this.addMouseListener(this.userInput);
+		//this.swingUI.addMouseListener(this.userInput);
 		this.setFocusable(true);
 		this.requestFocusInWindow();
 		this.swingUI.requestFocusInWindow();
@@ -87,20 +94,36 @@ public class GamePanel extends JPanel {
 		if (!tiles.isEmpty())
 			return;
 		for (int i = 0; i < 28; i++) {
-			
-			// sets the location for the normal tiles
+			// sets the location for the normal tiles && home tiles
 			int tileSize = 25;
 			Rectangle rectangle = new Rectangle(i * tileSize, tileSize, tileSize - 2, tileSize - 2);
-			if (i == 0)
+			if (i == 0) {
 				this.tiles.add(new Tile(Color.RED, rectangle));
-			else if (i == 7)
+				for (int j = i; j < i + 4; j++) {
+					Rectangle homeRectangle = new Rectangle(j * tileSize, tileSize - tileSize, tileSize - 2, tileSize - 2);
+					this.tiles.add(new Tile(Color.LIGHT_GRAY, homeRectangle));
+				}
+			} else if (i == 7) {
 				this.tiles.add(new Tile(Color.BLUE, rectangle));
-			else if (i == 14)
+				for (int j = i; j < i + 4; j++) {
+					Rectangle homeRectangle = new Rectangle(j * tileSize, tileSize - tileSize, tileSize - 2, tileSize - 2);
+					this.tiles.add(new Tile(Color.LIGHT_GRAY, homeRectangle));
+				}
+			} else if (i == 14) {
 				this.tiles.add(new Tile(Color.YELLOW, rectangle));
-			else if (i == 21)
+				for (int j = i; j < i + 4; j++) {
+					Rectangle homeRectangle = new Rectangle(j * tileSize, tileSize - tileSize, tileSize - 2, tileSize - 2);
+					this.tiles.add(new Tile(Color.LIGHT_GRAY, homeRectangle));
+				}
+			} else if (i == 21) {
 				this.tiles.add(new Tile(Color.GREEN, rectangle));
-			else
+				for (int j = i; j < i + 4; j++) {
+					Rectangle homeRectangle = new Rectangle(j * tileSize, tileSize - tileSize, tileSize - 2, tileSize - 2);
+					this.tiles.add(new Tile(Color.LIGHT_GRAY, homeRectangle));
+				}
+			} else {
 				this.tiles.add(new Tile(Color.LIGHT_GRAY, rectangle));
+			}
 			
 			// sets the location for the spawn tiles
 			if (i == 6) {
@@ -127,31 +150,64 @@ public class GamePanel extends JPanel {
 		}
 	}
 	
+	/**
+	 * Create a list of the tokens
+	 */
+	public void createTokens() {
+		if (!tokens.isEmpty()) {
+			return;
+		} else {
+			for (int i = 0; i < 28; i++) {
+				// sets the location for the tokens
+				int tileSize = 25;
+				if (i == 0) {
+					for (int j = i; j < i + 4; j++) {
+						Rectangle homeRectangle = new Rectangle(j * tileSize, tileSize - tileSize, tileSize - 2, tileSize - 2);
+						this.tokens.add(new Tile(Color.RED, homeRectangle));
+					}
+				} else if (i == 7) {
+					for (int j = i; j < i + 4; j++) {
+						Rectangle homeRectangle = new Rectangle(j * tileSize, tileSize - tileSize, tileSize - 2, tileSize - 2);
+						this.tokens.add(new Tile(Color.BLUE, homeRectangle));
+					}
+				} else if (i == 14) {
+					for (int j = i; j < i + 4; j++) {
+						Rectangle homeRectangle = new Rectangle(j * tileSize, tileSize - tileSize, tileSize - 2, tileSize - 2);
+						this.tokens.add(new Tile(Color.YELLOW, homeRectangle));
+					}
+				} else if (i == 21) {
+					for (int j = i; j < i + 4; j++) {
+						Rectangle homeRectangle = new Rectangle(j * tileSize, tileSize - tileSize, tileSize - 2, tileSize - 2);
+						this.tokens.add(new Tile(Color.GREEN, homeRectangle));
+					}
+				}
+			}
+		}
+	}
+	
+	public void updateToken() {
+		// todo
+	}
+	
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		this.createTiles();
 		Graphics2D g2d = (Graphics2D) g.create();
 		for(Tile tile : tiles) {
-			g2d.setColor(tile.color);
-			g2d.fill(tile.shape);
-			g2d.draw(tile.shape);
+			g2d.setColor(tile.getColor());
+			g2d.fill(tile.getShape());
+			g2d.draw(tile.getShape());
+		}
+		for (Tile token : tokens) {
+			g2d.setColor(token.getColor());
+			g2d.fill(token.getShape());
+			g2d.draw(token.getShape());
 		}
 		g2d.dispose();
 		this.tiles.clear();
+		this.tokens.clear();
 	}
 	
-	/**
-	 * The Tile class contains data of a tile such as the color and the the shape.
-	 */
-	private class Tile {
-		private Color color;
-		private Shape shape;
-		
-		public Tile(Color color, Shape shape) {
-			this.color = color;
-			this.shape = shape;
-		}
-	}
+
 	
 }

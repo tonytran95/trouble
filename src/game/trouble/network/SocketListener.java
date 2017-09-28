@@ -20,6 +20,7 @@ public class SocketListener {
 		System.out.println("[SocketListener] Initializing socket listener...");
 		this.port = port;
 		clients = new ArrayList<Socket>();
+		connections = new ArrayList<Connection>();
 		listening = true;
 		try {
 			socket = new ServerSocket(port);
@@ -44,8 +45,8 @@ public class SocketListener {
 		clients.add(client);
 	}
 	
-	public void addConnection(Connection c) {
-		connections.add(c);
+	public void addConnection(Connection conn) {
+		connections.add(conn);
 	}
 	
 	public boolean isListening() {
@@ -72,9 +73,12 @@ public class SocketListener {
 			                // Establish the server's output stream.
 			                DataOutputStream clientOutput = new DataOutputStream(clientSocket.getOutputStream());
 			                
-			                Connection c = new Connection(clientSocket, clientInput, clientOutput);
-			                addConnection(c);
+			                Connection conn = new Connection(clientSocket, clientInput, clientOutput);
+			                addConnection(conn);
 			                
+			                while (true) {
+			                	System.out.println(clientInput.readLine());
+			                }
 						} catch (IOException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();

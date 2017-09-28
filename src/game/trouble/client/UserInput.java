@@ -1,7 +1,11 @@
 package game.trouble.client;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.List;
+
+import game.trouble.model.board.Tile;
 
 /**
  * 
@@ -11,7 +15,7 @@ import java.awt.event.KeyListener;
  * @author Jeffrey Ung
  *
  */
-public class UserInput implements KeyListener {
+public class UserInput implements MouseListener {
 
 	/**
 	 * The swing user interface.
@@ -19,27 +23,54 @@ public class UserInput implements KeyListener {
 	private SwingUI swingUI;
 	
 	/**
+	 * A list of tiles.
+	 */
+	private List<Tile> tiles;
+	
+	/**
 	 * The constructor for the user input class.
 	 * @param swingUI is the swing user interface.
 	 */
-	public UserInput(SwingUI swingUI) {
+	public UserInput(SwingUI swingUI, List<Tile> tiles) {
 		this.swingUI = swingUI;
+		this.tiles = new ArrayList<>(tiles);
 	}
 	
 	@Override
-	public void keyPressed(KeyEvent e) {
-		switch(e.getKeyCode()) {
-		}
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
+	public void mouseClicked(MouseEvent me) {
 		// TODO Auto-generated method stub
 		
 	}
 
+
 	@Override
-	public void keyTyped(KeyEvent e) {
+	public void mouseEntered(MouseEvent me) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void mouseExited(MouseEvent me) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void mousePressed(MouseEvent me) {
+		int count = 0;
+		for (Tile tile : tiles) {
+			count++;
+			if (tile.getShape().contains(me.getPoint())) {
+				swingUI.send("MOVE TOKEN TO [" + count + "]");
+			}
+		}
+	}
+
+
+	@Override
+	public void mouseReleased(MouseEvent me) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -50,6 +81,5 @@ public class UserInput implements KeyListener {
 	public SwingUI getSwingUI() {
 		return swingUI;
 	}
-	
 
 }
