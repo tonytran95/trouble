@@ -55,7 +55,6 @@ public class GamePanel extends JPanel {
 		this.createTiles();
 		this.createTokens();
 		this.userInput = new UserInput(swingUI, tiles);
-		//swingUI.setClientState(ClientState.IN_GAME);
 		this.init();
 	}
 

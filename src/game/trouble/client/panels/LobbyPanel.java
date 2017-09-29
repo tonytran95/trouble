@@ -26,8 +26,7 @@ public class LobbyPanel extends JPanel {
 	 */
 	public LobbyPanel(SwingUI swingUI) {
 		this.swingUI = swingUI;
-		init();
-		swingUI.setClientState(ClientState.LOBBY);
+		this.init();
 	}
 	
 	/**

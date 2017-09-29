@@ -12,6 +12,8 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 
 import game.trouble.client.panels.GamePanel;
+import game.trouble.client.panels.LobbyPanel;
+import game.trouble.client.panels.LoginPanel;
 import game.trouble.client.panels.StartPanel;
 
 /**
@@ -60,11 +62,28 @@ public class SwingUI extends JFrame {
 	private GamePanel gamePanel;
 	
 	/**
+	 * The lobby panel.
+	 */
+	private LobbyPanel lobbyPanel;
+	
+	/**
+	 * The login panel.
+	 */
+	private LoginPanel loginPanel;	
+	
+	/**
 	 * The client state.
 	 */
 	private ClientState clientState;
 	
+	/**
+	 * The buffered reader.
+	 */
 	private BufferedReader in;
+	
+	/**
+	 * The print writer.
+	 */
 	private PrintWriter out;
 	
 	/**
@@ -76,6 +95,8 @@ public class SwingUI extends JFrame {
 		
 		this.startPanel = new StartPanel(this);
 		this.gamePanel = new GamePanel(this);
+		this.loginPanel = new LoginPanel(this);
+		this.lobbyPanel = new LobbyPanel(this);
 		this.currentPanel = startPanel; // this should be changed to start panel. (Currently debugging game panel)
 		try {
 			JPopupMenu.setDefaultLightWeightPopupEnabled(false);
@@ -87,8 +108,8 @@ public class SwingUI extends JFrame {
 					SwingUI.HEIGHT + SwingUI.STRETCH, SwingUI.WIDTH + (SwingUI.STRETCH * 2)));
 			this.setVisible(true);
 			this.setResizable(false);
-			this.switchPanel(currentPanel);
-			
+			this.clientState = ClientState.START;
+			this.switchPanel(this.startPanel);
 			/**
 			 * Side panels.
 			 */
@@ -143,20 +164,35 @@ public class SwingUI extends JFrame {
 		switch (clientState) {
 			case START:
 				switchPanel(startPanel);
+				break;
 			case IN_GAME:
 				switchPanel(gamePanel);
+				break;
 			case LOBBY:
+				switchPanel(lobbyPanel);
 				break;
 			case LOGIN:
+				switchPanel(loginPanel);
+				break;
+			default:
+				// do nothing
 				break;
 		}
 		this.clientState = clientState;
 	}
 	
+	/**
+	 * Sends a message using the print writer.
+	 * @param message is the information that is being sent.
+	 */
 	public void send(String message) {
 		out.println(message);
 	}
 	
+	/**
+	 * @return the information sent from the server.
+	 * @throws IOException is the exception.
+	 */
 	public String read() throws IOException {
 		return in.readLine();
 	}

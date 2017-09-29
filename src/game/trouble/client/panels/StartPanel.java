@@ -30,8 +30,7 @@ public class StartPanel extends JPanel {
 	 */
 	public StartPanel(SwingUI swingUI) {
 		this.swingUI = swingUI;
-		//swingUI.setClientState(ClientState.START);
-		init();
+		this.init();
 	}
 	
 	/**
