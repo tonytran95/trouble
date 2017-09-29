@@ -10,6 +10,7 @@ import java.io.PrintWriter;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.UIManager;
 
 import game.trouble.client.panels.GamePanel;
 import game.trouble.client.panels.LobbyPanel;
@@ -87,6 +88,11 @@ public class SwingUI extends JFrame {
 	private PrintWriter out;
 	
 	/**
+	 * The user of the client.
+	 */
+	private User user;
+	
+	/**
 	 * The constructor for the swing user interface.
 	 */
 	public SwingUI(BufferedReader in, PrintWriter out) {
@@ -94,13 +100,10 @@ public class SwingUI extends JFrame {
 		this.out = out;
 		
 		this.startPanel = new StartPanel(this);
-		this.gamePanel = new GamePanel(this);
-		this.loginPanel = new LoginPanel(this);
-		this.lobbyPanel = new LobbyPanel(this);
-		this.currentPanel = startPanel; // this should be changed to start panel. (Currently debugging game panel)
+		this.currentPanel = startPanel;
 		try {
 			JPopupMenu.setDefaultLightWeightPopupEnabled(false);
-			JFrame.setDefaultLookAndFeelDecorated(true);
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 			this.setTitle(SwingUI.GAME_NAME);
 			this.setLayout(new BorderLayout());
 			this.setBackground(Color.WHITE);
@@ -163,22 +166,47 @@ public class SwingUI extends JFrame {
 	public void setClientState(ClientState clientState) {
 		switch (clientState) {
 			case START:
+				if (startPanel == null)
+					startPanel = new StartPanel(this);
 				switchPanel(startPanel);
 				break;
 			case IN_GAME:
+				if (gamePanel == null)
+					gamePanel = new GamePanel(this);
 				switchPanel(gamePanel);
 				break;
 			case LOBBY:
+				if (lobbyPanel == null)
+					lobbyPanel = new LobbyPanel(this);
 				switchPanel(lobbyPanel);
 				break;
 			case LOGIN:
+				if (loginPanel == null)
+					loginPanel = new LoginPanel(this);
 				switchPanel(loginPanel);
 				break;
 			default:
 				// do nothing
 				break;
 		}
+		
 		this.clientState = clientState;
+	}
+	
+	
+	/**
+	 * Sets the current user.
+	 * @param user is the client handler.
+	 */
+	public void setUser(User user) {
+		this.user = user;
+	}
+	
+	/**
+	 * @return the user of the client.
+	 */
+	public User getUser() {
+		return user;
 	}
 	
 	/**

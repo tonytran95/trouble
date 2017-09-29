@@ -80,8 +80,7 @@ public class SocketListener {
 			                	System.out.println(clientInput.readLine());
 			                }
 						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+							//e.printStackTrace();
 						}
 
 					}
@@ -89,7 +88,7 @@ public class SocketListener {
 				thread.start();
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		} finally {
 			this.stop();
 		}

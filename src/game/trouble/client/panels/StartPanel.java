@@ -41,7 +41,7 @@ public class StartPanel extends JPanel {
 		play.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				swingUI.setClientState(ClientState.IN_GAME);
+				swingUI.setClientState(ClientState.LOGIN);
 			}
 		});
 		this.add(play);

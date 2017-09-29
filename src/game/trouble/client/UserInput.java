@@ -5,8 +5,6 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import game.trouble.model.board.Tile;
-
 /**
  * 
  * The UserInput class handles all the inputs from the player and sends
@@ -31,9 +29,9 @@ public class UserInput implements MouseListener {
 	 * The constructor for the user input class.
 	 * @param swingUI is the swing user interface.
 	 */
-	public UserInput(SwingUI swingUI, List<Tile> tiles) {
+	public UserInput(SwingUI swingUI) {
 		this.swingUI = swingUI;
-		this.tiles = new ArrayList<>(tiles);
+		this.tiles = new ArrayList<>(swingUI.getUser().getTiles());
 	}
 	
 	@Override
@@ -63,7 +61,14 @@ public class UserInput implements MouseListener {
 		for (Tile tile : tiles) {
 			count++;
 			if (tile.getShape().contains(me.getPoint())) {
-				swingUI.send("MOVE TOKEN TO [" + count + "]");
+				if (swingUI.getUser().isSelectedTile(tile)) {
+					swingUI.getUser().deselectTile();
+					swingUI.send("[" + swingUI.getUser().getUsername() +"] deselect: " + count);					
+				} else {
+					swingUI.getUser().selectTile(tile);
+					swingUI.send("[" + swingUI.getUser().getUsername() +"] select: " + count);
+				}
+				swingUI.getCurrentPanel().repaint();
 			}
 		}
 	}
