@@ -40,7 +40,7 @@ public class SwingUI extends JFrame {
 	/**
 	 * The width of the display.
 	 */
-	public final static int WIDTH = 300;
+	public final static int WIDTH = 400;
 	
 	/**
 	 * The stretch value.

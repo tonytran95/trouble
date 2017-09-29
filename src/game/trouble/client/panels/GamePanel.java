@@ -1,15 +1,22 @@
 package game.trouble.client.panels;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import game.trouble.client.ClientState;
 import game.trouble.client.SwingUI;
 import game.trouble.client.Tile;
+import game.trouble.client.User;
 import game.trouble.client.UserInput;
 
 /**
@@ -33,6 +40,16 @@ public class GamePanel extends JPanel {
 	private MouseListener userInput;
 	
 	/**
+	 * The game message.
+	 */
+	private JLabel message;
+	
+	/**
+	 * The die roll button.
+	 */
+	private JButton rollDie;
+	
+	/**
 	 * The constructor for the start panel.
 	 * @param swingUI is the swing user interface.
 	 */
@@ -41,6 +58,8 @@ public class GamePanel extends JPanel {
 		this.createTiles();
 		this.createTokens();
 		this.userInput = new UserInput(swingUI);
+		this.message = new JLabel("GAME MESSAGE HERE");
+		this.rollDie = new JButton("Roll Die");
 		this.init();
 	}
 
@@ -48,12 +67,24 @@ public class GamePanel extends JPanel {
 	 * Initializes the game panel.
 	 */
 	public void init() {
+		JPanel panel = new JPanel();
+		this.setLayout(new BorderLayout());
 		this.addMouseListener(this.userInput);
 		//this.swingUI.addMouseListener(this.userInput);
 		this.setFocusable(true);
 		this.requestFocusInWindow();
 		this.swingUI.requestFocusInWindow();
 		this.setVisible(true);
+		rollDie.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				message.setText("Die was rolled by " + swingUI.getUser().getUsername());
+				swingUI.send("[" + swingUI.getUser().getUsername() +"] rolled die");
+			}
+		});
+		panel.add(message);
+		panel.add(rollDie);
+		this.add(panel, BorderLayout.SOUTH);
 	}
 
 	
