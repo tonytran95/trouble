@@ -81,6 +81,7 @@ public class LoginPanel extends JPanel {
 			public void actionPerformed(ActionEvent event) {
 				swingUI.setUser(new User(username.getText()));
 				swingUI.setClientState(ClientState.IN_GAME); // change to lobby later
+				swingUI.send("CONNECTED " + username.getText());
 			}
 		});
 		exit.addActionListener(new ActionListener() {

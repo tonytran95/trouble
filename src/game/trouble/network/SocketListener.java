@@ -4,9 +4,13 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Random;
+
+import game.trouble.model.Board;
 
 public class SocketListener {
 	
@@ -71,13 +75,22 @@ public class SocketListener {
 			                BufferedReader clientInput = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 			                
 			                // Establish the server's output stream.
-			                DataOutputStream clientOutput = new DataOutputStream(clientSocket.getOutputStream());
+			                PrintWriter clientOutput = new PrintWriter(clientSocket.getOutputStream(), true);
 			                
 			                Connection conn = new Connection(clientSocket, clientInput, clientOutput);
 			                addConnection(conn);
 			                
 			                while (true) {
-			                	System.out.println(clientInput.readLine());
+			                	String input = clientInput.readLine();
+			                	System.out.println(input);
+			                	
+			                	// TEMPORARY
+			                	if (input.startsWith("CONNECTED")) {
+			                		conn.setUsername(input.substring(10));
+			                	} else if (input.startsWith("ROLLED")) {
+			                		int value = new Random().nextInt(6) + 1;
+			                		clientOutput.println("ROLLED " + value + " [" + conn.getUsername() + "]");
+			                	}
 			                }
 						} catch (IOException e) {
 							//e.printStackTrace();

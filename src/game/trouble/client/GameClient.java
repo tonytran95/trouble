@@ -7,6 +7,10 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import javax.swing.JPanel;
+
+import game.trouble.client.panels.GamePanel;
+
 public class GameClient {
 
 	/**
@@ -44,8 +48,16 @@ public class GameClient {
 			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		    out = new PrintWriter(socket.getOutputStream(), true);
 			SwingUI ui = new SwingUI(in , out);
+			
 		    while (true) {
+		    	String input = in.readLine();
+		    	System.out.println(input);
 		    	
+		    	if (input.startsWith("ROLLED")) {
+		    		JPanel panel = ui.getCurrentPanel();
+		    		GamePanel gamePanel = (GamePanel) panel;
+		    		gamePanel.updateMessage(input.substring(9) + " rolled a " + input.substring(7, 8));
+		    	}
 		    }
 		} catch (UnknownHostException e) {
 			e.printStackTrace();

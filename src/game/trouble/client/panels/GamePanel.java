@@ -58,7 +58,7 @@ public class GamePanel extends JPanel {
 		this.createTiles();
 		this.createTokens();
 		this.userInput = new UserInput(swingUI);
-		this.message = new JLabel("GAME MESSAGE HERE");
+		this.message = new JLabel("");
 		this.rollDie = new JButton("Roll Die");
 		this.init();
 	}
@@ -78,8 +78,9 @@ public class GamePanel extends JPanel {
 		rollDie.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				message.setText("Die was rolled by " + swingUI.getUser().getUsername());
-				swingUI.send("[" + swingUI.getUser().getUsername() +"] rolled die");
+				//message.setText("Die was rolled by " + swingUI.getUser().getUsername());
+				//swingUI.send("[" + swingUI.getUser().getUsername() +"] rolled die");
+				swingUI.send("ROLLED THE DIE [" + swingUI.getUser().getUsername() + "]");
 			}
 		});
 		panel.add(message);
@@ -201,6 +202,10 @@ public class GamePanel extends JPanel {
 	
 	public void updateToken() {
 		// todo
+	}
+	
+	public void updateMessage(String message) {
+		this.message.setText(message);
 	}
 	
 	@Override

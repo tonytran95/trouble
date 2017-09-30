@@ -1,17 +1,17 @@
 package game.trouble.network;
 
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
+import java.io.PrintWriter;
 import java.net.Socket;
 
 public class Connection {
-	private DataOutputStream output;
+	private PrintWriter output;
 	private BufferedReader input;
 	private Socket clientSocket;
 	private String username;
 	
 	// creates a connection mapping, as well as keeps the input and output stream wrapper
-	public Connection(Socket c, BufferedReader i, DataOutputStream o) {
+	public Connection(Socket c, BufferedReader i, PrintWriter o) {
 		clientSocket = c;
 		input = i;
 		output = o;
@@ -22,11 +22,15 @@ public class Connection {
 		return input;
 	}
 	
-	public DataOutputStream getOutputStream() {
+	public PrintWriter getOutputStream() {
 		return output;
 	}
 	
 	public void setUsername(String u) {
 		this.username = u;
+	}
+	
+	public String getUsername() {
+		return username;
 	}
 }
