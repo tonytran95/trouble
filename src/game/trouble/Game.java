@@ -2,6 +2,7 @@ package game.trouble;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Map;
 import java.util.Random;
 
 import game.trouble.model.AI;
@@ -21,10 +22,11 @@ public class Game {
 	private ArrayList<Colour> availableColours;
 	private int turnNum;
 	
-	public Game(int numPlayers, int numHumans, String p1, Colour c1, String p2, Colour c2, String p3, Colour c3) {
+	// Hashmap here has string as player name
+	public Game(Map<Colour, String> human, Map<Colour, String> computer) {
 		startTime = Calendar.getInstance();
 		setAvailableColours();
-		createPlayers(numPlayers, numHumans);
+		createPlayers(human, computer);
 		board = new Board(players);
 		turnNum = 0;
 	}
@@ -37,14 +39,22 @@ public class Game {
 	 * @param numPlayers
 	 * @param numHumans
 	 */
-	public void createPlayers(int numPlayers, int numHumans) {
-		players = new Player[numPlayers];
-		for(int i = 0; i < players.length; i++) {
-			if(i < numHumans) {
-				players[i] = createHumanPlayer(i, Colour.RANDOM);
-			} else {
-				players[i] = createAIPlayer(i, Colour.RANDOM);
-			}
+	private void createPlayers(Map<Colour, String> human, Map<Colour, String> computer) {
+		players = new Player[MAX_PLAYERS];
+		int i = 0;
+		// make the human players
+		for (Map.Entry<Colour, String> entry : human.entrySet()) {
+			Colour c = entry.getKey();
+		    String name = entry.getValue();
+			players[i] = createHumanPlayer(i, c, name);
+			i++;
+		}
+		// make the AI players
+		for (Map.Entry<Colour, String> entry : computer.entrySet()) {
+			Colour c = entry.getKey();
+		    String name = entry.getValue();
+			players[i] = createAIPlayer(i, c, name);
+			i++;
 		}
 	}
 	
@@ -53,9 +63,9 @@ public class Game {
 	 * @param id The index of the array in which the player sits. Will be used as player id
 	 * @return A newly created player
 	 */
-	public Player createHumanPlayer(int id, Colour c) {
+	public Player createHumanPlayer(int id, Colour c, String username) {
 		
-		Player tmp = new Player(id, "Mr noName", assignPlayerColour(c));
+		Player tmp = new Player(id, username, assignPlayerColour(c));
 		return tmp;
 	}
 	
@@ -64,9 +74,9 @@ public class Game {
 	 * Creates a new AI
 	 * @return The newly created AI
 	 */
-	public AI createAIPlayer(int id, Colour c) {
+	public AI createAIPlayer(int id, Colour c, String username) {
 		
-		AI tmp = new AI(id, "Mr noName", assignPlayerColour(c));
+		AI tmp = new AI(id, username, assignPlayerColour(c));
 		return tmp;
 	}
 	
@@ -130,6 +140,13 @@ public class Game {
 		
 	}
 	
+	// uses turn number to determine who's turn it is, then returns the player object
+	// by using the store players - this means players must always be ordered red blue yellow green as 0-3
+	public Player getWhoseTurn() {
+		int turnID = turnNum % MAX_PLAYERS;
+		return players[turnID];
+	}
+	
 	// checks if the game is over by looking at all the player's home slots
 	public boolean isOver() {
 		for (Player p: players) {
@@ -162,5 +179,11 @@ public class Game {
 		return message;
 		
 	}
-
+	
+	public void showPlayers() {
+		for(int i =0; i<MAX_PLAYERS; i++) {
+			System.out.print(players[i].getUsername()+" ");
+		}
+		System.out.print("\n");
+	}
 }
