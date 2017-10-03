@@ -1,5 +1,8 @@
 package game.trouble;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import game.trouble.network.SocketListener;
 
 /**
@@ -8,7 +11,9 @@ import game.trouble.network.SocketListener;
  *
  */
 public class GameServer {
-
+	
+	private static final int TIME_PERIOD = 500;
+	
 	/**
 	 * The port.
 	 */
@@ -19,7 +24,11 @@ public class GameServer {
 	 * @param args are the arguments.
 	 */
 	public static void main(String args[]) {
-		new GameServer();
+		GameServer GS = new GameServer();
+		Runner gameRunner = GS.new Runner();
+		Timer serverTimer = new Timer();
+		
+		serverTimer.schedule(gameRunner, 0, TIME_PERIOD);
 	}
 	
 	/**
@@ -58,4 +67,10 @@ public class GameServer {
 		return socketListener;
 	}
 	
+	class Runner extends TimerTask {
+		public void run() {
+			gameEngine.process();
+		}
+	}
 }
+
