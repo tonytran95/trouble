@@ -84,6 +84,10 @@ public class GamePanel extends JPanel {
 		rollDie.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
+				if (!swingUI.getUser().isSelectedTile()) {
+					updateMessage("Please select a token in order to roll the die!");
+					return;
+				}
 				//message.setText("Die was rolled by " + swingUI.getUser().getUsername());
 				//swingUI.send("[" + swingUI.getUser().getUsername() +"] rolled die");
 				swingUI.send("ROLLED THE DIE [" + swingUI.getUser().getUsername() + "]");
