@@ -27,6 +27,11 @@ public class UserInput implements MouseListener {
 	 * A list of tiles.
 	 */
 	private List<Tile> tiles;
+
+	/**
+	 * A list of tiles.
+	 */
+	private List<Tile> tokens;
 	
 	/**
 	 * The constructor for the user input class.
@@ -35,6 +40,7 @@ public class UserInput implements MouseListener {
 	public UserInput(SwingUI swingUI) {
 		this.swingUI = swingUI;
 		this.tiles = new ArrayList<>(swingUI.getUser().getTiles());
+		this.tokens = new ArrayList<>(swingUI.getUser().getTokens());
 	}
 	
 	@Override
@@ -62,7 +68,7 @@ public class UserInput implements MouseListener {
 	public void mousePressed(MouseEvent me) {
 		int count = 0;
 		GamePanel gamePanel = (GamePanel) swingUI.getCurrentPanel();
-		for (Tile tile : tiles) {
+		for (Tile tile : tokens) {
 			count++;
 			if (tile.getShape().contains(me.getPoint())) {
 				try {

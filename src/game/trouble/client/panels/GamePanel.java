@@ -184,22 +184,22 @@ public class GamePanel extends JPanel {
 			int tileSize = 25;
 			if (i == 0) {
 				for (int j = i; j < i + 4; j++) {
-					Rectangle homeRectangle = new Rectangle(j * tileSize, tileSize - tileSize, tileSize - 2, tileSize - 2);
+					Rectangle homeRectangle = new Rectangle(j * tileSize, tileSize - tileSize, tileSize - 4, tileSize - 4);
 					swingUI.getUser().getTokens().add(new Tile(Color.RED, homeRectangle));
 				}
 			} else if (i == 7) {
 				for (int j = i; j < i + 4; j++) {
-					Rectangle homeRectangle = new Rectangle(j * tileSize, tileSize - tileSize, tileSize - 2, tileSize - 2);
+					Rectangle homeRectangle = new Rectangle(j * tileSize, tileSize - tileSize, tileSize - 4, tileSize - 4);
 					swingUI.getUser().getTokens().add(new Tile(Color.BLUE, homeRectangle));
 				}
 			} else if (i == 14) {
 				for (int j = i; j < i + 4; j++) {
-					Rectangle homeRectangle = new Rectangle(j * tileSize, tileSize - tileSize, tileSize - 2, tileSize - 2);
+					Rectangle homeRectangle = new Rectangle(j * tileSize, tileSize - tileSize, tileSize - 4, tileSize - 4);
 					swingUI.getUser().getTokens().add(new Tile(Color.YELLOW, homeRectangle));
 				}
 			} else if (i == 21) {
 				for (int j = i; j < i + 4; j++) {
-					Rectangle homeRectangle = new Rectangle(j * tileSize, tileSize - tileSize, tileSize - 2, tileSize - 2);
+					Rectangle homeRectangle = new Rectangle(j * tileSize, tileSize - tileSize, tileSize - 4, tileSize - 4);
 					swingUI.getUser().getTokens().add(new Tile(Color.GREEN, homeRectangle));
 				}
 			}
@@ -221,13 +221,12 @@ public class GamePanel extends JPanel {
 		swingUI.send("COLORS");
 		for(Tile tile : swingUI.getUser().getTiles()) {
 			g2d.setColor(tile.getColor());
-			if (swingUI.getUser().isSelectedTile(tile))
-				g2d.fill(tile.getShape());
 			g2d.draw(tile.getShape());
 		}
 		for (Tile token : swingUI.getUser().getTokens()) {
 			g2d.setColor(token.getColor());
-			g2d.fill(token.getShape());
+			if (swingUI.getUser().isSelectedTile(token))
+				g2d.fill(token.getShape());
 			g2d.draw(token.getShape());
 		}
 		g2d.dispose();
