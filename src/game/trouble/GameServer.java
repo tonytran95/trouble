@@ -3,6 +3,7 @@ package game.trouble;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import game.trouble.network.LoginHandler;
 import game.trouble.network.SocketListener;
 
 /**
@@ -42,6 +43,11 @@ public class GameServer {
 	private GameEngine gameEngine;
 	
 	/**
+	 * The login handler.
+	 */
+	private LoginHandler loginHandler;
+	
+	/**
 	 * Constructs a new server.
 	 */
 	public GameServer() {
@@ -54,9 +60,11 @@ public class GameServer {
 		this.gameEngine.init();
 		
 		/**
-		 * Initializes the socket listener.
+		 * Initializes the socket listener and login handler.
 		 */
 		this.socketListener = new SocketListener(GameServer.PORT);
+		this.loginHandler = new LoginHandler(gameEngine);
+		this.socketListener.setLoginHandler(loginHandler);
 		this.socketListener.init();
 	}
 
@@ -70,6 +78,7 @@ public class GameServer {
 	class Runner extends TimerTask {
 		public void run() {
 			gameEngine.process();
+			loginHandler.process();
 		}
 	}
 }

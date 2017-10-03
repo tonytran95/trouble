@@ -1,9 +1,12 @@
 package game.trouble;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+
 
 import game.trouble.model.AI;
 import game.trouble.model.Board;
@@ -21,49 +24,65 @@ public class Game {
 	private Calendar startTime;
 	private ArrayList<Colour> availableColours;
 	private int turnNum;
+	private boolean started;
+	private Map<Colour, String> humans;
+	private Map<Colour, String> computers;
 	
-	// Hashmap here has string as player name
-	public Game(Map<Colour, String> human, Map<Colour, String> computer) {
-		startTime = Calendar.getInstance();
-		setAvailableColours();
-		createPlayers(human, computer);
-		board = new Board(players);
-		turnNum = 0;
+	
+	public Game() {
+		humans = new HashMap<Colour, String>();
+		computers = new HashMap<Colour, String>();
+		started = false;
 	}
 	
-	// TODO Randomise assignment order to mix up order of play within the game
-	// TODO Assign actual requested colours to players instead of random colours
-	// game so turn play does not always go all humans followed by all AI's
-	/**
-	 * Creates players for AI and human users who want to play a game
-	 * @param numPlayers
-	 * @param numHumans
-	 */
-	private void createPlayers(Map<Colour, String> human, Map<Colour, String> computer) {
+	public void start() {
+		startTime = Calendar.getInstance();
+		setAvailableColours();
 		players = new Player[MAX_PLAYERS];
 		int i = 0;
-		// make the human players
-		for (Map.Entry<Colour, String> entry : human.entrySet()) {
+		// make the humans players
+		for (Map.Entry<Colour, String> entry : humans.entrySet()) {
 			Colour c = entry.getKey();
 		    String name = entry.getValue();
-			players[i] = createHumanPlayer(i, c, name);
+			players[i] = createhumanPlayer(i, c, name);
 			i++;
 		}
 		// make the AI players
-		for (Map.Entry<Colour, String> entry : computer.entrySet()) {
+		for (Map.Entry<Colour, String> entry : computers.entrySet()) {
 			Colour c = entry.getKey();
 		    String name = entry.getValue();
 			players[i] = createAIPlayer(i, c, name);
 			i++;
 		}
+		board = new Board(players);
+		this.started = true;
+	}
+	
+	public void join(String username, Colour colour, boolean computer) {
+		if (computer) {
+			computers.put(colour, username);
+			return;
+		}
+		humans.put(colour, username);
+	}
+	
+
+	// TODO Randomise assignment order to mix up order of play within the game
+	// TODO Assign actual requested colours to players instead of random colours
+	// game so turn play does not always go all humanss followed by all AI's
+	/**
+	 * Creates players for AI and humans users who want to play a game
+	 */
+	public void create() {
+
 	}
 	
 	/**
-	 * Create a human player with a random colour, the given id and the name Mr noName.
+	 * Create a humans player with a random colour, the given id and the name Mr noName.
 	 * @param id The index of the array in which the player sits. Will be used as player id
 	 * @return A newly created player
 	 */
-	public Player createHumanPlayer(int id, Colour c, String username) {
+	public Player createhumanPlayer(int id, Colour c, String username) {
 		
 		Player tmp = new Player(id, username, assignPlayerColour(c));
 		return tmp;
@@ -149,6 +168,8 @@ public class Game {
 	
 	// checks if the game is over by looking at all the player's home slots
 	public boolean isOver() {
+		if (!started)
+			return false;
 		for (Player p: players) {
 			ArrayList<Slot> homeslot = board.getPlayerEndZone(p);
 			int filledSlots = 0;
@@ -185,5 +206,9 @@ public class Game {
 			System.out.print(players[i].getUsername()+" ");
 		}
 		System.out.print("\n");
+	}
+	
+	public boolean isStarted() {
+		return started;
 	}
 }

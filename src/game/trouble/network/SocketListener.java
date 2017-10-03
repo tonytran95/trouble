@@ -16,6 +16,7 @@ public class SocketListener {
 	private ArrayList<Socket> clients;
 	private ArrayList<Connection> connections;
 	private boolean listening;
+	private LoginHandler loginHandler;
 	
 	public SocketListener(int port) {
 		System.out.println("[SocketListener] Initializing socket listener...");
@@ -76,6 +77,7 @@ public class SocketListener {
 					                	// TEMPORARY
 					                	if (input.startsWith("CONNECTED")) {
 					                		conn.setUsername(input.substring(10));
+					                		loginHandler.addConnectionToQueue(conn);
 					                	} else if (input.startsWith("ROLLED")) {
 					                		int value = new Random().nextInt(6) + 1;
 					                		clientOutput.println("ROLLED " + value + " [" + conn.getUsername() + "]");
@@ -129,7 +131,9 @@ public class SocketListener {
 		Thread serverThread = new Thread(serverTask);
         serverThread.start();
 	}
-	
-	
+
+	public void setLoginHandler(LoginHandler loginHandler) {
+		this.loginHandler = loginHandler;
+	}
 	
 }

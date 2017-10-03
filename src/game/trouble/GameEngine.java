@@ -20,29 +20,30 @@ public class GameEngine {
 	}
 	
 	public void init() {
-		
-		// this is essentially how we will "make" a game
-		Map<Colour, String> human = new HashMap<Colour, String>();
-		Map<Colour, String> computers = new HashMap<Colour, String>();
-		
-		human.put(Colour.RED, "Bob");
-		human.put(Colour.BLUE, "Kelly");		
-		computers.put(Colour.YELLOW, "BOT Mary");
-		computers.put(Colour.GREEN, "BOT George");
-		
-		g = new Game(human, computers);
-		System.out.println(g.getStartTimeMessage());
-		System.out.print("[GameEngine] Created game with ");
-		g.showPlayers();
+		g = new Game();
 	}
 	
-	// connections added to a gameengine should be connections relevant to that game only
-	public void addConn(Connection c) {
+	public void testGame() {
+		g.join("test1", Colour.BLUE, true);
+		g.join("test2", Colour.YELLOW, true);
+		g.join("test3", Colour.GREEN, true);
+		g.start();
+		g.showPlayers();
+	}
+
+	public void add(Connection c) {
 		gameConn.add(c);
+		g.join(c.getUsername(), Colour.RED, false);
+		
+		// test game, game only starts if single player's name is bob
+		if (c.getUsername().equalsIgnoreCase("bob"))
+			testGame();
 	}
 	
 	// process runs the game
 	public void process() {
+		if (!g.isStarted())
+			return;
 		if (!g.isOver()) {
 			Player curr = g.getWhoseTurn();
 			System.out.println("[GameEngine] It is "+curr.getUsername()+"'s turn now");
