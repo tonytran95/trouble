@@ -66,6 +66,10 @@ public class User {
 	public void selectTile(Tile selectedTile) {
 		this.selectedTile = selectedTile;
 	}
+	
+	public boolean isSelectedTile() {
+		return this.selectedTile != null;
+	}
 
 	/**
 	 * @return the username of the client.

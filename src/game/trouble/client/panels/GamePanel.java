@@ -8,15 +8,15 @@ import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import game.trouble.client.ClientState;
 import game.trouble.client.SwingUI;
 import game.trouble.client.Tile;
-import game.trouble.client.User;
 import game.trouble.client.UserInput;
 
 /**
@@ -28,6 +28,11 @@ import game.trouble.client.UserInput;
  */
 @SuppressWarnings("serial")
 public class GamePanel extends JPanel {
+	
+	/**
+	 * The map of players. <username/color>
+	 */
+	private Map<String, String> players;
 	
 	/**
 	 * The swing user interface.
@@ -57,6 +62,7 @@ public class GamePanel extends JPanel {
 		this.swingUI = swingUI;
 		this.createTiles();
 		this.createTokens();
+		this.players = new HashMap<String, String>();
 		this.userInput = new UserInput(swingUI);
 		this.message = new JLabel("");
 		this.rollDie = new JButton("Roll Die");
@@ -212,6 +218,7 @@ public class GamePanel extends JPanel {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g.create();
+		swingUI.send("COLORS");
 		for(Tile tile : swingUI.getUser().getTiles()) {
 			g2d.setColor(tile.getColor());
 			if (swingUI.getUser().isSelectedTile(tile))
@@ -228,6 +235,11 @@ public class GamePanel extends JPanel {
 		//swingUI.getUser().getTokens().clear();
 	}
 	
-
+	/**
+	 * @return the players map.
+	 */
+	public Map<String, String> getPlayers() {
+		return players;
+	}
 	
 }

@@ -57,6 +57,11 @@ public class GameClient {
 		    		JPanel panel = ui.getCurrentPanel();
 		    		GamePanel gamePanel = (GamePanel) panel;
 		    		gamePanel.updateMessage(input.substring(9) + " rolled a " + input.substring(7, 8));
+		    	} else if (input.startsWith("COLORS")) {
+		    		JPanel panel = ui.getCurrentPanel();
+		    		GamePanel gamePanel = (GamePanel) panel;
+		    		String[] inputSplit = input.split(" ");
+		    		gamePanel.getPlayers().put(inputSplit[1], inputSplit[2]);
 		    	}
 		    }
 		} catch (UnknownHostException e) {

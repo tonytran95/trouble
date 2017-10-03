@@ -1,9 +1,12 @@
 package game.trouble.client;
 
+import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
+
+import game.trouble.client.panels.GamePanel;
 
 /**
  * 
@@ -58,17 +61,22 @@ public class UserInput implements MouseListener {
 	@Override
 	public void mousePressed(MouseEvent me) {
 		int count = 0;
+		GamePanel gamePanel = (GamePanel) swingUI.getCurrentPanel();
 		for (Tile tile : tiles) {
 			count++;
 			if (tile.getShape().contains(me.getPoint())) {
-				if (swingUI.getUser().isSelectedTile(tile)) {
-					swingUI.getUser().deselectTile();
-					swingUI.send("[" + swingUI.getUser().getUsername() +"] deselect: " + count);					
-				} else {
-					swingUI.getUser().selectTile(tile);
-					swingUI.send("[" + swingUI.getUser().getUsername() +"] select: " + count);
+				try {
+					if (swingUI.getUser().isSelectedTile(tile)) {
+						swingUI.getUser().deselectTile();
+						swingUI.send("[" + swingUI.getUser().getUsername() +"] deselect: " + count);					
+					} else if (gamePanel.getPlayers().get(
+							swingUI.getUser().getUsername()).equals(getColor(tile.getColor()))) {
+						swingUI.getUser().selectTile(tile);
+						swingUI.send("[" + swingUI.getUser().getUsername() +"] select: " + count);
+					}
+					swingUI.getCurrentPanel().repaint();
+				} catch (Exception e) {	
 				}
-				swingUI.getCurrentPanel().repaint();
 			}
 		}
 	}
@@ -86,5 +94,23 @@ public class UserInput implements MouseListener {
 	public SwingUI getSwingUI() {
 		return swingUI;
 	}
+	
+	/**
+	 * @param colour is the string color.
+	 * @return the string corresponding to the colour.
+	 */
+	public String getColor(Color color) {
+		if (color == Color.RED) {
+			return "red";
+		} else if (color == Color.BLUE) {
+			return "blue";
+		} else if (color == Color.YELLOW) {
+			return "yellow";
+		} else if (color == Color.GREEN) {
+			return "green";
+		}
+		return "empty";
+	}
+
 
 }

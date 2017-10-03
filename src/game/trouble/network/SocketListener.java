@@ -81,6 +81,10 @@ public class SocketListener {
 					                	} else if (input.startsWith("ROLLED")) {
 					                		int value = new Random().nextInt(6) + 1;
 					                		clientOutput.println("ROLLED " + value + " [" + conn.getUsername() + "]");
+					                	} else if (input.startsWith("COLORS")) {
+					                		// make it print in the format "COLORS username color(lower case)"
+					                		// still need to work on this
+					                		clientOutput.println("COLORS " + conn.getUsername() + " red");
 					                	}
 					                }
 								} catch (IOException e) {
