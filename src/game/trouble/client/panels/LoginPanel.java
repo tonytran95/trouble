@@ -72,17 +72,19 @@ public class LoginPanel extends JPanel {
 		username.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				swingUI.send("CONNECTED " + username.getText());
 				swingUI.setUser(new User(username.getText()));
 				swingUI.setClientState(ClientState.IN_GAME); // change to lobby later
-				swingUI.send("CONNECTED " + username.getText());
+				swingUI.send("COLORS");
 			}
 		});
 		enter.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
+				swingUI.send("CONNECTED " + username.getText());
 				swingUI.setUser(new User(username.getText()));
 				swingUI.setClientState(ClientState.IN_GAME); // change to lobby later
-				swingUI.send("CONNECTED " + username.getText());
+				swingUI.send("COLORS");
 			}
 		});
 		exit.addActionListener(new ActionListener() {

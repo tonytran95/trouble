@@ -227,7 +227,6 @@ public class GamePanel extends JPanel {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g.create();
-		swingUI.send("COLORS");
 		for(Tile tile : swingUI.getUser().getTiles()) {
 			g2d.setColor(tile.getColor());
 			g2d.draw(tile.getShape());

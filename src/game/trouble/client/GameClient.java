@@ -54,12 +54,10 @@ public class GameClient {
 		    	System.out.println(input);
 		    	
 		    	if (input.startsWith("ROLLED")) {
-		    		JPanel panel = ui.getCurrentPanel();
-		    		GamePanel gamePanel = (GamePanel) panel;
+		    		GamePanel gamePanel = (GamePanel) ui.getCurrentPanel();
 		    		gamePanel.updateMessage(input.substring(9) + " rolled a " + input.substring(7, 8));
 		    	} else if (input.startsWith("COLORS")) {
-		    		JPanel panel = ui.getCurrentPanel();
-		    		GamePanel gamePanel = (GamePanel) panel;
+		    		GamePanel gamePanel = (GamePanel) ui.getCurrentPanel();
 		    		String[] inputSplit = input.split(" ");
 		    		gamePanel.getPlayers().put(inputSplit[1], inputSplit[2]);
 		    	}
