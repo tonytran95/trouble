@@ -70,6 +70,10 @@ public class User {
 	public boolean isSelectedTile() {
 		return this.selectedTile != null;
 	}
+	
+	public Tile getSelectedTile() {
+		return this.selectedTile;
+	}
 
 	/**
 	 * @return the username of the client.

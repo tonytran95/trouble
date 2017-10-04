@@ -90,7 +90,12 @@ public class GamePanel extends JPanel {
 				}
 				//message.setText("Die was rolled by " + swingUI.getUser().getUsername());
 				//swingUI.send("[" + swingUI.getUser().getUsername() +"] rolled die");
-				swingUI.send("ROLLED THE DIE [" + swingUI.getUser().getUsername() + "]");
+				for (int i = 0; i < swingUI.getUser().getTokens().size(); i++) {
+					if (swingUI.getUser().getTokens().get(i).equals(swingUI.getUser().getSelectedTile())) {
+						swingUI.send("ROLLED " + i);
+						break;
+					}
+				}
 			}
 		});
 		panel.add(message);

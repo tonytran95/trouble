@@ -74,11 +74,11 @@ public class UserInput implements MouseListener {
 				try {
 					if (swingUI.getUser().isSelectedTile(tile)) {
 						swingUI.getUser().deselectTile();
-						swingUI.send("[" + swingUI.getUser().getUsername() +"] deselect: " + count);					
+						//swingUI.send("[" + swingUI.getUser().getUsername() +"] deselect: " + count);					
 					} else if (gamePanel.getPlayers().get(
 							swingUI.getUser().getUsername()).equals(getColor(tile.getColor()))) {
 						swingUI.getUser().selectTile(tile);
-						swingUI.send("[" + swingUI.getUser().getUsername() +"] select: " + count);
+						//swingUI.send("[" + swingUI.getUser().getUsername() +"] select: " + count);
 					}
 					swingUI.getCurrentPanel().repaint();
 				} catch (Exception e) {	
