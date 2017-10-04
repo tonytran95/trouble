@@ -84,7 +84,7 @@ public class Game {
 	 */
 	public Player createhumanPlayer(int id, Colour c, String username) {
 		
-		Player tmp = new Player(id, username, assignPlayerColour(c));
+		Player tmp = new Player(id, username, assignPlayerColour(c), Player.HUMAN);
 		return tmp;
 	}
 	
@@ -199,6 +199,17 @@ public class Game {
 		
 		return message;
 		
+	}
+	
+	// returns an arraylist containing all human players
+	public ArrayList<Player> getHumanPlayers() {
+		ArrayList<Player> human = new ArrayList<Player>();
+		for(int i =0; i<players.length; i++) {
+			if (players[i].getType() == Player.HUMAN)
+				human.add(players[i]);
+		}
+		
+		return human;
 	}
 	
 	public void showPlayers() {

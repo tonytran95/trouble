@@ -7,16 +7,20 @@ import game.trouble.model.board.Token;
 public class Player {
 	
 	public static final int NUM_TOKENS = 4;
+	public static final int HUMAN = 0;
+	public static final int BOT = 1;
 	
 	private String username;
 	private int id;
 	private Colour colour;
 	private Token[] tokens;
+	private int type;
 	
-	public Player(int pid, String username, Colour colour) {
+	public Player(int pid, String username, Colour colour, int type) {
 		this.id = pid;
 		this.username = username;
 		this.colour = colour;
+		this.type = type;
 		createPlayerTokens();
 	}
 	
@@ -65,6 +69,13 @@ public class Player {
 		} else {
 			return tokens[tokenId];
 		}
+	}
+	
+	/**
+	 * @return player type either player.BOT or player.HUMAN
+	 */
+	public int getType() {
+		return this.type;
 	}
 	
 	@Override

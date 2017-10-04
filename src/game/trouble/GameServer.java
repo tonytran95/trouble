@@ -66,6 +66,11 @@ public class GameServer {
 		this.loginHandler = new LoginHandler(gameEngine);
 		this.socketListener.setLoginHandler(loginHandler);
 		this.socketListener.init();
+		
+		/**
+		 * Add the gameengine to the socketListener (temporary)
+		 */
+		this.socketListener.addGameEngine(this.gameEngine);
 	}
 
 	/**

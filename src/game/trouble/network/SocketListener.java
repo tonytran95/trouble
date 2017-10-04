@@ -9,6 +9,8 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Random;
 
+import game.trouble.GameEngine;
+
 public class SocketListener {
 	
 	private int port;
@@ -17,6 +19,7 @@ public class SocketListener {
 	private ArrayList<Connection> connections;
 	private boolean listening;
 	private LoginHandler loginHandler;
+	private GameEngine gameEngine;
 	
 	public SocketListener(int port) {
 		System.out.println("[SocketListener] Initializing socket listener...");
@@ -70,6 +73,9 @@ public class SocketListener {
 					                Connection conn = new Connection(clientSocket, clientInput, clientOutput);
 					                addConnection(conn);
 					                
+					                // TODO:later on we will have a method that adds player connections to correct gameEngines
+					                
+					                
 					                while (true) {
 					                	String input = clientInput.readLine();
 					                	System.out.println(input);
@@ -78,15 +84,19 @@ public class SocketListener {
 					                	if (input.startsWith("CONNECTED")) {
 					                		conn.setUsername(input.substring(10));
 					                		loginHandler.addConnectionToQueue(conn);
-					                	} else if (input.startsWith("ROLLED")) {
-					                		int value = new Random().nextInt(6) + 1;
-					                		clientOutput.println("ROLLED " + value + " [" + conn.getUsername() + "]");
 					                	} else if (input.startsWith("COLORS")) {
 					                		// make it print in the format "COLORS username color(lower case)"
 					                		// still need to work on this
 					                		clientOutput.println("COLORS " + conn.getUsername() + " red");
+					                	} else {
+					                		// give input to gameengine
+					                		if (input.startsWith("ROLLED")) {
+					                			gameEngine.handleInput(conn, input);
+					                		}
+					      
 					                	}
 					                }
+					                
 								} catch (IOException e) {
 									//e.printStackTrace();
 								}
@@ -138,6 +148,10 @@ public class SocketListener {
 
 	public void setLoginHandler(LoginHandler loginHandler) {
 		this.loginHandler = loginHandler;
+	}
+	
+	public void addGameEngine(GameEngine g) {
+		this.gameEngine = g;
 	}
 	
 }
