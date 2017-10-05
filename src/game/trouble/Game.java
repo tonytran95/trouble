@@ -223,4 +223,9 @@ public class Game {
 	public boolean isStarted() {
 		return started;
 	}
+	
+	public int rollDie() {
+		return board.getDie().rollDie();
+	}
+	
 }

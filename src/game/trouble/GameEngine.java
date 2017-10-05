@@ -62,13 +62,15 @@ public class GameEngine {
 			
 			// process his moves 
 			for (String i: inputQueue) {
-				if (i.startsWith("ROLLED")) {
-					//int value = new Random().nextInt(6) + 1;
-	        		//clientOutput.println("ROLLED " + value + " [" + curr.getUsername() + "]");				
+				if (i.startsWith("ROLLED")) {				
 					String[] input = i.split("\\s+");
 					int tokenID = Integer.parseInt(input[1]);
 					System.out.println("rolling token ID: "+tokenID);
-				}		
+					
+					int roll = g.rollDie();
+					// ROLLED <roll> <tokenID> <username>
+	        		clientOutput.println("ROLLED " + roll + " " + tokenID + " " + curr.getUsername());
+				}
 				inputQueue.remove();
 			}
 		}

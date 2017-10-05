@@ -1,5 +1,6 @@
 package game.trouble.client;
 
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -53,14 +54,32 @@ public class GameClient {
 		    	String input = in.readLine();
 		    	System.out.println(input);
 		    	
-		    	if (input.startsWith("ROLLED")) {
-		    		GamePanel gamePanel = (GamePanel) ui.getCurrentPanel();
-		    		gamePanel.updateMessage(input.substring(9) + " rolled a " + input.substring(7, 8));
-		    	} else if (input.startsWith("COLORS")) {
+		    	if (input.startsWith("COLORS")) {
 		    		GamePanel gamePanel = (GamePanel) ui.getCurrentPanel();
 		    		String[] inputSplit = input.split(" ");
 		    		gamePanel.getPlayers().put(inputSplit[1], inputSplit[2]);
-		    	}
+		    		
+		    		switch(inputSplit[2]) {
+		    			case "red":
+		    				gamePanel.setupPanel(Color.RED);
+		    				break;
+		    			case "blue":
+		    				gamePanel.setupPanel(Color.BLUE);
+		    				break;
+		    			case "yellow":
+		    				gamePanel.setupPanel(Color.YELLOW);
+		    				break;
+		    			case "green":
+		    				gamePanel.setupPanel(Color.GREEN);
+		    				break;
+		    			default:
+		    		}
+		    	} else if (input.startsWith("ROLLED")) {
+		    		GamePanel gamePanel = (GamePanel) ui.getCurrentPanel();
+		    		String[] inputSplit = input.split(" ");
+		    		gamePanel.updateMessage(inputSplit[3] + " rolled a " + inputSplit[1]);
+		    		gamePanel.updateToken(inputSplit[3], Integer.parseInt(inputSplit[2]), Integer.parseInt(inputSplit[1]));
+		    	} 
 		    }
 		} catch (UnknownHostException e) {
 			e.printStackTrace();

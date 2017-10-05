@@ -1,7 +1,10 @@
 package game.trouble.client;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
+
+import game.trouble.model.board.Tile;
 
 /**
  * 
@@ -18,14 +21,9 @@ public class User {
 	private String username;
 	
 	/**
-	 * The selected tile.
+	 * The selected tile of a Token.
 	 */
 	private Tile selectedTile;
-	
-	/**
-	 * The list of tiles.
-	 */
-	private List<Tile> tiles;
 	
 	/**
 	 * The list of tokens.
@@ -33,12 +31,16 @@ public class User {
 	private List<Tile> tokens;
 	
 	/**
+	 * The user's current Color.
+	 */
+	private Color color;
+	
+	/**
 	 * Constructs a new user.
 	 * @param username is the username.
 	 */
 	public User(String username) {
 		this.username = username;
-		this.tiles = new ArrayList<Tile>();
 		this.tokens = new ArrayList<Tile>();
 	}
 
@@ -83,18 +85,22 @@ public class User {
 	}
 
 	/**
-	 * @return the list of tiles.
-	 */
-	public List<Tile> getTiles() {
-		return tiles;
-	}
-
-	/**
 	 * @return the list of tokens.
 	 */
 	public List<Tile> getTokens() {
 		return tokens;
 	}
-
+	
+	public void setTokens(ArrayList<Tile> tokens) {
+		this.tokens = tokens;
+	}
+	
+	public Color getColor() {
+		return color;
+	}
+	
+	public void setColor(Color color) {
+		this.color = color;
+	}
 
 }

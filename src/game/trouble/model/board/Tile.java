@@ -8,12 +8,24 @@ import java.awt.Shape;
  */
 public class Tile {
 	
+	private int zone;
+	private int index;
 	private Color color;
 	private Shape shape;
 	
-	public Tile(Color color, Shape shape) {
-		this.color = color;
-		this.shape = shape;
+	public Tile(int zone, int index) {
+		this.zone = zone;
+		this.index = index;
+		color = null;
+		shape = null;
+	}
+	
+	public int getZone() {
+		return zone;
+	}
+	
+	public int getIndex() {
+		return index;
 	}
 	
 	public Color getColor() {
@@ -22,6 +34,19 @@ public class Tile {
 	
 	public Shape getShape() {
 		return shape;
+	}
+	
+	public void setZone(int zone) {
+		this.zone = zone;
+	}
+	
+	public void setIndex(int index) {
+		this.index = index;
+	}
+	
+	public void setTile(Shape shape, Color color) {
+		this.shape = shape;
+		this.color = color;
 	}
 	
 }

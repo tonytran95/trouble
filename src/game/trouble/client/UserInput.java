@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import game.trouble.client.panels.GamePanel;
+import game.trouble.model.board.Tile;
 
 /**
  * 
@@ -22,11 +23,6 @@ public class UserInput implements MouseListener {
 	 * The swing user interface.
 	 */
 	private SwingUI swingUI;
-	
-	/**
-	 * A list of tiles.
-	 */
-	private List<Tile> tiles;
 
 	/**
 	 * A list of tiles.
@@ -39,7 +35,6 @@ public class UserInput implements MouseListener {
 	 */
 	public UserInput(SwingUI swingUI) {
 		this.swingUI = swingUI;
-		this.tiles = new ArrayList<>(swingUI.getUser().getTiles());
 		this.tokens = new ArrayList<>(swingUI.getUser().getTokens());
 	}
 	
@@ -66,19 +61,15 @@ public class UserInput implements MouseListener {
 
 	@Override
 	public void mousePressed(MouseEvent me) {
-		int count = 0;
 		GamePanel gamePanel = (GamePanel) swingUI.getCurrentPanel();
 		for (Tile tile : tokens) {
-			count++;
 			if (tile.getShape().contains(me.getPoint())) {
 				try {
 					if (swingUI.getUser().isSelectedTile(tile)) {
 						swingUI.getUser().deselectTile();
-						//swingUI.send("[" + swingUI.getUser().getUsername() +"] deselect: " + count);					
 					} else if (gamePanel.getPlayers().get(
 							swingUI.getUser().getUsername()).equals(getColor(tile.getColor()))) {
 						swingUI.getUser().selectTile(tile);
-						//swingUI.send("[" + swingUI.getUser().getUsername() +"] select: " + count);
 					}
 					swingUI.getCurrentPanel().repaint();
 				} catch (Exception e) {	
