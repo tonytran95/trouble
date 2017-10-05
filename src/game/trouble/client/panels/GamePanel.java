@@ -29,6 +29,15 @@ import game.trouble.client.UserInput;
 @SuppressWarnings("serial")
 public class GamePanel extends JPanel {
 	
+	
+	/**
+	 * Transparent colors.
+	 */
+	public final static Color TRANSPARENT_RED = new Color(1f, 0f, 0f, 0.4f);
+	public final static Color TRANSPARENT_BLUE = new Color(0f, 0f, 1f, 0.4f);
+	public final static Color TRANSPARENT_GREEN = new Color(0f, 1f, 0f, 0.4f);
+	public final static Color TRANSPARENT_YELLOW = new Color(1f, 1f, 0f, 0.4f);
+	
 	/**
 	 * The map of players. <username/color>
 	 */
@@ -90,6 +99,7 @@ public class GamePanel extends JPanel {
 				}
 				//message.setText("Die was rolled by " + swingUI.getUser().getUsername());
 				//swingUI.send("[" + swingUI.getUser().getUsername() +"] rolled die");
+				updateMessage("");
 				for (int i = 0; i < swingUI.getUser().getTokens().size(); i++) {
 					if (swingUI.getUser().getTokens().get(i).equals(swingUI.getUser().getSelectedTile())) {
 						swingUI.send("ROLLED " + i);
@@ -193,22 +203,22 @@ public class GamePanel extends JPanel {
 			int tileSize = 25;
 			if (i == 0) {
 				for (int j = i; j < i + 4; j++) {
-					Rectangle homeRectangle = new Rectangle(j * tileSize, tileSize - tileSize, tileSize - 4, tileSize - 4);
+					Rectangle homeRectangle = new Rectangle(j * tileSize, tileSize - tileSize, tileSize - 3, tileSize - 3);
 					swingUI.getUser().getTokens().add(new Tile(Color.RED, homeRectangle));
 				}
 			} else if (i == 7) {
 				for (int j = i; j < i + 4; j++) {
-					Rectangle homeRectangle = new Rectangle(j * tileSize, tileSize - tileSize, tileSize - 4, tileSize - 4);
+					Rectangle homeRectangle = new Rectangle(j * tileSize, tileSize - tileSize, tileSize - 3, tileSize - 3);
 					swingUI.getUser().getTokens().add(new Tile(Color.BLUE, homeRectangle));
 				}
 			} else if (i == 14) {
 				for (int j = i; j < i + 4; j++) {
-					Rectangle homeRectangle = new Rectangle(j * tileSize, tileSize - tileSize, tileSize - 4, tileSize - 4);
+					Rectangle homeRectangle = new Rectangle(j * tileSize, tileSize - tileSize, tileSize - 3, tileSize - 3);
 					swingUI.getUser().getTokens().add(new Tile(Color.YELLOW, homeRectangle));
 				}
 			} else if (i == 21) {
 				for (int j = i; j < i + 4; j++) {
-					Rectangle homeRectangle = new Rectangle(j * tileSize, tileSize - tileSize, tileSize - 4, tileSize - 4);
+					Rectangle homeRectangle = new Rectangle(j * tileSize, tileSize - tileSize, tileSize - 3, tileSize - 3);
 					swingUI.getUser().getTokens().add(new Tile(Color.GREEN, homeRectangle));
 				}
 			}
@@ -228,13 +238,31 @@ public class GamePanel extends JPanel {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g.create();
 		for(Tile tile : swingUI.getUser().getTiles()) {
-			g2d.setColor(tile.getColor());
+			if (tile.getColor() == Color.RED)
+				g2d.setColor(TRANSPARENT_RED);
+			else if (tile.getColor() == Color.BLUE)
+				g2d.setColor(TRANSPARENT_BLUE);
+			else if (tile.getColor() == Color.GREEN)
+				g2d.setColor(TRANSPARENT_GREEN);
+			else if (tile.getColor() == Color.YELLOW)
+				g2d.setColor(TRANSPARENT_YELLOW);
 			g2d.draw(tile.getShape());
 		}
 		for (Tile token : swingUI.getUser().getTokens()) {
 			g2d.setColor(token.getColor());
 			if (swingUI.getUser().isSelectedTile(token))
-				g2d.fill(token.getShape());
+				g2d.setColor(token.getColor());
+			else {
+				if (token.getColor() == Color.RED)
+					g2d.setColor(TRANSPARENT_RED);
+				else if (token.getColor() == Color.BLUE)
+					g2d.setColor(TRANSPARENT_BLUE);
+				else if (token.getColor() == Color.GREEN)
+					g2d.setColor(TRANSPARENT_GREEN);
+				else if (token.getColor() == Color.YELLOW)
+					g2d.setColor(TRANSPARENT_YELLOW);
+			}
+			g2d.fill(token.getShape());
 			g2d.draw(token.getShape());
 		}
 		g2d.dispose();
