@@ -167,7 +167,6 @@ public class GamePanel extends JPanel {
 				swingUI.getUser().getTiles().add(new Tile(Color.LIGHT_GRAY, rectangle));
 			}
 			
-			// sets the location for the spawn tiles
 			if (i == 6) {
 				for (int j = 2; j < 6; j++) {
 					Rectangle spawnRectangle = new Rectangle(i * tileSize, j * tileSize, tileSize - 2, tileSize - 2);
@@ -226,6 +225,7 @@ public class GamePanel extends JPanel {
 	}
 	
 	public void updateToken() {
+		swingUI.getUser().getTokens().clear(); // clear all previous tokens, update new tokens
 		// todo
 	}
 	
@@ -266,8 +266,7 @@ public class GamePanel extends JPanel {
 			g2d.draw(token.getShape());
 		}
 		g2d.dispose();
-		//swingUI.getUser().getTiles().clear();
-		//swingUI.getUser().getTokens().clear();
+		//this.updateToken();
 	}
 	
 	/**
