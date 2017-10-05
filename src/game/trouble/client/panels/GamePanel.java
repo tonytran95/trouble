@@ -29,17 +29,22 @@ import game.trouble.client.UserInput;
 @SuppressWarnings("serial")
 public class GamePanel extends JPanel {
 	
-	
 	/**
 	 * Transparent colors.
 	 */
 	public final static Color TRANSPARENT_RED = new Color(1f, 0f, 0f, 0.4f);
 	public final static Color TRANSPARENT_BLUE = new Color(0f, 0f, 1f, 0.4f);
 	public final static Color TRANSPARENT_GREEN = new Color(0f, 1f, 0f, 0.4f);
-	public final static Color TRANSPARENT_YELLOW = new Color(1f, 1f, 0f, 0.4f);
+	public final static Color TRANSPARENT_YELLOW = new Color(1f, 1f, 0f, 0.3f);
+	
+
+	/**
+	 * The map of tokens. <position, color>
+	 */
+	private Map<Integer, Color> tokenMap;
 	
 	/**
-	 * The map of players. <username/color>
+	 * The map of players. <username, color>
 	 */
 	private Map<String, String> players;
 	
@@ -71,6 +76,7 @@ public class GamePanel extends JPanel {
 		this.swingUI = swingUI;
 		this.createTiles();
 		this.createTokens();
+		this.tokenMap = new HashMap<Integer, Color>();
 		this.players = new HashMap<String, String>();
 		this.userInput = new UserInput(swingUI);
 		this.message = new JLabel("");
@@ -167,7 +173,6 @@ public class GamePanel extends JPanel {
 				swingUI.getUser().getTiles().add(new Tile(Color.LIGHT_GRAY, rectangle));
 			}
 			
-			// sets the location for the spawn tiles
 			if (i == 6) {
 				for (int j = 2; j < 6; j++) {
 					Rectangle spawnRectangle = new Rectangle(i * tileSize, j * tileSize, tileSize - 2, tileSize - 2);
@@ -225,8 +230,50 @@ public class GamePanel extends JPanel {
 		}
 	}
 	
+	/**
+	 * Gets the position of a token from input coming from the server.
+	 * @param color is the color.
+	 * @param slotId is the slot Id
+	 * @param pos is the position
+	 * @return the position.
+	 */
+	public final int getPosition(Color color, int slotId, int pos) {
+		switch(slotId) {
+		case 0:
+		case 1:
+		case 2:
+		}
+		return -1;
+	}
+	
 	public void updateToken() {
-		// todo
+		this.tokenMap.clear();
+		swingUI.getUser().getTokens().clear(); // clear all previous tokens, update new tokens
+		for (int i = 0; i < 28; i++) {
+			// sets the location for the tokens
+			int tileSize = 25;
+			if (i == 0) {
+				for (int j = i; j < i + 4; j++) {
+					Rectangle homeRectangle = new Rectangle(j * tileSize, tileSize - tileSize, tileSize - 3, tileSize - 3);
+					swingUI.getUser().getTokens().add(new Tile(Color.RED, homeRectangle));
+				}
+			} else if (i == 7) {
+				for (int j = i; j < i + 4; j++) {
+					Rectangle homeRectangle = new Rectangle(j * tileSize, tileSize - tileSize, tileSize - 3, tileSize - 3);
+					swingUI.getUser().getTokens().add(new Tile(Color.BLUE, homeRectangle));
+				}
+			} else if (i == 14) {
+				for (int j = i; j < i + 4; j++) {
+					Rectangle homeRectangle = new Rectangle(j * tileSize, tileSize - tileSize, tileSize - 3, tileSize - 3);
+					swingUI.getUser().getTokens().add(new Tile(Color.YELLOW, homeRectangle));
+				}
+			} else if (i == 21) {
+				for (int j = i; j < i + 4; j++) {
+					Rectangle homeRectangle = new Rectangle(j * tileSize, tileSize - tileSize, tileSize - 3, tileSize - 3);
+					swingUI.getUser().getTokens().add(new Tile(Color.GREEN, homeRectangle));
+				}
+			}
+		}
 	}
 	
 	public void updateMessage(String message) {
@@ -266,8 +313,7 @@ public class GamePanel extends JPanel {
 			g2d.draw(token.getShape());
 		}
 		g2d.dispose();
-		//swingUI.getUser().getTiles().clear();
-		//swingUI.getUser().getTokens().clear();
+		//this.updateToken();
 	}
 	
 	/**
@@ -276,5 +322,13 @@ public class GamePanel extends JPanel {
 	public Map<String, String> getPlayers() {
 		return players;
 	}
+
+	/**
+	 * @return the token map.
+	 */
+	public Map<Integer, Color> getTokenMap() {
+		return tokenMap;
+	}
+
 	
 }

@@ -1,13 +1,9 @@
 package game.trouble;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Map;
 import java.util.Queue;
-import java.util.Random;
 
 import game.trouble.model.Colour;
 import game.trouble.network.Connection;
