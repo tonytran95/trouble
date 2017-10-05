@@ -78,7 +78,7 @@ public class SocketListener {
 					                
 					                while (true) {
 					                	String input = clientInput.readLine();
-					                	System.out.println(input);
+					                	//System.out.println(input);
 					                	
 					                	// TEMPORARY
 					                	if (input.startsWith("CONNECTED")) {

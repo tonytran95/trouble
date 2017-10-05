@@ -213,6 +213,7 @@ public class Game {
 	}
 	
 	public void showPlayers() {
+		System.out.print("[Game]Players: ");
 		for(int i =0; i<MAX_PLAYERS; i++) {
 			System.out.print(players[i].getUsername()+" ");
 		}
