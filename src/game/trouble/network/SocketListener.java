@@ -84,10 +84,10 @@ public class SocketListener {
 					                	if (input.startsWith("CONNECTED")) {
 					                		conn.setUsername(input.substring(10));
 					                		loginHandler.addConnectionToQueue(conn);
-					                	} else if (input.startsWith("COLORS")) {
+					                	//} else if (input.startsWith("COLORS")) {
 					                		// make it print in the format "COLORS username color(lower case)"
 					                		// still need to work on this
-					                		clientOutput.println("COLORS " + conn.getUsername() + " red");
+					                		//clientOutput.println("COLORS " + conn.getUsername() + " red");
 					                	} else {
 					                		// give input to gameengine
 					                		if (input.startsWith("ROLLED")) {

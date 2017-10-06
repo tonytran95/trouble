@@ -75,7 +75,7 @@ public class LoginPanel extends JPanel {
 				swingUI.send("CONNECTED " + username.getText());
 				swingUI.setUser(new User(username.getText()));
 				swingUI.setClientState(ClientState.IN_GAME); // change to lobby later
-				swingUI.send("COLORS");
+				//swingUI.send("COLORS");
 			}
 		});
 		enter.addActionListener(new ActionListener() {
@@ -84,7 +84,7 @@ public class LoginPanel extends JPanel {
 				swingUI.send("CONNECTED " + username.getText());
 				swingUI.setUser(new User(username.getText()));
 				swingUI.setClientState(ClientState.IN_GAME); // change to lobby later
-				swingUI.send("COLORS");
+				//swingUI.send("COLORS");
 			}
 		});
 		exit.addActionListener(new ActionListener() {
