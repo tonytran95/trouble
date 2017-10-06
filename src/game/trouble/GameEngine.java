@@ -61,9 +61,10 @@ public class GameEngine {
 			PrintWriter clientOutput = clientConn.getOutputStream();
 			
 			// process his moves 
-			for (String i: inputQueue) {
-				if (i.startsWith("ROLLED")) {				
-					String[] input = i.split("\\s+");
+			while (!inputQueue.isEmpty()) {
+				String in = inputQueue.poll();
+				if (in.startsWith("ROLLED")) {				
+					String[] input = in.split("\\s+");
 					int tokenID = Integer.parseInt(input[1]);
 					System.out.println("rolling token ID: "+tokenID);
 					
@@ -71,7 +72,6 @@ public class GameEngine {
 					// ROLLED <roll> <tokenID> <username>
 	        		clientOutput.println("ROLLED " + roll + " " + tokenID + " " + curr.getUsername());
 				}
-				inputQueue.remove();
 			}
 		}
 	}
