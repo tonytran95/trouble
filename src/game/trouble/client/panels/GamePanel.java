@@ -431,17 +431,27 @@ public class GamePanel extends JPanel {
 		return tokenMap;
 	}
 	
-	public void setupPanel(Color color) {
-		swingUI.getUser().setColor(color);
+	public void setupPanel() {
+		String color = players.get(swingUI.getUser().getUsername());
 		
-		if (color == Color.RED) {
-			swingUI.getUser().setTokens(board.getRedTokens());
-		} else if (color == Color.BLUE) {
-			swingUI.getUser().setTokens(board.getBlueTokens());
-		} else if (color == Color.YELLOW) {
-			swingUI.getUser().setTokens(board.getYellowTokens());
-		} else if (color == Color.GREEN) {
-			swingUI.getUser().setTokens(board.getRedTokens());
+		switch(color) {
+			case "red":
+				swingUI.getUser().setColor(Color.RED);
+				swingUI.getUser().setTokens(board.getRedTokens());
+				break;
+			case "blue":
+				swingUI.getUser().setColor(Color.BLUE);
+				swingUI.getUser().setTokens(board.getBlueTokens());
+				break;
+			case "yellow":
+				swingUI.getUser().setColor(Color.YELLOW);
+				swingUI.getUser().setTokens(board.getYellowTokens());
+				break;
+			case "green":
+				swingUI.getUser().setColor(Color.GREEN);
+				swingUI.getUser().setTokens(board.getGreenTokens());
+				break;
+			default:
 		}
 		
 		this.userInput = new UserInput(swingUI);

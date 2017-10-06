@@ -54,26 +54,13 @@ public class GameClient {
 		    	String input = in.readLine();
 		    	System.out.println(input);
 		    	
-		    	if (input.startsWith("COLORS")) {
+		    	if (input.equals("START_GAME")) {
+		    		GamePanel gamePanel = (GamePanel) ui.getCurrentPanel();
+		    		gamePanel.setupPanel();
+		    	} else if (input.startsWith("COLORS")) {
 		    		GamePanel gamePanel = (GamePanel) ui.getCurrentPanel();
 		    		String[] inputSplit = input.split(" ");
 		    		gamePanel.getPlayers().put(inputSplit[1], inputSplit[2]);
-		    		
-		    		switch(inputSplit[2]) {
-		    			case "red":
-		    				gamePanel.setupPanel(Color.RED);
-		    				break;
-		    			case "blue":
-		    				gamePanel.setupPanel(Color.BLUE);
-		    				break;
-		    			case "yellow":
-		    				gamePanel.setupPanel(Color.YELLOW);
-		    				break;
-		    			case "green":
-		    				gamePanel.setupPanel(Color.GREEN);
-		    				break;
-		    			default:
-		    		}
 		    	} else if (input.startsWith("ROLLED")) {
 		    		GamePanel gamePanel = (GamePanel) ui.getCurrentPanel();
 		    		String[] inputSplit = input.split(" ");

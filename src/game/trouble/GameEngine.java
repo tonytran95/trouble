@@ -34,14 +34,49 @@ public class GameEngine {
 		g.join("test3", Colour.GREEN, true);
 		g.start();
 		g.showPlayers();
+		
+		for (Connection c : gameConn) {
+			c.getOutputStream().println("START_GAME");
+		}
+	}
+	
+	public void testGame2() {
+		g.start();
+		g.showPlayers();
+		
+		for (Connection c : gameConn) {
+			c.getOutputStream().println("START_GAME");
+		}
 	}
 
 	public void add(Connection c) {
 		gameConn.add(c);
-		g.join(c.getUsername(), Colour.RED, false);
+		switch (gameConn.size()) {
+			case 1:
+				g.join(c.getUsername(), Colour.RED, false);
+				c.getOutputStream().println("COLORS " + c.getUsername() + " " + "red");
+				break;
+			case 2:
+				g.join(c.getUsername(), Colour.BLUE, false);
+				c.getOutputStream().println("COLORS " + c.getUsername() + " " + "blue");
+				break;
+			case 3:
+				g.join(c.getUsername(), Colour.YELLOW, false);
+				c.getOutputStream().println("COLORS " + c.getUsername() + " " + "yellow");
+				break;
+			case 4:
+				g.join(c.getUsername(), Colour.GREEN, false);
+				c.getOutputStream().println("COLORS " + c.getUsername() + " " + "green");
+				break;
+			default:
+		}
+		
 		// test game, game only starts if single player's name is bob
 		if (c.getUsername().equalsIgnoreCase("bob"))
 			testGame();
+		if (gameConn.size() == 4) {
+			testGame2();
+		}
 	}
 	
 	// process runs the game
@@ -70,7 +105,7 @@ public class GameEngine {
 					
 					int roll = g.rollDie();
 					// ROLLED <roll> <tokenID> <username>
-	        		clientOutput.println("ROLLED " + roll + " " + tokenID + " " + curr.getUsername());
+					clientOutput.println("ROLLED " + roll + " " + tokenID + " " + curr.getUsername());
 				}
 			}
 		}
