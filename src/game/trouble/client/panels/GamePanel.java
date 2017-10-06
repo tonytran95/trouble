@@ -280,9 +280,11 @@ public class GamePanel extends JPanel {
 		}
 		return -1;
 	}
-	
+
+	//TODO: Check if slot is already occupied by your own piece
 	public void updateToken(String username, int tokenID, int roll) {
 		Tile token = swingUI.getUser().getTokens().get(tokenID);
+
 		if (token.getZone() == Board.SLOT_HOME) {
 			Tile newLoc = board.getMainZone().get(roll);
 			token.setTile(newLoc.getShape(), Color.RED);
@@ -291,24 +293,20 @@ public class GamePanel extends JPanel {
 		} else if (token.getZone() == Board.SLOT_MAIN) {
 
 			int newPos = token.getIndex() + roll;
-
 			// If token would wrap around, see if it can go into end zone instead
-
-			Tile newLoc;
 			if (newPos >= BoardModel.NUM_MAIN_SLOTS) {
 
 				// Move onto End Slots if you roll the right number
-				// TODO: Check if the end slot is occupied already or not
-				// TODO: Remove hardcode to red end zone
+				// TODO: Remove hardcode to red end zone when ready to do multiplayer
 				int endZonePos = newPos - BoardModel.NUM_MAIN_SLOTS;
 				if (endZonePos <= BoardModel.NUM_END_SLOTS) {
-					newLoc = board.getRedEndZone().get(endZonePos);
+					Tile newLoc = board.getRedEndZone().get(endZonePos);
 					token.setTile(newLoc.getShape(), Color.RED);
 					token.setZone(BoardModel.SLOT_END);
 					token.setIndex(newPos);
 				}
 			} else {
-				newLoc = board.getMainZone().get((token.getIndex() + roll) % BoardModel.NUM_MAIN_SLOTS);
+				Tile newLoc = board.getMainZone().get(token.getIndex() + roll);
 				token.setTile(newLoc.getShape(), Color.RED);
 				token.setIndex(newPos);
 			}
