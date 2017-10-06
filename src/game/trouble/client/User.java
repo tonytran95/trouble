@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
-import game.trouble.model.board.Tile;
+import game.trouble.client.model.Tile;
 
 /**
  * 

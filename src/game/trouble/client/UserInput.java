@@ -6,8 +6,8 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import game.trouble.client.model.Tile;
 import game.trouble.client.panels.GamePanel;
-import game.trouble.model.board.Tile;
 
 /**
  * 

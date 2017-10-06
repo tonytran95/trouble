@@ -17,9 +17,9 @@ import javax.swing.JPanel;
 
 import game.trouble.client.SwingUI;
 import game.trouble.client.UserInput;
+import game.trouble.client.model.BoardModel;
+import game.trouble.client.model.Tile;
 import game.trouble.model.Board;
-import game.trouble.model.BoardModel;
-import game.trouble.model.board.Tile;
 
 /**
  * 
