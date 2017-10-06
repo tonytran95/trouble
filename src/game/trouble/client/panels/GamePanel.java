@@ -281,7 +281,7 @@ public class GamePanel extends JPanel {
 			token.setZone(Board.SLOT_MAIN);
 			token.setIndex(roll);
 		} else if (token.getZone() == Board.SLOT_MAIN) {
-			Tile newLoc = board.getMainZone().get(token.getIndex() + roll);
+			Tile newLoc = board.getMainZone().get((token.getIndex() + roll) % BoardModel.NUM_MAIN_SLOTS);
 			token.setTile(newLoc.getShape(), Color.RED);
 			token.setIndex(token.getIndex() + roll);
 		}
