@@ -110,9 +110,17 @@ public class GamePanel extends JPanel {
 					updateMessage("Please select a token in order to roll the die!");
 					return;
 				}
+
+
 				//message.setText("Die was rolled by " + swingUI.getUser().getUsername());
 				//swingUI.send("[" + swingUI.getUser().getUsername() +"] rolled die");
 				updateMessage("");
+
+				if (swingUI.getUser().getSelectedTile().getZone() == BoardModel.SLOT_END) {
+					updateMessage("Cannot roll a token in the end zone");
+					return;
+				}
+
 				for (int i = 0; i < swingUI.getUser().getTokens().size(); i++) {
 					if (swingUI.getUser().getTokens().get(i).equals(swingUI.getUser().getSelectedTile())) {
 						swingUI.send("ROLLED " + i);
@@ -281,9 +289,30 @@ public class GamePanel extends JPanel {
 			token.setZone(Board.SLOT_MAIN);
 			token.setIndex(roll);
 		} else if (token.getZone() == Board.SLOT_MAIN) {
-			Tile newLoc = board.getMainZone().get((token.getIndex() + roll) % BoardModel.NUM_MAIN_SLOTS);
-			token.setTile(newLoc.getShape(), Color.RED);
-			token.setIndex(token.getIndex() + roll);
+
+			int newPos = token.getIndex() + roll;
+
+			// If token would wrap around, see if it can go into end zone instead
+
+			Tile newLoc;
+			if (newPos >= BoardModel.NUM_MAIN_SLOTS) {
+
+				// Move onto End Slots if you roll the right number
+				// TODO: Check if the end slot is occupied already or not
+				// TODO: Remove hardcode to red end zone
+				int endZonePos = newPos - BoardModel.NUM_MAIN_SLOTS;
+				if (endZonePos <= BoardModel.NUM_END_SLOTS) {
+					newLoc = board.getRedEndZone().get(endZonePos);
+					token.setTile(newLoc.getShape(), Color.RED);
+					token.setZone(BoardModel.SLOT_END);
+					token.setIndex(newPos);
+				}
+			} else {
+				newLoc = board.getMainZone().get((token.getIndex() + roll) % BoardModel.NUM_MAIN_SLOTS);
+				token.setTile(newLoc.getShape(), Color.RED);
+				token.setIndex(newPos);
+			}
+
 		}
 		this.repaint();
 	}
