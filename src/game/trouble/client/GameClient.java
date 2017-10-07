@@ -66,7 +66,11 @@ public class GameClient {
 		    		String[] inputSplit = input.split(" ");
 		    		gamePanel.updateMessage(inputSplit[3] + " rolled a " + inputSplit[1]);
 		    		gamePanel.updateToken(inputSplit[3], Integer.parseInt(inputSplit[2]), Integer.parseInt(inputSplit[1]));
-		    	} 
+		    	} else if (input.startsWith("ROLL FAIL")) {
+		    		GamePanel gamePanel = (GamePanel) ui.getCurrentPanel();
+		    		String[] inputSplit = input.split(" ");
+		    		gamePanel.updateMessage("You rolled a "+inputSplit[2]+". Unable to move.");
+		    	}
 		    }
 		} catch (UnknownHostException e) {
 			e.printStackTrace();

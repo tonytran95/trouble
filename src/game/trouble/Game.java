@@ -126,37 +126,54 @@ public class Game {
 		return colour;
 	}
 	
-	// Move the selected token the number of slots rolled on the die
-	public void movePlayerToken(Token token, int diceValue) {
+	/**
+	 * Applies a roll to a player's token given the playerID, tokenID and the roll value
+	 * @param playerID
+	 * @param tokenID
+	 * @param diceValue
+	 */
+	public String movePlayerToken(int playerID, int tokenID, int diceValue) {
 		
-		int currPos = token.getCurrPos();
-		int target = currPos + diceValue;
+		Player p = players[playerID];
+		Token token = p.getToken(tokenID);
+		Slot currentSlot = board.getTokenLoc(token);
+		Colour col= token.getColour();
+		int currPos = -1;
+		int target = -1;
+		
+		// first we check if token is already in play		
+		switch (currentSlot.getSlotLocation()) {
+			case Board.SLOT_HOME:
+				// sorry can't move
+				if (diceValue != 6) {
+					return "ROLL FAIL "+ diceValue;
+				} else {
+					int startIndex = board.getStartIndex(col);
+					target = startIndex + diceValue;
+				}
+				break;
+			case Board.SLOT_MAIN:
+				ArrayList<Slot> mainSlots = board.getMainZone();
+				currPos = mainSlots.indexOf(token);
+				target = currPos + diceValue;
+				break;
+		}
 		
 		// Wraparound
-		if(target >= Board.NUM_MAIN_SLOTS) {
-			target -= Board.NUM_MAIN_SLOTS;
+		if(target >= Board.NUM_MAIN_SLOTS) 	target -= Board.NUM_MAIN_SLOTS;
+		
+		// actually do the move
+		if(target != -1) {
+			String s = "ROLLED " + diceValue + " " + tokenID + " " + p.getUsername();
+			Slot targetSlot = board.getMainSlot(target);
+			if (!targetSlot.isOccupied()) {
+				targetSlot.setOccupyingToken(token);
+				currentSlot.setOccupyingToken(null);
+			}
+			return s;
 		}
 		
-		if(token.getColour() == Colour.RED && currPos > target) {
-			
-			// Red token has finished their board rotation and can go to the endzone 
-			// if they havent rolled too high a number
-			if(target - token.getTokenEnd() < 5) {
-				
-			}
-			
-		} else if(currPos < token.getTokenStart() && target > token.getTokenEnd()) {
-			
-			// All tokens except red token have finished their board rotation and can 
-			// go to the endzone if they havent rolled too high a number
-			if(target - token.getTokenEnd() < 5) {
-				
-			}
-			
-		} else {
-			
-		}
-		
+		return null;
 	}
 	
 	// uses turn number to determine who's turn it is, then returns the player object

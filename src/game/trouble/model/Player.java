@@ -36,6 +36,10 @@ public class Player {
 		return this.colour;
 	}
 	
+	public int getID() {
+		return this.id;
+	}
+	
 	/**
 	 * Generates 4 tokens for the current player with ids relative to their 
 	 * position in tokens[] and owner equal to the current player
@@ -88,6 +92,7 @@ public class Player {
 		return false;
 	}
 	
+	/*
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -98,5 +103,5 @@ public class Player {
 		result = prime * result + ((username == null) ? 0 : username.hashCode());
 		return result;
 	}
-	
+	*/
 }

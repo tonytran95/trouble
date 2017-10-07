@@ -1,6 +1,7 @@
 package game.trouble.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import game.trouble.model.board.Die;
 import game.trouble.model.board.Slot;
@@ -64,19 +65,20 @@ public class Board {
 		Player owner = token.getOwner();
 		ArrayList<Slot> homeZone = getPlayerHomeZone(owner);
 		ArrayList<Slot> endZone = getPlayerEndZone(owner);
+		List<Slot> combinedSlots = new ArrayList<Slot>();
 		
-		if(mainSlots.contains(token)) {
-			int index = mainSlots.indexOf(token);
-			return mainSlots.get(index);
-		} else if(homeZone.contains(token)) {
-			int index = homeZone.indexOf(token);
-			return homeZone.get(index);
-		} else if(endZone.contains(token)) {
-			int index = endZone.indexOf(token);
-			return endZone.get(index);
-		} else {
-			return null;
+		combinedSlots.addAll(mainSlots);
+		combinedSlots.addAll(homeZone);
+		combinedSlots.addAll(endZone);
+		
+		// look through and find the slot containing the token
+		for (Slot s: combinedSlots) {
+			if (s.getOccupyingToken() == token) {
+				return s;
+			}
 		}
+		
+		return null;
 	}
 	
 	public void generateMainZone() {
@@ -192,6 +194,13 @@ public class Board {
 	}
 	
 	/**
+	 * gets the mainslots of the board
+	 */
+	public ArrayList<Slot> getMainZone() {
+		return this.mainSlots;
+	}
+	
+	/**
 	 * Gets the die for this board
 	 * @return The die for this board
 	 */
@@ -221,5 +230,39 @@ public class Board {
 			return true;
 		}
 		
+	}
+	
+	/**
+	 * Returns the startindex of a colour on the board mainzone
+	 * @param col
+	 * @return
+	 */
+	public int getStartIndex(Colour col) {
+		int startIndex;
+		switch (col) {
+			case RED:
+				startIndex = RED_START;
+				break;
+			case BLUE:
+				startIndex = BLUE_START;
+				break;
+			case GREEN:
+				startIndex = GREEN_START;
+				break;
+			case YELLOW:
+				startIndex = YELLOW_START;
+				break;
+			default:
+				startIndex = 0;
+				break;
+		}
+		return startIndex;
+	}
+	
+	/**
+	 * returns a slot in the mainSlots given the slotIndex
+	 */
+	public Slot getMainSlot(int slotIndex) {
+		return mainSlots.get(slotIndex);
 	}
 }

@@ -10,6 +10,7 @@ public class Token {
 	private int currPos;
 	private Player owner;
 	private Colour colour;
+	private int slotZone;
 	
 	public Token(int tokenID, Player owner) {
 		id = tokenID;
@@ -26,7 +27,6 @@ public class Token {
 	public int getTokenID() {
 		return this.id;
 	}
-	
 	
 	public int getCurrPos() {
 		return this.currPos;

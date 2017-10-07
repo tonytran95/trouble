@@ -92,25 +92,28 @@ public class GameEngine {
 		
 		if (!g.isOver()) {
 			Player curr = g.getWhoseTurn();
+			int playerID = curr.getID();
 			Connection clientConn = getConnection(curr.getUsername());
 			PrintWriter clientOutput = clientConn.getOutputStream();
 			
 			// process his moves 
 			while (!inputQueue.isEmpty()) {
 				String in = inputQueue.poll();
-				if (in.startsWith("ROLLED")) {				
+				
+				// die rolls
+				if (in.startsWith("ROLLED")) {	
 					String[] input = in.split("\\s+");
 					int tokenID = Integer.parseInt(input[1]);
 					System.out.println("rolling token ID: "+tokenID);
 					
 					int roll = g.rollDie();
+					clientOutput.println(g.movePlayerToken(playerID, tokenID, roll));
 					// ROLLED <roll> <tokenID> <username>
-					clientOutput.println("ROLLED " + roll + " " + tokenID + " " + curr.getUsername());
+					//clientOutput.println("ROLLED " + roll + " " + tokenID + " " + curr.getUsername());
 				}
 			}
 		}
 	}
-	
 	
 	public void broadcastMove() {
 		
