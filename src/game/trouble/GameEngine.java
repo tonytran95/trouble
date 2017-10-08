@@ -25,7 +25,7 @@ public class GameEngine {
 	}
 	
 	public void init() {
-		g = new Game();
+		g = new Game(this);
 	}
 	
 	public void testGame() {
@@ -37,6 +37,7 @@ public class GameEngine {
 		
 		for (Connection c : gameConn) {
 			c.getOutputStream().println("START_GAME");
+			updateMessages();
 		}
 	}
 	
@@ -46,6 +47,7 @@ public class GameEngine {
 		
 		for (Connection c : gameConn) {
 			c.getOutputStream().println("START_GAME");
+			updateMessages();
 		}
 	}
 
@@ -92,31 +94,39 @@ public class GameEngine {
 		
 		if (!g.isOver()) {
 			Player curr = g.getWhoseTurn();
-			int playerID = curr.getID();
-			Connection clientConn = getConnection(curr.getUsername());
-			PrintWriter clientOutput = clientConn.getOutputStream();
-			
-			// process his moves 
-			while (!inputQueue.isEmpty()) {
-				String in = inputQueue.poll();
+			//if (g.getHumanPlayers().contains(curr.getUsername())) {
+				int playerID = curr.getID();
+				Connection clientConn = getConnection(curr.getUsername());
+				PrintWriter clientOutput = clientConn.getOutputStream();
 				
-				// die rolls
-				if (in.startsWith("ROLLED")) {	
-					String[] input = in.split("\\s+");
-					int tokenID = Integer.parseInt(input[1]);
-					System.out.println("rolling token ID: "+tokenID);
+				// process his moves 
+				while (!inputQueue.isEmpty()) {
+					String in = inputQueue.poll();
 					
-					int roll = g.rollDie();
-					clientOutput.println(g.movePlayerToken(playerID, tokenID, roll));
-					// ROLLED <roll> <tokenID> <username>
-					//clientOutput.println("ROLLED " + roll + " " + tokenID + " " + curr.getUsername());
+					// die rolls
+					if (in.startsWith("ROLLED")) {	
+						String[] input = in.split("\\s+");
+						int tokenID = Integer.parseInt(input[1]);
+						System.out.println("rolling token ID: "+tokenID);
+						
+						int roll = g.rollDie();
+						clientOutput.println(g.movePlayerToken(playerID, tokenID, roll));
+						// ROLLED <roll> <tokenID> <username>
+						//clientOutput.println("ROLLED " + roll + " " + tokenID + " " + curr.getUsername());
+					}
 				}
-			}
+			//} else {
+				// HANDLE AI HERE
+			//}
 		}
 	}
 	
-	public void broadcastMove() {
-		
+	/**
+	 * Sends a message to all client on whose move.
+	 */
+	public void updateMessages() {
+		for (Connection clientConn : gameConn)
+			clientConn.getOutputStream().println("TURN " + g.getWhoseTurn().getUsername());
 	}
 	
 	/**

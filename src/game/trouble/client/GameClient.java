@@ -64,12 +64,19 @@ public class GameClient {
 		    	} else if (input.startsWith("ROLLED")) {
 		    		GamePanel gamePanel = (GamePanel) ui.getCurrentPanel();
 		    		String[] inputSplit = input.split(" ");
-		    		gamePanel.updateMessage(inputSplit[3] + " rolled a " + inputSplit[1]);
+		    		gamePanel.updateMessage(inputSplit[3] + " rolled a " + inputSplit[1], 0);
 		    		gamePanel.updateToken(inputSplit[3], Integer.parseInt(inputSplit[2]), Integer.parseInt(inputSplit[1]));
 		    	} else if (input.startsWith("ROLL FAIL")) {
 		    		GamePanel gamePanel = (GamePanel) ui.getCurrentPanel();
 		    		String[] inputSplit = input.split(" ");
-		    		gamePanel.updateMessage("You rolled a "+inputSplit[2]+". Unable to move.");
+		    		gamePanel.updateMessage("You rolled a "+inputSplit[2]+". Unable to move.", 0);
+		    	} else if (input.startsWith("TURN")) {
+		    		GamePanel gamePanel = (GamePanel) ui.getCurrentPanel();
+		    		String[] inputSplit = input.split(" ");
+		    		if (ui.getUser().getUsername().equals(inputSplit[1]))
+		    			gamePanel.updateMessage("Your turn.", 1);
+		    		else
+		    			gamePanel.updateMessage(inputSplit[1] + "'s turn.", 1);
 		    	}
 		    }
 		} catch (UnknownHostException e) {

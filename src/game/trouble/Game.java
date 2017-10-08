@@ -19,6 +19,7 @@ public class Game {
 	
 	public static final int MAX_PLAYERS = 4;
 	
+	private GameEngine engine;
 	private Board board;
 	private Player[] players;
 	private Calendar startTime;
@@ -29,7 +30,8 @@ public class Game {
 	private Map<Colour, String> computers;
 	
 	
-	public Game() {
+	public Game(GameEngine engine) {
+		this.engine = engine;
 		humans = new HashMap<Colour, String>();
 		computers = new HashMap<Colour, String>();
 		started = false;
@@ -56,6 +58,7 @@ public class Game {
 		}
 		board = new Board(players);
 		this.started = true;
+		engine.updateMessages();
 	}
 	
 	public void join(String username, Colour colour, boolean computer) {
@@ -140,7 +143,8 @@ public class Game {
 		Colour col= token.getColour();
 		int currPos = -1;
 		int target = -1;
-		
+		turnNum++;
+		this.engine.updateMessages();
 		// first we check if token is already in play		
 		switch (currentSlot.getSlotLocation()) {
 			case Board.SLOT_HOME:
@@ -231,7 +235,7 @@ public class Game {
 	
 	public void showPlayers() {
 		System.out.print("[Game]Players: ");
-		for(int i =0; i<MAX_PLAYERS; i++) {
+		for(int i = 0; i < MAX_PLAYERS; i++) {
 			System.out.print(players[i].getUsername()+" ");
 		}
 		System.out.print("\n");

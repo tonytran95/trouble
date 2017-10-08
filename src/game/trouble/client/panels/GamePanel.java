@@ -9,7 +9,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -61,9 +63,14 @@ public class GamePanel extends JPanel {
 	private MouseListener userInput;
 	
 	/**
-	 * The game message.
+	 * The label.
 	 */
-	private JLabel message;
+	private JLabel label;
+	
+	/**
+	 * The game messages <index, message>.
+	 */
+	private Map<Integer, String> messages;
 	
 	/**
 	 * The die roll button.
@@ -83,7 +90,8 @@ public class GamePanel extends JPanel {
 		this.swingUI = swingUI;
 		this.tokenMap = new HashMap<Integer, Color>();
 		this.players = new HashMap<String, String>();
-		this.message = new JLabel("");
+		this.label = new JLabel("");
+		this.messages = new LinkedHashMap<Integer, String>();
 		this.rollDie = new JButton("Roll Die");
 		this.board = new BoardModel();
 		this.createTiles();
@@ -107,20 +115,20 @@ public class GamePanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				if (!swingUI.getUser().isSelectedTile()) {
-					updateMessage("Please select a token in order to roll the die!");
+					updateMessage("Please select a token in order to roll the die!", 0);
 					return;
 				}
 
 
-				//message.setText("Die was rolled by " + swingUI.getUser().getUsername());
+				//label.setText("Die was rolled by " + swingUI.getUser().getUsername());
 				//swingUI.send("[" + swingUI.getUser().getUsername() +"] rolled die");
-				updateMessage("");
 
 				if (swingUI.getUser().getSelectedTile().getZone() == BoardModel.SLOT_END) {
-					updateMessage("Cannot roll a token in the end zone");
+					updateMessage("Cannot roll a token in the end zone", 0);
 					return;
 				}
 
+				updateMessage("", 0);
 				for (int i = 0; i < swingUI.getUser().getTokens().size(); i++) {
 					if (swingUI.getUser().getTokens().get(i).equals(swingUI.getUser().getSelectedTile())) {
 						swingUI.send("ROLLED " + i);
@@ -129,7 +137,7 @@ public class GamePanel extends JPanel {
 				}
 			}
 		});
-		panel.add(message);
+		panel.add(label);
 		panel.add(rollDie);
 		this.add(panel, BorderLayout.SOUTH);
 	}
@@ -315,8 +323,16 @@ public class GamePanel extends JPanel {
 		this.repaint();
 	}
 	
-	public void updateMessage(String message) {
-		this.message.setText(message);
+	public void updateMessage(String msg, int index) {
+		this.messages.put(index, msg);
+		String text = "<html>";
+		for (Entry<Integer, String> s : messages.entrySet()) {
+			if (s.getValue().equals(""))
+				continue;
+			text += s.getValue() + "<br>";
+		}
+		text += "</html>";
+		this.label.setText(text);
 	}
 	
 	@Override
@@ -440,7 +456,6 @@ public class GamePanel extends JPanel {
 			}
 			g2d.fill(token.getShape());
 		}
-		
 		g2d.dispose();
 	}
 	

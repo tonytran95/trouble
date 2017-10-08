@@ -1,7 +1,5 @@
 package game.trouble.model;
 
-import java.util.Arrays;
-
 import game.trouble.model.board.Token;
 
 public class Player {
