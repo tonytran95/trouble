@@ -1,5 +1,7 @@
 package game.trouble.model;
 
+import java.util.Arrays;
+
 import game.trouble.model.board.Token;
 
 public class Player {
@@ -81,6 +83,18 @@ public class Player {
 	}
 	
 	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((colour == null) ? 0 : colour.hashCode());
+		result = prime * result + id;
+		result = prime * result + Arrays.hashCode(tokens);
+		result = prime * result + type;
+		result = prime * result + ((username == null) ? 0 : username.hashCode());
+		return result;
+	}
+
+	@Override
 	public boolean equals(Object o) {
 		if (o instanceof Player) {
 			if (((Player)o).getColour() == this.getColour() ){
@@ -90,16 +104,6 @@ public class Player {
 		return false;
 	}
 	
-	/*
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + colour.hashCode();
-		result = prime * result + id;
-		result = prime * result + Arrays.hashCode(tokens);
-		result = prime * result + ((username == null) ? 0 : username.hashCode());
-		return result;
-	}
-	*/
+	
+	
 }
