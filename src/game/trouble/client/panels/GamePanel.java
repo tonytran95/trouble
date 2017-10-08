@@ -8,6 +8,7 @@ import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -290,35 +291,48 @@ public class GamePanel extends JPanel {
 	}
 
 	//TODO: Check if slot is already occupied by your own piece
-	public void updateToken(String username, int tokenID, int roll) {
-		Tile token = swingUI.getUser().getTokens().get(tokenID);
-
+	public void updateToken(String username, int tokenID, int destZone, int destIndex) {
+		String color = players.get(username);
+		Tile token = null;
+		Color paintColor = null;
+		ArrayList<Tile> endZone = null;
+		if (color.equals("red")) {
+			token = board.getRedTokens().get(tokenID);
+			paintColor = Color.RED;
+			endZone = board.getRedEndZone();
+		} else if (color.equals("blue")) {
+			token = board.getBlueTokens().get(tokenID);
+			paintColor = Color.BLUE;
+			endZone = board.getBlueEndZone();
+		} else if (color.equals("yellow")) {
+			token = board.getYellowTokens().get(tokenID);
+			paintColor = Color.YELLOW;
+			endZone = board.getYellowEndZone();
+		} else if (color.equals("green")) {
+			token = board.getGreenTokens().get(tokenID);
+			paintColor = Color.GREEN;
+			endZone = board.getGreenEndZone();
+		}
+		
 		if (token.getZone() == Board.SLOT_HOME) {
-			Tile newLoc = board.getMainZone().get(roll);
-			token.setTile(newLoc.getShape(), Color.RED);
+			Tile newLoc = board.getMainZone().get(destIndex);
+			token.setTile(newLoc.getShape(), paintColor);
 			token.setZone(Board.SLOT_MAIN);
-			token.setIndex(roll);
+			token.setIndex(destIndex);
 		} else if (token.getZone() == Board.SLOT_MAIN) {
-
-			int newPos = token.getIndex() + roll;
-			// If token would wrap around, see if it can go into end zone instead
-			if (newPos >= BoardModel.NUM_MAIN_SLOTS) {
-
-				// Move onto End Slots if you roll the right number
-				// TODO: Remove hardcode to red end zone when ready to do multiplayer
-				int endZonePos = newPos - BoardModel.NUM_MAIN_SLOTS;
-				if (endZonePos <= BoardModel.NUM_END_SLOTS) {
-					Tile newLoc = board.getRedEndZone().get(endZonePos);
-					token.setTile(newLoc.getShape(), Color.RED);
-					token.setZone(BoardModel.SLOT_END);
-					token.setIndex(newPos);
-				}
-			} else {
-				Tile newLoc = board.getMainZone().get(token.getIndex() + roll);
-				token.setTile(newLoc.getShape(), Color.RED);
-				token.setIndex(newPos);
+			if (destZone == Board.SLOT_HOME) {
+				// TODO
+				// When a player's token is sent back to home
+			} else if (destZone == Board.SLOT_MAIN) {
+				Tile newLoc = board.getMainZone().get(destIndex);
+				token.setTile(newLoc.getShape(), paintColor);
+				token.setIndex(destIndex);
+			} else if (destZone == Board.SLOT_END) {
+				Tile newLoc = endZone.get(destIndex);
+				token.setTile(newLoc.getShape(), paintColor);
+				token.setZone(Board.SLOT_END);
+				token.setIndex(destIndex);
 			}
-
 		}
 		this.repaint();
 	}

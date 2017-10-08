@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import game.trouble.model.AI;
 import game.trouble.model.Colour;
 import game.trouble.network.Connection;
 import game.trouble.model.Player;
@@ -37,8 +38,8 @@ public class GameEngine {
 		
 		for (Connection c : gameConn) {
 			c.getOutputStream().println("START_GAME");
-			updateMessages();
 		}
+		updateMessages();
 	}
 	
 	public void testGame2() {
@@ -47,13 +48,14 @@ public class GameEngine {
 		
 		for (Connection c : gameConn) {
 			c.getOutputStream().println("START_GAME");
-			updateMessages();
 		}
+		updateMessages();
 	}
 
 	public void add(Connection c) {
 		gameConn.add(c);
-		switch (gameConn.size()) {
+		g.join(c.getUsername(), Colour.RED, false);
+		/*switch (gameConn.size()) {
 			case 1:
 				g.join(c.getUsername(), Colour.RED, false);
 				c.getOutputStream().println("COLORS " + c.getUsername() + " " + "red");
@@ -71,7 +73,7 @@ public class GameEngine {
 				c.getOutputStream().println("COLORS " + c.getUsername() + " " + "green");
 				break;
 			default:
-		}
+		}*/
 		
 		// test game, game only starts if single player's name is bob
 		if (c.getUsername().equalsIgnoreCase("bob"))
@@ -94,7 +96,7 @@ public class GameEngine {
 		
 		if (!g.isOver()) {
 			Player curr = g.getWhoseTurn();
-			//if (g.getHumanPlayers().contains(curr.getUsername())) {
+			if (!(curr instanceof AI)) {
 				int playerID = curr.getID();
 				Connection clientConn = getConnection(curr.getUsername());
 				PrintWriter clientOutput = clientConn.getOutputStream();
@@ -110,15 +112,28 @@ public class GameEngine {
 						System.out.println("rolling token ID: "+tokenID);
 						
 						int roll = g.rollDie();
-						clientOutput.println(g.movePlayerToken(playerID, tokenID, roll));
+						broadcast(g.movePlayerToken(playerID, tokenID, roll));
 						// ROLLED <roll> <tokenID> <username>
 						//clientOutput.println("ROLLED " + roll + " " + tokenID + " " + curr.getUsername());
 					}
 				}
-			//} else {
-				// HANDLE AI HERE
-			//}
+			} else {
+				/*AI ai = (AI) curr;
+				String move = ai.getMove(g.getBoard());
+				
+				if (move.startsWith("ROLL_DIE")) {
+					int roll = g.rollDie();
+					broadcast(g.movePlayerToken(ai.getID(), 0, roll));
+				}*/
+				g.incrementTurn();
+				updateMessages();
+			}
 		}
+	}
+	
+	public void broadcast(String move) {
+		for (Connection clientConn : gameConn)
+			clientConn.getOutputStream().println(move);
 	}
 	
 	/**

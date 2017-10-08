@@ -46,7 +46,7 @@ public class Game {
 		for (Map.Entry<Colour, String> entry : humans.entrySet()) {
 			Colour c = entry.getKey();
 		    String name = entry.getValue();
-			players[i] = createhumanPlayer(i, c, name);
+			players[i] = createHumanPlayer(i, c, name);
 			i++;
 		}
 		// make the AI players
@@ -58,7 +58,28 @@ public class Game {
 		}
 		board = new Board(players);
 		this.started = true;
-		engine.updateMessages();
+		
+		for (Player p : players) {
+			System.out.println(p.getPlayerTokens().length);
+			for (int j = 0; j < p.getPlayerTokens().length; j++)
+				board.setTokenLoc(p.getToken(j), Board.SLOT_HOME, j);
+			switch (p.getColour()) {
+				case RED:
+					engine.broadcast("COLORS " + p.getUsername() + " " + "red");
+					break;
+				case BLUE:
+					engine.broadcast("COLORS " + p.getUsername() + " " + "blue");
+					break;
+				case YELLOW:
+					engine.broadcast("COLORS " + p.getUsername() + " " + "yellow");
+					break;
+				case GREEN:
+					engine.broadcast("COLORS " + p.getUsername() + " " + "green");
+					break;
+				default:
+			}
+		}
+		//engine.updateMessages();
 	}
 	
 	public void join(String username, Colour colour, boolean computer) {
@@ -85,7 +106,7 @@ public class Game {
 	 * @param id The index of the array in which the player sits. Will be used as player id
 	 * @return A newly created player
 	 */
-	public Player createhumanPlayer(int id, Colour c, String username) {
+	public Player createHumanPlayer(int id, Colour c, String username) {
 		
 		Player tmp = new Player(id, username, assignPlayerColour(c), Player.HUMAN);
 		return tmp;
@@ -136,48 +157,97 @@ public class Game {
 	 * @param diceValue
 	 */
 	public String movePlayerToken(int playerID, int tokenID, int diceValue) {
-		
+		String command = null;
 		Player p = players[playerID];
 		Token token = p.getToken(tokenID);
 		Slot currentSlot = board.getTokenLoc(token);
-		Colour col= token.getColour();
+		Colour col = token.getColour();
 		int currPos = -1;
 		int target = -1;
-		turnNum++;
-		this.engine.updateMessages();
 		// first we check if token is already in play		
-		switch (currentSlot.getSlotLocation()) {
+		switch (currentSlot.getSlotZone()) {
 			case Board.SLOT_HOME:
 				// sorry can't move
-				if (diceValue != 6) {
-					return "ROLL FAIL "+ diceValue;
+				if (diceValue == 6) {
+					command = "ROLL_FAIL " + diceValue;
+					turnNum++;
+					engine.updateMessages();
 				} else {
 					int startIndex = board.getStartIndex(col);
-					target = startIndex + diceValue;
+					command = "ROLL_AGAIN " + diceValue + " " + tokenID + " " + p.getUsername() + " " + Board.SLOT_MAIN + " " + startIndex;
+					board.setTokenLoc(token, Board.SLOT_MAIN, startIndex);
 				}
 				break;
 			case Board.SLOT_MAIN:
+				int startIndex = board.getStartIndex(col);
+				int endIndex = board.getEndIndex(col);
 				ArrayList<Slot> mainSlots = board.getMainZone();
-				currPos = mainSlots.indexOf(token);
-				target = currPos + diceValue;
+				currPos = currentSlot.getSlotIndex();	
+				if (currPos == endIndex) { // move into endzone
+					switch (diceValue) {
+						case 1: 
+							if (board.getPlayerEndZone(p).get(0).getOccupyingToken() == null) {
+								command = "ROLL_SUCCESS " + diceValue + " " + tokenID + " " + p.getUsername() + " " + Board.SLOT_END + " " + 0;
+								board.setTokenLoc(token, Board.SLOT_END, 0);
+							} else {
+								command = "ROLL_FAIL " + + diceValue + ", token already occupying end slot";
+							}
+							break;
+						case 2:
+							if (board.getPlayerEndZone(p).get(1).getOccupyingToken() == null) {
+								command = "ROLL_SUCCESS " + diceValue + " " + tokenID + " " + p.getUsername() + " " + Board.SLOT_END + " " + 1;
+								board.setTokenLoc(token, Board.SLOT_END, 1);
+							} else {
+								command = "ROLL_FAIL " + + diceValue + ", token already occupying end slot";
+							}
+							break;
+						case 3:
+							if (board.getPlayerEndZone(p).get(2).getOccupyingToken() == null) {
+								command = "ROLL_SUCCESS " + diceValue + " " + tokenID + " " + p.getUsername() + " " + Board.SLOT_END + " " + 2;
+								board.setTokenLoc(token, Board.SLOT_END, 2);
+							} else {
+								command = "ROLL_FAIL " + + diceValue + ", token already occupying end slot";
+							}
+							break;
+						case 4:
+							if (board.getPlayerEndZone(p).get(3).getOccupyingToken() == null) {
+								command = "ROLL_SUCCESS " + diceValue + " " + tokenID + " " + p.getUsername() + " " + Board.SLOT_END + " " + 3;
+								board.setTokenLoc(token, Board.SLOT_END, 3);
+							} else {
+								command = "ROLL_FAIL " + + diceValue + ", token already occupying end slot";
+							}
+							break;
+						default:
+							command = "ROLL_FAIL " + + diceValue + ", must roll a value of 1-4 to enter the end zone";
+					}
+					turnNum++;
+				} else { // keep moving alone mainzone
+					target = currPos + diceValue;
+					if (startIndex < endIndex) { // ONLY TRUE FOR RED
+						if (target > endIndex) target = endIndex;
+					} else { // EVERY OTHER COLOUR
+						if (target > (Board.NUM_MAIN_SLOTS - 1)) target = target % Board.NUM_MAIN_SLOTS;
+						if (currPos < endIndex) {
+							if (target > endIndex) target = endIndex;
+						}
+					}
+				}
+				
 				break;
 		}
 		
 		// Wraparound
-		if(target >= Board.NUM_MAIN_SLOTS) 	target -= Board.NUM_MAIN_SLOTS;
+		//if (target >= Board.NUM_MAIN_SLOTS) 	target -= Board.NUM_MAIN_SLOTS;
 		
 		// actually do the move
-		if(target != -1) {
-			String s = "ROLLED " + diceValue + " " + tokenID + " " + p.getUsername();
-			Slot targetSlot = board.getMainSlot(target);
-			if (!targetSlot.isOccupied()) {
-				targetSlot.setOccupyingToken(token);
-				currentSlot.setOccupyingToken(null);
-			}
-			return s;
+		if (target != -1) {
+			command = "ROLLED " + diceValue + " " + tokenID + " " + p.getUsername() + " " + Board.SLOT_MAIN + " " + target;
+			board.setTokenLoc(token, Board.SLOT_MAIN, target);
+			turnNum++;
+			engine.updateMessages();
 		}
 		
-		return null;
+		return command;
 	}
 	
 	// uses turn number to determine who's turn it is, then returns the player object
@@ -247,6 +317,14 @@ public class Game {
 	
 	public int rollDie() {
 		return board.getDie().rollDie();
+	}
+	
+	public Board getBoard() {
+		return board;
+	}
+	
+	public void incrementTurn() {
+		turnNum++;
 	}
 	
 }

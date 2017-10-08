@@ -5,15 +5,19 @@ import game.trouble.model.Board;
 public class Slot {
 	
 	private Token occupyingToken;
-	private int slotLocation;
+	private int slotZone;
+	private int slotIndex;
 	
-	public Slot(int location) {
+	public Slot(int zone, int index) {
 		occupyingToken = null;
+		slotZone = zone;
+		slotIndex = index;
 	}
 	
-	public Slot(Token token, int location) {
+	public Slot(Token token, int zone, int index) {
 		occupyingToken = token;
-		slotLocation = location;
+		slotZone = zone;
+		slotIndex = index;
 	}
 	
 	/**
@@ -25,7 +29,7 @@ public class Slot {
 	}
 	
 	public String slotLocationToString() {
-		switch(getSlotLocation()) {
+		switch(getSlotZone()) {
 			case Board.SLOT_HOME: 
 				return "Home base";
 			case Board.SLOT_END: 
@@ -34,13 +38,17 @@ public class Slot {
 		}
 	}
 	
-	public int getSlotLocation() {
-		return this.slotLocation;
+	public int getSlotZone() {
+		return this.slotZone;
+	}
+	
+	public int getSlotIndex() {
+		return this.slotIndex;
 	}
 	
 	public void setSlotLocation(int location) {
 		if(location >= Board.SLOT_HOME || location <= Board.SLOT_END) {
-			this.slotLocation = location;
+			this.slotZone = location;
 		}
 	}
 	
@@ -60,4 +68,9 @@ public class Slot {
 	public void setOccupyingToken(Token token) {
 		occupyingToken = token;
 	}
+	
+	public void removeOccupyingToken() {
+		occupyingToken = null;
+	}
+	
 }

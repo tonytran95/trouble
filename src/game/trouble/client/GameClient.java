@@ -65,11 +65,21 @@ public class GameClient {
 		    		GamePanel gamePanel = (GamePanel) ui.getCurrentPanel();
 		    		String[] inputSplit = input.split(" ");
 		    		gamePanel.updateMessage(inputSplit[3] + " rolled a " + inputSplit[1], 0);
-		    		gamePanel.updateToken(inputSplit[3], Integer.parseInt(inputSplit[2]), Integer.parseInt(inputSplit[1]));
-		    	} else if (input.startsWith("ROLL FAIL")) {
+		    		gamePanel.updateToken(inputSplit[3], Integer.parseInt(inputSplit[2]), Integer.parseInt(inputSplit[4]), Integer.parseInt(inputSplit[5]));
+		    	} else if (input.startsWith("ROLL_AGAIN")) {
 		    		GamePanel gamePanel = (GamePanel) ui.getCurrentPanel();
 		    		String[] inputSplit = input.split(" ");
-		    		gamePanel.updateMessage("You rolled a "+inputSplit[2]+". Unable to move.", 0);
+		    		gamePanel.updateMessage("You rolled a " + inputSplit[1] + ". Roll again to move.", 0);
+		    		gamePanel.updateToken(inputSplit[3], Integer.parseInt(inputSplit[2]), Integer.parseInt(inputSplit[4]), Integer.parseInt(inputSplit[5]));
+		    	} else if (input.startsWith("ROLL_SUCCESS")) {
+		    		GamePanel gamePanel = (GamePanel) ui.getCurrentPanel();
+		    		String[] inputSplit = input.split(" ");
+		    		gamePanel.updateMessage("You rolled a " + inputSplit[1] + ". Moving your token into the end zone!.", 0);
+		    		gamePanel.updateToken(inputSplit[3], Integer.parseInt(inputSplit[2]), Integer.parseInt(inputSplit[4]), Integer.parseInt(inputSplit[5]));
+		    	} else if (input.startsWith("ROLL_FAIL")) {
+		    		GamePanel gamePanel = (GamePanel) ui.getCurrentPanel();
+		    		String[] inputSplit = input.split(" ");
+		    		gamePanel.updateMessage("You rolled a " + inputSplit[1] + ". Unable to move.", 0);
 		    	} else if (input.startsWith("TURN")) {
 		    		GamePanel gamePanel = (GamePanel) ui.getCurrentPanel();
 		    		String[] inputSplit = input.split(" ");

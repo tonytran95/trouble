@@ -81,6 +81,34 @@ public class Board {
 		return null;
 	}
 	
+	public void setTokenLoc(Token token, int zone, int index) {
+		Player owner = token.getOwner();
+		Slot currentSlot = getTokenLoc(token);
+		if (currentSlot != null) currentSlot.removeOccupyingToken();
+		if (zone == SLOT_HOME) {
+			for (Slot s : getPlayerHomeZone(owner)) {
+				if (index == s.getSlotIndex()) {
+					s.setOccupyingToken(token);
+					break;
+				}
+			}
+		} else if (zone == SLOT_MAIN) {
+			for (Slot s : mainSlots) {
+				if (index == s.getSlotIndex()) {
+					s.setOccupyingToken(token);
+					break;
+				}
+			}
+		} else if (zone == SLOT_END) {
+			for (Slot s : getPlayerEndZone(owner)) {
+				if (index == s.getSlotIndex()) {
+					s.setOccupyingToken(token);
+					break;
+				}
+			}
+		}
+	}
+	
 	public void generateMainZone() {
 		
 		mainSlots = new ArrayList<Slot>(NUM_MAIN_SLOTS);
@@ -97,7 +125,7 @@ public class Board {
 	public void generateSlots(ArrayList<Slot> zone, int zoneType, int numSlots) {
 		
 		for(int i = 0; i < numSlots; i++) {
-			zone.add(new Slot(zoneType));
+			zone.add(new Slot(zoneType, i));
 		}
 		
 	}
@@ -114,7 +142,7 @@ public class Board {
 		
 		for(int i = 0; i < numSlots; i++) {
 			Token curr = owner.getToken(i);
-			zone.add(new Slot(curr, zoneType));
+			zone.add(new Slot(curr, zoneType, i));
 		}
 		
 	}
@@ -138,7 +166,7 @@ public class Board {
 				default: 
 					yellowHomeZone = new ArrayList<Slot>(NUM_HOME_SLOTS);
 			}
-			generateSlots(getPlayerHomeZone(p), p, SLOT_HOME, NUM_HOME_SLOTS);
+			generateSlots(getPlayerHomeZone(p), SLOT_HOME, NUM_HOME_SLOTS);
 		}
 	}
 	
@@ -257,6 +285,33 @@ public class Board {
 				break;
 		}
 		return startIndex;
+	}
+	
+	/**
+	 * Returns the endindex of a colour on the board mainzone
+	 * @param col
+	 * @return
+	 */
+	public int getEndIndex(Colour col) {
+		int endIndex;
+		switch (col) {
+		case RED:
+			endIndex = RED_END;
+			break;
+		case BLUE:
+			endIndex = BLUE_END;
+			break;
+		case GREEN:
+			endIndex = GREEN_END;
+			break;
+		case YELLOW:
+			endIndex = YELLOW_END;
+			break;
+		default:
+			endIndex = 0;
+			break;
+		}
+		return endIndex;
 	}
 	
 	/**
