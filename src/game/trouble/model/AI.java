@@ -1,5 +1,7 @@
 package game.trouble.model;
 
+import game.trouble.model.board.Token;
+
 public class AI extends Player {
 
 	public AI(int pid, String username, Colour colour) {
@@ -7,7 +9,14 @@ public class AI extends Player {
 	}
 	
 	public String getMove(Board board) {
-		String move = "ROLL_DIE";
+		String move = null;
+		
+		for (Token token : this.getPlayerTokens()) {
+			if (board.getTokenLoc(token).getSlotZone() != Board.SLOT_END) {
+				move = "ROLL_DIE " + token.getTokenID();
+				break;
+			}
+		}
 		
 		return move;
 	}

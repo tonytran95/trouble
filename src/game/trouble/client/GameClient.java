@@ -80,6 +80,10 @@ public class GameClient {
 		    		GamePanel gamePanel = (GamePanel) ui.getCurrentPanel();
 		    		String[] inputSplit = input.split(" ");
 		    		gamePanel.updateMessage("You rolled a " + inputSplit[1] + ". Unable to move.", 0);
+		    	} else if (input.startsWith("EAT_TOKEN")) {
+		    		GamePanel gamePanel = (GamePanel) ui.getCurrentPanel();
+		    		String[] inputSplit = input.split(" ");
+		    		gamePanel.updateToken(inputSplit[2], Integer.parseInt(inputSplit[1]), Integer.parseInt(inputSplit[3]), Integer.parseInt(inputSplit[1]));
 		    	} else if (input.startsWith("TURN")) {
 		    		GamePanel gamePanel = (GamePanel) ui.getCurrentPanel();
 		    		String[] inputSplit = input.split(" ");

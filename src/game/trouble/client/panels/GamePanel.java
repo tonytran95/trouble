@@ -120,10 +120,6 @@ public class GamePanel extends JPanel {
 					return;
 				}
 
-
-				//label.setText("Die was rolled by " + swingUI.getUser().getUsername());
-				//swingUI.send("[" + swingUI.getUser().getUsername() +"] rolled die");
-
 				if (swingUI.getUser().getSelectedTile().getZone() == BoardModel.SLOT_END) {
 					updateMessage("Cannot roll a token in the end zone", 0);
 					return;
@@ -295,22 +291,27 @@ public class GamePanel extends JPanel {
 		String color = players.get(username);
 		Tile token = null;
 		Color paintColor = null;
+		ArrayList<Tile> homeZone = null;
 		ArrayList<Tile> endZone = null;
 		if (color.equals("red")) {
 			token = board.getRedTokens().get(tokenID);
 			paintColor = Color.RED;
+			homeZone = board.getRedHomeZone();
 			endZone = board.getRedEndZone();
 		} else if (color.equals("blue")) {
 			token = board.getBlueTokens().get(tokenID);
 			paintColor = Color.BLUE;
+			homeZone = board.getBlueHomeZone();
 			endZone = board.getBlueEndZone();
 		} else if (color.equals("yellow")) {
 			token = board.getYellowTokens().get(tokenID);
 			paintColor = Color.YELLOW;
+			homeZone = board.getYellowHomeZone();
 			endZone = board.getYellowEndZone();
 		} else if (color.equals("green")) {
 			token = board.getGreenTokens().get(tokenID);
 			paintColor = Color.GREEN;
+			homeZone = board.getGreenHomeZone();
 			endZone = board.getGreenEndZone();
 		}
 		
@@ -321,8 +322,10 @@ public class GamePanel extends JPanel {
 			token.setIndex(destIndex);
 		} else if (token.getZone() == Board.SLOT_MAIN) {
 			if (destZone == Board.SLOT_HOME) {
-				// TODO
-				// When a player's token is sent back to home
+				Tile newLoc = homeZone.get(destIndex);
+				token.setTile(newLoc.getShape(), paintColor);
+				token.setZone(Board.SLOT_HOME);
+				token.setIndex(destIndex);
 			} else if (destZone == Board.SLOT_MAIN) {
 				Tile newLoc = board.getMainZone().get(destIndex);
 				token.setTile(newLoc.getShape(), paintColor);

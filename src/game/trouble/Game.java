@@ -60,9 +60,6 @@ public class Game {
 		this.started = true;
 		
 		for (Player p : players) {
-			System.out.println(p.getPlayerTokens().length);
-			for (int j = 0; j < p.getPlayerTokens().length; j++)
-				board.setTokenLoc(p.getToken(j), Board.SLOT_HOME, j);
 			switch (p.getColour()) {
 				case RED:
 					engine.broadcast("COLORS " + p.getUsername() + " " + "red");
@@ -170,12 +167,19 @@ public class Game {
 				// sorry can't move
 				if (diceValue == 6) {
 					command = "ROLL_FAIL " + diceValue;
-					turnNum++;
 					engine.updateMessages();
 				} else {
 					int startIndex = board.getStartIndex(col);
+					if (board.getMainSlot(startIndex).isOccupied()) {
+						Token tokenToEat = board.getMainSlot(startIndex).getOccupyingToken();
+						Player owner = tokenToEat.getOwner();
+						board.setTokenLoc(tokenToEat, Board.SLOT_HOME, tokenToEat.getTokenID());
+						engine.broadcast("EAT_TOKEN " + tokenToEat.getTokenID() + " " + owner.getUsername() + " " + Board.SLOT_HOME);
+					}
+					
 					command = "ROLL_AGAIN " + diceValue + " " + tokenID + " " + p.getUsername() + " " + Board.SLOT_MAIN + " " + startIndex;
 					board.setTokenLoc(token, Board.SLOT_MAIN, startIndex);
+					turnNum--;
 				}
 				break;
 			case Board.SLOT_MAIN:
@@ -220,7 +224,6 @@ public class Game {
 						default:
 							command = "ROLL_FAIL " + + diceValue + ", must roll a value of 1-4 to enter the end zone";
 					}
-					turnNum++;
 				} else { // keep moving alone mainzone
 					target = currPos + diceValue;
 					if (startIndex < endIndex) { // ONLY TRUE FOR RED
@@ -230,6 +233,12 @@ public class Game {
 						if (currPos < endIndex) {
 							if (target > endIndex) target = endIndex;
 						}
+					}
+					if (board.getMainSlot(target).isOccupied()) {
+						Token tokenToEat = board.getMainSlot(target).getOccupyingToken();
+						Player owner = tokenToEat.getOwner();
+						board.setTokenLoc(tokenToEat, Board.SLOT_HOME, tokenToEat.getTokenID());
+						engine.broadcast("EAT_TOKEN " + tokenToEat.getTokenID() + " " + owner.getUsername() + " " + Board.SLOT_HOME);
 					}
 				}
 				
@@ -243,10 +252,10 @@ public class Game {
 		if (target != -1) {
 			command = "ROLLED " + diceValue + " " + tokenID + " " + p.getUsername() + " " + Board.SLOT_MAIN + " " + target;
 			board.setTokenLoc(token, Board.SLOT_MAIN, target);
-			turnNum++;
 			engine.updateMessages();
 		}
 		
+		turnNum++;
 		return command;
 	}
 	

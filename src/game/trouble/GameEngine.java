@@ -118,15 +118,16 @@ public class GameEngine {
 					}
 				}
 			} else {
-				/*AI ai = (AI) curr;
+				AI ai = (AI) curr;
 				String move = ai.getMove(g.getBoard());
+				System.out.println("AI's MOVE: " + move);
 				
-				if (move.startsWith("ROLL_DIE")) {
+				if (move.startsWith("ROLL_DIE ")) {
+					String input[] = move.split(" ");
+					int tokenID = Integer.parseInt(input[1]);
 					int roll = g.rollDie();
-					broadcast(g.movePlayerToken(ai.getID(), 0, roll));
-				}*/
-				g.incrementTurn();
-				updateMessages();
+					broadcast(g.movePlayerToken(ai.getID(), tokenID, roll));
+				}
 			}
 		}
 	}

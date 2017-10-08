@@ -166,7 +166,7 @@ public class Board {
 				default: 
 					yellowHomeZone = new ArrayList<Slot>(NUM_HOME_SLOTS);
 			}
-			generateSlots(getPlayerHomeZone(p), SLOT_HOME, NUM_HOME_SLOTS);
+			generateSlots(getPlayerHomeZone(p), p, SLOT_HOME, NUM_HOME_SLOTS);
 		}
 	}
 	
