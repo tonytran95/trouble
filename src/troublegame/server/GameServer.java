@@ -43,7 +43,7 @@ public class GameServer {
 		User u = new User("tsmex@hotmail.com", "Tilly", "Smexy", Color.RANDOM);
 		GameServer.saveUser(u);
 		
-		User asdf = loadUser("tsmex@hotmail.com");
+		User asdf = GameServer.loadUser("tsmex@hotmail.com");
 		System.out.println("This is a test for the user Tilly");
 		System.out.println("Loaded user tilly has username: " + asdf.getUsername());
 		System.out.println("password: " + asdf.getPassword());
