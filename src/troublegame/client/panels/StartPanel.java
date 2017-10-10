@@ -41,7 +41,7 @@ public class StartPanel extends JPanel {
 	 * Initializes the start panel.
 	 */
 	public void init() {
-		JButton play = new JButton("Play");
+		JButton play = new JButton("Login");
 		play.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

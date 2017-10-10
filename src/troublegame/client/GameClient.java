@@ -7,6 +7,8 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import javax.swing.JOptionPane;
+
 import troublegame.client.panels.GamePanel;
 
 public class GameClient {
@@ -92,7 +94,7 @@ public class GameClient {
 		    	} else if (input.startsWith("SUCCESS")) {
 		    		ui.setInterface(Interface.IN_GAME);
 		    	} else if (input.startsWith("INVALID")) {
-		    		System.out.println("invalid username or password");
+		    		JOptionPane.showMessageDialog(null, "Invalid Username/Password", "Try again", JOptionPane.PLAIN_MESSAGE);
 		    	}
 		    }
 		} catch (UnknownHostException e) {
