@@ -1,4 +1,4 @@
 @echo off
 title run
-java -cp bin game.trouble.GameServer
+java -cp bin troublegame.server.GameServer
 pause

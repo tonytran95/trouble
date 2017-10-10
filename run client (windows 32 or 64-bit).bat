@@ -1,4 +1,4 @@
 @echo off
 title run
-java -cp bin game.trouble.client.GameClient
+java -cp bin troublegame.client.GameClient
 pause
