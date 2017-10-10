@@ -48,10 +48,6 @@ public class LoginHandler {
 	 * 			false if the credential is invalid
 	 */
 	public boolean login(Connection connection) {
-		/**
-		 * if (invalid password then)
-		 * 		return false
-		 */
 		FileHandler fileHandler = new FileHandler(new File("./data/users/" + connection.getUsername()));
 		FileHandler.files.put(connection, fileHandler);
 		if (fileHandler.load(connection) && !connection.getPassword().equals(fileHandler.get("password"))) {

@@ -24,13 +24,11 @@ public class Connection implements Savable {
 	
 	@Override
 	public void save(FileHandler fileHandler) {
-		fileHandler.set("username", username);
 		fileHandler.set("password", password);
 	}
 
 	@Override
 	public void load(FileHandler fileHandler) {
-		this.username = fileHandler.get("username");
 		this.password = fileHandler.get("password");
 	}
 	
