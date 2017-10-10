@@ -79,7 +79,20 @@ public class SocketListener {
 					                	
 					                	// TEMPORARY
 					                	if (input.startsWith("CONNECTED")) {
+					                		
+					                		// THIS IS WHAT SERVER RECEIVES FOR VALIDATION
+					                		System.out.println(input);
+					                		
 					                		String[] inputSplit = input.split(" ");
+					                		
+					                		// DEMO OF LOAD AND READ USER INFO
+					                		User tmp = GameServer.loadUser(inputSplit[1]);
+					                		if(tmp != null) {
+					                			System.out.println("loaded user with username " + tmp.getUsername() + 
+					                					" password " + tmp.getPassword() + " email " + tmp.getEmail());
+					                		}
+					                		
+					                		
 					                		conn.setUsername(inputSplit[1]);
 					                		conn.setPassword(inputSplit[2]);
 					                		loginHandler.addConnectionToQueue(conn);
@@ -87,12 +100,8 @@ public class SocketListener {
 					                		// make it print in the format "COLORS username color(lower case)"
 					                		// still need to work on this
 					                		//clientOutput.println("COLORS " + conn.getUsername() + " red");
-					                	} else {
-					                		// give input to gameengine
-					                		if (input.startsWith("ROLLED")) {
-					                			gameEngine.handleInput(conn, input);
-					                		}
-					      
+					                	} else if (input.startsWith("ROLLED")) {
+					                		gameEngine.handleInput(conn, input);
 					                	}
 					                }
 					                

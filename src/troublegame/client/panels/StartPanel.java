@@ -16,8 +16,12 @@ import troublegame.client.SwingUI;
  * @author Jeffrey Ung
  *
  */
-@SuppressWarnings("serial")
 public class StartPanel extends JPanel {
+	
+	/**
+	 * Serial ID for object serialisation
+	 */
+	private static final long serialVersionUID = -3316901513367466105L;
 	
 	/**
 	 * The swing user interface.

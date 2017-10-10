@@ -25,9 +25,13 @@ import troublegame.client.panels.StartPanel;
  * @author Jeffrey Ung
  *
  */
-@SuppressWarnings("serial")
 public class SwingUI extends JFrame {
 	
+	/**
+	 * Serial ID for object serialisation
+	 */
+	private static final long serialVersionUID = -6406009087431782704L;
+
 	/**
 	 * The title of the game.
 	 */

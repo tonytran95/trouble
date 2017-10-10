@@ -4,10 +4,7 @@ import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-import troublegame.server.io.FileHandler;
-import troublegame.server.io.Savable;
-
-public class Connection implements Savable {
+public class Connection {
 	private PrintWriter output;
 	private BufferedReader input;
 	private Socket clientSocket;
@@ -20,16 +17,6 @@ public class Connection implements Savable {
 		input = i;
 		output = o;
 		username = null;
-	}
-	
-	@Override
-	public void save(FileHandler fileHandler) {
-		fileHandler.set("password", password);
-	}
-
-	@Override
-	public void load(FileHandler fileHandler) {
-		this.password = fileHandler.get("password");
 	}
 	
 	public BufferedReader getInputStream() {

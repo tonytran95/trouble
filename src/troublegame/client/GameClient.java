@@ -41,8 +41,9 @@ public class GameClient {
 	 * @param port is the port
 	 */
 	public GameClient(String ip, int port) {
+		Socket socket;
 		try {
-			Socket socket = new Socket(ip, port);
+			socket = new Socket(ip, port);
 			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		    out = new PrintWriter(socket.getOutputStream(), true);
 			SwingUI ui = new SwingUI(in , out);

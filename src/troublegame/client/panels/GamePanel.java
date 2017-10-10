@@ -30,8 +30,12 @@ import troublegame.client.model.Tile;
  * @author Jeffrey Ung
  *
  */
-@SuppressWarnings("serial")
 public class GamePanel extends JPanel {
+	
+	/**
+	 * Serial ID for object serialisation 
+	 */
+	private static final long serialVersionUID = -1640618945771077108L;
 	
 	/**
 	 * Transparent colors.

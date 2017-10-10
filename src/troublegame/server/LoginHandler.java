@@ -1,10 +1,7 @@
 package troublegame.server;
 
-import java.io.File;
 import java.util.LinkedList;
 import java.util.Queue;
-
-import troublegame.server.io.FileHandler;
 
 /**
  * 
@@ -48,16 +45,7 @@ public class LoginHandler {
 	 * 			false if the credential is invalid
 	 */
 	public boolean login(Connection connection) {
-		FileHandler fileHandler = new FileHandler(new File("./data/users/" + connection.getUsername()));
-		FileHandler.files.put(connection, fileHandler);
-		if (fileHandler.load(connection) && !connection.getPassword().equals(fileHandler.get("password"))) {
-			connection.getOutputStream().println("INVALID"); // invalid username or password
-			return false;
-		}
-		connection.load(fileHandler);
 		this.gameEngine.add(connection);
-		connection.getOutputStream().println("SUCCESS"); 
-		fileHandler.save(connection); // temporary
 		return true;
 	}
 	

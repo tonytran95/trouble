@@ -1,7 +1,6 @@
 package troublegame.client.panels;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,9 +22,13 @@ import troublegame.client.model.User;
  * @author Jeffrey Ung
  *
  */
-@SuppressWarnings("serial")
 public class LoginPanel extends JPanel {
 	
+	/**
+	 * Serial ID for the serialisation of this class
+	 */
+	private static final long serialVersionUID = -7619006812649770179L;
+
 	/**
 	 * The swing user interface.
 	 */
@@ -34,7 +37,7 @@ public class LoginPanel extends JPanel {
 	/**
 	 * The username text field.
 	 */
-	private JTextField username;
+	private JTextField email;
 	
 	/**
 	 * The password text field.
@@ -58,7 +61,7 @@ public class LoginPanel extends JPanel {
 	public LoginPanel(SwingUI swingUI) {
 		this.swingUI = swingUI;
 		this.swingUI = swingUI;
-		this.username = new JTextField();
+		this.email = new JTextField();
 		this.password = new JPasswordField();
 		this.enter = new JButton("Enter");
 		this.exit = new JButton("Return to start");
@@ -71,26 +74,19 @@ public class LoginPanel extends JPanel {
 	 * Initializes the Login panel.
 	 */
 	public void init() {
-		JLabel label1 = new JLabel("Enter your username: ");
-		JLabel label2 = new JLabel("Enter your password: ");
+		JLabel usernameLabel = new JLabel("Enter your email: ");
+		JLabel passwordLabel = new JLabel("Enter your password: ");
 		JPanel subPanel1 = new JPanel();
 		JPanel subPanel2 = new JPanel();
 		this.setLayout(new BorderLayout());
-		this.username.setColumns(10);
+		this.email.setColumns(10);
 		this.password.setColumns(10);
-		password.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				swingUI.send("CONNECTED " + username.getText() + " " + password.getText());
-				swingUI.setUser(new User(username.getText()));
-				//swingUI.send("COLORS");
-			}
-		});
+		
 		enter.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				swingUI.send("CONNECTED " + username.getText() + " " + password.getText());
-				swingUI.setUser(new User(username.getText()));
+				swingUI.send("CONNECTED " + email.getText() + " " + String.valueOf(password.getPassword()));
+				swingUI.setUser(new User(email.getText()));
 				//swingUI.send("COLORS");
 			}
 		});
@@ -100,9 +96,10 @@ public class LoginPanel extends JPanel {
 				swingUI.setInterface(Interface.START);
 			}
 		});
-		subPanel1.add(label1);
-		subPanel1.add(username);
-		subPanel1.add(label2);
+		
+		subPanel1.add(usernameLabel);
+		subPanel1.add(email);
+		subPanel1.add(passwordLabel);
 		subPanel1.add(password);
 		subPanel2.add(enter);
 		subPanel2.add(exit);
