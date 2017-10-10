@@ -62,9 +62,10 @@ public class FileHandler {
 	@SuppressWarnings("resource")
 	public boolean load(Savable savable) {
 		FileReader in;
+		BufferedReader br
 		try {
 			in = new FileReader(file);
-			BufferedReader br = new BufferedReader(in);
+			br = new BufferedReader(in);
 			String line;
 			while ((line = br.readLine()) != null) {
 				String[] lineSplit = line.split(":");
@@ -72,6 +73,17 @@ public class FileHandler {
 			}
 		} catch (IOException e) {
 			return false;
+		} finally {
+
+			try {
+
+				if (br != null)
+					br.close();
+				if (in != null)
+					in.close();
+			} catch (IOException e) {
+				return false;
+			}
 		}
 		return true;
 	}
