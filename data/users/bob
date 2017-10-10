@@ -2,4 +2,6 @@
 player-username = bob
 player-password = test
 
+[FRIENDS]
+
 [EOF]
