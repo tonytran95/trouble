@@ -54,26 +54,22 @@ public class GameEngine {
 
 	public void add(Connection c) {
 		gameConn.add(c);
-		g.join(c.getUsername(), Colour.RED, false);
-		/*switch (gameConn.size()) {
+		//g.join(c.getUsername(), Colour.RED, false);
+		switch (gameConn.size()) {
 			case 1:
 				g.join(c.getUsername(), Colour.RED, false);
-				c.getOutputStream().println("COLORS " + c.getUsername() + " " + "red");
 				break;
 			case 2:
 				g.join(c.getUsername(), Colour.BLUE, false);
-				c.getOutputStream().println("COLORS " + c.getUsername() + " " + "blue");
 				break;
 			case 3:
 				g.join(c.getUsername(), Colour.YELLOW, false);
-				c.getOutputStream().println("COLORS " + c.getUsername() + " " + "yellow");
 				break;
 			case 4:
 				g.join(c.getUsername(), Colour.GREEN, false);
-				c.getOutputStream().println("COLORS " + c.getUsername() + " " + "green");
 				break;
 			default:
-		}*/
+		}
 		
 		// test game, game only starts if single player's name is bob
 		if (c.getUsername().equalsIgnoreCase("bob"))

@@ -252,10 +252,10 @@ public class Game {
 		if (target != -1) {
 			command = "ROLLED " + diceValue + " " + tokenID + " " + p.getUsername() + " " + Board.SLOT_MAIN + " " + target;
 			board.setTokenLoc(token, Board.SLOT_MAIN, target);
-			engine.updateMessages();
 		}
 		
 		turnNum++;
+		engine.updateMessages();
 		return command;
 	}
 	
