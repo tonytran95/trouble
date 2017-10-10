@@ -261,7 +261,7 @@ public class Board {
 	 * @param col
 	 * @return
 	 */
-	public int getStartIndex(Colour col) {
+	public int getStartIndex(Color col) {
 		int startIndex;
 		switch (col) {
 			case RED:
@@ -288,7 +288,7 @@ public class Board {
 	 * @param col
 	 * @return
 	 */
-	public int getEndIndex(Colour col) {
+	public int getEndIndex(Color col) {
 		int endIndex;
 		switch (col) {
 		case RED:

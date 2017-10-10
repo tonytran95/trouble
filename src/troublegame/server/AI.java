@@ -2,8 +2,8 @@ package troublegame.server;
 
 public class AI extends Player {
 
-	public AI(int pid, String username, Colour colour) {
-		super(pid, username, colour, Player.BOT);
+	public AI(int pid, String username, Color color) {
+		super(pid, username, color, Player.BOT);
 	}
 	
 	public String getMove(Board board) {

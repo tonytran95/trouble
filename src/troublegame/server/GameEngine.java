@@ -25,9 +25,9 @@ public class GameEngine {
 	}
 	
 	public void testGame() {
-		g.join("test1", Colour.BLUE, true);
-		g.join("test2", Colour.YELLOW, true);
-		g.join("test3", Colour.GREEN, true);
+		g.join("test1", Color.BLUE, true);
+		g.join("test2", Color.YELLOW, true);
+		g.join("test3", Color.GREEN, true);
 		g.start();
 		g.showPlayers();
 		
@@ -52,16 +52,16 @@ public class GameEngine {
 		//g.join(c.getUsername(), Colour.RED, false);
 		switch (gameConn.size()) {
 			case 1:
-				g.join(c.getUsername(), Colour.RED, false);
+				g.join(c.getUsername(), Color.RED, false);
 				break;
 			case 2:
-				g.join(c.getUsername(), Colour.BLUE, false);
+				g.join(c.getUsername(), Color.BLUE, false);
 				break;
 			case 3:
-				g.join(c.getUsername(), Colour.YELLOW, false);
+				g.join(c.getUsername(), Color.YELLOW, false);
 				break;
 			case 4:
-				g.join(c.getUsername(), Colour.GREEN, false);
+				g.join(c.getUsername(), Color.GREEN, false);
 				break;
 			default:
 		}

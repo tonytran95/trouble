@@ -1,6 +1,6 @@
 package troublegame.server;
 
-public enum Colour {
+public enum Color {
 	
 	RED,
 	BLUE,

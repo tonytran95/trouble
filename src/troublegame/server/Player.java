@@ -10,14 +10,14 @@ public class Player {
 	
 	private String username;
 	private int id;
-	private Colour colour;
+	private Color color;
 	private Token[] tokens;
 	private int type;
 	
-	public Player(int pid, String username, Colour colour, int type) {
+	public Player(int pid, String username, Color color, int type) {
 		this.id = pid;
 		this.username = username;
-		this.colour = colour;
+		this.color = color;
 		this.type = type;
 		createPlayerTokens();
 	}
@@ -26,12 +26,12 @@ public class Player {
 		return username;
 	}
 	
-	public void setColour(Colour col) {
-		this.colour = col;
+	public void setColour(Color col) {
+		this.color = col;
 	}
 	
-	public Colour getColour() {
-		return this.colour;
+	public Color getColour() {
+		return this.color;
 	}
 	
 	public int getID() {
@@ -84,7 +84,7 @@ public class Player {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((colour == null) ? 0 : colour.hashCode());
+		result = prime * result + ((color == null) ? 0 : color.hashCode());
 		result = prime * result + id;
 		result = prime * result + Arrays.hashCode(tokens);
 		result = prime * result + type;

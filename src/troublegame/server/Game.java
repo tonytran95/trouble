@@ -15,17 +15,17 @@ public class Game {
 	private Board board;
 	private Player[] players;
 	private Calendar startTime;
-	private ArrayList<Colour> availableColours;
+	private ArrayList<Color> availableColours;
 	private int turnNum;
 	private boolean started;
-	private Map<Colour, String> humans;
-	private Map<Colour, String> computers;
+	private Map<Color, String> humans;
+	private Map<Color, String> computers;
 	
 	
 	public Game(GameEngine engine) {
 		this.engine = engine;
-		humans = new HashMap<Colour, String>();
-		computers = new HashMap<Colour, String>();
+		humans = new HashMap<Color, String>();
+		computers = new HashMap<Color, String>();
 		started = false;
 	}
 	
@@ -35,15 +35,15 @@ public class Game {
 		players = new Player[MAX_PLAYERS];
 		int i = 0;
 		// make the humans players
-		for (Map.Entry<Colour, String> entry : humans.entrySet()) {
-			Colour c = entry.getKey();
+		for (Map.Entry<Color, String> entry : humans.entrySet()) {
+			Color c = entry.getKey();
 		    String name = entry.getValue();
 			players[i] = createHumanPlayer(i, c, name);
 			i++;
 		}
 		// make the AI players
-		for (Map.Entry<Colour, String> entry : computers.entrySet()) {
-			Colour c = entry.getKey();
+		for (Map.Entry<Color, String> entry : computers.entrySet()) {
+			Color c = entry.getKey();
 		    String name = entry.getValue();
 			players[i] = createAIPlayer(i, c, name);
 			i++;
@@ -71,12 +71,12 @@ public class Game {
 		//engine.updateMessages();
 	}
 	
-	public void join(String username, Colour colour, boolean computer) {
+	public void join(String username, Color color, boolean computer) {
 		if (computer) {
-			computers.put(colour, username);
+			computers.put(color, username);
 			return;
 		}
-		humans.put(colour, username);
+		humans.put(color, username);
 	}
 	
 
@@ -95,7 +95,7 @@ public class Game {
 	 * @param id The index of the array in which the player sits. Will be used as player id
 	 * @return A newly created player
 	 */
-	public Player createHumanPlayer(int id, Colour c, String username) {
+	public Player createHumanPlayer(int id, Color c, String username) {
 		
 		Player tmp = new Player(id, username, assignPlayerColour(c), Player.HUMAN);
 		return tmp;
@@ -106,7 +106,7 @@ public class Game {
 	 * Creates a new AI
 	 * @return The newly created AI
 	 */
-	public AI createAIPlayer(int id, Colour c, String username) {
+	public AI createAIPlayer(int id, Color c, String username) {
 		
 		AI tmp = new AI(id, username, assignPlayerColour(c));
 		return tmp;
@@ -116,27 +116,27 @@ public class Game {
 	 * Add the four playable colours to the list of available colours
 	 */
 	public void setAvailableColours() {
-		availableColours = new ArrayList<Colour>();
-		availableColours.add(Colour.RED);
-		availableColours.add(Colour.BLUE);
-		availableColours.add(Colour.GREEN);
-		availableColours.add(Colour.YELLOW);
+		availableColours = new ArrayList<Color>();
+		availableColours.add(Color.RED);
+		availableColours.add(Color.BLUE);
+		availableColours.add(Color.GREEN);
+		availableColours.add(Color.YELLOW);
 	}
 	
 	/**
 	 * If player wants a random colour give out random colour from available colours otherwise assign player requested colour
-	 * @param colour Colour the player has requested
+	 * @param color Colour the player has requested
 	 * @return The next available colour
 	 */
-	public Colour assignPlayerColour(Colour colour) {
+	public Color assignPlayerColour(Color color) {
 		
-		if(colour == Colour.RANDOM || availableColours.contains(colour) == false) {
+		if(color == Color.RANDOM || availableColours.contains(color) == false) {
 			int rand = new Random().nextInt(availableColours.size());
-			colour = availableColours.get(rand);
+			color = availableColours.get(rand);
 		}
 		
-		availableColours.remove(colour);
-		return colour;
+		availableColours.remove(color);
+		return color;
 	}
 	
 	/**
@@ -150,7 +150,7 @@ public class Game {
 		Player p = players[playerID];
 		Token token = p.getToken(tokenID);
 		Slot currentSlot = board.getTokenLoc(token);
-		Colour col = token.getColour();
+		Color col = token.getColour();
 		int currPos = -1;
 		int target = -1;
 		// first we check if token is already in play		

@@ -10,6 +10,16 @@ import java.util.TimerTask;
  */
 public class GameServer {
 	
+	/**
+	 *  Uppermost directory containing all data files used with the project
+	 */
+	public static final String DATA_PATH = "./data/";
+	
+	/**
+	 * List of data files used by the trouble game server
+	 */
+	public static final String USER_LIST = DATA_PATH + "users.ser";
+	
 	private static final int TIME_PERIOD = 500;
 	
 	/**

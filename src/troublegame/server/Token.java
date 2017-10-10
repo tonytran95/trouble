@@ -5,7 +5,7 @@ public class Token {
 	private int id;
 	private int currPos;
 	private Player owner;
-	private Colour colour;
+	private Color color;
 	private int slotZone;
 	
 	public Token(int tokenID, Player owner) {
@@ -16,7 +16,7 @@ public class Token {
 	
 	private void setColour() {
 		if(owner != null) {
-			this.colour = owner.getColour();
+			this.color = owner.getColour();
 		}
 	}
 
@@ -32,8 +32,8 @@ public class Token {
 		return this.owner;
 	}
 	
-	public Colour getColour() {
-		return this.colour;
+	public Color getColour() {
+		return this.color;
 	}
 	
 	public int getTokenStart() {
@@ -68,7 +68,7 @@ public class Token {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + colour.hashCode();
+		result = prime * result + color.hashCode();
 		result = prime * result + id;
 		result = prime * result + ((owner == null) ? 0 : owner.hashCode());
 		return result;
