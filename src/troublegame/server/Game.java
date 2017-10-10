@@ -1,4 +1,4 @@
-package troublegame.server;
+package game.trouble;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -6,6 +6,14 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+
+
+import game.trouble.model.AI;
+import game.trouble.model.Board;
+import game.trouble.model.Colour;
+import game.trouble.model.Player;
+import game.trouble.model.board.Slot;
+import game.trouble.model.board.Token;
 
 public class Game {
 	
@@ -244,10 +252,10 @@ public class Game {
 		if (target != -1) {
 			command = "ROLLED " + diceValue + " " + tokenID + " " + p.getUsername() + " " + Board.SLOT_MAIN + " " + target;
 			board.setTokenLoc(token, Board.SLOT_MAIN, target);
-			engine.updateMessages();
 		}
 		
 		turnNum++;
+		engine.updateMessages();
 		return command;
 	}
 	
