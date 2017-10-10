@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import troublegame.client.Interface;
@@ -38,7 +39,7 @@ public class LoginPanel extends JPanel {
 	/**
 	 * The password text field.
 	 */
-	private JTextField password;
+	private JPasswordField password;
 	
 	/**
 	 * The button to set the name.
@@ -58,7 +59,7 @@ public class LoginPanel extends JPanel {
 		this.swingUI = swingUI;
 		this.swingUI = swingUI;
 		this.username = new JTextField();
-		this.password = new JTextField();
+		this.password = new JPasswordField();
 		this.enter = new JButton("Enter");
 		this.exit = new JButton("Return to start");
 		enter.setFont(new Font("Arial", Font.PLAIN, 15));
