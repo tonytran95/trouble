@@ -12,6 +12,12 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.UIManager;
 
+import troublegame.client.model.User;
+import troublegame.client.panels.GamePanel;
+import troublegame.client.panels.LobbyPanel;
+import troublegame.client.panels.LoginPanel;
+import troublegame.client.panels.StartPanel;
+
 /**
  * 
  * The SwingUI class handles the user interface that is displayed.
@@ -70,7 +76,7 @@ public class SwingUI extends JFrame {
 	/**
 	 * The client state.
 	 */
-	private ClientState clientState;
+	private Interface state;
 	
 	/**
 	 * The buffered reader.
@@ -106,7 +112,7 @@ public class SwingUI extends JFrame {
 					SwingUI.HEIGHT + SwingUI.STRETCH, SwingUI.WIDTH + (SwingUI.STRETCH * 2)));
 			this.setVisible(true);
 			this.setResizable(false);
-			this.clientState = ClientState.START;
+			this.state = Interface.START;
 			this.switchPanel(this.startPanel);
 			/**
 			 * Side panels.
@@ -150,16 +156,16 @@ public class SwingUI extends JFrame {
 	/**
 	 * @return the client state.
 	 */
-	public ClientState getClientState() {
-		return clientState;
+	public Interface getInterface() {
+		return state;
 	}
 
 	/**
 	 * Sets the client state.
 	 * @param clientState is the client state of the player.
 	 */
-	public void setClientState(ClientState clientState) {
-		switch (clientState) {
+	public void setInterface(Interface state) {
+		switch (state) {
 			case START:
 				if (startPanel == null)
 					startPanel = new StartPanel(this);
@@ -185,7 +191,7 @@ public class SwingUI extends JFrame {
 				break;
 		}
 		
-		this.clientState = clientState;
+		this.state = state;
 	}
 	
 	

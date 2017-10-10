@@ -1,6 +1,5 @@
 package troublegame.client;
 
-import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -8,7 +7,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import javax.swing.JPanel;
+import troublegame.client.panels.GamePanel;
 
 public class GameClient {
 
@@ -89,6 +88,10 @@ public class GameClient {
 		    			gamePanel.updateMessage("Your turn.", 1);
 		    		else
 		    			gamePanel.updateMessage(inputSplit[1] + "'s turn.", 1);
+		    	} else if (input.startsWith("SUCCESS")) {
+		    		ui.setInterface(Interface.IN_GAME);
+		    	} else if (input.startsWith("INVALID")) {
+		    		System.out.println("invalid username or password");
 		    	}
 		    }
 		} catch (UnknownHostException e) {

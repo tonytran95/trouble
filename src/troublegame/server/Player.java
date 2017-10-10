@@ -7,8 +7,9 @@ public class Player {
 	public static final int NUM_TOKENS = 4;
 	public static final int HUMAN = 0;
 	public static final int BOT = 1;
-	
+
 	private String username;
+	private String password;
 	private int id;
 	private Color color;
 	private Token[] tokens;
@@ -100,8 +101,6 @@ public class Player {
 	        }
 		}
 		return false;
-	}
-	
-	
+	}	
 	
 }

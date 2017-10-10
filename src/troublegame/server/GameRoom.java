@@ -4,33 +4,33 @@ import java.util.ArrayList;
 
 /**
  * Representation of a game room. Game room is essentially a waiting room
- * where groups of up to 4 players can connect to play trouble games with friends
+ * where groups of up to 4 Connections can connect to play trouble games with friends
  * against each other or AI opponents
  * @author Nick
  */
 public class GameRoom {
 	
-	private ArrayList<User> members;
+	private ArrayList<Connection> members;
 	private String name;
-	private User owner;
+	private Connection owner;
 	
 	/**
-	 * Create a new room with the creating user as the owner, the only member the creating member and the default name
-	 * as the user's username followed by "Trouble Game Room"
+	 * Create a new room with the creating Connection as the owner, the only member the creating member and the default name
+	 * as the Connection's Connectionname followed by "Trouble Game Room"
 	 * @param owner
 	 */
-	public GameRoom(User owner) {
+	public GameRoom(Connection owner) {
 		setOwner(owner);
 		setDefaultName();
 		members = new ArrayList<>();
 	}
 	
 	/**
-	 * Sets the owner of this room to be the given user
-	 * @param o The user who will own this room
+	 * Sets the owner of this room to be the given Connection
+	 * @param o The Connection who will own this room
 	 * @return true if the new room owner was set successfuly, false otherwise
 	 */
-	private boolean setOwner(User o) {
+	private boolean setOwner(Connection o) {
 		this.owner = o;
 		return (owner.equals(o)) ? true : false;
 	}
@@ -38,29 +38,29 @@ public class GameRoom {
 	/**
 	 * @return Returns the current owner of this gameroom
 	 */
-	private User getOwner() {
+	private Connection getOwner() {
 		return owner;
 	}
 	
 	/**
-	 * Add the given user to this room
-	 * @param u The user to add to the room
+	 * Add the given Connection to this room
+	 * @param u The Connection to add to the room
 	 */
-	public void addUser(User u) {
+	public void addConnection(Connection u) {
 		if(isRoomFull()) return;
 		members.add(u);
 	}
 	
 	/**
-	 * Removes the given user from the room. If the removed user is the group owner then set the group 
-	 * owner to the next user in the members list. If the removed user is the last person in the room then 
+	 * Removes the given Connection from the room. If the removed Connection is the group owner then set the group 
+	 * owner to the next Connection in the members list. If the removed Connection is the last person in the room then 
 	 * all room properties are set to null
-	 * @param u The user to remove from the room
+	 * @param u The Connection to remove from the room
 	 */
-	public void removeUser(User u) {
+	public void removeConnection(Connection u) {
 		
 		int index = members.indexOf(u);
-		boolean userWasOwner = getOwner().equals(u);
+		boolean ConnectionWasOwner = getOwner().equals(u);
 		
 		if(index != -1) {
 			members.remove(index);
@@ -70,23 +70,23 @@ public class GameRoom {
 			setOwner(null);
 			setName(null);
 			members = null;
-		} else if(userWasOwner && index == 0) {
+		} else if(ConnectionWasOwner && index == 0) {
 			setOwner(members.get(0));
 		}
 	}
 	
 	/**
-	 * Checks if the current room has 4 players
-	 * @return true if the room is full, false if there is room for more players to join
+	 * Checks if the current room has 4 Connections
+	 * @return true if the room is full, false if there is room for more Connections to join
 	 */
 	private boolean isRoomFull() {
 		return (members.size() < 4) ? false : true;
 	}
 	
 	/**
-	 * @return The list of all users who are members of this room
+	 * @return The list of all Connections who are members of this room
 	 */
-	public ArrayList<User> getMembers() {
+	public ArrayList<Connection> getMembers() {
 		return members;
 	}
 	
@@ -109,15 +109,15 @@ public class GameRoom {
 	}
 	
 	/**
-	 * Sets the default name of the room to be "<username>'s trouble game room"
-	 * The 's is shortened to just ' if the username ends in an s (case insensitive)
+	 * Sets the default name of the room to be "<Connectionname>'s trouble game room"
+	 * The 's is shortened to just ' if the Connectionname ends in an s (case insensitive)
 	 */
 	private void setDefaultName() {
 		
 		String ownerName = getOwner().getUsername();
-		int usernameLastIndex = ownerName.length() - 1;
-		char lastLetInUsername = Character.toLowerCase(ownerName.charAt(usernameLastIndex));
-		this.name = (lastLetInUsername == 's') ? "' " : "'s ";
+		int ConnectionnameLastIndex = ownerName.length() - 1;
+		char lastLetInConnectionname = Character.toLowerCase(ownerName.charAt(ConnectionnameLastIndex));
+		this.name = (lastLetInConnectionname == 's') ? "' " : "'s ";
 		this.name += "Trouble Game Room";
 		
 	}

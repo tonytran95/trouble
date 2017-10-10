@@ -6,6 +6,9 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import troublegame.client.model.Tile;
+import troublegame.client.panels.GamePanel;
+
 /**
  * 
  * The UserInput class handles all the inputs from the player and sends

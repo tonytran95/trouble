@@ -79,7 +79,9 @@ public class SocketListener {
 					                	
 					                	// TEMPORARY
 					                	if (input.startsWith("CONNECTED")) {
-					                		conn.setUsername(input.substring(10));
+					                		String[] inputSplit = input.split(" ");
+					                		conn.setUsername(inputSplit[1]);
+					                		conn.setPassword(inputSplit[2]);
 					                		loginHandler.addConnectionToQueue(conn);
 					                	//} else if (input.startsWith("COLORS")) {
 					                		// make it print in the format "COLORS username color(lower case)"

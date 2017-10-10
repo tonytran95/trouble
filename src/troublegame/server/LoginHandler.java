@@ -1,7 +1,10 @@
 package troublegame.server;
 
+import java.io.File;
 import java.util.LinkedList;
 import java.util.Queue;
+
+import troublegame.server.io.FileHandler;
 
 /**
  * 
@@ -32,14 +35,6 @@ public class LoginHandler {
 	}
 	
 	/**
-	 * Adds a new player to the game if the username does not exist
-	 */
-	public void addNewPlayer(Player player) {
-		//TODO this will be worked on later when account saving system
-		// is implemented. Focus on single player for now.
-	}
-	
-	/**
 	 * Adds a connection to the login queue.
 	 * @param connection being added to the queue.
 	 */
@@ -57,7 +52,16 @@ public class LoginHandler {
 		 * if (invalid password then)
 		 * 		return false
 		 */
+		FileHandler fileHandler = new FileHandler(new File("./data/users/" + connection.getUsername()));
+		FileHandler.files.put(connection, fileHandler);
+		if (fileHandler.load(connection) && !connection.getPassword().equals(fileHandler.get("password"))) {
+			connection.getOutputStream().println("INVALID"); // invalid username or password
+			return false;
+		}
+		connection.load(fileHandler);
 		this.gameEngine.add(connection);
+		connection.getOutputStream().println("SUCCESS"); 
+		fileHandler.save(connection); // temporary
 		return true;
 	}
 	
