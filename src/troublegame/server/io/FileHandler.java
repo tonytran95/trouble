@@ -41,10 +41,11 @@ public class FileHandler {
 	 */
 	public void save(Savable savable) {
 		savable.save(this);
-		FileWriter out;
+		FileWriter out = null;
+		BufferedWriter bw = null;
 		try {
 			out = new FileWriter(file);
-			BufferedWriter bw = new BufferedWriter(out);
+			bw = new BufferedWriter(out);
 			for (Entry<String, String> entry : attributes.entrySet()) {
 				bw.write(entry.getKey() + ":" + entry.getValue());
 				bw.newLine();
@@ -61,8 +62,8 @@ public class FileHandler {
 	 */
 	@SuppressWarnings("resource")
 	public boolean load(Savable savable) {
-		FileReader in;
-		BufferedReader br
+		FileReader in = null;
+		BufferedReader br = null;
 		try {
 			in = new FileReader(file);
 			br = new BufferedReader(in);
