@@ -16,7 +16,7 @@ public class GameRoom {
 	
 	/**
 	 * Create a new room with the creating Connection as the owner, the only member the creating member and the default name
-	 * as the Connection's Connectionname followed by "Trouble Game Room"
+	 * as the Connection's username followed by "Trouble Game Room"
 	 * @param owner
 	 */
 	public GameRoom(Connection owner) {
@@ -28,7 +28,7 @@ public class GameRoom {
 	/**
 	 * Sets the owner of this room to be the given Connection
 	 * @param o The Connection who will own this room
-	 * @return true if the new room owner was set successfuly, false otherwise
+	 * @return true if the new room owner was set successfully, false otherwise
 	 */
 	private boolean setOwner(Connection o) {
 		this.owner = o;
@@ -36,7 +36,7 @@ public class GameRoom {
 	}
 	
 	/**
-	 * @return Returns the current owner of this gameroom
+	 * @return Returns the current owner of this game room
 	 */
 	private Connection getOwner() {
 		return owner;
@@ -109,8 +109,8 @@ public class GameRoom {
 	}
 	
 	/**
-	 * Sets the default name of the room to be "<Connectionname>'s trouble game room"
-	 * The 's is shortened to just ' if the Connectionname ends in an s (case insensitive)
+	 * Sets the default name of the room to be "<username>'s trouble game room"
+	 * The 's is shortened to just ' if the connection ends in an s (case insensitive)
 	 */
 	private void setDefaultName() {
 		
