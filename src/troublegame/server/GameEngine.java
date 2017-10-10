@@ -1,14 +1,9 @@
-package game.trouble;
+package troublegame.server;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
-
-import game.trouble.model.AI;
-import game.trouble.model.Colour;
-import game.trouble.network.Connection;
-import game.trouble.model.Player;
 
 // gameengine will call methods from board to manipulate game.
 public class GameEngine {

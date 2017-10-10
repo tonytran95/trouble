@@ -1,4 +1,4 @@
-package game.trouble;
+package troublegame.server;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -6,14 +6,6 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
-
-
-import game.trouble.model.AI;
-import game.trouble.model.Board;
-import game.trouble.model.Colour;
-import game.trouble.model.Player;
-import game.trouble.model.board.Slot;
-import game.trouble.model.board.Token;
 
 public class Game {
 	
