@@ -8,6 +8,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import troublegame.server.io.UserManager;
+
 public class SocketListener {
 	
 	private int port;
@@ -86,7 +88,7 @@ public class SocketListener {
 					                		String[] inputSplit = input.split(" ");
 					                		
 					                		// DEMO OF LOAD AND READ USER INFO
-					                		User tmp = GameServer.loadUser(inputSplit[1]);
+					                		User tmp = UserManager.loadUser(inputSplit[1]);
 					                		if(tmp != null) {
 					                			System.out.println("loaded user with username " + tmp.getUsername() + 
 					                					" password " + tmp.getPassword() + " email " + tmp.getEmail());
