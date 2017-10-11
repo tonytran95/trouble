@@ -1,6 +1,7 @@
 package troublegame.client.panels;
 
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -49,6 +50,7 @@ public class RulesPanel extends JPanel {
 	 */
 	public void init() {
 		JButton exit = new JButton("Return to menu");
+		exit.setFont(new Font("Arial", Font.PLAIN, 15));
 		this.setFocusable(true);
 		this.requestFocusInWindow();
 		this.swingUI.requestFocusInWindow();
