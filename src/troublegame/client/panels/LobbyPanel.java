@@ -17,7 +17,7 @@ import troublegame.client.SwingUI;
  * 
  * The LobbyPanel class handles the display of the Lobby screen of the client.
  * 
- * @author Jeffrey Ung
+ * @author Jeffrey Ung and Tony Tran
  *
  */
 @SuppressWarnings("serial")

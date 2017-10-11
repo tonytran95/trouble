@@ -1,5 +1,6 @@
 package troublegame.client.panels;
 
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -11,9 +12,9 @@ import troublegame.client.SwingUI;
 
 /**
  * 
- * The StartPanel class handles the display of the start screen of the client.
+ * The {@link StartPanel} class handles the display of the start screen of the client.
  * 
- * @author Jeffrey Ung
+ * @author Jeffrey Ung and Tony Tran
  *
  */
 public class StartPanel extends JPanel {
@@ -42,13 +43,30 @@ public class StartPanel extends JPanel {
 	 */
 	public void init() {
 		JButton play = new JButton("Login");
+		JButton rules = new JButton("How to play");
+		JButton exit = new JButton("Exit");
+		this.setLayout(new GridLayout(3, 0));
 		play.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				swingUI.setInterface(Interface.LOGIN);
 			}
 		});
+		rules.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				swingUI.setInterface(Interface.RULES);
+			}
+		});
+		exit.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
 		this.add(play);
+		this.add(rules);
+		this.add(exit);
 	}
 
 	/**

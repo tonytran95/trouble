@@ -25,9 +25,9 @@ import troublegame.client.model.Tile;
 
 /**
  * 
- * The GamePanel class handles the display of the game of the client.
+ * The {@link GamePanel} class handles the display of the game of the client.
  * 
- * @author Jeffrey Ung
+ * @author Jeffrey Ung and Tony Tran
  *
  */
 public class GamePanel extends JPanel {

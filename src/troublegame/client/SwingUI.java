@@ -17,13 +17,14 @@ import troublegame.client.panels.GamePanel;
 import troublegame.client.panels.GameRoomPanel;
 import troublegame.client.panels.LobbyPanel;
 import troublegame.client.panels.LoginPanel;
+import troublegame.client.panels.RulesPanel;
 import troublegame.client.panels.StartPanel;
 
 /**
  * 
- * The SwingUI class handles the user interface that is displayed.
+ * The {@link SwingUI} class handles the user interface that is displayed.
  * 
- * @author Jeffrey Ung
+ * @author Jeffrey Ung and Tony Tran
  *
  */
 public class SwingUI extends JFrame {
@@ -84,6 +85,11 @@ public class SwingUI extends JFrame {
 	private GameRoomPanel gameRoomPanel;
 	
 	/**
+	 * The rules panel.
+	 */
+	private RulesPanel rulesPanel;
+	
+	/**
 	 * The client state.
 	 */
 	private Interface state;
@@ -118,8 +124,7 @@ public class SwingUI extends JFrame {
 			this.setTitle(SwingUI.GAME_NAME);
 			this.setLayout(new BorderLayout());
 			this.setBackground(Color.WHITE);
-			this.setPreferredSize(new Dimension(
-					SwingUI.HEIGHT + SwingUI.STRETCH, SwingUI.WIDTH + (SwingUI.STRETCH * 2)));
+			resizeFrame();
 			this.setVisible(true);
 			this.setResizable(false);
 			this.state = Interface.START;
@@ -142,6 +147,21 @@ public class SwingUI extends JFrame {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * Resizes the main frame i.e. {@link SwingUI} to the default size.
+	 */
+	public void resizeFrame() {
+		this.resizeFrame(SwingUI.HEIGHT + SwingUI.STRETCH, SwingUI.WIDTH + (SwingUI.STRETCH * 2));
+	}
+	/**
+	 * Resizes the main frame i.e. {@link SwingUI}.
+	 * @param height is the height of the view.
+	 * @param width is the width of the view.
+	 */
+	public void resizeFrame(int height, int width) {
+		this.setPreferredSize(new Dimension(height , width));
 	}
 
 	/**
@@ -200,6 +220,11 @@ public class SwingUI extends JFrame {
 				if (gameRoomPanel == null)
 					gameRoomPanel = new GameRoomPanel(this);
 				switchPanel(gameRoomPanel);
+			case RULES:
+				if (rulesPanel == null)
+					rulesPanel = new RulesPanel(this);
+				resizeFrame(950, 870);
+				switchPanel(rulesPanel);
 			default:
 				// do nothing
 				break;

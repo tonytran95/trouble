@@ -11,10 +11,10 @@ import troublegame.client.panels.GamePanel;
 
 /**
  * 
- * The UserInput class handles all the inputs from the player and sends
+ * The {@link UserInput} class handles all the inputs from the player and sends
  * the information to the game.
  * 
- * @author Jeffrey Ung
+ * @author Jeffrey Ung and Tony Tran
  *
  */
 public class UserInput implements MouseListener {

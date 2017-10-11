@@ -17,7 +17,7 @@ import troublegame.client.model.User;
 
 /**
  * 
- * The LoginPanel class handles the display of the Login screen of the client.
+ * The {@link LoginPanel} class handles the display of the Login screen of the client.
  * 
  * @author Jeffrey Ung
  *
@@ -64,7 +64,7 @@ public class LoginPanel extends JPanel {
 		this.email = new JTextField();
 		this.password = new JPasswordField();
 		this.enter = new JButton("Enter");
-		this.exit = new JButton("Return to start");
+		this.exit = new JButton("Return to menu");
 		enter.setFont(new Font("Arial", Font.PLAIN, 15));
 		exit.setFont(new Font("Arial", Font.PLAIN, 15));
 		this.init();
