@@ -220,11 +220,13 @@ public class SwingUI extends JFrame {
 				if (gameRoomPanel == null)
 					gameRoomPanel = new GameRoomPanel(this);
 				switchPanel(gameRoomPanel);
+				break;
 			case RULES:
 				if (rulesPanel == null)
 					rulesPanel = new RulesPanel(this);
 				resizeFrame(950, 870);
 				switchPanel(rulesPanel);
+				break;
 			default:
 				// do nothing
 				break;
