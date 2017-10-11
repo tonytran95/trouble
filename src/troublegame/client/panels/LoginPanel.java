@@ -85,9 +85,9 @@ public class LoginPanel extends JPanel {
 		enter.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
+				swingUI.setInterface(Interface.LOBBY);
 				swingUI.send("CONNECTED " + email.getText() + " " + String.valueOf(password.getPassword()));
 				swingUI.setUser(new User(email.getText()));
-				//swingUI.send("COLORS");
 			}
 		});
 		exit.addActionListener(new ActionListener() {

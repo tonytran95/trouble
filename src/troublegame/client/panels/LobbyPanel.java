@@ -1,7 +1,16 @@
 package troublegame.client.panels;
 
-import javax.swing.JPanel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
+import troublegame.client.Interface;
 import troublegame.client.SwingUI;
 
 /**
@@ -20,6 +29,15 @@ public class LobbyPanel extends JPanel {
 	private SwingUI swingUI;
 	
 	/**
+	 * The Default List Model for JList of Users
+	 */
+	private DefaultListModel<String> gameRoomModel = new DefaultListModel<String>();
+	
+	private JList<String> gameRooms;
+	private JButton createRoom;
+	private JButton joinRoom;
+	
+	/**
 	 * The constructor for the Lobby panel.
 	 * @param swingUI is the swing user interface.
 	 */
@@ -32,7 +50,35 @@ public class LobbyPanel extends JPanel {
 	 * Initializes the Lobby panel.
 	 */
 	public void init() {
-		// TODO Auto-generated method stub
+		gameRoomModel = new DefaultListModel<String>();
+		gameRooms = new JList<String>(gameRoomModel);
+		gameRooms.addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				if (!joinRoom.isEnabled()) joinRoom.setEnabled(true);
+			}
+		});
+		
+		createRoom = new JButton("Create Room");
+		createRoom.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				swingUI.send("NEW_GAMEROOM");
+			}
+		});
+		
+		joinRoom = new JButton("Join Room");
+		joinRoom.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				swingUI.send("[JOIN_GAMEROOM] " + gameRooms.getSelectedValue());
+			}
+		});
+		joinRoom.setEnabled(false);
+		
+		this.add(gameRooms);
+		this.add(createRoom);
+		this.add(joinRoom);
 	}
 
 	/**
@@ -48,6 +94,10 @@ public class LobbyPanel extends JPanel {
 	 */
 	public void setSwingUI(SwingUI swingUI) {
 		this.swingUI = swingUI;
+	}
+	
+	public void addGameRoom(String username) {
+		gameRoomModel.addElement(username);
 	}
 
 }

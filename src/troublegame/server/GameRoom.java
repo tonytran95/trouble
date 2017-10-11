@@ -20,9 +20,9 @@ public class GameRoom {
 	 * @param owner
 	 */
 	public GameRoom(Connection owner) {
+		members = new ArrayList<>();
 		setOwner(owner);
 		setDefaultName();
-		members = new ArrayList<>();
 	}
 	
 	/**
@@ -49,6 +49,10 @@ public class GameRoom {
 	public void addConnection(Connection u) {
 		if(isRoomFull()) return;
 		members.add(u);
+		for (Connection member : members)
+			member.getOutputStream().println("[PLAYER_JOINED] " + u.getUsername());
+		for (Connection member : members)
+			if (!member.equals(u)) u.getOutputStream().println("[GAME_ROOM_MEMBER] " + member.getUsername());
 	}
 	
 	/**
@@ -117,9 +121,18 @@ public class GameRoom {
 		String ownerName = getOwner().getUsername();
 		int ConnectionnameLastIndex = ownerName.length() - 1;
 		char lastLetInConnectionname = Character.toLowerCase(ownerName.charAt(ConnectionnameLastIndex));
-		this.name = (lastLetInConnectionname == 's') ? "' " : "'s ";
+		this.name = ownerName;
+		this.name += (lastLetInConnectionname == 's') ? "' " : "'s ";
 		this.name += "Trouble Game Room";
 		
+	}
+	
+	/**
+	 * Broadcasts to all members of this GameRoom to start the game
+	 */
+	public void startGame() {
+		for (Connection member : members) 
+			member.getOutputStream().println("[START_GAME]");
 	}
 	
 }

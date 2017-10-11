@@ -14,6 +14,7 @@ import javax.swing.UIManager;
 
 import troublegame.client.model.User;
 import troublegame.client.panels.GamePanel;
+import troublegame.client.panels.GameRoomPanel;
 import troublegame.client.panels.LobbyPanel;
 import troublegame.client.panels.LoginPanel;
 import troublegame.client.panels.StartPanel;
@@ -76,6 +77,11 @@ public class SwingUI extends JFrame {
 	 * The login panel.
 	 */
 	private LoginPanel loginPanel;	
+	
+	/**
+	 * The game room panel.
+	 */
+	private GameRoomPanel gameRoomPanel;
 	
 	/**
 	 * The client state.
@@ -190,6 +196,10 @@ public class SwingUI extends JFrame {
 					loginPanel = new LoginPanel(this);
 				switchPanel(loginPanel);
 				break;
+			case PARTY:
+				if (gameRoomPanel == null)
+					gameRoomPanel = new GameRoomPanel(this);
+				switchPanel(gameRoomPanel);
 			default:
 				// do nothing
 				break;

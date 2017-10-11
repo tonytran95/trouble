@@ -19,15 +19,15 @@ public class LoginHandler {
 	private Queue<Connection> loginQueue;
 	
 	/**
-	 * The game engine.
+	 * The game server.
 	 */
-	private GameEngine gameEngine;
+	private GameServer gameServer;
 	
 	/**
 	 * Constructs a new login handler.
 	 */
-	public LoginHandler(GameEngine gameEngine) {
-		this.gameEngine = gameEngine;
+	public LoginHandler(GameServer gameServer) {
+		this.gameServer = gameServer;
 		this.loginQueue = new LinkedList<Connection>();
 	}
 	
@@ -45,7 +45,7 @@ public class LoginHandler {
 	 * 			false if the credential is invalid
 	 */
 	public boolean login(Connection connection) {
-		this.gameEngine.add(connection);
+		this.gameServer.login(connection);
 		return true;
 	}
 	

@@ -18,6 +18,7 @@ public class SocketListener {
 	private ArrayList<Connection> connections;
 	private boolean listening;
 	private LoginHandler loginHandler;
+	private LobbyHandler lobbyHandler;
 	private GameEngine gameEngine;
 	
 	public SocketListener(int port) {
@@ -98,10 +99,11 @@ public class SocketListener {
 					                		conn.setUsername(inputSplit[1]);
 					                		conn.setPassword(inputSplit[2]);
 					                		loginHandler.addConnectionToQueue(conn);
-					                	//} else if (input.startsWith("COLORS")) {
-					                		// make it print in the format "COLORS username color(lower case)"
-					                		// still need to work on this
-					                		//clientOutput.println("COLORS " + conn.getUsername() + " red");
+					                	} else if (input.equals("NEW_GAMEROOM")) {
+					                		lobbyHandler.createGameRoom(conn);
+					                	} else if (input.startsWith("[JOIN_GAMEROOM]")) {
+					                		String[] inputSplit = input.split("] ");
+					                		lobbyHandler.joinGameRoom(conn, inputSplit[1]);
 					                	} else if (input.startsWith("ROLLED")) {
 					                		gameEngine.handleInput(conn, input);
 					                	}
@@ -158,6 +160,10 @@ public class SocketListener {
 
 	public void setLoginHandler(LoginHandler loginHandler) {
 		this.loginHandler = loginHandler;
+	}
+	
+	public void setLobbyHandler(LobbyHandler lobbyHandler) {
+		this.lobbyHandler = lobbyHandler;
 	}
 	
 	public void addGameEngine(GameEngine g) {

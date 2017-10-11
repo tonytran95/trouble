@@ -77,6 +77,16 @@ public class GameServer {
 	private LoginHandler loginHandler;
 	
 	/**
+	 * The lobby.
+	 */
+	private Lobby lobby;
+	
+	/**
+	 * The lobby handler.
+	 */
+	private LobbyHandler lobbyHandler;
+	
+	/**
 	 * Constructs a new server.
 	 */
 	public GameServer() {
@@ -88,12 +98,16 @@ public class GameServer {
 		this.gameEngine = new GameEngine();
 		this.gameEngine.init();
 		
+		this.lobby = new Lobby();
+		
 		/**
 		 * Initializes the socket listener and login handler.
 		 */
 		this.socketListener = new SocketListener(GameServer.PORT);
-		this.loginHandler = new LoginHandler(gameEngine);
+		this.loginHandler = new LoginHandler(this);
+		this.lobbyHandler = new LobbyHandler(this);
 		this.socketListener.setLoginHandler(loginHandler);
+		this.socketListener.setLobbyHandler(lobbyHandler);
 		this.socketListener.init();
 		
 		/**
@@ -101,7 +115,19 @@ public class GameServer {
 		 */
 		this.socketListener.addGameEngine(this.gameEngine);
 	}
+	
+	public void login(Connection user) {
+		lobby.addUser(user);
+	}
+	
+	public void createGameRoom(Connection owner) {
+		lobby.createGameRoom(owner);
+	}
 
+	public void joinGameRoom(Connection user, String roomName) {
+		lobby.joinGameRoom(user, roomName);
+	}
+	
 	/**
 	 * @return the socket listener.
 	 */
