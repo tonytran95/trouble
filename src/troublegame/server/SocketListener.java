@@ -100,12 +100,15 @@ public class SocketListener {
 					                		conn.setPassword(inputSplit[2]);
 					                		loginHandler.addConnectionToQueue(conn);
 					                	} else if (input.equals("NEW_GAMEROOM")) {
+					                		System.out.println(conn.getUsername()+" created a room");
 					                		lobbyHandler.createGameRoom(conn);
 					                	} else if (input.startsWith("[JOIN_GAMEROOM]")) {
 					                		String[] inputSplit = input.split("] ");
 					                		lobbyHandler.joinGameRoom(conn, inputSplit[1]);
 					                	} else if (input.startsWith("ROLLED")) {
 					                		gameEngine.handleInput(conn, input);
+					                	} else if (input.startsWith("[GAME_ROOM_INFO]")) {
+					                		lobbyHandler.handleGameRoomQuery(conn);
 					                	}
 					                }
 					                

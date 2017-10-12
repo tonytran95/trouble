@@ -122,8 +122,8 @@ public class GameRoom {
 		int ConnectionnameLastIndex = ownerName.length() - 1;
 		char lastLetInConnectionname = Character.toLowerCase(ownerName.charAt(ConnectionnameLastIndex));
 		this.name = ownerName;
-		this.name += (lastLetInConnectionname == 's') ? "' " : "'s ";
-		this.name += "Trouble Game Room";
+		//this.name += (lastLetInConnectionname == 's') ? "' " : "'s ";
+		//this.name += "Trouble Game Room";
 		
 	}
 	
@@ -135,4 +135,13 @@ public class GameRoom {
 			member.getOutputStream().println("[START_GAME]");
 	}
 	
+	/**
+	 * checks if a connection is a member inside the game room
+	 */
+	public boolean isMember(Connection c) {
+		for (Connection member: members) {
+			if (member.getUsername().equals(c.getUsername())) return true;
+		}
+		return false;
+	}
 }

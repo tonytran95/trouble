@@ -55,7 +55,7 @@ public class GameClient {
 			
 		    while (true) {
 		    	String input = in.readLine();
-		    	System.out.println(input);
+		    	System.out.println("Server returned:"+input);
 	    		String[] inputSplit = input.split(" ");
 		    	switch (ui.getInterface()) {
 		    		case START:
@@ -75,9 +75,14 @@ public class GameClient {
 		    				lobbyPanel.addGameRoom(lobbySplit[1]);
 		    			} else if (input.startsWith("[CREATED_GAME_ROOM]")) {
 		    				ui.setInterface(Interface.PARTY);
+		    				// query for game room name
+		    				ui.send("[GAME_ROOM_INFO]");
+		    				
 		    			} else if (input.startsWith("[JOINED_GAME_ROOM]")) {
 		    				ui.setInterface(Interface.PARTY);
-		    			}
+		    				// query for game room name
+		    				ui.send("[GAME_ROOM_INFO]");
+		    			} 
 		    			break;
 		    		case IN_GAME:
 		    			GamePanel gamePanel = (GamePanel) ui.getCurrentPanel();
@@ -114,6 +119,11 @@ public class GameClient {
 		    				gameRoomPanel.addUser(inputSplit[1]);
 		    			} else if (input.equals("[START_GAME]")) {
 		    				
+		    			} else if (input.startsWith("[GAME_ROOM_INFO]")) {
+		    				String name = input.substring(16);
+		    				name = name.trim();
+		    				ui.setGameRoomName(name);	
+		    				System.out.println("set name"+name);
 		    			}
 		    			break;
 		    		default:

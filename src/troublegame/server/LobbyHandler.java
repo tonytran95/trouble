@@ -1,5 +1,7 @@
 package troublegame.server;
 
+import java.io.PrintWriter;
+
 public class LobbyHandler {
 
 	private GameServer gameServer;
@@ -16,4 +18,9 @@ public class LobbyHandler {
 		this.gameServer.joinGameRoom(user, roomName);
 	}
 	
+	public void handleGameRoomQuery(Connection user) {
+		String gameroom = gameServer.getGameRoomName(user);
+		PrintWriter outputStream = user.getOutputStream();
+		outputStream.println("[GAME_ROOM_INFO] "+gameroom);
+	}
 }

@@ -266,4 +266,11 @@ public class SwingUI extends JFrame {
 	public String read() throws IOException {
 		return in.readLine();
 	}
+	
+	/**
+	 * sets game room name
+	 */
+	public void setGameRoomName(String name) {
+		this.gameRoomPanel.setGameRoomName(name);
+	}
 }

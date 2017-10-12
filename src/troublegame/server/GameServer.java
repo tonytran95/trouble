@@ -1,5 +1,6 @@
 package troublegame.server;
 
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -126,6 +127,19 @@ public class GameServer {
 
 	public void joinGameRoom(Connection user, String roomName) {
 		lobby.joinGameRoom(user, roomName);
+	}
+	
+	/*
+	 * finds which game room the user is in and returns the name of the game room
+	 */
+	public String getGameRoomName(Connection user) {
+		ArrayList<GameRoom> gameRooms = lobby.getGameRooms();
+		for (GameRoom g: gameRooms) {
+			if (g.isMember(user)) {
+				return g.getName();
+			}
+		}
+		return "Not in any room";
 	}
 	
 	/**

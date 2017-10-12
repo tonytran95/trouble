@@ -1,5 +1,7 @@
 package troublegame.client.panels;
 
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -7,6 +9,8 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 import troublegame.client.SwingUI;
 
@@ -57,9 +61,60 @@ public class GameRoomPanel extends JPanel {
 				swingUI.send("LEAVE_ROOM");
 			}
 		});
+		// chat stuff
+		JPanel chatPanel = new JPanel();
+		GridBagLayout gbpanel = new GridBagLayout();
+		GridBagConstraints gbcPanel = new GridBagConstraints();
+		chatPanel.setLayout(gbpanel);
+
+		JTextArea taChatMessages = new JTextArea(10,40);
+		gbcPanel.gridx = 1;
+		gbcPanel.gridy = 1;
+		gbcPanel.gridwidth = 48;
+		gbcPanel.gridheight = 43;
+		gbcPanel.fill = GridBagConstraints.BOTH;
+		gbcPanel.weightx = 1;
+		gbcPanel.weighty = 1;
+		gbcPanel.anchor = GridBagConstraints.NORTH;
+		gbpanel.setConstraints( taChatMessages, gbcPanel );
+		chatPanel.add( taChatMessages );
+
+		JTextField newMessage = new JTextField( );
+		gbcPanel.gridx = 1;
+		gbcPanel.gridy = 45;
+		gbcPanel.gridwidth = 45;
+		gbcPanel.gridheight = 3;
+		gbcPanel.fill = GridBagConstraints.BOTH;
+		gbcPanel.weightx = 1;
+		gbcPanel.weighty = 1;
+		gbcPanel.anchor = GridBagConstraints.NORTH;
+		gbpanel.setConstraints(newMessage, gbcPanel);
+		chatPanel.add(newMessage);
+
+		JButton sendButton = new JButton("Send");
+		gbcPanel.gridx = 150;
+		gbcPanel.gridy = 45;
+		gbcPanel.gridwidth = 5;
+		gbcPanel.gridheight = 3;
+		gbcPanel.fill = GridBagConstraints.BOTH;
+		gbcPanel.weightx = 1;
+		gbcPanel.weighty = 1;
+		gbcPanel.anchor = GridBagConstraints.NORTH;
+		gbpanel.setConstraints(sendButton, gbcPanel );
+		chatPanel.add(sendButton);
+		
+		sendButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				swingUI.send("CHAT["+name+"]"+ newMessage.getText());
+				newMessage.setText("");			
+			}
+		});
+		this.add(chatPanel);
 		this.add(users);
 		this.add(startGame);
 		this.add(leaveRoom);
+		
 	}
 
 	/**
