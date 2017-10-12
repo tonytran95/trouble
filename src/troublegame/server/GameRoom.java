@@ -1,5 +1,6 @@
 package troublegame.server;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 /**
@@ -143,5 +144,16 @@ public class GameRoom {
 			if (member.getUsername().equals(c.getUsername())) return true;
 		}
 		return false;
+	}
+	
+	/**
+	 * 
+	 */
+	public void doChat(Connection sender, String message) {
+		for (Connection member: members) {
+			PrintWriter outputStream = member.getOutputStream();
+			String s = String.format("[GAMEROOM_CHAT]%s: %s", sender.getUsername(), message);
+			outputStream.println(s);
+		}
 	}
 }

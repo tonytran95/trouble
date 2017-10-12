@@ -19,8 +19,15 @@ public class LobbyHandler {
 	}
 	
 	public void handleGameRoomQuery(Connection user) {
-		String gameroom = gameServer.getGameRoomName(user);
+		GameRoom gameroom = gameServer.getGameRoomName(user);
 		PrintWriter outputStream = user.getOutputStream();
-		outputStream.println("[GAME_ROOM_INFO] "+gameroom);
+		if (gameroom != null) {
+			outputStream.println("[GAME_ROOM_INFO] "+gameroom.getName());
+		}
+	}
+	
+	public void handleChat(Connection user, String message) {
+		GameRoom gameroom = gameServer.getGameRoomName(user);
+		gameroom.doChat(user, message);
 	}
 }

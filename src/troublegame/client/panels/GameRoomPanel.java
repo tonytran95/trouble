@@ -31,6 +31,7 @@ public class GameRoomPanel extends JPanel {
 	 * The Default List Model for JList of Users
 	 */
 	DefaultListModel<String> userModel;
+	JTextArea chatMessages;
 	
 	/**
 	 * The constructor for the Lobby panel.
@@ -67,7 +68,7 @@ public class GameRoomPanel extends JPanel {
 		GridBagConstraints gbcPanel = new GridBagConstraints();
 		chatPanel.setLayout(gbpanel);
 
-		JTextArea taChatMessages = new JTextArea(10,40);
+		chatMessages = new JTextArea(10,40);
 		gbcPanel.gridx = 1;
 		gbcPanel.gridy = 1;
 		gbcPanel.gridwidth = 48;
@@ -76,8 +77,8 @@ public class GameRoomPanel extends JPanel {
 		gbcPanel.weightx = 1;
 		gbcPanel.weighty = 1;
 		gbcPanel.anchor = GridBagConstraints.NORTH;
-		gbpanel.setConstraints( taChatMessages, gbcPanel );
-		chatPanel.add( taChatMessages );
+		gbpanel.setConstraints(chatMessages, gbcPanel );
+		chatPanel.add(chatMessages );
 
 		JTextField newMessage = new JTextField( );
 		gbcPanel.gridx = 1;
@@ -106,7 +107,8 @@ public class GameRoomPanel extends JPanel {
 		sendButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				swingUI.send("CHAT["+name+"]"+ newMessage.getText());
+				String s = String.format("[GAMEROOM_CHAT] %s", newMessage.getText());
+				swingUI.send(s);
 				newMessage.setText("");			
 			}
 		});
@@ -148,4 +150,7 @@ public class GameRoomPanel extends JPanel {
 		this.name = name;
 	}
 	
+	public void updateChat(String message) {
+		chatMessages.append(message+"\n");
+	}
 }

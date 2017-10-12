@@ -109,6 +109,9 @@ public class SocketListener {
 					                		gameEngine.handleInput(conn, input);
 					                	} else if (input.startsWith("[GAME_ROOM_INFO]")) {
 					                		lobbyHandler.handleGameRoomQuery(conn);
+					                	} else if (input.startsWith("[GAMEROOM_CHAT]")) {
+					                		String message = input.substring(16);
+					                		lobbyHandler.handleChat(conn, message);
 					                	}
 					                }
 					                

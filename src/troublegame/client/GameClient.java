@@ -123,7 +123,9 @@ public class GameClient {
 		    				String name = input.substring(16);
 		    				name = name.trim();
 		    				ui.setGameRoomName(name);	
-		    				System.out.println("set name"+name);
+		    			} else if (input.startsWith("[GAMEROOM_CHAT]")) {
+		    				String chatMessage = input.substring(15);
+		    				ui.pushChat(chatMessage);
 		    			}
 		    			break;
 		    		default:

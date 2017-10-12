@@ -273,4 +273,8 @@ public class SwingUI extends JFrame {
 	public void setGameRoomName(String name) {
 		this.gameRoomPanel.setGameRoomName(name);
 	}
+	
+	public void pushChat(String message) {
+		this.gameRoomPanel.updateChat(message);
+	}
 }

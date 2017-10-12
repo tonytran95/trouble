@@ -132,14 +132,14 @@ public class GameServer {
 	/*
 	 * finds which game room the user is in and returns the name of the game room
 	 */
-	public String getGameRoomName(Connection user) {
+	public GameRoom getGameRoomName(Connection user) {
 		ArrayList<GameRoom> gameRooms = lobby.getGameRooms();
 		for (GameRoom g: gameRooms) {
 			if (g.isMember(user)) {
-				return g.getName();
+				return g;
 			}
 		}
-		return "Not in any room";
+		return null;
 	}
 	
 	/**
