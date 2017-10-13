@@ -77,10 +77,9 @@ public class GameRoomPanel extends JPanel {
 		gbcPanel.weightx = 1;
 		gbcPanel.weighty = 1;
 		gbcPanel.anchor = GridBagConstraints.NORTH;
-		gbpanel.setConstraints(chatMessages, gbcPanel );
+		gbpanel.setConstraints(chatMessages, gbcPanel);
 		chatPanel.add(chatMessages );
-
-		JTextField newMessage = new JTextField( );
+		JTextField newMessage = new JTextField();
 		gbcPanel.gridx = 1;
 		gbcPanel.gridy = 45;
 		gbcPanel.gridwidth = 45;
@@ -107,9 +106,13 @@ public class GameRoomPanel extends JPanel {
 		sendButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String s = String.format("[GAMEROOM_CHAT] %s", newMessage.getText());
-				swingUI.send(s);
-				newMessage.setText("");			
+				sendChatMessage(newMessage);
+			}
+		});
+		newMessage.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				sendChatMessage(newMessage);	
 			}
 		});
 		this.add(chatPanel);
@@ -117,6 +120,12 @@ public class GameRoomPanel extends JPanel {
 		this.add(startGame);
 		this.add(leaveRoom);
 		
+	}
+	
+	private void sendChatMessage(JTextField textField) {
+		String s = String.format("[GAMEROOM_CHAT] %s", textField.getText());
+		swingUI.send(s);
+		textField.setText("");	
 	}
 
 	/**
