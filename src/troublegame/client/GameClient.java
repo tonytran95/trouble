@@ -77,12 +77,15 @@ public class GameClient {
 		    				ui.setInterface(Interface.PARTY);
 		    				// query for game room name
 		    				ui.send(CommunicationHandler.GAME_ROOM_INFO);
-		    				
+		    				lobbyPanel.clearGameRooms();
 		    			} else if (input.startsWith(CommunicationHandler.GAME_ROOM_JOIN)) {
 		    				ui.setInterface(Interface.PARTY);
 		    				// query for game room name
 		    				ui.send(CommunicationHandler.GAME_ROOM_INFO);
-		    			} 
+		    				lobbyPanel.clearGameRooms();
+		    			} else if (input.startsWith(CommunicationHandler.GAME_ROOM_CLOSE)) {
+		    				lobbyPanel.removeGameRoom(lobbySplit[1]);
+		    			}
 		    			break;
 		    		case IN_GAME:
 		    			GamePanel gamePanel = (GamePanel) ui.getCurrentPanel();
@@ -118,7 +121,7 @@ public class GameClient {
 		    			} else if (input.startsWith("[PLAYER_JOINED]")) {
 		    				gameRoomPanel.addUser(inputSplit[1]);
 		    			} else if (input.equals("[START_GAME]")) {
-
+		    				
 		    			} else if (input.startsWith("[GAME_ROOM_INFO]")) {
 		    				String name = input.substring(16);
 		    				name = name.trim();

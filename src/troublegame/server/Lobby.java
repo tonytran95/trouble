@@ -39,7 +39,7 @@ public class Lobby {
 				user.getOutputStream().println("[GAME_ROOM_NEW] " + gameRoom.getName());
 				gameRoom.addConnection(user);
 			}
-
+		users.remove(owner);
 	}
 	
 	public void joinGameRoom(Connection user, String gameName) {
@@ -53,6 +53,7 @@ public class Lobby {
 		if (game != null) {
 			user.getOutputStream().println("[GAME_ROOM_JOIN] " + gameName);
 			game.addConnection(user);
+			users.remove(user);
 		}
 	}
 	
@@ -69,9 +70,13 @@ public class Lobby {
 			for (Connection member : game.getMembers())
 				if (member != user)
 					member.getOutputStream().println("[GAME_ROOM_LEAVE] " + user.getUsername());
+			addUser(user);
 			game.removeConnection(user);
-			if (game.getMembers().size() == 0)
+			if (game.getMembers().size() == 0) {
 				this.gameRooms.remove(game);
+				for (Connection u : users)
+					u.getOutputStream().println("[GAME_ROOM_CLOSE] " + game.getName());
+			}
 		}
 	}
 	

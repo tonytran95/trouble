@@ -99,5 +99,13 @@ public class LobbyPanel extends JPanel {
 	public void addGameRoom(String username) {
 		gameRoomModel.addElement(username);
 	}
+	
+	public void removeGameRoom(String gameRoomName) {
+		gameRoomModel.removeElement(gameRoomName);
+	}
+	
+	public void clearGameRooms() {
+		gameRoomModel.clear();
+	}
 
 }

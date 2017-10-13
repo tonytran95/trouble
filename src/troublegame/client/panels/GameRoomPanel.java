@@ -71,6 +71,7 @@ public class GameRoomPanel extends JPanel {
 		chatPanel.setLayout(gbpanel);
 
 		chatMessages = new JTextArea(10,40);
+		chatMessages.setEditable(false);
 		gbcPanel.gridx = 1;
 		gbcPanel.gridy = 1;
 		gbcPanel.gridwidth = 48;
