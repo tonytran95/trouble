@@ -7,16 +7,13 @@ import java.net.Socket;
 public class Connection {
 	private PrintWriter output;
 	private BufferedReader input;
-	private Socket clientSocket;
-	private String username;
-	private String password;
+	private User user;
 	
 	// creates a connection mapping, as well as keeps the input and output stream wrapper
 	public Connection(Socket c, BufferedReader i, PrintWriter o) {
-		clientSocket = c;
 		input = i;
 		output = o;
-		username = null;
+		user = null;
 	}
 	
 	public BufferedReader getInputStream() {
@@ -27,19 +24,19 @@ public class Connection {
 		return output;
 	}
 	
-	public void setUsername(String u) {
-		this.username = u;
+	public User getUser() {
+		return this.user;
 	}
 	
+	public void setUser(User u) {
+		this.user = u;
+	}
+	
+	/**
+	 * @return The username of the user who holds this connection
+	 */
 	public String getUsername() {
-		return username;
+		return getUser().getUsername();
 	}
 	
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	
-	public String getPassword() {
-		return password;
-	}
 }

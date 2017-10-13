@@ -66,10 +66,10 @@ public class GameRoom {
 		
 		int index = members.indexOf(u);
 		boolean ConnectionWasOwner = getOwner().equals(u);
-
+		
+		members.remove(index);
 		if (this.members.size() != 0 && ConnectionWasOwner && index == 0)
 			setOwner(members.get(0));
-		this.members.remove(u);
 	}
 	
 	/**
@@ -115,9 +115,8 @@ public class GameRoom {
 		int ConnectionnameLastIndex = ownerName.length() - 1;
 		char lastLetInConnectionname = Character.toLowerCase(ownerName.charAt(ConnectionnameLastIndex));
 		this.name = ownerName;
-		//this.name += (lastLetInConnectionname == 's') ? "' " : "'s ";
-		//this.name += "Trouble Game Room";
-		
+		this.name += (lastLetInConnectionname == 's') ? "' " : "'s ";
+		this.name += "Trouble Game Room";
 	}
 	
 	/**

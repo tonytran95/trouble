@@ -54,6 +54,7 @@ public class SocketListener {
 			public void run() {
 				try {
 					while (this.isListening()) {
+						
 						Socket clientSocket = this.getSocket().accept();
 						this.addClient(clientSocket);
 						
@@ -62,66 +63,63 @@ public class SocketListener {
 						Thread thread = new Thread(new Runnable() {
 							@Override
 							public void run() {
-								
-								try {
-									// Establish the client's input stream.
-									BufferedReader clientInput = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-									
-									// Establish the server's output stream.
-									PrintWriter clientOutput = new PrintWriter(clientSocket.getOutputStream(), true);
-									
-									Connection conn = new Connection(clientSocket, clientInput, clientOutput);
-									addConnection(conn);
-									
-									// TODO:later on we will have a method that adds player connections to correct gameEngines
-									
-									
-									while (true) {
-										String input = clientInput.readLine();
-										//System.out.println(input);
-										
-										// TEMPORARY
-										if (input.startsWith("CONNECTED")) {
-											
-											// THIS IS WHAT SERVER RECEIVES FOR VALIDATION
-											System.out.println(input);
-											
-											String[] inputSplit = input.split(" ");
-											
-											// DEMO OF LOAD AND READ USER INFO
-											User tmp = UserManager.loadUser(inputSplit[1]);
-											if(tmp != null) {
-												System.out.println("loaded user with username " + tmp.getUsername() + 
-														" password " + tmp.getPassword() + " email " + tmp.getEmail());
-											}
-											
-											
-											conn.setUsername(inputSplit[1]);
-											conn.setPassword(inputSplit[2]);
-											loginHandler.addConnectionToQueue(conn);
-										} else if (input.equals("NEW_GAMEROOM")) {
-											System.out.println(conn.getUsername() + " created a room");
-											lobby.createGameRoom(conn);
-										} else if (input.startsWith("[JOIN_GAMEROOM]")) {
-											String[] inputSplit = input.split("] ");
-											lobby.joinGameRoom(conn, inputSplit[1]);
-										} else if (input.startsWith("START_GAME")) {
-											// TO DO
-										} else if (input.equals("LEAVE_ROOM")) {	
-											System.out.println("leave room " + conn.getUsername());
-											lobby.leaveGameRoom(conn);
-										} else if (input.startsWith("ROLLED")) {
-											gameEngine.handleInput(conn, input);
-										} else if (input.startsWith("[GAME_ROOM_INFO]")) {
-											lobby.handleGameRoomQuery(conn);
-										} else if (input.startsWith("[GAMEROOM_CHAT]")) {
-											String message = input.substring(16);
-											lobby.handleChat(conn, message);
-										}
-									}
-									
+				                try {
+				                	// Establish the client's input stream.
+					                BufferedReader clientInput = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+					                
+					                // Establish the server's output stream.
+					                PrintWriter clientOutput = new PrintWriter(clientSocket.getOutputStream(), true);
+					                
+					                Connection conn = new Connection(clientSocket, clientInput, clientOutput);
+					                addConnection(conn);
+					                
+					                // TODO:later on we will have a method that adds player connections to correct gameEngines
+					                
+					                
+					                while (true) {
+					                	
+					                	String input = clientInput.readLine();
+					                	
+					                	// TEMPORARY
+					                	if (input.startsWith("[LOGIN_ATTEMPT]")) {
+					                		
+					                		String[] inputSplit = input.split(" ");
+					                		
+					                		String receivedEmail = inputSplit[1];
+					                		String receivedPass = inputSplit[2];
+					                		
+					                		User tmp = UserManager.loadUser(receivedEmail);
+					                		PrintWriter serverStream = conn.getOutputStream();
+					                		
+					                		if(tmp == null) {
+					                			serverStream.println("[LOGIN_ERROR] No user with the email " + receivedEmail + " was found");
+					                		} else if (tmp.getPassword().equals(receivedPass)) {
+					                			conn.setUser(tmp);
+					                			serverStream.println("[LOGIN_SUCCESS]");
+					                			loginHandler.addConnectionToQueue(conn);
+					                		} else {
+					                			conn.getOutputStream().println("[LOGIN_ERROR] Incorrect password");
+					                		}
+					                		
+					                	} else if (input.equals("NEW_GAMEROOM")) {
+					                		System.out.println(conn.getUser().getUsername()+" created a room");
+					                		lobby.createGameRoom(conn);
+					                	} else if (input.startsWith("[JOIN_GAMEROOM]")) {
+					                		String[] inputSplit = input.split("] ");
+					                		lobby.joinGameRoom(conn, inputSplit[1]);
+					                	} else if (input.startsWith("ROLLED")) {
+					                		gameEngine.handleInput(conn, input);
+					                	} else if (input.startsWith("[GAME_ROOM_INFO]")) {
+					                		lobby.handleGameRoomQuery(conn);
+					                	} else if (input.startsWith("[GAMEROOM_CHAT]")) {
+					                		String message = input.substring(16);
+					                		lobby.handleChat(conn, message);
+					                	} else if (input.startsWith("[LOGOUT]")) {
+					                		// TODO Logout action
+					                	}
+					                }
 								} catch (IOException e) {
-									//e.printStackTrace();
+									e.printStackTrace();
 								}
 
 							}
@@ -129,7 +127,7 @@ public class SocketListener {
 						thread.start();
 					}
 				} catch (IOException e) {
-					//e.printStackTrace();
+					e.printStackTrace();
 				} finally {
 					this.stop();
 				}
@@ -169,10 +167,6 @@ public class SocketListener {
 		serverThread.start();
 	}
 
-	public ArrayList<Connection> getConnections() {
-		return this.connections;
-	}
-	
 	public void setLoginHandler(LoginHandler loginHandler) {
 		this.loginHandler = loginHandler;
 	}

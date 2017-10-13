@@ -30,8 +30,8 @@ public class GameRoomPanel extends JPanel {
 	/**
 	 * The Default List Model for JList of Users
 	 */
-	private DefaultListModel<String> userModel;
-	private JTextArea chatMessages;
+	DefaultListModel<String> userModel;
+	JTextArea chatMessages;
 	
 	/**
 	 * The constructor for the Lobby panel.
