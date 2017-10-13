@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 import troublegame.client.panels.GamePanel;
 import troublegame.client.panels.GameRoomPanel;
 import troublegame.client.panels.LobbyPanel;
+import troublegame.communication.CommunicationHandler;
 
 public class GameClient {
 
@@ -60,9 +61,9 @@ public class GameClient {
 		    		case START:
 		    			break;
 		    		case LOGIN:
-		    			if (input.startsWith("[LOGIN_SUCCESS]")) {
+		    			if (input.startsWith(CommunicationHandler.LOGIN_SUCCESS)) {
 		    				ui.setInterface(Interface.LOBBY);
-				    	} else if (input.startsWith("[LOGIN_ERROR]")) {
+				    	} else if (input.startsWith(CommunicationHandler.LOGIN_ERROR)) {
 				    		String errorMsg = input.substring(14);
 				    		JOptionPane.showMessageDialog(null, errorMsg, "Please Try again", JOptionPane.PLAIN_MESSAGE);
 				    	}
@@ -75,34 +76,34 @@ public class GameClient {
 		    			} else if (input.startsWith("[CREATED_GAME_ROOM]")) {
 		    				ui.setInterface(Interface.PARTY);
 		    				// query for game room name
-		    				ui.send("[GAME_ROOM_INFO]");
+		    				ui.send(CommunicationHandler.GAME_ROOM_INFO);
 		    				
-		    			} else if (input.startsWith("[JOINED_GAME_ROOM]")) {
+		    			} else if (input.startsWith(CommunicationHandler.GAME_ROOM_JOIN)) {
 		    				ui.setInterface(Interface.PARTY);
 		    				// query for game room name
-		    				ui.send("[GAME_ROOM_INFO]");
+		    				ui.send(CommunicationHandler.GAME_ROOM_INFO);
 		    			} 
 		    			break;
 		    		case IN_GAME:
 		    			GamePanel gamePanel = (GamePanel) ui.getCurrentPanel();
-		    			if (input.equals("START_GAME")) {
+		    			if (input.equals(CommunicationHandler.GAME_START)) {
 				    		gamePanel.setupPanel();
-				    	} else if (input.startsWith("COLORS")) {
+				    	} else if (input.startsWith(CommunicationHandler.GAME_COLORS)) {
 				    		gamePanel.getPlayers().put(inputSplit[1], inputSplit[2]);
-				    	} else if (input.startsWith("ROLLED")) {
+				    	} else if (input.startsWith(CommunicationHandler.GAME_ROLL)) {
 				    		gamePanel.updateMessage(inputSplit[3] + " rolled a " + inputSplit[1], 0);
 				    		gamePanel.updateToken(inputSplit[3], Integer.parseInt(inputSplit[2]), Integer.parseInt(inputSplit[4]), Integer.parseInt(inputSplit[5]));
-				    	} else if (input.startsWith("ROLL_AGAIN")) {
+				    	} else if (input.startsWith(CommunicationHandler.GAME_ROLL_AGAIN)) {
 				    		gamePanel.updateMessage("You rolled a " + inputSplit[1] + ". Roll again to move.", 0);
 				    		gamePanel.updateToken(inputSplit[3], Integer.parseInt(inputSplit[2]), Integer.parseInt(inputSplit[4]), Integer.parseInt(inputSplit[5]));
-				    	} else if (input.startsWith("ROLL_SUCCESS")) {
+				    	} else if (input.startsWith(CommunicationHandler.GAME_ROLL_SUCCESS)) {
 				    		gamePanel.updateMessage("You rolled a " + inputSplit[1] + ". Moving your token into the end zone!.", 0);
 				    		gamePanel.updateToken(inputSplit[3], Integer.parseInt(inputSplit[2]), Integer.parseInt(inputSplit[4]), Integer.parseInt(inputSplit[5]));
-				    	} else if (input.startsWith("ROLL_FAIL")) {
+				    	} else if (input.startsWith(CommunicationHandler.GAME_ROLL_FAIL)) {
 				    		gamePanel.updateMessage("You rolled a " + inputSplit[1] + ". Unable to move.", 0);
-				    	} else if (input.startsWith("EAT_TOKEN")) {
+				    	} else if (input.startsWith(CommunicationHandler.GAME_EAT_TOKEN)) {
 				    		gamePanel.updateToken(inputSplit[2], Integer.parseInt(inputSplit[1]), Integer.parseInt(inputSplit[3]), Integer.parseInt(inputSplit[1]));
-				    	} else if (input.startsWith("TURN")) {
+				    	} else if (input.startsWith(CommunicationHandler.GAME_TURN)) {
 				    		if (ui.getUser().getUsername().equals(inputSplit[1])) {
 				    			gamePanel.updateMessage("Your turn.", 1);
 				    		} else {

@@ -13,10 +13,12 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import troublegame.client.SwingUI;
+import troublegame.communication.CommunicationHandler;
 
-@SuppressWarnings("serial")
 public class GameRoomPanel extends JPanel {
 	
+	private static final long serialVersionUID = 3282499101326401010L;
+
 	/**
 	 * The swing user interface.
 	 */
@@ -52,14 +54,14 @@ public class GameRoomPanel extends JPanel {
 		startGame.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				swingUI.send("START_GAME " + name);
+				swingUI.send(CommunicationHandler.GAME_START + " " + name);
 			}
 		});
 		JButton leaveRoom = new JButton("Leave Room");
 		leaveRoom.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				swingUI.send("LEAVE_ROOM");
+				swingUI.send(CommunicationHandler.GAME_ROOM_LEAVE);
 			}
 		});
 		// chat stuff
@@ -127,8 +129,9 @@ public class GameRoomPanel extends JPanel {
 	 * @param textField is the {@link JTextField} in the game room.
 	 */
 	private void sendChatMessage(JTextField textField) {
-		String s = String.format("[GAMEROOM_CHAT] %s", textField.getText());
-		swingUI.send(s);
+		String toSend = textField.getText();
+		if(toSend.equals("")) return;
+		swingUI.send(CommunicationHandler.GAME_ROOM_CHAT + " " + toSend);
 		textField.setText("");	
 	}
 

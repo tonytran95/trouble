@@ -10,8 +10,8 @@ import javax.swing.JPanel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import troublegame.client.Interface;
 import troublegame.client.SwingUI;
+import troublegame.communication.CommunicationHandler;
 
 /**
  * 
@@ -63,7 +63,7 @@ public class LobbyPanel extends JPanel {
 		createRoom.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				swingUI.send("NEW_GAMEROOM");
+				swingUI.send(CommunicationHandler.GAME_ROOM_NEW);
 			}
 		});
 		
@@ -71,7 +71,7 @@ public class LobbyPanel extends JPanel {
 		joinRoom.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				swingUI.send("[JOIN_GAMEROOM] " + gameRooms.getSelectedValue());
+				swingUI.send(CommunicationHandler.GAME_ROOM_JOIN + " " + gameRooms.getSelectedValue());
 			}
 		});
 		joinRoom.setEnabled(false);

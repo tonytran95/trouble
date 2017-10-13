@@ -22,6 +22,7 @@ import troublegame.client.SwingUI;
 import troublegame.client.UserInput;
 import troublegame.client.model.Board;
 import troublegame.client.model.Tile;
+import troublegame.communication.CommunicationHandler;
 
 /**
  * 
@@ -131,7 +132,7 @@ public class GamePanel extends JPanel {
 				updateMessage("", 0);
 				for (int i = 0; i < swingUI.getUser().getTokens().size(); i++) {
 					if (swingUI.getUser().getTokens().get(i).equals(swingUI.getUser().getSelectedTile())) {
-						swingUI.send("ROLLED " + i);
+						swingUI.send(CommunicationHandler.GAME_ROLL + i);
 						break;
 					}
 				}
