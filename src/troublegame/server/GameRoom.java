@@ -66,10 +66,10 @@ public class GameRoom {
 		
 		int index = members.indexOf(u);
 		boolean ConnectionWasOwner = getOwner().equals(u);
-		
-		members.remove(index);
+
 		if (this.members.size() != 0 && ConnectionWasOwner && index == 0)
 			setOwner(members.get(0));
+		this.members.remove(u);
 	}
 	
 	/**

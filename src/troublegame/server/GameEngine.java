@@ -154,6 +154,13 @@ public class GameEngine {
 	}
 	
 	/**
+	 * @return all the connections in the game
+	 */
+	public ArrayList<Connection> getConnections() {
+		return this.gameConn;
+	}
+	
+	/**
 	 * Gets the connection associated with the username
 	 * @param username
 	 * @return Connection or null if no such connection

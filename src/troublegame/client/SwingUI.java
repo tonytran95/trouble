@@ -7,7 +7,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.UIManager;
@@ -28,7 +30,7 @@ import troublegame.client.panels.StartPanel;
  *
  */
 public class SwingUI extends JFrame {
-	
+
 	/**
 	 * Serial ID for object serialisation
 	 */
@@ -110,6 +112,12 @@ public class SwingUI extends JFrame {
 	private User user;
 	
 	/**
+	 * Game room list.
+	 */
+	private JList<String> gameRooms;
+	private DefaultListModel<String> gameRoomModel;
+	
+	/**
 	 * The constructor for the swing user interface.
 	 */
 	public SwingUI(BufferedReader in, PrintWriter out) {
@@ -118,6 +126,8 @@ public class SwingUI extends JFrame {
 		
 		this.startPanel = new StartPanel(this);
 		this.currentPanel = startPanel;
+		gameRoomModel = new DefaultListModel<String>();
+		gameRooms = new JList<String>(gameRoomModel);
 		try {
 			JPopupMenu.setDefaultLightWeightPopupEnabled(false);
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -277,4 +287,18 @@ public class SwingUI extends JFrame {
 	public void pushChat(String message) {
 		this.gameRoomPanel.updateChat(message);
 	}
+
+	public JList<String> getGameRooms() {
+		return gameRooms;
+	}
+	
+	
+	public void addGameRoom(String username) {
+		gameRoomModel.addElement(username);
+	}
+	
+	public void removeGameRoom(String username) {
+		gameRoomModel.removeElement(username);
+	}
+
 }

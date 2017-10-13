@@ -34,7 +34,7 @@ public class GameClient {
 	/**
 	 * The print writer.
 	 */
-    private PrintWriter out;
+	private PrintWriter out;
 	
 	public static void main(String[] args) {		
 		new GameClient(GameClient.IP_ADDRESS, GameClient.port);
@@ -50,92 +50,94 @@ public class GameClient {
 		try {
 			socket = new Socket(ip, port);
 			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-		    out = new PrintWriter(socket.getOutputStream(), true);
+			out = new PrintWriter(socket.getOutputStream(), true);
 			SwingUI ui = new SwingUI(in , out);
 			
-		    while (true) {
-		    	String input = in.readLine();
-		    	System.out.println("Server returned:"+input);
-	    		String[] inputSplit = input.split(" ");
-		    	switch (ui.getInterface()) {
-		    		case START:
-		    			break;
-		    		case LOGIN:
-		    			LoginPanel loginPanel = (LoginPanel) ui.getCurrentPanel();
-				    	if (input.startsWith("SUCCESS")) {
-				    		ui.setInterface(Interface.IN_GAME);
-				    	} else if (input.startsWith("INVALID")) {
-				    		JOptionPane.showMessageDialog(null, "Invalid Username/Password", "Try again", JOptionPane.PLAIN_MESSAGE);
-				    	}
-		    			break;
-		    		case LOBBY:
-		    			String[] lobbySplit = input.split("] ");
-		    			LobbyPanel lobbyPanel = (LobbyPanel) ui.getCurrentPanel();
-		    			if (input.startsWith("[GAME_ROOM]")) {
-		    				lobbyPanel.addGameRoom(lobbySplit[1]);
-		    			} else if (input.startsWith("[CREATED_GAME_ROOM]")) {
-		    				ui.setInterface(Interface.PARTY);
-		    				// query for game room name
-		    				ui.send("[GAME_ROOM_INFO]");
-		    				
-		    			} else if (input.startsWith("[JOINED_GAME_ROOM]")) {
-		    				ui.setInterface(Interface.PARTY);
-		    				// query for game room name
-		    				ui.send("[GAME_ROOM_INFO]");
-		    			} 
-		    			break;
-		    		case IN_GAME:
-		    			GamePanel gamePanel = (GamePanel) ui.getCurrentPanel();
-		    			if (input.equals("START_GAME")) {
-				    		gamePanel.setupPanel();
-				    	} else if (input.startsWith("COLORS")) {
-				    		gamePanel.getPlayers().put(inputSplit[1], inputSplit[2]);
-				    	} else if (input.startsWith("ROLLED")) {
-				    		gamePanel.updateMessage(inputSplit[3] + " rolled a " + inputSplit[1], 0);
-				    		gamePanel.updateToken(inputSplit[3], Integer.parseInt(inputSplit[2]), Integer.parseInt(inputSplit[4]), Integer.parseInt(inputSplit[5]));
-				    	} else if (input.startsWith("ROLL_AGAIN")) {
-				    		gamePanel.updateMessage("You rolled a " + inputSplit[1] + ". Roll again to move.", 0);
-				    		gamePanel.updateToken(inputSplit[3], Integer.parseInt(inputSplit[2]), Integer.parseInt(inputSplit[4]), Integer.parseInt(inputSplit[5]));
-				    	} else if (input.startsWith("ROLL_SUCCESS")) {
-				    		gamePanel.updateMessage("You rolled a " + inputSplit[1] + ". Moving your token into the end zone!.", 0);
-				    		gamePanel.updateToken(inputSplit[3], Integer.parseInt(inputSplit[2]), Integer.parseInt(inputSplit[4]), Integer.parseInt(inputSplit[5]));
-				    	} else if (input.startsWith("ROLL_FAIL")) {
-				    		gamePanel.updateMessage("You rolled a " + inputSplit[1] + ". Unable to move.", 0);
-				    	} else if (input.startsWith("EAT_TOKEN")) {
-				    		gamePanel.updateToken(inputSplit[2], Integer.parseInt(inputSplit[1]), Integer.parseInt(inputSplit[3]), Integer.parseInt(inputSplit[1]));
-				    	} else if (input.startsWith("TURN")) {
-				    		if (ui.getUser().getUsername().equals(inputSplit[1])) {
-				    			gamePanel.updateMessage("Your turn.", 1);
-				    		} else {
-				    			gamePanel.updateMessage(inputSplit[1] + "'s turn.", 1);
-				    		}
-				    	}
-		    			break;
-		    		case PARTY:
-		    			GameRoomPanel gameRoomPanel = (GameRoomPanel) ui.getCurrentPanel();
-		    			if (input.startsWith("[GAME_ROOM_MEMBER]")) {
-		    				gameRoomPanel.addUser(inputSplit[1]);
-		    			} else if (input.startsWith("[PLAYER_JOINED]")) {
-		    				gameRoomPanel.addUser(inputSplit[1]);
-		    			} else if (input.equals("[START_GAME]")) {
+			while (true) {
+				String input = in.readLine();
+				System.out.println("Server returned:"+input);
+				String[] inputSplit = input.split(" ");
+				if (input.startsWith("[GAME_ROOM_CLEAR]")) {
+					ui.removeGameRoom(inputSplit[1]);
+				}
+				switch (ui.getInterface()) {
+					case START:
+						break;
+					case LOGIN:
+						LoginPanel loginPanel = (LoginPanel) ui.getCurrentPanel();
+						if (input.startsWith("SUCCESS")) {
+							ui.setInterface(Interface.IN_GAME);
+						} else if (input.startsWith("INVALID")) {
+							JOptionPane.showMessageDialog(null, "Invalid Username/Password", "Try again", JOptionPane.PLAIN_MESSAGE);
+						}
+						break;
+					case LOBBY:
+						String[] lobbySplit = input.split("] ");
+						LobbyPanel lobbyPanel = (LobbyPanel) ui.getCurrentPanel();
+						if (input.startsWith("[GAME_ROOM]")) {
+							ui.addGameRoom(lobbySplit[1]);
+						} else if (input.startsWith("[CREATED_GAME_ROOM]")) {
+							ui.setInterface(Interface.PARTY);
+							// query for game room name
+							ui.send("[GAME_ROOM_INFO]");
+							
+						} else if (input.startsWith("[JOINED_GAME_ROOM]")) {
+							ui.setInterface(Interface.PARTY);
+							// query for game room name
+							ui.send("[GAME_ROOM_INFO]");
+						} 
+						break;
+					case IN_GAME:
+						GamePanel gamePanel = (GamePanel) ui.getCurrentPanel();
+						if (input.equals("START_GAME")) {
+							gamePanel.setupPanel();
+						} else if (input.startsWith("COLORS")) {
+							gamePanel.getPlayers().put(inputSplit[1], inputSplit[2]);
+						} else if (input.startsWith("ROLLED")) {
+							gamePanel.updateMessage(inputSplit[3] + " rolled a " + inputSplit[1], 0);
+							gamePanel.updateToken(inputSplit[3], Integer.parseInt(inputSplit[2]), Integer.parseInt(inputSplit[4]), Integer.parseInt(inputSplit[5]));
+						} else if (input.startsWith("ROLL_AGAIN")) {
+							gamePanel.updateMessage("You rolled a " + inputSplit[1] + ". Roll again to move.", 0);
+							gamePanel.updateToken(inputSplit[3], Integer.parseInt(inputSplit[2]), Integer.parseInt(inputSplit[4]), Integer.parseInt(inputSplit[5]));
+						} else if (input.startsWith("ROLL_SUCCESS")) {
+							gamePanel.updateMessage("You rolled a " + inputSplit[1] + ". Moving your token into the end zone!.", 0);
+							gamePanel.updateToken(inputSplit[3], Integer.parseInt(inputSplit[2]), Integer.parseInt(inputSplit[4]), Integer.parseInt(inputSplit[5]));
+						} else if (input.startsWith("ROLL_FAIL")) {
+							gamePanel.updateMessage("You rolled a " + inputSplit[1] + ". Unable to move.", 0);
+						} else if (input.startsWith("EAT_TOKEN")) {
+							gamePanel.updateToken(inputSplit[2], Integer.parseInt(inputSplit[1]), Integer.parseInt(inputSplit[3]), Integer.parseInt(inputSplit[1]));
+						} else if (input.startsWith("TURN")) {
+							if (ui.getUser().getUsername().equals(inputSplit[1])) {
+								gamePanel.updateMessage("Your turn.", 1);
+							} else {
+								gamePanel.updateMessage(inputSplit[1] + "'s turn.", 1);
+							}
+						}
+						break;
+					case PARTY:
+						GameRoomPanel gameRoomPanel = (GameRoomPanel) ui.getCurrentPanel();
+						if (input.startsWith("[GAME_ROOM_MEMBER]")) {
+							gameRoomPanel.addUser(inputSplit[1]);
+						} else if (input.startsWith("[PLAYER_JOINED]")) {
+							gameRoomPanel.addUser(inputSplit[1]);
+						} else if (input.equals("[START_GAME]")) {
 
-		    			} else if (input.startsWith("[GAME_ROOM_INFO]")) {
-		    				String name = input.substring(16);
-		    				name = name.trim();
-		    				ui.setGameRoomName(name);	
-		    			} else if (input.startsWith("[GAMEROOM_CHAT]")) {
-		    				String chatMessage = input.substring(15);
-		    				ui.pushChat(chatMessage);
-		    			} else if (input.equals("[GAME_ROOM_LEAVE]")) {
-		    				ui.setInterface(Interface.LOBBY);
-		    				gameRoomPanel.clearUsers();
-		    			} else if (input.startsWith("[GAME_ROOM_LEAVE]")) {
-		    				gameRoomPanel.removeUser(inputSplit[1]);
-		    			}
-		    			break;
-		    		default:
-		    	}
-		    }
+						} else if (input.startsWith("[GAME_ROOM_INFO]")) {
+							String name = input.substring(16);
+							name = name.trim();
+							ui.setGameRoomName(name);	
+						} else if (input.startsWith("[GAMEROOM_CHAT]")) {
+							String chatMessage = input.substring(15);
+							ui.pushChat(chatMessage);
+						} else if (input.equals("[GAME_ROOM_LEAVE]")) {
+							gameRoomPanel.removeUser(ui.getUser().getUsername());
+							ui.setInterface(Interface.LOBBY);
+						} else if (input.startsWith("[GAME_ROOM_LEAVE]")) {
+							gameRoomPanel.removeUser(inputSplit[1]);
+						}
+						break;
+				}
+			}
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

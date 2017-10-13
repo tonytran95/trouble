@@ -169,6 +169,10 @@ public class SocketListener {
 		serverThread.start();
 	}
 
+	public ArrayList<Connection> getConnections() {
+		return this.connections;
+	}
+	
 	public void setLoginHandler(LoginHandler loginHandler) {
 		this.loginHandler = loginHandler;
 	}

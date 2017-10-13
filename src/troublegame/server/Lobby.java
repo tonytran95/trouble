@@ -70,8 +70,11 @@ public class Lobby {
 				if (member != user)
 					member.getOutputStream().println("[GAME_ROOM_LEAVE] " + user.getUsername());
 			game.removeConnection(user);
-			if (game.getMembers().size() == 0)
+			if (game.getMembers().isEmpty()) {
+				for (Connection member : gameServer.getSocketListener().getConnections())
+					member.getOutputStream().println("[GAME_ROOM_CLEAR] " + game.getName());
 				this.gameRooms.remove(game);
+			}
 		}
 	}
 	
