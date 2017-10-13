@@ -35,7 +35,7 @@ public class User implements Serializable {
 	private Color favouriteColor;
 	private String personalQuote;
 	private int onlineStatus;
-	private ArrayList<User> friends;
+	private ArrayList<UUID> friends;
 	
 	public User(String email, String username, String password, Color favColor, String pQuot) {
 		Objects.requireNonNull(email, "email must not be null");
@@ -43,14 +43,17 @@ public class User implements Serializable {
 		Objects.requireNonNull(password, "password must not be null");
 		this.id = UUID.randomUUID();
 		this.email = email.toLowerCase();
-		this.username = username;
-		this.password = password;
-		this.favouriteColor = (favColor);
-		this.personalQuote = pQuot;
+		setUsername(username);
+		setPassword(password);
+		setFavouriteColor(favColor);
+		setPersonalQuote(pQuot);
 		onlineStatus = USER_STATE_OFFLINE;
 		friends = new ArrayList<>();
 	}
 	
+	/**
+	 * @return Email in lowercase
+	 */
 	public String getEmail() {
 		return this.email;
 	}
@@ -60,16 +63,19 @@ public class User implements Serializable {
 	 * @param email the updated email
 	 * @return true if the email was updated successfully, false otherwise
 	 */
-	public boolean updateEmail(String email) {
-		email = email.toLowerCase();
+	public boolean updateEmail(String newEmail) {
 		
-		if(UserManager.migrateUser(getEmail(), email) == UserManager.SUCCESS) {
-			this.email = email;
+		String currentEmail = getEmail();
+		newEmail = newEmail.toLowerCase();
+		this.email = newEmail;
+		
+		if(UserManager.migrateUser(currentEmail, this) == UserManager.SUCCESS) {
 			UserManager.saveExistingUser(this);
 			return true;
+		} else {
+			this.email = currentEmail;
+			return false;
 		}
-		
-		return false;
 	}
 	
 	/**
@@ -87,11 +93,19 @@ public class User implements Serializable {
 	}
 	
 	/**
-	 * Set this user's username and saves the user
+	 * Set this user's username
+	 * @param u The new name to give the user
+	 */
+	public void setUsername(String u) {
+		this.username = u;
+	}
+	
+	/**
+	 * Updates this user's username and saves the user
 	 * @param u The new name to give the user
 	 */
 	public void updateUsername(String u) {
-		this.username = u;
+		setUsername(u);
 		UserManager.saveExistingUser(this);
 	}
 	
@@ -103,18 +117,26 @@ public class User implements Serializable {
 	}
 	
 	/**
+	 * Set the user's password
+	 * @param pass The new password
+	 */
+	public void setPassword(String pass) {
+		this.password = pass;
+	}
+	
+	/**
 	 * Updates the user's password and saves the user
 	 * @param pass The new password
 	 */
 	public void updatePassword(String pass) {
-		this.password = pass;
+		setPassword(pass);
 		UserManager.saveExistingUser(this);
 	}
 	
 	/**
 	 * @return This user's favourite color
 	 */
-	public Color getPreferedColor() {
+	public Color getFavouriteColor() {
 		return this.favouriteColor;
 	}
 	
@@ -122,9 +144,17 @@ public class User implements Serializable {
 	 * Set the favourite color for this user
 	 * @param favColor This user's favourite color
 	 */
+	public void setFavouriteColor(Color favColor) {
+		if(favColor == null) this.favouriteColor = Color.RANDOM;
+		else this.favouriteColor = favColor;
+	}
+	
+	/**
+	 * Updates the favourite color for this user and then saves the user
+	 * @param favColor This user's favourite color
+	 */
 	public void updateFavouriteColor(Color favColor) {
-		if(favColor == null) favColor = Color.RANDOM;
-		this.favouriteColor = favColor;
+		setFavouriteColor(favColor);
 		UserManager.saveExistingUser(this);
 	}
 	
@@ -139,9 +169,17 @@ public class User implements Serializable {
 	 * Set this user's personal quote
 	 * @param quote The quote to use for the personal quote. If null, quote will be set to ""
 	 */
+	public void setPersonalQuote(String quote) {
+		if(quote == null) this.personalQuote = "";
+		else this.personalQuote = quote;
+	}
+	
+	/**
+	 * Set this user's personal quote and then save the user
+	 * @param quote The quote to use for the personal quote. If null, quote will be set to ""
+	 */
 	public void updatePersonalQuote(String quote) {
-		if(quote == null) quote = "";
-		this.personalQuote = quote;
+		setPersonalQuote(quote);
 		UserManager.saveExistingUser(this);
 	}
 	
@@ -163,7 +201,7 @@ public class User implements Serializable {
 	/**
 	 * @return The friend list for this user
 	 */
-	public ArrayList<User> getFriendList() {
+	public ArrayList<UUID> getFriendList() {
 		return this.friends;
 	}
 	
@@ -174,15 +212,27 @@ public class User implements Serializable {
 	 * @return true if friend was successfully added, false otherwise
 	 */
 	public boolean addFriend(User newFriend) {
+		return addFriend(newFriend.getId());
+	}
+	
+	/**
+	 * Add the user with the given UUID to this user's friends list and the friends friend list. Friendships must be symmetric,
+	 * then save both users
+	 * @param newFriend The new friend to add
+	 * @return true if friend was successfully added, false otherwise
+	 */
+	public boolean addFriend(UUID newFriendId) {
 		
-		if(newFriend == null || newFriend.equals(this) || getFriendList().contains(newFriend)) return false;
+		User newFriend = UserManager.loadUserById(newFriendId);
+		
+		if(newFriendId == null || newFriendId.equals(this.getId()) || getFriendList().contains(newFriendId)) return false;
 		else {
-			getFriendList().add(newFriend);
-			newFriend.getFriendList().add(this);
+			getFriendList().add(newFriendId);
+			newFriend.getFriendList().add(this.getId());
 		}
 		
 		// Check friend was added and you are in friends
-		if(getFriendList().contains(newFriend) && newFriend.getFriendList().contains(this)) {
+		if(getFriendList().contains(newFriendId) && newFriend.getFriendList().contains(this.getId())) {
 			UserManager.saveExistingUser(this);
 			UserManager.saveExistingUser(newFriend);
 			return true;
@@ -196,22 +246,56 @@ public class User implements Serializable {
 	 * @param oldFriend The user to unfriend
 	 * @return true if friend was successfully removed, false otherwise
 	 */
-	public boolean removeFriend(User oldFriend) {
+	public boolean removeFriend(User newFriend) {
+		return removeFriend(newFriend.getId());
+	}
+	
+	/**
+	 * Remove friend with the given UUID from this user's list and this user from friends list and then save both users
+	 * @param oldFriend The user to unfriend
+	 * @return true if friend was successfully removed, false otherwise
+	 */
+	public boolean removeFriend(UUID oldFriendId) {
 		
-		if(oldFriend == null || oldFriend.equals(this) || getFriendList().contains(oldFriend) == false) return false;
+		User oldFriend = UserManager.loadUserById(oldFriendId);
+		
+		if(oldFriendId == null || oldFriendId.equals(this.getId()) || getFriendList().contains(oldFriendId) == false) return false;
 		else {
-			getFriendList().remove(oldFriend);
-			oldFriend.getFriendList().remove(this);
+			getFriendList().remove(oldFriendId);
+			oldFriend.getFriendList().remove(this.getId());
 		}
 		
 		// Check friend was removed
-		if(getFriendList().contains(oldFriend) == false && oldFriend.getFriendList().contains(this) == false) {
+		if(getFriendList().contains(oldFriendId) == false && oldFriend.getFriendList().contains(this.getId()) == false) {
 			UserManager.saveExistingUser(this);
 			UserManager.saveExistingUser(oldFriend);
 			return true;
 		}
 		else return false;
 		
+	}
+	
+	/**
+	 * Representation of this user as a string
+	 */
+	@Override
+	public String toString() {
+		String user = "Id: " + getId();
+		user += "\nEmail: " + getEmail();
+		user += "\nUsername: " + getUsername();
+		user += "\nPassword: " + getPassword();
+		user += "\nFavourite Color: " + getFavouriteColor();
+		user += "\nPersonal Quote: " + getPersonalQuote();
+		user += "\nOnline Status: " + getOnlineStatus();
+		user += "\nFriends: ";
+		for(int i = 0; i < getFriendList().size(); i++) {
+			UUID friendID = getFriendList().get(i);
+			User friend = UserManager.loadUserById(friendID);
+			if(i == 0) user += friend.getUsername();
+			else user += ", " + friend.getUsername();
+		}
+		
+		return user;
 	}
 	
 	/**

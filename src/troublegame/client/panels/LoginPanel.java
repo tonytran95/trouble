@@ -80,7 +80,6 @@ public class LoginPanel extends JPanel {
 		JPanel subPanel2 = new JPanel();
 		this.setLayout(new BorderLayout());
 		this.email.setColumns(10);
-		this.email.requestFocusInWindow();
 		this.password.setColumns(10);
 		
 		enter.addActionListener(new ActionListener() {

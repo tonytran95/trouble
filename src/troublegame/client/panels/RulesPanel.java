@@ -2,6 +2,7 @@ package troublegame.client.panels;
 
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -22,8 +23,11 @@ import troublegame.client.SwingUI;
  * @author Jeffrey Ung
  *
  */
-@SuppressWarnings("serial")
 public class RulesPanel extends JPanel {
+	
+	private static final long serialVersionUID = -6129475232074458340L;
+	
+	private static final String INSTRUCTION_DIR = "./data/man/manual.jpg";
 	
 	/**
 	 * The swing user interface.
@@ -54,10 +58,13 @@ public class RulesPanel extends JPanel {
 		this.requestFocusInWindow();
 		this.swingUI.requestFocusInWindow();
 		this.setVisible(true);
+		
 		try {
-			image = ImageIO.read(new File("how-to-play.jpg"));
+			image = ImageIO.read(new File(INSTRUCTION_DIR));
 		} catch (IOException e) {
-			System.out.println("Error loading ./how-to-play.jpg");
+			JPanel subPanel = new JPanel();
+			subPanel.add(new Label("Error loading instruction manual. Image not found"));
+			this.add(subPanel);
 		}
 		exit.addActionListener(new ActionListener() {
 			@Override

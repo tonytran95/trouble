@@ -6,7 +6,6 @@ public class Token {
 	private int currPos;
 	private Player owner;
 	private Color color;
-	private int slotZone;
 	
 	public Token(int tokenID, Player owner) {
 		id = tokenID;

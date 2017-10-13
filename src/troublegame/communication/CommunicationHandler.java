@@ -3,7 +3,6 @@ package troublegame.communication;
 /**
  * Class holding all constants required for server/client communication
  * @author Nick
- *
  */
 public final class CommunicationHandler {
 	

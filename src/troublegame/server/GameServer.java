@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import troublegame.server.io.UserManager;
-
 /**
  * 
  * The main class for the trouble game server.
@@ -28,36 +26,6 @@ public class GameServer {
 		GameServer GS = new GameServer();
 		Runner gameRunner = GS.new Runner();
 		Timer serverTimer = new Timer();
-		
-		// Test users
-		UserManager.createAndSaveNewUser("tsmex@hotmail.com", "Tilly", "Smexy", Color.RANDOM, "Life is a highway");
-		User tilly = UserManager.loadUser("tsmex@hotmail.com");
-		
-		UserManager.createAndSaveNewUser("bob@bob.com", "Bobby", "BillyBox", null, null);
-		User bobby = UserManager.loadUser("bob@bob.com");
-		
-		UserManager.createAndSaveNewUser("asdf@asdf.asdf", "asdffffff", "random", Color.RED, "I love the beatles");
-		User asdf = UserManager.loadUser("asdf@asdf.asdf");
-		
-		bobby.addFriend(bobby);
-		bobby.addFriend(asdf);
-		asdf.addFriend(bobby);
-		asdf.addFriend(tilly);
-		tilly.addFriend(bobby);
-		bobby.removeFriend(tilly);
-		bobby.updateUsername("Pirate");
-		
-		System.out.println("bobbys has " + bobby.getFriendList().size() + " friends. His friends are:");
-		for(User friend : bobby.getFriendList()) System.out.println(" " + friend.getUsername());
-		System.out.println();
-		
-		System.out.println("tilly has " + tilly.getFriendList().size() + " friends. Her friends are:");
-		for(User friend : tilly.getFriendList()) System.out.println(" " + friend.getUsername());
-		System.out.println();
-		
-		System.out.println("asdf has " + asdf.getFriendList().size() + " friends. Her friends are:");
-		for(User friend : asdf.getFriendList()) System.out.println(" " + friend.getUsername());
-		System.out.println();
 		
 		serverTimer.schedule(gameRunner, 0, TIME_PERIOD);
 	}

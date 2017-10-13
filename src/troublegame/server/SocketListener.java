@@ -89,7 +89,7 @@ public class SocketListener {
 					                		String receivedEmail = inputSplit[1];
 					                		String receivedPass = inputSplit[2];
 					                		
-					                		User tmp = UserManager.loadUser(receivedEmail);
+					                		User tmp = UserManager.loadUserByEmail(receivedEmail);
 					                		PrintWriter serverStream = conn.getOutputStream();
 					                		
 					                		if(tmp == null) {

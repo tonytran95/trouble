@@ -177,7 +177,6 @@ public class Game {
 			case Board.SLOT_MAIN:
 				int startIndex = board.getStartIndex(col);
 				int endIndex = board.getEndIndex(col);
-				ArrayList<Slot> mainSlots = board.getMainZone();
 				currPos = currentSlot.getSlotIndex();	
 				if (currPos == endIndex) { // move into endzone
 					switch (diceValue) {
