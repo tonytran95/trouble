@@ -33,7 +33,7 @@ public class GameRoom {
 	 */
 	private boolean setOwner(Connection o) {
 		this.owner = o;
-		return (owner.equals(o)) ? true : false;
+		return owner.equals(o);
 	}
 	
 	/**
@@ -67,17 +67,9 @@ public class GameRoom {
 		int index = members.indexOf(u);
 		boolean ConnectionWasOwner = getOwner().equals(u);
 		
-		if(index != -1) {
-			members.remove(index);
-		}
-		
-		if(getMembers().size() == 0) {
-			setOwner(null);
-			setName(null);
-			members = null;
-		} else if(ConnectionWasOwner && index == 0) {
+		members.remove(index);
+		if (this.members.size() != 0 && ConnectionWasOwner && index == 0)
 			setOwner(members.get(0));
-		}
 	}
 	
 	/**
@@ -85,7 +77,7 @@ public class GameRoom {
 	 * @return true if the room is full, false if there is room for more Connections to join
 	 */
 	private boolean isRoomFull() {
-		return (members.size() < 4) ? false : true;
+		return members.size() == 4;
 	}
 	
 	/**

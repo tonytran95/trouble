@@ -117,7 +117,7 @@ public class GameClient {
 		    			} else if (input.startsWith("[PLAYER_JOINED]")) {
 		    				gameRoomPanel.addUser(inputSplit[1]);
 		    			} else if (input.equals("[START_GAME]")) {
-		    				
+
 		    			} else if (input.startsWith("[GAME_ROOM_INFO]")) {
 		    				String name = input.substring(16);
 		    				name = name.trim();
@@ -125,6 +125,11 @@ public class GameClient {
 		    			} else if (input.startsWith("[GAMEROOM_CHAT]")) {
 		    				String chatMessage = input.substring(15);
 		    				ui.pushChat(chatMessage);
+		    			} else if (input.equals("[GAME_ROOM_LEAVE]")) {
+		    				ui.setInterface(Interface.LOBBY);
+		    				gameRoomPanel.clearUsers();
+		    			} else if (input.startsWith("[GAME_ROOM_LEAVE]")) {
+		    				gameRoomPanel.removeUser(inputSplit[1]);
 		    			}
 		    			break;
 		    		default:

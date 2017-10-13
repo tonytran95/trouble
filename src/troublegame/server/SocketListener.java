@@ -18,7 +18,7 @@ public class SocketListener {
 	private ArrayList<Connection> connections;
 	private boolean listening;
 	private LoginHandler loginHandler;
-	private LobbyHandler lobbyHandler;
+	private Lobby lobby;
 	private GameEngine gameEngine;
 	
 	public SocketListener(int port) {
@@ -63,7 +63,6 @@ public class SocketListener {
 						Thread thread = new Thread(new Runnable() {
 							@Override
 							public void run() {
-				                
 				                try {
 				                	// Establish the client's input stream.
 					                BufferedReader clientInput = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
@@ -104,22 +103,21 @@ public class SocketListener {
 					                		
 					                	} else if (input.equals("NEW_GAMEROOM")) {
 					                		System.out.println(conn.getUser().getUsername()+" created a room");
-					                		lobbyHandler.createGameRoom(conn);
+					                		lobby.createGameRoom(conn);
 					                	} else if (input.startsWith("[JOIN_GAMEROOM]")) {
 					                		String[] inputSplit = input.split("] ");
-					                		lobbyHandler.joinGameRoom(conn, inputSplit[1]);
+					                		lobby.joinGameRoom(conn, inputSplit[1]);
 					                	} else if (input.startsWith("ROLLED")) {
 					                		gameEngine.handleInput(conn, input);
 					                	} else if (input.startsWith("[GAME_ROOM_INFO]")) {
-					                		lobbyHandler.handleGameRoomQuery(conn);
+					                		lobby.handleGameRoomQuery(conn);
 					                	} else if (input.startsWith("[GAMEROOM_CHAT]")) {
 					                		String message = input.substring(16);
-					                		lobbyHandler.handleChat(conn, message);
+					                		lobby.handleChat(conn, message);
 					                	} else if (input.startsWith("[LOGOUT]")) {
 					                		// TODO Logout action
 					                	}
 					                }
-					                
 								} catch (IOException e) {
 									e.printStackTrace();
 								}
@@ -166,15 +164,15 @@ public class SocketListener {
 		};	
 		
 		Thread serverThread = new Thread(serverTask);
-        serverThread.start();
+		serverThread.start();
 	}
 
 	public void setLoginHandler(LoginHandler loginHandler) {
 		this.loginHandler = loginHandler;
 	}
 	
-	public void setLobbyHandler(LobbyHandler lobbyHandler) {
-		this.lobbyHandler = lobbyHandler;
+	public void setLobby(Lobby lobby) {
+		this.lobby = lobby;
 	}
 	
 	public void addGameEngine(GameEngine g) {
