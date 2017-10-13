@@ -78,7 +78,7 @@ public class GameRoomPanel extends JPanel {
 		gbcPanel.weighty = 1;
 		gbcPanel.anchor = GridBagConstraints.NORTH;
 		gbpanel.setConstraints(chatMessages, gbcPanel);
-		chatPanel.add(chatMessages );
+		chatPanel.add(chatMessages);
 		JTextField newMessage = new JTextField();
 		gbcPanel.gridx = 1;
 		gbcPanel.gridy = 45;
@@ -122,6 +122,10 @@ public class GameRoomPanel extends JPanel {
 		
 	}
 	
+	/**
+	 * Handles the chat message by reading the text field
+	 * @param textField is the {@link JTextField} in the game room.
+	 */
 	private void sendChatMessage(JTextField textField) {
 		String s = String.format("[GAMEROOM_CHAT] %s", textField.getText());
 		swingUI.send(s);

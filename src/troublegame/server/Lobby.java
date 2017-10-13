@@ -1,13 +1,16 @@
 package troublegame.server;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 public class Lobby {
 
 	private ArrayList<Connection> users;
 	private ArrayList<GameRoom> gameRooms;
+	private GameServer gameServer;
 	
-	public Lobby() {
+	public Lobby(GameServer gameServer) {
+		this.gameServer = gameServer;
 		users = new ArrayList<Connection>();
 		gameRooms = new ArrayList<GameRoom>();
 	}
@@ -47,6 +50,24 @@ public class Lobby {
 			user.getOutputStream().println("[JOINED_GAME_ROOM] " + gameName);
 			game.addConnection(user);
 		}
+	}
+	
+	public void handleGameRoomQuery(Connection user) {
+		GameRoom gameroom = gameServer.getGameRoomName(user);
+		PrintWriter outputStream = user.getOutputStream();
+		if (gameroom != null) {
+			outputStream.println("[GAME_ROOM_INFO] "+gameroom.getName());
+		}
+	}
+	
+	public void handleChat(Connection user, String message) {
+		GameRoom gameroom = gameServer.getGameRoomName(user);
+		gameroom.doChat(user, message);
+	}
+
+	public void leaveGameRoom(Connection conn) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

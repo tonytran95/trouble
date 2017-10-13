@@ -18,7 +18,7 @@ public class SocketListener {
 	private ArrayList<Connection> connections;
 	private boolean listening;
 	private LoginHandler loginHandler;
-	private LobbyHandler lobbyHandler;
+	private Lobby lobby;
 	private GameEngine gameEngine;
 	
 	public SocketListener(int port) {
@@ -62,59 +62,64 @@ public class SocketListener {
 						Thread thread = new Thread(new Runnable() {
 							@Override
 							public void run() {
-				                
-				                try {
-				                	// Establish the client's input stream.
-					                BufferedReader clientInput = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-					                
-					                // Establish the server's output stream.
-					                PrintWriter clientOutput = new PrintWriter(clientSocket.getOutputStream(), true);
-					                
-					                Connection conn = new Connection(clientSocket, clientInput, clientOutput);
-					                addConnection(conn);
-					                
-					                // TODO:later on we will have a method that adds player connections to correct gameEngines
-					                
-					                
-					                while (true) {
-					                	String input = clientInput.readLine();
-					                	//System.out.println(input);
-					                	
-					                	// TEMPORARY
-					                	if (input.startsWith("CONNECTED")) {
-					                		
-					                		// THIS IS WHAT SERVER RECEIVES FOR VALIDATION
-					                		System.out.println(input);
-					                		
-					                		String[] inputSplit = input.split(" ");
-					                		
-					                		// DEMO OF LOAD AND READ USER INFO
-					                		User tmp = UserManager.loadUser(inputSplit[1]);
-					                		if(tmp != null) {
-					                			System.out.println("loaded user with username " + tmp.getUsername() + 
-					                					" password " + tmp.getPassword() + " email " + tmp.getEmail());
-					                		}
-					                		
-					                		
-					                		conn.setUsername(inputSplit[1]);
-					                		conn.setPassword(inputSplit[2]);
-					                		loginHandler.addConnectionToQueue(conn);
-					                	} else if (input.equals("NEW_GAMEROOM")) {
-					                		System.out.println(conn.getUsername()+" created a room");
-					                		lobbyHandler.createGameRoom(conn);
-					                	} else if (input.startsWith("[JOIN_GAMEROOM]")) {
-					                		String[] inputSplit = input.split("] ");
-					                		lobbyHandler.joinGameRoom(conn, inputSplit[1]);
-					                	} else if (input.startsWith("ROLLED")) {
-					                		gameEngine.handleInput(conn, input);
-					                	} else if (input.startsWith("[GAME_ROOM_INFO]")) {
-					                		lobbyHandler.handleGameRoomQuery(conn);
-					                	} else if (input.startsWith("[GAMEROOM_CHAT]")) {
-					                		String message = input.substring(16);
-					                		lobbyHandler.handleChat(conn, message);
-					                	}
-					                }
-					                
+								
+								try {
+									// Establish the client's input stream.
+									BufferedReader clientInput = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+									
+									// Establish the server's output stream.
+									PrintWriter clientOutput = new PrintWriter(clientSocket.getOutputStream(), true);
+									
+									Connection conn = new Connection(clientSocket, clientInput, clientOutput);
+									addConnection(conn);
+									
+									// TODO:later on we will have a method that adds player connections to correct gameEngines
+									
+									
+									while (true) {
+										String input = clientInput.readLine();
+										//System.out.println(input);
+										
+										// TEMPORARY
+										if (input.startsWith("CONNECTED")) {
+											
+											// THIS IS WHAT SERVER RECEIVES FOR VALIDATION
+											System.out.println(input);
+											
+											String[] inputSplit = input.split(" ");
+											
+											// DEMO OF LOAD AND READ USER INFO
+											User tmp = UserManager.loadUser(inputSplit[1]);
+											if(tmp != null) {
+												System.out.println("loaded user with username " + tmp.getUsername() + 
+														" password " + tmp.getPassword() + " email " + tmp.getEmail());
+											}
+											
+											
+											conn.setUsername(inputSplit[1]);
+											conn.setPassword(inputSplit[2]);
+											loginHandler.addConnectionToQueue(conn);
+										} else if (input.equals("NEW_GAMEROOM")) {
+											System.out.println(conn.getUsername() + " created a room");
+											lobby.createGameRoom(conn);
+										} else if (input.startsWith("[JOIN_GAMEROOM]")) {
+											String[] inputSplit = input.split("] ");
+											lobby.joinGameRoom(conn, inputSplit[1]);
+										} else if (input.startsWith("START_GAME")) {
+											// TO DO
+										} else if (input.equals("LEAVE_ROOM")) {	
+											System.out.println("leave room " + conn.getUsername());
+											lobby.leaveGameRoom(conn);
+										} else if (input.startsWith("ROLLED")) {
+											gameEngine.handleInput(conn, input);
+										} else if (input.startsWith("[GAME_ROOM_INFO]")) {
+											lobby.handleGameRoomQuery(conn);
+										} else if (input.startsWith("[GAMEROOM_CHAT]")) {
+											String message = input.substring(16);
+											lobby.handleChat(conn, message);
+										}
+									}
+									
 								} catch (IOException e) {
 									//e.printStackTrace();
 								}
@@ -161,15 +166,15 @@ public class SocketListener {
 		};	
 		
 		Thread serverThread = new Thread(serverTask);
-        serverThread.start();
+		serverThread.start();
 	}
 
 	public void setLoginHandler(LoginHandler loginHandler) {
 		this.loginHandler = loginHandler;
 	}
 	
-	public void setLobbyHandler(LobbyHandler lobbyHandler) {
-		this.lobbyHandler = lobbyHandler;
+	public void setLobby(Lobby lobby) {
+		this.lobby = lobby;
 	}
 	
 	public void addGameEngine(GameEngine g) {
