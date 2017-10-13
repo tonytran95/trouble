@@ -156,6 +156,22 @@ public class GameRoomPanel extends JPanel {
 	}
 	
 	/**
+	 * Removes the users from our user list.
+	 * @param username is the name to remove.
+	 */
+	public void removeUser(String username) {
+		userModel.removeElement(username);
+	}
+	
+	
+	/**
+	 * Removes the users from our user list.
+	 */
+	public void clearUsers() {
+		userModel.clear();
+	}
+	
+	/**
 	 * Sets the GameRoom's name.
 	 * @param name
 	 */

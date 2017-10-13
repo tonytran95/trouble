@@ -44,11 +44,34 @@ public class Lobby {
 	
 	public void joinGameRoom(Connection user, String gameName) {
 		GameRoom game = null;
-		for (GameRoom gameRoom : gameRooms)
-			if (gameRoom.getName().equals(gameName)) game = gameRoom;
+		for (GameRoom gameRoom : gameRooms) {
+			if (gameRoom.getName().equals(gameName)) {
+				game = gameRoom;
+				break;
+			}
+		}
 		if (game != null) {
 			user.getOutputStream().println("[JOINED_GAME_ROOM] " + gameName);
 			game.addConnection(user);
+		}
+	}
+	
+	public void leaveGameRoom(Connection user) {
+		GameRoom game = null;
+		for (GameRoom gameRoom : gameRooms) {
+			if (gameRoom.getMembers().contains(user)) {
+				game = gameRoom;
+				break;
+			}
+		}
+		if (game != null) {
+			user.getOutputStream().println("[GAME_ROOM_LEAVE]");
+			for (Connection member : game.getMembers())
+				if (member != user)
+					member.getOutputStream().println("[GAME_ROOM_LEAVE] " + user.getUsername());
+			game.removeConnection(user);
+			if (game.getMembers().size() == 0)
+				this.gameRooms.remove(game);
 		}
 	}
 	
@@ -63,11 +86,6 @@ public class Lobby {
 	public void handleChat(Connection user, String message) {
 		GameRoom gameroom = gameServer.getGameRoomName(user);
 		gameroom.doChat(user, message);
-	}
-
-	public void leaveGameRoom(Connection conn) {
-		// TODO Auto-generated method stub
-		
 	}
 	
 }
