@@ -26,7 +26,7 @@ public class Lobby {
 	public void addUser(Connection user) {
 		users.add(user);
 		for (GameRoom gameRoom : gameRooms)
-			user.getOutputStream().println("[GAME_ROOM] " + gameRoom.getName());
+			user.getOutputStream().println("[GAME_ROOM_OPEN] " + gameRoom.getName());
 	}
 	
 	public void createGameRoom(Connection owner) {
@@ -34,9 +34,9 @@ public class Lobby {
 		gameRooms.add(gameRoom);
 		for (Connection user : users)
 			if (!user.equals(owner)) {
-				user.getOutputStream().println("[GAME_ROOM] " + gameRoom.getName());
+				user.getOutputStream().println("[GAME_ROOM_OPEN] " + gameRoom.getName());
 			} else {
-				user.getOutputStream().println("[CREATED_GAME_ROOM] " + gameRoom.getName());
+				user.getOutputStream().println("[GAME_ROOM_NEW] " + gameRoom.getName());
 				gameRoom.addConnection(user);
 			}
 
@@ -51,7 +51,7 @@ public class Lobby {
 			}
 		}
 		if (game != null) {
-			user.getOutputStream().println("[JOINED_GAME_ROOM] " + gameName);
+			user.getOutputStream().println("[GAME_ROOM_JOIN] " + gameName);
 			game.addConnection(user);
 		}
 	}

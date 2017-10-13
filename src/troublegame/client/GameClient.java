@@ -71,9 +71,9 @@ public class GameClient {
 		    		case LOBBY:
 		    			String[] lobbySplit = input.split("] ");
 		    			LobbyPanel lobbyPanel = (LobbyPanel) ui.getCurrentPanel();
-		    			if (input.startsWith("[GAME_ROOM]")) {
+		    			if (input.startsWith(CommunicationHandler.GAME_ROOM_OPEN)) {
 		    				lobbyPanel.addGameRoom(lobbySplit[1]);
-		    			} else if (input.startsWith("[CREATED_GAME_ROOM]")) {
+		    			} else if (input.startsWith(CommunicationHandler.GAME_ROOM_NEW)) {
 		    				ui.setInterface(Interface.PARTY);
 		    				// query for game room name
 		    				ui.send(CommunicationHandler.GAME_ROOM_INFO);

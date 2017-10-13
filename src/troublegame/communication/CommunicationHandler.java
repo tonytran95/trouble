@@ -17,6 +17,7 @@ public final class CommunicationHandler {
 	public static final String LOGOUT_ERROR = "[LOGOUT_ERROR]";
 	
 	// Game room constants
+	public static final String GAME_ROOM_OPEN = "[GAME_ROOM_OPEN]";
 	public static final String GAME_ROOM_NEW = "[GAME_ROOM_NEW]";
 	public static final String GAME_ROOM_CHAT = "[GAME_ROOM_CHAT]";
 	public static final String GAME_ROOM_INFO = "[GAME_ROOM_INFO]";
