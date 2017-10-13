@@ -13,7 +13,6 @@ import javax.swing.JTextField;
 
 import troublegame.client.Interface;
 import troublegame.client.SwingUI;
-import troublegame.client.model.User;
 
 /**
  * 
@@ -85,9 +84,7 @@ public class LoginPanel extends JPanel {
 		enter.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				swingUI.setInterface(Interface.LOBBY);
-				swingUI.send("CONNECTED " + email.getText() + " " + String.valueOf(password.getPassword()));
-				swingUI.setUser(new User(email.getText()));
+				swingUI.send("[LOGIN_ATTEMPT] " + email.getText() + " " + String.valueOf(password.getPassword()));
 			}
 		});
 		exit.addActionListener(new ActionListener() {
@@ -103,6 +100,7 @@ public class LoginPanel extends JPanel {
 		subPanel1.add(password);
 		subPanel2.add(enter);
 		subPanel2.add(exit);
+		email.requestFocus();
 		this.add(subPanel1, BorderLayout.CENTER);
 		this.add(subPanel2, BorderLayout.SOUTH);
 	}

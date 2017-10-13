@@ -12,7 +12,6 @@ import javax.swing.JOptionPane;
 import troublegame.client.panels.GamePanel;
 import troublegame.client.panels.GameRoomPanel;
 import troublegame.client.panels.LobbyPanel;
-import troublegame.client.panels.LoginPanel;
 
 public class GameClient {
 
@@ -55,17 +54,17 @@ public class GameClient {
 			
 		    while (true) {
 		    	String input = in.readLine();
-		    	System.out.println("Server returned:"+input);
+		    	System.out.println("Server returned:" + input);
 	    		String[] inputSplit = input.split(" ");
 		    	switch (ui.getInterface()) {
 		    		case START:
 		    			break;
 		    		case LOGIN:
-		    			LoginPanel loginPanel = (LoginPanel) ui.getCurrentPanel();
-				    	if (input.startsWith("SUCCESS")) {
-				    		ui.setInterface(Interface.IN_GAME);
-				    	} else if (input.startsWith("INVALID")) {
-				    		JOptionPane.showMessageDialog(null, "Invalid Username/Password", "Try again", JOptionPane.PLAIN_MESSAGE);
+		    			if (input.startsWith("[LOGIN_SUCCESS]")) {
+		    				ui.setInterface(Interface.LOBBY);
+				    	} else if (input.startsWith("[LOGIN_ERROR]")) {
+				    		String errorMsg = input.substring(14);
+				    		JOptionPane.showMessageDialog(null, errorMsg, "Please Try again", JOptionPane.PLAIN_MESSAGE);
 				    	}
 		    			break;
 		    		case LOBBY:

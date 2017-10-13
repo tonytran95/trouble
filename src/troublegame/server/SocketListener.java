@@ -54,6 +54,7 @@ public class SocketListener {
 			public void run() {
 				try {
 					while (this.isListening()) {
+						
 						Socket clientSocket = this.getSocket().accept();
 						this.addClient(clientSocket);
 						
@@ -77,30 +78,32 @@ public class SocketListener {
 					                
 					                
 					                while (true) {
+					                	
 					                	String input = clientInput.readLine();
-					                	//System.out.println(input);
 					                	
 					                	// TEMPORARY
-					                	if (input.startsWith("CONNECTED")) {
-					                		
-					                		// THIS IS WHAT SERVER RECEIVES FOR VALIDATION
-					                		System.out.println(input);
+					                	if (input.startsWith("[LOGIN_ATTEMPT]")) {
 					                		
 					                		String[] inputSplit = input.split(" ");
 					                		
-					                		// DEMO OF LOAD AND READ USER INFO
-					                		User tmp = UserManager.loadUser(inputSplit[1]);
-					                		if(tmp != null) {
-					                			System.out.println("loaded user with username " + tmp.getUsername() + 
-					                					" password " + tmp.getPassword() + " email " + tmp.getEmail());
+					                		String receivedEmail = inputSplit[1];
+					                		String receivedPass = inputSplit[2];
+					                		
+					                		User tmp = UserManager.loadUser(receivedEmail);
+					                		PrintWriter serverStream = conn.getOutputStream();
+					                		
+					                		if(tmp == null) {
+					                			serverStream.println("[LOGIN_ERROR] No user with the email " + receivedEmail + " was found");
+					                		} else if (tmp.getPassword().equals(receivedPass)) {
+					                			conn.setUser(tmp);
+					                			serverStream.println("[LOGIN_SUCCESS]");
+					                			loginHandler.addConnectionToQueue(conn);
+					                		} else {
+					                			conn.getOutputStream().println("[LOGIN_ERROR] Incorrect password");
 					                		}
 					                		
-					                		
-					                		conn.setUsername(inputSplit[1]);
-					                		conn.setPassword(inputSplit[2]);
-					                		loginHandler.addConnectionToQueue(conn);
 					                	} else if (input.equals("NEW_GAMEROOM")) {
-					                		System.out.println(conn.getUsername()+" created a room");
+					                		System.out.println(conn.getUser().getUsername()+" created a room");
 					                		lobbyHandler.createGameRoom(conn);
 					                	} else if (input.startsWith("[JOIN_GAMEROOM]")) {
 					                		String[] inputSplit = input.split("] ");
@@ -112,11 +115,13 @@ public class SocketListener {
 					                	} else if (input.startsWith("[GAMEROOM_CHAT]")) {
 					                		String message = input.substring(16);
 					                		lobbyHandler.handleChat(conn, message);
+					                	} else if (input.startsWith("[LOGOUT]")) {
+					                		// TODO Logout action
 					                	}
 					                }
 					                
 								} catch (IOException e) {
-									//e.printStackTrace();
+									e.printStackTrace();
 								}
 
 							}
@@ -124,7 +129,7 @@ public class SocketListener {
 						thread.start();
 					}
 				} catch (IOException e) {
-					//e.printStackTrace();
+					e.printStackTrace();
 				} finally {
 					this.stop();
 				}

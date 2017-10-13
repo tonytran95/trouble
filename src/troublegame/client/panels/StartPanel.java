@@ -42,11 +42,11 @@ public class StartPanel extends JPanel {
 	 * Initializes the start panel.
 	 */
 	public void init() {
-		JButton play = new JButton("Login");
+		JButton login = new JButton("Login");
 		JButton rules = new JButton("How to play");
 		JButton exit = new JButton("Exit");
 		this.setLayout(new GridLayout(3, 0));
-		play.addActionListener(new ActionListener() {
+		login.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				swingUI.setInterface(Interface.LOGIN);
@@ -64,7 +64,7 @@ public class StartPanel extends JPanel {
 				System.exit(0);
 			}
 		});
-		this.add(play);
+		this.add(login);
 		this.add(rules);
 		this.add(exit);
 	}

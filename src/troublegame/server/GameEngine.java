@@ -1,6 +1,5 @@
 package troublegame.server;
 
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -48,8 +47,11 @@ public class GameEngine {
 	}
 
 	public void add(Connection c) {
+		
 		gameConn.add(c);
+		
 		//g.join(c.getUsername(), Colour.RED, false);
+		
 		switch (gameConn.size()) {
 			case 1:
 				g.join(c.getUsername(), Color.RED, false);
@@ -89,8 +91,8 @@ public class GameEngine {
 			Player curr = g.getWhoseTurn();
 			if (!(curr instanceof AI)) {
 				int playerID = curr.getID();
-				Connection clientConn = getConnection(curr.getUsername());
-				PrintWriter clientOutput = clientConn.getOutputStream();
+//				Connection clientConn = getConnection(curr.getUsername());
+//				PrintWriter clientOutput = clientConn.getOutputStream();
 				
 				// process his moves 
 				while (!inputQueue.isEmpty()) {
@@ -158,12 +160,12 @@ public class GameEngine {
 	 * @param username
 	 * @return Connection or null if no such connection
 	 */
-	private Connection getConnection(String username) {
-		for (Connection c: gameConn) {
-			if (c.getUsername().equals(username)) return c;
-		}
-		return null;
-	}
+//	private Connection getConnection(String username) {
+//		for (Connection c: gameConn) {
+//			if (c.getUsername().equals(username)) return c;
+//		}
+//		return null;
+//	}
 	
 	// checks all if all human players have a connection, if it does, sets this.allPlayersConnected to true
 	private void checkPlayerConnections() {
