@@ -116,7 +116,7 @@ public class SocketListener {
 					                		String message = input.substring(CommunicationHandler.GAME_ROOM_CHAT.length());
 					                		lobby.handleChat(conn, message);
 					                	} else if(input.startsWith(CommunicationHandler.GAME_ROOM_LEAVE)) {
-					                		// TODO Game room leave action
+					                		lobby.leaveGameRoom(conn);
 					                	} else if (input.startsWith(CommunicationHandler.LOGOUT_REQUEST)) {
 					                		// TODO Logout action
 					                	} else {
