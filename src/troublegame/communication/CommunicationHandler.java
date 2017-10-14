@@ -24,6 +24,7 @@ public final class CommunicationHandler {
 	public static final String GAME_ROOM_JOIN = "[GAME_ROOM_JOIN]";
 	public static final String GAME_ROOM_LEAVE = "[GAME_ROOM_LEAVE]";
 	public static final String GAME_ROOM_CLOSE = "[GAME_ROOM_CLOSE]";
+	public static final String GAME_ROOM_MEMBER = "[GAME_ROOM_MEMBER]";
 	
 	// Game constants
 	public static final String GAME_ROLL = "[GAME_ROLL]";

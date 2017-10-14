@@ -116,23 +116,23 @@ public class GameClient {
 		    			break;
 		    		case PARTY:
 		    			GameRoomPanel gameRoomPanel = (GameRoomPanel) ui.getCurrentPanel();
-		    			if (input.startsWith("[GAME_ROOM_MEMBER]")) {
+		    			if (input.startsWith(CommunicationHandler.GAME_ROOM_MEMBER)) {
 		    				gameRoomPanel.addUser(inputSplit[1]);
 		    			} else if (input.startsWith("[PLAYER_JOINED]")) {
 		    				gameRoomPanel.addUser(inputSplit[1]);
-		    			} else if (input.equals("[START_GAME]")) {
+		    			} else if (input.equals(CommunicationHandler.GAME_START)) {
 		    				
-		    			} else if (input.startsWith("[GAME_ROOM_INFO]")) {
+		    			} else if (input.startsWith(CommunicationHandler.GAME_ROOM_INFO)) {
 		    				String name = input.substring(16);
 		    				name = name.trim();
 		    				ui.setGameRoomName(name);	
-		    			} else if (input.startsWith("[GAMEROOM_CHAT]")) {
-		    				String chatMessage = input.substring(15);
+		    			} else if (input.startsWith(CommunicationHandler.GAME_ROOM_CHAT)) {
+		    				String chatMessage = input.substring(CommunicationHandler.GAME_ROOM_CHAT.length());
 		    				ui.pushChat(chatMessage);
-		    			} else if (input.equals("[GAME_ROOM_LEAVE]")) {
+		    			} else if (input.equals(CommunicationHandler.GAME_ROOM_LEAVE)) {
 		    				ui.setInterface(Interface.LOBBY);
 		    				gameRoomPanel.clearUsers();
-		    			} else if (input.startsWith("[GAME_ROOM_LEAVE]")) {
+		    			} else if (input.startsWith(CommunicationHandler.GAME_ROOM_LEAVE)) {
 		    				gameRoomPanel.removeUser(inputSplit[1]);
 		    			}
 		    			break;

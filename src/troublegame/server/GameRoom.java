@@ -3,6 +3,8 @@ package troublegame.server;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
+import troublegame.communication.CommunicationHandler;
+
 /**
  * Representation of a game room. Game room is essentially a waiting room
  * where groups of up to 4 Connections can connect to play trouble games with friends
@@ -53,7 +55,7 @@ public class GameRoom {
 		for (Connection member : members)
 			member.getOutputStream().println("[PLAYER_JOINED] " + u.getUsername());
 		for (Connection member : members)
-			if (!member.equals(u)) u.getOutputStream().println("[GAME_ROOM_MEMBER] " + member.getUsername());
+			if (member.getUser().equals(u.getUser()) == false) u.getOutputStream().println(CommunicationHandler.GAME_ROOM_MEMBER + " " + member.getUsername());
 	}
 	
 	/**
@@ -64,12 +66,22 @@ public class GameRoom {
 	 */
 	public void removeConnection(Connection u) {
 		
-		int index = members.indexOf(u);
-		boolean ConnectionWasOwner = getOwner().equals(u);
+		int connIndex = members.indexOf(u);
+		boolean wasRoomOwner = getOwner().equals(u);
 		
-		members.remove(index);
-		if (this.members.size() != 0 && ConnectionWasOwner && index == 0)
+		if(connIndex != -1) {
+			members.remove(connIndex);
+		}
+		
+		if(members.size() == 0) {
+			setOwner(null);
+			setName(null);
+			members = null;
+		} else if (wasRoomOwner) {
+			
 			setOwner(members.get(0));
+			
+		}
 	}
 	
 	/**
@@ -124,7 +136,7 @@ public class GameRoom {
 	 */
 	public void startGame() {
 		for (Connection member : members) 
-			member.getOutputStream().println("[START_GAME]");
+			member.getOutputStream().println(CommunicationHandler.GAME_START);
 	}
 	
 	/**
@@ -132,7 +144,7 @@ public class GameRoom {
 	 */
 	public boolean isMember(Connection c) {
 		for (Connection member: members) {
-			if (member.getUsername().equals(c.getUsername())) return true;
+			if (member.getUser().equals(c.getUser())) return true;
 		}
 		return false;
 	}
