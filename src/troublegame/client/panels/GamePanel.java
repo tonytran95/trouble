@@ -132,7 +132,7 @@ public class GamePanel extends JPanel {
 				updateMessage("", 0);
 				for (int i = 0; i < swingUI.getUser().getTokens().size(); i++) {
 					if (swingUI.getUser().getTokens().get(i).equals(swingUI.getUser().getSelectedTile())) {
-						swingUI.send(CommunicationHandler.GAME_ROLL + i);
+						swingUI.send(CommunicationHandler.GAME_ROLL + " " + i);
 						break;
 					}
 				}

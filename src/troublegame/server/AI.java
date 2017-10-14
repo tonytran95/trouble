@@ -1,5 +1,7 @@
 package troublegame.server;
 
+import troublegame.communication.CommunicationHandler;
+
 public class AI extends Player {
 
 	public AI(int pid, String username, Color color) {
@@ -11,7 +13,7 @@ public class AI extends Player {
 		
 		for (Token token : this.getPlayerTokens()) {
 			if (board.getTokenLoc(token).getSlotZone() != Board.SLOT_END) {
-				move = "ROLL_DIE " + token.getTokenID();
+				move = CommunicationHandler.GAME_ROLL + " " + token.getTokenID();
 				break;
 			}
 		}

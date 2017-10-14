@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import troublegame.communication.CommunicationHandler;
+
 /**
  * 
  * The main class for the trouble game server.
@@ -54,13 +56,12 @@ public class GameServer {
 	 * Constructs a new server.
 	 */
 	public GameServer() {
-		System.out.println("[Game Server] Starting game server...");
+		System.out.println(CommunicationHandler.GAME_SERVER_INFO + " Starting game server...");
 		
 		/**
 		 * Initializes the game engine.
 		 */
 		this.gameEngine = new GameEngine();
-		this.gameEngine.init();
 		
 		this.lobby = new Lobby(this);
 		

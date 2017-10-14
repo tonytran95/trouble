@@ -53,7 +53,7 @@ public class GameRoom {
 		if(isRoomFull()) return;
 		members.add(u);
 		for (Connection member : members)
-			member.getOutputStream().println("[PLAYER_JOINED] " + u.getUsername());
+			member.getOutputStream().println(CommunicationHandler.GAME_ROOM_JOIN + " " + u.getUsername());
 		for (Connection member : members)
 			if (member.getUser().equals(u.getUser()) == false) u.getOutputStream().println(CommunicationHandler.GAME_ROOM_MEMBER + " " + member.getUsername());
 	}
@@ -155,7 +155,7 @@ public class GameRoom {
 	public void doChat(Connection sender, String message) {
 		for (Connection member: members) {
 			PrintWriter outputStream = member.getOutputStream();
-			String s = String.format("[GAMEROOM_CHAT]%s: %s", sender.getUsername(), message);
+			String s = String.format(CommunicationHandler.GAME_ROOM_CHAT + "%s: %s", sender.getUsername(), message);
 			outputStream.println(s);
 		}
 	}

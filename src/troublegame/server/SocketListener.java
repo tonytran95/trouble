@@ -23,7 +23,7 @@ public class SocketListener {
 	private GameEngine gameEngine;
 	
 	public SocketListener(int port) {
-		System.out.println("[SocketListener] Initializing socket listener...");
+		System.out.println(CommunicationHandler.SOCKET_LISTENER_INFO + " Initializing socket listener...");
 		this.port = port;
 		clients = new ArrayList<Socket>();
 		connections = new ArrayList<Connection>();
@@ -48,7 +48,7 @@ public class SocketListener {
 	}
 	
 	public void init() {
-		System.out.println("[SocketListener] Socket listening on port: " + this.port);
+		System.out.println(CommunicationHandler.SOCKET_LISTENER_INFO + " Socket listening on port: " + this.port);
 		Runnable serverTask = new Runnable() {
 
 			@Override
@@ -59,7 +59,7 @@ public class SocketListener {
 						Socket clientSocket = this.getSocket().accept();
 						this.addClient(clientSocket);
 						
-						System.out.println("A user has connected from " + clientSocket.getInetAddress());
+						System.out.println(CommunicationHandler.SOCKET_LISTENER_INFO + " A user has connected from " + clientSocket.getInetAddress());
 						
 						Thread thread = new Thread(new Runnable() {
 							@Override
@@ -119,6 +119,9 @@ public class SocketListener {
 					                		lobby.leaveGameRoom(conn);
 					                	} else if (input.startsWith(CommunicationHandler.LOGOUT_REQUEST)) {
 					                		// TODO Logout action
+					                	} else if (input.startsWith(CommunicationHandler.GAME_START)) {
+					                		String[] inputSplit = input.split("] ");
+					                		gameEngine.createGame(lobby.getGameRoomByName(inputSplit[1]).getMembers());
 					                	} else {
 					                		System.out.println("Unknown Command: " + input);
 					                	}
