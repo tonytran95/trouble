@@ -42,12 +42,12 @@ public class SwingUI extends JFrame {
 	/**
 	 * The height of the display.
 	 */
-	public final static int HEIGHT = 780;
+	public final static int HEIGHT = 800;
 	
 	/**
 	 * The width of the display.
 	 */
-	public final static int WIDTH = 400;
+	public final static int WIDTH = 620;
 	
 	/**
 	 * The stretch value.

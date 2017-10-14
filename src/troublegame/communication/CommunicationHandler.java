@@ -46,6 +46,7 @@ public final class CommunicationHandler {
 	public static final String GAME_ROLL_AGAIN = "[GAME_ROLL_AGAIN]";
 	public static final String GAME_ROLL_FAIL = "[GAME_ROLL_FAIL]";
 	public static final String GAME_EAT_TOKEN = "[GAME_EAT_TOKEN]";
+	public static final String GAME_CHAT= "[GAME_CHAT]";
 	
 	
 }

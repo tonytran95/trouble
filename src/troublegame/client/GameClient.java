@@ -96,16 +96,16 @@ public class GameClient {
 				    	} else if (input.startsWith(CommunicationHandler.GAME_COLORS)) {
 				    		gamePanel.getPlayers().put(inputSplit[1], inputSplit[2]);
 				    	} else if (input.startsWith(CommunicationHandler.GAME_ROLL)) {
-				    		gamePanel.updateMessage(inputSplit[3] + " rolled a " + inputSplit[1], 0);
+				    		gamePanel.sendChatMessage(inputSplit[3] + " rolled a " + inputSplit[1]);
 				    		gamePanel.updateToken(inputSplit[3], Integer.parseInt(inputSplit[2]), Integer.parseInt(inputSplit[4]), Integer.parseInt(inputSplit[5]));
 				    	} else if (input.startsWith(CommunicationHandler.GAME_ROLL_AGAIN)) {
-				    		gamePanel.updateMessage("You rolled a " + inputSplit[1] + ". Roll again to move.", 0);
+				    		gamePanel.sendChatMessage("You rolled a " + inputSplit[1] + ". Roll again to move.");
 				    		gamePanel.updateToken(inputSplit[3], Integer.parseInt(inputSplit[2]), Integer.parseInt(inputSplit[4]), Integer.parseInt(inputSplit[5]));
 				    	} else if (input.startsWith(CommunicationHandler.GAME_ROLL_SUCCESS)) {
-				    		gamePanel.updateMessage("You rolled a " + inputSplit[1] + ". Moving your token into the end zone!.", 0);
+				    		gamePanel.sendChatMessage("You rolled a " + inputSplit[1] + ". Moving your token into the end zone!.");
 				    		gamePanel.updateToken(inputSplit[3], Integer.parseInt(inputSplit[2]), Integer.parseInt(inputSplit[4]), Integer.parseInt(inputSplit[5]));
 				    	} else if (input.startsWith(CommunicationHandler.GAME_ROLL_FAIL)) {
-				    		gamePanel.updateMessage("You rolled a " + inputSplit[1] + ". Unable to move.", 0);
+				    		gamePanel.sendChatMessage("You rolled a " + inputSplit[1] + ". Unable to move.");
 				    	} else if (input.startsWith(CommunicationHandler.GAME_EAT_TOKEN)) {
 				    		gamePanel.updateToken(inputSplit[2], Integer.parseInt(inputSplit[1]), Integer.parseInt(inputSplit[3]), Integer.parseInt(inputSplit[1]));
 				    	} else if (input.startsWith(CommunicationHandler.GAME_TURN)) {
