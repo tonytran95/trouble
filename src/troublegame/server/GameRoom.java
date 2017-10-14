@@ -60,11 +60,11 @@ public class GameRoom {
 	
 	/**
 	 * Removes the given Connection from the room. If the removed Connection is the group owner then set the group 
-	 * owner to the next Connection in the members list. If the removed Connection is the last person in the room then 
-	 * all room properties are set to null
+	 * owner to the next Connection in the members list
 	 * @param u The Connection to remove from the room
+	 * @return The number of members in the remove after the player was removed
 	 */
-	public void removeConnection(Connection u) {
+	public int removeConnection(Connection u) {
 		
 		int connIndex = members.indexOf(u);
 		boolean wasRoomOwner = getOwner().equals(u);
@@ -73,15 +73,13 @@ public class GameRoom {
 			members.remove(connIndex);
 		}
 		
-		if(members.size() == 0) {
-			setOwner(null);
-			setName(null);
-			members = null;
-		} else if (wasRoomOwner) {
+		if(members.size() != 0 && wasRoomOwner) {
 			
 			setOwner(members.get(0));
 			
 		}
+		
+		return members.size();
 	}
 	
 	/**

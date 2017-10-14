@@ -60,6 +60,7 @@ public class Lobby {
 	}
 	
 	public void leaveGameRoom(Connection user) {
+		
 		GameRoom game = null;
 		for (GameRoom gameRoom : gameRooms) {
 			if (gameRoom.getMembers().contains(user)) {
