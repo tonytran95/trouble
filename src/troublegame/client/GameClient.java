@@ -90,7 +90,7 @@ public class GameClient {
 		    		case IN_GAME:
 		    			GamePanel gamePanel = (GamePanel) ui.getCurrentPanel();
 		    			if (input.equals(CommunicationHandler.GAME_START)) {
-				    		gamePanel.setupPanel();
+		    				gamePanel.setupPanel();
 				    	} else if (input.startsWith(CommunicationHandler.GAME_COLORS)) {
 				    		gamePanel.getPlayers().put(inputSplit[1], inputSplit[2]);
 				    	} else if (input.startsWith(CommunicationHandler.GAME_ROLL)) {
@@ -120,8 +120,8 @@ public class GameClient {
 		    				gameRoomPanel.addUser(inputSplit[1]);
 		    			} else if (input.startsWith("[PLAYER_JOINED]")) {
 		    				gameRoomPanel.addUser(inputSplit[1]);
-		    			} else if (input.equals("[START_GAME]")) {
-		    				
+		    			} else if (input.equals("[SETUP_GAME]")) {
+		    				ui.setInterface(Interface.IN_GAME);
 		    			} else if (input.startsWith("[GAME_ROOM_INFO]")) {
 		    				String name = input.substring(16);
 		    				name = name.trim();

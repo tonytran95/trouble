@@ -93,4 +93,15 @@ public class Lobby {
 		gameroom.doChat(user, message);
 	}
 	
+	public GameRoom getGameRoomByName(String gameRoomName) {
+		GameRoom gr = null;
+		for (GameRoom gameRoom : gameRooms) {
+			if (gameRoom.getName().equals(gameRoomName)) {
+				gr = gameRoom;
+				break;
+			}
+		}
+		return gr;
+	}
+	
 }

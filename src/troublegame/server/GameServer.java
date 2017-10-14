@@ -60,7 +60,6 @@ public class GameServer {
 		 * Initializes the game engine.
 		 */
 		this.gameEngine = new GameEngine();
-		this.gameEngine.init();
 		
 		this.lobby = new Lobby(this);
 		

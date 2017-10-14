@@ -13,7 +13,9 @@ import javax.swing.JTextField;
 
 import troublegame.client.Interface;
 import troublegame.client.SwingUI;
+import troublegame.client.model.User;
 import troublegame.communication.CommunicationHandler;
+import troublegame.server.io.UserManager;
 
 /**
  * 
@@ -81,10 +83,11 @@ public class LoginPanel extends JPanel {
 		this.setLayout(new BorderLayout());
 		this.email.setColumns(10);
 		this.password.setColumns(10);
-		
 		enter.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
+				String username = UserManager.loadUserByEmail(email.getText()).getUsername();
+				swingUI.setUser(new User(username));
 				swingUI.send(CommunicationHandler.LOGIN_REQUEST + " " + email.getText() + " " + String.valueOf(password.getPassword()));
 			}
 		});
@@ -94,7 +97,6 @@ public class LoginPanel extends JPanel {
 				swingUI.setInterface(Interface.START);
 			}
 		});
-		
 		subPanel1.add(usernameLabel);
 		subPanel1.add(email);
 		subPanel1.add(passwordLabel);

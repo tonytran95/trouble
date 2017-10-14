@@ -80,7 +80,7 @@ public class SocketListener {
 					                while (true) {
 					                	
 					                	String input = clientInput.readLine();
-					                	
+					                	System.out.println("Client sent: " + input);
 					                	// TEMPORARY
 					                	if (input.startsWith(CommunicationHandler.LOGIN_REQUEST)) {
 					                		
@@ -119,6 +119,9 @@ public class SocketListener {
 					                		lobby.leaveGameRoom(conn);
 					                	} else if (input.startsWith(CommunicationHandler.LOGOUT_REQUEST)) {
 					                		// TODO Logout action
+					                	} else if (input.startsWith(CommunicationHandler.GAME_START)) {
+					                		String[] inputSplit = input.split("] ");
+					                		gameEngine.createGame(lobby.getGameRoomByName(inputSplit[1]).getMembers());
 					                	} else {
 					                		System.out.println("Unknown Command: " + input);
 					                	}

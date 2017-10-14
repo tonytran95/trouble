@@ -11,7 +11,7 @@ public class AI extends Player {
 		
 		for (Token token : this.getPlayerTokens()) {
 			if (board.getTokenLoc(token).getSlotZone() != Board.SLOT_END) {
-				move = "ROLL_DIE " + token.getTokenID();
+				move = "[GAME_ROLL] " + token.getTokenID();
 				break;
 			}
 		}

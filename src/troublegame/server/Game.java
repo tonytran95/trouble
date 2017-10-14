@@ -54,21 +54,20 @@ public class Game {
 		for (Player p : players) {
 			switch (p.getColour()) {
 				case RED:
-					engine.broadcast("COLORS " + p.getUsername() + " " + "red");
+					engine.broadcast(this, "[GAME_COLORS] " + p.getUsername() + " " + "red");
 					break;
 				case BLUE:
-					engine.broadcast("COLORS " + p.getUsername() + " " + "blue");
+					engine.broadcast(this, "[GAME_COLORS] " + p.getUsername() + " " + "blue");
 					break;
 				case YELLOW:
-					engine.broadcast("COLORS " + p.getUsername() + " " + "yellow");
+					engine.broadcast(this, "[GAME_COLORS] " + p.getUsername() + " " + "yellow");
 					break;
 				case GREEN:
-					engine.broadcast("COLORS " + p.getUsername() + " " + "green");
+					engine.broadcast(this, "[GAME_COLORS] " + p.getUsername() + " " + "green");
 					break;
 				default:
 			}
 		}
-		//engine.updateMessages();
 	}
 	
 	public void join(String username, Color color, boolean computer) {
@@ -158,18 +157,18 @@ public class Game {
 			case Board.SLOT_HOME:
 				// sorry can't move
 				if (diceValue == 6) {
-					command = "ROLL_FAIL " + diceValue;
-					engine.updateMessages();
+					command = "[GAME_ROLL_FAIL] " + diceValue;
+					engine.updateMessages(this);
 				} else {
 					int startIndex = board.getStartIndex(col);
 					if (board.getMainSlot(startIndex).isOccupied()) {
 						Token tokenToEat = board.getMainSlot(startIndex).getOccupyingToken();
 						Player owner = tokenToEat.getOwner();
 						board.setTokenLoc(tokenToEat, Board.SLOT_HOME, tokenToEat.getTokenID());
-						engine.broadcast("EAT_TOKEN " + tokenToEat.getTokenID() + " " + owner.getUsername() + " " + Board.SLOT_HOME);
+						engine.broadcast(this, "[GAME_EAT_TOKEN] " + tokenToEat.getTokenID() + " " + owner.getUsername() + " " + Board.SLOT_HOME);
 					}
 					
-					command = "ROLL_AGAIN " + diceValue + " " + tokenID + " " + p.getUsername() + " " + Board.SLOT_MAIN + " " + startIndex;
+					command = "[GAME_ROLL_AGAIN] " + diceValue + " " + tokenID + " " + p.getUsername() + " " + Board.SLOT_MAIN + " " + startIndex;
 					board.setTokenLoc(token, Board.SLOT_MAIN, startIndex);
 					turnNum--;
 				}
@@ -182,38 +181,38 @@ public class Game {
 					switch (diceValue) {
 						case 1: 
 							if (board.getPlayerEndZone(p).get(0).getOccupyingToken() == null) {
-								command = "ROLL_SUCCESS " + diceValue + " " + tokenID + " " + p.getUsername() + " " + Board.SLOT_END + " " + 0;
+								command = "[GAME_ROLL_SUCCESS] " + diceValue + " " + tokenID + " " + p.getUsername() + " " + Board.SLOT_END + " " + 0;
 								board.setTokenLoc(token, Board.SLOT_END, 0);
 							} else {
-								command = "ROLL_FAIL " + + diceValue + ", token already occupying end slot";
+								command = "[GAME_ROLL_FAIL] " + + diceValue + ", token already occupying end slot";
 							}
 							break;
 						case 2:
 							if (board.getPlayerEndZone(p).get(1).getOccupyingToken() == null) {
-								command = "ROLL_SUCCESS " + diceValue + " " + tokenID + " " + p.getUsername() + " " + Board.SLOT_END + " " + 1;
+								command = "[GAME_ROLL_SUCCESS] " + diceValue + " " + tokenID + " " + p.getUsername() + " " + Board.SLOT_END + " " + 1;
 								board.setTokenLoc(token, Board.SLOT_END, 1);
 							} else {
-								command = "ROLL_FAIL " + + diceValue + ", token already occupying end slot";
+								command = "[GAME_ROLL_FAIL] " + + diceValue + ", token already occupying end slot";
 							}
 							break;
 						case 3:
 							if (board.getPlayerEndZone(p).get(2).getOccupyingToken() == null) {
-								command = "ROLL_SUCCESS " + diceValue + " " + tokenID + " " + p.getUsername() + " " + Board.SLOT_END + " " + 2;
+								command = "[GAME_ROLL_SUCCESS] " + diceValue + " " + tokenID + " " + p.getUsername() + " " + Board.SLOT_END + " " + 2;
 								board.setTokenLoc(token, Board.SLOT_END, 2);
 							} else {
-								command = "ROLL_FAIL " + + diceValue + ", token already occupying end slot";
+								command = "[GAME_ROLL_FAIL] " + + diceValue + ", token already occupying end slot";
 							}
 							break;
 						case 4:
 							if (board.getPlayerEndZone(p).get(3).getOccupyingToken() == null) {
-								command = "ROLL_SUCCESS " + diceValue + " " + tokenID + " " + p.getUsername() + " " + Board.SLOT_END + " " + 3;
+								command = "[GAME_ROLL_SUCCESS] " + diceValue + " " + tokenID + " " + p.getUsername() + " " + Board.SLOT_END + " " + 3;
 								board.setTokenLoc(token, Board.SLOT_END, 3);
 							} else {
-								command = "ROLL_FAIL " + + diceValue + ", token already occupying end slot";
+								command = "[GAME_ROLL_FAIL] " + + diceValue + ", token already occupying end slot";
 							}
 							break;
 						default:
-							command = "ROLL_FAIL " + + diceValue + ", must roll a value of 1-4 to enter the end zone";
+							command = "[GAME_ROLL_FAIL] " + + diceValue + ", must roll a value of 1-4 to enter the end zone";
 					}
 				} else { // keep moving alone mainzone
 					target = currPos + diceValue;
@@ -229,7 +228,7 @@ public class Game {
 						Token tokenToEat = board.getMainSlot(target).getOccupyingToken();
 						Player owner = tokenToEat.getOwner();
 						board.setTokenLoc(tokenToEat, Board.SLOT_HOME, tokenToEat.getTokenID());
-						engine.broadcast("EAT_TOKEN " + tokenToEat.getTokenID() + " " + owner.getUsername() + " " + Board.SLOT_HOME);
+						engine.broadcast(this, "[GAME_EAT_TOKEN] " + tokenToEat.getTokenID() + " " + owner.getUsername() + " " + Board.SLOT_HOME);
 					}
 				}
 				
@@ -241,12 +240,12 @@ public class Game {
 		
 		// actually do the move
 		if (target != -1) {
-			command = "ROLLED " + diceValue + " " + tokenID + " " + p.getUsername() + " " + Board.SLOT_MAIN + " " + target;
+			command = "[GAME_ROLL] " + diceValue + " " + tokenID + " " + p.getUsername() + " " + Board.SLOT_MAIN + " " + target;
 			board.setTokenLoc(token, Board.SLOT_MAIN, target);
 		}
 		
 		turnNum++;
-		engine.updateMessages();
+		engine.updateMessages(this);
 		return command;
 	}
 	
@@ -304,7 +303,7 @@ public class Game {
 	}
 	
 	public void showPlayers() {
-		System.out.print("[Game]Players: ");
+		System.out.print("[Game] Players: ");
 		for(int i = 0; i < MAX_PLAYERS; i++) {
 			System.out.print(players[i].getUsername()+" ");
 		}
