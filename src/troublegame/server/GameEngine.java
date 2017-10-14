@@ -50,12 +50,21 @@ public class GameEngine {
 		Game g = new Game(this);
 		gameConns.put(g, players);
 		inputQueues.put(g, new LinkedList<String>());
+		
+		int count = 0;
 		for (int i = 0; i < players.size(); i++) {
 			if (i == 0) g.join(players.get(i).getUsername(), Color.RED, false);
 			if (i == 1) g.join(players.get(i).getUsername(), Color.BLUE, false);
 			if (i == 2) g.join(players.get(i).getUsername(), Color.YELLOW, false);
 			if (i == 3) g.join(players.get(i).getUsername(), Color.GREEN, false);
+			count++;
 		}
+		for (int i = 0; i < (4 - count); i++) {
+			if (i == 0) g.join("AI_1", Color.BLUE, false);
+			if (i == 1) g.join("AI_2", Color.YELLOW, false);
+			if (i == 2) g.join("AI_3", Color.GREEN, false);
+		}
+		
 		games.add(g);
 		startGame(g);
 	}

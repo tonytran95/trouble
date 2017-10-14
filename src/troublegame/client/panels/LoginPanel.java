@@ -13,7 +13,9 @@ import javax.swing.JTextField;
 
 import troublegame.client.Interface;
 import troublegame.client.SwingUI;
+import troublegame.client.model.User;
 import troublegame.communication.CommunicationHandler;
+import troublegame.server.io.UserManager;
 
 /**
  * 
@@ -84,6 +86,8 @@ public class LoginPanel extends JPanel {
 		enter.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
+				String username = UserManager.loadUserByEmail(email.getText()).getUsername();
+				swingUI.setUser(new User(username));
 				swingUI.send(CommunicationHandler.LOGIN_REQUEST + " " + email.getText() + " " + String.valueOf(password.getPassword()));
 			}
 		});
