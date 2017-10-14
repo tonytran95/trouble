@@ -54,9 +54,11 @@ public class GameClient {
 			SwingUI ui = new SwingUI(in , out);
 			
 		    while (true) {
+		    	
 		    	String input = in.readLine();
 		    	System.out.println("Server returned:" + input);
-	    		String[] inputSplit = input.split(" ");
+	    		
+		    	String[] inputSplit = input.split(" ");
 		    	switch (ui.getInterface()) {
 		    		case START:
 		    			break;

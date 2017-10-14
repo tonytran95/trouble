@@ -46,7 +46,6 @@ public class GamePanel extends JPanel {
 	public final static Color TRANSPARENT_GREEN = new Color(0f, 1f, 0f, 0.4f);
 	public final static Color TRANSPARENT_YELLOW = new Color(1f, 1f, 0f, 0.3f);
 	
-
 	/**
 	 * The map of tokens. <position, color>
 	 */
