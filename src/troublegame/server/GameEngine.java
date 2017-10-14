@@ -60,9 +60,9 @@ public class GameEngine {
 			count++;
 		}
 		for (int i = 0; i < (4 - count); i++) {
-			if (i == 0) g.join("AI_1", Color.BLUE, false);
-			if (i == 1) g.join("AI_2", Color.YELLOW, false);
-			if (i == 2) g.join("AI_3", Color.GREEN, false);
+			if (i == 0) g.join("AI_1", Color.BLUE, true);
+			if (i == 1) g.join("AI_2", Color.YELLOW, true);
+			if (i == 2) g.join("AI_3", Color.GREEN, true);
 		}
 		
 		games.add(g);
