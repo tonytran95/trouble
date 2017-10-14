@@ -90,7 +90,7 @@ public class GameClient {
 		    		case IN_GAME:
 		    			GamePanel gamePanel = (GamePanel) ui.getCurrentPanel();
 		    			if (input.equals(CommunicationHandler.GAME_START)) {
-				    		gamePanel.setupPanel();
+		    				gamePanel.setupPanel();
 				    	} else if (input.startsWith(CommunicationHandler.GAME_COLORS)) {
 				    		gamePanel.getPlayers().put(inputSplit[1], inputSplit[2]);
 				    	} else if (input.startsWith(CommunicationHandler.GAME_ROLL)) {

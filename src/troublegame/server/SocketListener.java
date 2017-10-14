@@ -80,7 +80,7 @@ public class SocketListener {
 					                while (true) {
 					                	
 					                	String input = clientInput.readLine();
-					                	
+					                	System.out.println("Client sent: " + input);
 					                	// TEMPORARY
 					                	if (input.startsWith(CommunicationHandler.LOGIN_REQUEST)) {
 					                		

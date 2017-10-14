@@ -48,6 +48,18 @@ public class UserManagerTest {
 		UserManager.createAndSaveNewUser("test@test.com", "Victor", "test", Color.RANDOM, "Life is a highway");
 		testArray.add(UserManager.loadUserByEmail("test@test.com").getId());
 		
+		UserManager.createAndSaveNewUser("test2@test.com", "Victor2", "test", Color.RANDOM, "Life is a");
+		testArray.add(UserManager.loadUserByEmail("test2@test.com").getId());
+		
+		UserManager.createAndSaveNewUser("test3@test.com", "Victor3", "test", Color.RANDOM, "Life is");
+		testArray.add(UserManager.loadUserByEmail("test3@test.com").getId());
+		
+		UserManager.createAndSaveNewUser("test4@test.com", "Victor4", "test", Color.RANDOM, "Life");
+		testArray.add(UserManager.loadUserByEmail("test4@test.com").getId());
+		
+		UserManager.createAndSaveNewUser("test5@test.com", "Victor5", "test", Color.RANDOM, "L");
+		testArray.add(UserManager.loadUserByEmail("test5@test.com").getId());
+		
 		UserManager.createAndSaveNewUser("bob@bob.com", "Pirate103", "bob", null, null);
 		testArray.add(UserManager.loadUserByEmail("bob@bob.com").getId());
 		

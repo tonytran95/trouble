@@ -65,7 +65,8 @@ public class Game {
 				case YELLOW:
 					col = "yellow";
 					break;
-				default: col = "green";	
+				default: 
+					col = "green";
 			}
 			engine.broadcast(this, CommunicationHandler.GAME_COLORS + " " + p.getUsername() + " " + col);
 		}

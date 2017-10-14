@@ -83,7 +83,6 @@ public class LoginPanel extends JPanel {
 		this.setLayout(new BorderLayout());
 		this.email.setColumns(10);
 		this.password.setColumns(10);
-		
 		enter.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
@@ -98,7 +97,6 @@ public class LoginPanel extends JPanel {
 				swingUI.setInterface(Interface.START);
 			}
 		});
-		
 		subPanel1.add(usernameLabel);
 		subPanel1.add(email);
 		subPanel1.add(passwordLabel);
