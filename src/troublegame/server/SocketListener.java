@@ -122,6 +122,7 @@ public class SocketListener {
 										} else if (input.startsWith(CommunicationHandler.GAME_START)) {
 											String gameRoomName = input.substring(CommunicationHandler.GAME_START.length() + 1);
 											gameEngine.createGame(lobby.getGameRoomByName(gameRoomName).getMembers());
+											
 										} else if (input.startsWith(CommunicationHandler.GAME_CHAT)) {
 											String message = input.substring(CommunicationHandler.GAME_CHAT.length());
 											gameEngine.handleChat(conn, message);
