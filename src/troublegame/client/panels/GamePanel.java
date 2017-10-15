@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.AdjustmentEvent;
@@ -16,6 +17,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -115,8 +117,6 @@ public class GamePanel extends JPanel {
 		this.rollDie = new JButton("Roll Die");
 		this.board = new Board();
 		this.gameSpace = new GameSpace();
-		this.createTiles();
-		this.createTokens();
 		this.init();
 	}
 
@@ -125,7 +125,6 @@ public class GamePanel extends JPanel {
 	 */
 	public void init() {
 		this.setLayout(new BoxLayout(this, 1));
-		//this.swingUI.addMouseListener(this.userInput);
 		this.setFocusable(true);
 		this.requestFocusInWindow();
 		this.swingUI.requestFocusInWindow();
@@ -183,15 +182,16 @@ public class GamePanel extends JPanel {
 		newMessage.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				swingUI.send(CommunicationHandler.GAME_CHAT + " " + newMessage.getText());
-				newMessage.setText("");	
+				if (!newMessage.getText().equals("")) {
+					swingUI.send(CommunicationHandler.GAME_CHAT + " " + newMessage.getText());
+					newMessage.setText("");	
+				}
 			}
 		});
 		this.add(gameSpace);
 		this.add(label);
 		this.add(rollDie);
 		this.add(chatPanel);
-		
 	}
 
 	/**
@@ -220,388 +220,7 @@ public class GamePanel extends JPanel {
 		this.swingUI = swingUI;
 	}
 
-	/**
-	 * Creates a list of tiles.
-	 */
-	public void createTiles() {
-
-		int a = 500;
-		int b = 200;
-		int radius = 125;
-		int tileSize = 25;
-		
-		for (int i = 0; i < 28; i++) {
-			double t = 2 * Math.PI * i / 28;
-			int x = (int) Math.round(a + radius * Math.cos(t));
-			int y = (int) Math.round(b + radius * Math.sin(t));
-			Rectangle rectangle = new Rectangle(x - radius, y - radius, tileSize - 2, tileSize - 2);
-			board.getMainZone().get(i).setTile(rectangle, Color.LIGHT_GRAY);
-
-		}
-
-
-		double t;
-		int baseX;
-		int baseY;
-		Rectangle rectangle;
-
-		int x;
-		int y;
-
-		// Red Home Tiles
-		// Home 1
-		baseX = (int) Math.round(a + radius * Math.cos(0)) + tileSize - radius;
-		baseY = (int) Math.round(b + radius * Math.sin(0)) - radius;
-		rectangle = new Rectangle(baseX, baseY, tileSize - 2, tileSize - 2);
-		board.getRedHomeZone().get(0).setTile(rectangle, Color.RED);
-
-		// Home 2
-		x = baseX + (tileSize - 2);
-		rectangle = new Rectangle(x, baseY, tileSize - 2, tileSize - 2);
-		board.getRedHomeZone().get(1).setTile(rectangle, Color.RED);
-
-		// Home 3
-		y = baseY - (tileSize - 2);
-		rectangle = new Rectangle(baseX, y, tileSize - 2, tileSize - 2);
-		board.getRedHomeZone().get(2).setTile(rectangle, Color.RED);
-
-		// Home 4
-		y = baseY + (tileSize - 2);
-		rectangle = new Rectangle(baseX, y, tileSize - 2, tileSize - 2);
-		board.getRedHomeZone().get(3).setTile(rectangle, Color.RED);
-
-
-		// Blue Home Tiles
-		// Home 1
-		t = 2 * Math.PI * 7 / 28;
-		baseX = (int) Math.round(a + radius * Math.cos(t)) - radius;
-		baseY = (int) Math.round(b + radius * Math.sin(t)) + tileSize - radius;
-		rectangle = new Rectangle(baseX, baseY, tileSize - 2, tileSize - 2);
-		board.getBlueHomeZone().get(0).setTile(rectangle, Color.BLUE);
-
-		// Home 2
-		y = baseY + (tileSize - 2);
-		rectangle = new Rectangle(baseX, y, tileSize - 2, tileSize - 2);
-		board.getBlueHomeZone().get(1).setTile(rectangle, Color.BLUE);
-
-		// Home 3
-		x = baseX + (tileSize - 2);
-		rectangle = new Rectangle(x, baseY, tileSize - 2, tileSize - 2);
-		board.getBlueHomeZone().get(2).setTile(rectangle, Color.BLUE);
-
-		// Home 4
-		x = baseX - (tileSize - 2);
-		rectangle = new Rectangle(x, baseY, tileSize - 2, tileSize - 2);
-		board.getBlueHomeZone().get(3).setTile(rectangle, Color.BLUE);
-
-		// Yellow Home Tiles
-		// Home 1
-		t = 2 * Math.PI * 14 / 28;
-		baseX = (int) Math.round(a + radius * Math.cos(t)) - tileSize - radius;
-		baseY = (int) Math.round(b + radius * Math.sin(t)) - radius;
-		rectangle = new Rectangle(baseX, baseY, tileSize - 2, tileSize - 2);
-		board.getYellowHomeZone().get(0).setTile(rectangle, Color.YELLOW);
-
-		// Home 2
-		x = baseX - (tileSize - 2);
-		rectangle = new Rectangle(x, baseY, tileSize - 2, tileSize - 2);
-		board.getYellowHomeZone().get(1).setTile(rectangle, Color.YELLOW);
-
-		// Home 3
-		y = baseY + (tileSize - 2);
-		rectangle = new Rectangle(baseX, y, tileSize - 2, tileSize - 2);
-		board.getYellowHomeZone().get(2).setTile(rectangle, Color.YELLOW);
-
-		// Home 4
-		y = baseY - (tileSize - 2);
-		rectangle = new Rectangle(baseX, y, tileSize - 2, tileSize - 2);
-		board.getYellowHomeZone().get(3).setTile(rectangle, Color.YELLOW);
-
-		// Green Home Tiles
-		// Home 1
-		t = 2 * Math.PI * 21 / 28;
-		baseX = (int) Math.round(a + radius * Math.cos(t)) - radius;
-		baseY = (int) Math.round(b + radius * Math.sin(t)) - tileSize - radius;
-		rectangle = new Rectangle(baseX, baseY, tileSize - 2, tileSize - 2);
-		board.getGreenHomeZone().get(0).setTile(rectangle, Color.GREEN);
-
-		// Home 2
-		y = baseY - (tileSize - 2);
-		rectangle = new Rectangle(baseX, y, tileSize - 2, tileSize - 2);
-		board.getGreenHomeZone().get(1).setTile(rectangle, Color.GREEN);
-
-		// Home 3
-		x = baseX - (tileSize - 2);
-		rectangle = new Rectangle(x, baseY, tileSize - 2, tileSize - 2);
-		board.getGreenHomeZone().get(2).setTile(rectangle, Color.GREEN);
-
-		// Home 4
-		x = baseX + (tileSize - 2);
-		rectangle = new Rectangle(x, baseY, tileSize - 2, tileSize - 2);
-		board.getGreenHomeZone().get(3).setTile(rectangle, Color.GREEN);
-
-
-		// Red End Tiles
-		baseX = (int) Math.round(a + radius * Math.cos(0)) - (tileSize + 2) - radius;
-		baseY = (int) Math.round(b + radius * Math.sin(0)) - radius;
-
-		for (int i = 0; i < 4; i++) {
-			rectangle = new Rectangle(baseX - i * (tileSize - 2), baseY, tileSize - 2, tileSize - 2);
-			board.getRedEndZone().get(i).setTile(rectangle, Color.RED);
-		}
-
-		// Blue End Tiles
-		t = 2 * Math.PI * 7 / 28;
-		baseX = (int) Math.round(a + radius * Math.cos(t)) - radius;
-		baseY = (int) Math.round(b + radius * Math.sin(t)) - (tileSize + 2) - radius;
-
-		for (int i = 0; i < 4; i++) {
-			rectangle = new Rectangle(baseX, baseY - i * (tileSize - 2), tileSize - 2, tileSize - 2);
-			board.getBlueEndZone().get(i).setTile(rectangle, Color.BLUE);
-		}
-
-		// Yellow End Tiles
-		t = 2 * Math.PI * 14 / 28;
-		baseX = (int) Math.round(a + radius * Math.cos(t)) + (tileSize + 2) - radius;
-		baseY = (int) Math.round(b + radius * Math.sin(t)) - radius;
-
-		for (int i = 0; i < 4; i++) {
-			rectangle = new Rectangle(baseX + i * (tileSize - 2), baseY, tileSize - 2, tileSize - 2);
-			board.getYellowEndZone().get(i).setTile(rectangle, Color.YELLOW);
-		}
-
-		// Green End Tiles
-		t = 2 * Math.PI * 21 / 28;
-		baseX = (int) Math.round(a + radius * Math.cos(t)) - radius;
-		baseY = (int) Math.round(b + radius * Math.sin(t)) + (tileSize + 2) - radius;
-
-		for (int i = 0; i < 4; i++) {
-			rectangle = new Rectangle(baseX, baseY + i * (tileSize - 2), tileSize - 2, tileSize - 2);
-			board.getGreenEndZone().get(i).setTile(rectangle, Color.GREEN);
-		}
-
-		/*
-		for (int i = 0; i < 28; i++) {
-			// sets the location for the normal tiles && home tiles
-			int tileSize = 25;
-			Rectangle rectangle = new Rectangle(i * tileSize, tileSize, tileSize - 2, tileSize - 2);
-			if (i == 0) {
-				int count = 0;
-				board.getMainZone().get(i).setTile(rectangle, Color.RED);
-				for (int j = i; j < i + 4; j++) {
-					Rectangle homeRectangle = new Rectangle(j * tileSize, tileSize - tileSize, tileSize - 2, tileSize - 2);
-					board.getRedHomeZone().get(count).setTile(homeRectangle, Color.RED);
-					count++;
-				}
-			} else if (i == 7) {
-				int count = 0;
-				board.getMainZone().get(i).setTile(rectangle, Color.BLUE);
-				for (int j = i; j < i + 4; j++) {
-					Rectangle homeRectangle = new Rectangle(j * tileSize, tileSize - tileSize, tileSize - 2, tileSize - 2);
-					board.getBlueHomeZone().get(count).setTile(homeRectangle, Color.BLUE);
-					count++;
-				}
-			} else if (i == 14) {
-				int count = 0;
-				board.getMainZone().get(i).setTile(rectangle, Color.YELLOW);
-				for (int j = i; j < i + 4; j++) {
-					Rectangle homeRectangle = new Rectangle(j * tileSize, tileSize - tileSize, tileSize - 2, tileSize - 2);
-					board.getYellowHomeZone().get(count).setTile(homeRectangle, Color.YELLOW);
-					count++;
-				}
-			} else if (i == 21) {
-				int count = 0;
-				board.getMainZone().get(i).setTile(rectangle, Color.GREEN);
-				for (int j = i; j < i + 4; j++) {
-					Rectangle homeRectangle = new Rectangle(j * tileSize, tileSize - tileSize, tileSize - 2, tileSize - 2);
-					board.getGreenHomeZone().get(count).setTile(homeRectangle, Color.GREEN);
-					count++;
-				}
-			} else {
-				board.getMainZone().get(i).setTile(rectangle, Color.LIGHT_GRAY);
-			}
-			
-			if (i == 6) {
-				int count = 0;
-				for (int j = 2; j < 6; j++) {
-					Rectangle endRectangle = new Rectangle(i * tileSize, j * tileSize, tileSize - 2, tileSize - 2);
-					board.getBlueEndZone().get(count).setTile(endRectangle, Color.BLUE);
-					count++;
-				}
-			} else if (i == 13) {
-				int count = 0;
-				for (int j = 2; j < 6; j++) {
-					Rectangle endRectangle = new Rectangle(i * tileSize, j * tileSize, tileSize - 2, tileSize - 2);
-					board.getYellowEndZone().get(count).setTile(endRectangle, Color.YELLOW);
-					count++;
-				}
-			} else if (i == 20) {
-				int count = 0;
-				for (int j = 2; j < 6; j++) {
-					Rectangle endRectangle = new Rectangle(i * tileSize, j * tileSize, tileSize - 2, tileSize - 2);
-					board.getGreenEndZone().get(count).setTile(endRectangle, Color.GREEN);
-					count++;
-				}
-			} else if (i == 27) {
-				int count = 0;
-				for (int j = 2; j < 6; j++) {
-					Rectangle endRectangle = new Rectangle(i * tileSize, j * tileSize, tileSize - 2, tileSize - 2);
-					board.getRedEndZone().get(count).setTile(endRectangle, Color.RED);
-					count++;
-				}
-			}
-		}*/
-	}
 	
-	/**
-	 * Create a list of the tokens
-	 */
-	public void createTokens() {
-
-		// Circular Board Tokens
-		int a = 500;
-		int b = 200;
-		int radius = 125;
-		int tileSize = 25;
-
-		double t;
-		int baseX;
-		int baseY;
-		Rectangle rectangle;
-
-		int x;
-		int y;
-
-		// Red Home Tiles
-		// Home 1
-		baseX = (int) Math.round(a + radius * Math.cos(0)) + tileSize - radius;
-		baseY = (int) Math.round(b + radius * Math.sin(0)) - radius;
-		rectangle = new Rectangle(baseX, baseY, tileSize - 2, tileSize - 2);
-		board.getRedTokens().get(0).setTile(rectangle, Color.RED);
-
-		// Home 2
-		x = baseX + (tileSize - 2);
-		rectangle = new Rectangle(x, baseY, tileSize - 2, tileSize - 2);
-		board.getRedTokens().get(1).setTile(rectangle, Color.RED);
-
-		// Home 3
-		y = baseY - (tileSize - 2);
-		rectangle = new Rectangle(baseX, y, tileSize - 2, tileSize - 2);
-		board.getRedTokens().get(2).setTile(rectangle, Color.RED);
-
-		// Home 4
-		y = baseY + (tileSize - 2);
-		rectangle = new Rectangle(baseX, y, tileSize - 2, tileSize - 2);
-		board.getRedTokens().get(3).setTile(rectangle, Color.RED);
-
-
-		// Blue Home Tiles
-		// Home 1
-		t = 2 * Math.PI * 7 / 28;
-		baseX = (int) Math.round(a + radius * Math.cos(t)) - radius;
-		baseY = (int) Math.round(b + radius * Math.sin(t)) + tileSize - radius;
-		rectangle = new Rectangle(baseX, baseY, tileSize - 2, tileSize - 2);
-		board.getBlueTokens().get(0).setTile(rectangle, Color.BLUE);
-
-		// Home 2
-		y = baseY + (tileSize - 2);
-		rectangle = new Rectangle(baseX, y, tileSize - 2, tileSize - 2);
-		board.getBlueTokens().get(1).setTile(rectangle, Color.BLUE);
-
-		// Home 3
-		x = baseX + (tileSize - 2);
-		rectangle = new Rectangle(x, baseY, tileSize - 2, tileSize - 2);
-		board.getBlueTokens().get(2).setTile(rectangle, Color.BLUE);
-
-		// Home 4
-		x = baseX - (tileSize - 2);
-		rectangle = new Rectangle(x, baseY, tileSize - 2, tileSize - 2);
-		board.getBlueTokens().get(3).setTile(rectangle, Color.BLUE);
-
-		// Yellow Home Tiles
-		// Home 1
-		t = 2 * Math.PI * 14 / 28;
-		baseX = (int) Math.round(a + radius * Math.cos(t)) - tileSize - radius;
-		baseY = (int) Math.round(b + radius * Math.sin(t)) - radius;
-		rectangle = new Rectangle(baseX, baseY, tileSize - 2, tileSize - 2);
-		board.getYellowTokens().get(0).setTile(rectangle, Color.YELLOW);
-
-		// Home 2
-		x = baseX - (tileSize - 2);
-		rectangle = new Rectangle(x, baseY, tileSize - 2, tileSize - 2);
-		board.getYellowTokens().get(1).setTile(rectangle, Color.YELLOW);
-
-		// Home 3
-		y = baseY + (tileSize - 2);
-		rectangle = new Rectangle(baseX, y, tileSize - 2, tileSize - 2);
-		board.getYellowTokens().get(2).setTile(rectangle, Color.YELLOW);
-
-		// Home 4
-		y = baseY - (tileSize - 2);
-		rectangle = new Rectangle(baseX, y, tileSize - 2, tileSize - 2);
-		board.getYellowTokens().get(3).setTile(rectangle, Color.YELLOW);
-
-		// Green Home Tiles
-		// Home 1
-		t = 2 * Math.PI * 21 / 28;
-		baseX = (int) Math.round(a + radius * Math.cos(t)) - radius;
-		baseY = (int) Math.round(b + radius * Math.sin(t)) - tileSize - radius;
-		rectangle = new Rectangle(baseX, baseY, tileSize - 2, tileSize - 2);
-		board.getGreenTokens().get(0).setTile(rectangle, Color.GREEN);
-
-		// Home 2
-		y = baseY - (tileSize - 2);
-		rectangle = new Rectangle(baseX, y, tileSize - 2, tileSize - 2);
-		board.getGreenTokens().get(1).setTile(rectangle, Color.GREEN);
-
-		// Home 3
-		x = baseX - (tileSize - 2);
-		rectangle = new Rectangle(x, baseY, tileSize - 2, tileSize - 2);
-		board.getGreenTokens().get(2).setTile(rectangle, Color.GREEN);
-
-		// Home 4
-		x = baseX + (tileSize - 2);
-		rectangle = new Rectangle(x, baseY, tileSize - 2, tileSize - 2);
-		board.getGreenTokens().get(3).setTile(rectangle, Color.GREEN);
-
-		// Linear Board Tokens
-
-		/*
-		for (int i = 0; i < 28; i++) {
-			// sets the location for the tokens
-			int tileSize = 25;
-			if (i == 0) {
-				int count = 0;
-				for (int j = i; j < i + 4; j++) {
-					Rectangle homeRectangle = new Rectangle(j * tileSize, tileSize - tileSize, tileSize - 3, tileSize - 3);
-					board.getRedTokens().get(count).setTile(homeRectangle, Color.RED);
-					count++;
-				}
-			} else if (i == 7) {
-				int count = 0;
-				for (int j = i; j < i + 4; j++) {
-					Rectangle homeRectangle = new Rectangle(j * tileSize, tileSize - tileSize, tileSize - 3, tileSize - 3);
-					board.getBlueTokens().get(count).setTile(homeRectangle, Color.BLUE);
-					count++;
-				}
-			} else if (i == 14) {
-				int count = 0;
-				for (int j = i; j < i + 4; j++) {
-					Rectangle homeRectangle = new Rectangle(j * tileSize, tileSize - tileSize, tileSize - 3, tileSize - 3);
-					board.getYellowTokens().get(count).setTile(homeRectangle, Color.YELLOW);
-					count++;
-				}
-			} else if (i == 21) {
-				int count = 0;
-				for (int j = i; j < i + 4; j++) {
-					Rectangle homeRectangle = new Rectangle(j * tileSize, tileSize - tileSize, tileSize - 3, tileSize - 3);
-					board.getGreenTokens().get(count).setTile(homeRectangle, Color.GREEN);
-					count++;
-				}
-			}
-		}
-		*/
-	}
 	
 	/**
 	 * Gets the position of a token from input coming from the server.
@@ -731,13 +350,463 @@ public class GamePanel extends JPanel {
 		
 		public GameSpace() {
 			// picked a random dimension
-			this.setPreferredSize(new Dimension(100, 200));
+			this.setPreferredSize(swingUI.getSize());
+			this.createTiles();
+			this.createTokens();
+		}
+		
+		/**
+		 * Creates a list of tiles.
+		 */
+		public void createTiles() {	        
+	        int width = getWidth() / 2;
+			int height = getHeight() / 2;
+			int min = Math.min(width, height);
+	        int diameter = 4 * min / 5;
+	        int radius = Math.abs(min - diameter) / 3;
+	        int tileSize = 25;
+	        for (int i = 0; i < 28; i++) {
+	            double t = 2 * Math.PI * i / 28;
+	            int x = (int) Math.round(width + diameter * Math.cos(t));
+	            int y = (int) Math.round(height + diameter * Math.sin(t));
+	            Rectangle rectangle = new Rectangle(x - radius, y - radius, tileSize - 2, tileSize - 2);
+	            board.getMainZone().get(i).setTile(rectangle, Color.LIGHT_GRAY);
+	        }
+
+			double t;
+			int x, y, baseX, baseY;
+			Rectangle rectangle;
+			
+			// Red Home Tiles
+			// Home 1
+			baseX = (int) Math.round(width + diameter * Math.cos(0)) + tileSize - radius;
+			baseY = (int) Math.round(height + diameter * Math.sin(0)) - radius;
+			rectangle = new Rectangle(baseX, baseY, tileSize - 2, tileSize - 2);
+			board.getRedHomeZone().get(0).setTile(rectangle, Color.RED);
+
+			// Home 2
+			x = baseX + (tileSize - 2);
+			rectangle = new Rectangle(x, baseY, tileSize - 2, tileSize - 2);
+			board.getRedHomeZone().get(1).setTile(rectangle, Color.RED);
+
+			// Home 3
+			y = baseY - (tileSize - 2);
+			rectangle = new Rectangle(baseX, y, tileSize - 2, tileSize - 2);
+			board.getRedHomeZone().get(2).setTile(rectangle, Color.RED);
+
+			// Home 4
+			y = baseY + (tileSize - 2);
+			rectangle = new Rectangle(baseX, y, tileSize - 2, tileSize - 2);
+			board.getRedHomeZone().get(3).setTile(rectangle, Color.RED);
+
+
+			// Blue Home Tiles
+			// Home 1
+			t = 2 * Math.PI * 7 / 28;
+			baseX = (int) Math.round(width + diameter * Math.cos(t)) - radius;
+			baseY = (int) Math.round(height + diameter * Math.sin(t)) + tileSize - radius;
+			rectangle = new Rectangle(baseX, baseY, tileSize - 2, tileSize - 2);
+			board.getBlueHomeZone().get(0).setTile(rectangle, Color.BLUE);
+
+			// Home 2
+			y = baseY + (tileSize - 2);
+			rectangle = new Rectangle(baseX, y, tileSize - 2, tileSize - 2);
+			board.getBlueHomeZone().get(1).setTile(rectangle, Color.BLUE);
+
+			// Home 3
+			x = baseX + (tileSize - 2);
+			rectangle = new Rectangle(x, baseY, tileSize - 2, tileSize - 2);
+			board.getBlueHomeZone().get(2).setTile(rectangle, Color.BLUE);
+
+			// Home 4
+			x = baseX - (tileSize - 2);
+			rectangle = new Rectangle(x, baseY, tileSize - 2, tileSize - 2);
+			board.getBlueHomeZone().get(3).setTile(rectangle, Color.BLUE);
+
+			// Yellow Home Tiles
+			// Home 1
+			t = 2 * Math.PI * 14 / 28;
+			baseX = (int) Math.round(width + diameter * Math.cos(t)) - tileSize - radius;
+			baseY = (int) Math.round(height + diameter * Math.sin(t)) - radius;
+			rectangle = new Rectangle(baseX, baseY, tileSize - 2, tileSize - 2);
+			board.getYellowHomeZone().get(0).setTile(rectangle, Color.YELLOW);
+
+			// Home 2
+			x = baseX - (tileSize - 2);
+			rectangle = new Rectangle(x, baseY, tileSize - 2, tileSize - 2);
+			board.getYellowHomeZone().get(1).setTile(rectangle, Color.YELLOW);
+
+			// Home 3
+			y = baseY + (tileSize - 2);
+			rectangle = new Rectangle(baseX, y, tileSize - 2, tileSize - 2);
+			board.getYellowHomeZone().get(2).setTile(rectangle, Color.YELLOW);
+
+			// Home 4
+			y = baseY - (tileSize - 2);
+			rectangle = new Rectangle(baseX, y, tileSize - 2, tileSize - 2);
+			board.getYellowHomeZone().get(3).setTile(rectangle, Color.YELLOW);
+
+			// Green Home Tiles
+			// Home 1
+			t = 2 * Math.PI * 21 / 28;
+			baseX = (int) Math.round(width + diameter * Math.cos(t)) - radius;
+			baseY = (int) Math.round(height + diameter * Math.sin(t)) - tileSize - radius;
+			rectangle = new Rectangle(baseX, baseY, tileSize - 2, tileSize - 2);
+			board.getGreenHomeZone().get(0).setTile(rectangle, Color.GREEN);
+
+			// Home 2
+			y = baseY - (tileSize - 2);
+			rectangle = new Rectangle(baseX, y, tileSize - 2, tileSize - 2);
+			board.getGreenHomeZone().get(1).setTile(rectangle, Color.GREEN);
+
+			// Home 3
+			x = baseX - (tileSize - 2);
+			rectangle = new Rectangle(x, baseY, tileSize - 2, tileSize - 2);
+			board.getGreenHomeZone().get(2).setTile(rectangle, Color.GREEN);
+
+			// Home 4
+			x = baseX + (tileSize - 2);
+			rectangle = new Rectangle(x, baseY, tileSize - 2, tileSize - 2);
+			board.getGreenHomeZone().get(3).setTile(rectangle, Color.GREEN);
+
+
+			// Red End Tiles
+			baseX = (int) Math.round(width + diameter * Math.cos(0)) - (tileSize + 2) - radius;
+			baseY = (int) Math.round(height + diameter * Math.sin(0)) - radius;
+
+			for (int i = 0; i < 4; i++) {
+				rectangle = new Rectangle(baseX - i * (tileSize - 2), baseY, tileSize - 2, tileSize - 2);
+				board.getRedEndZone().get(i).setTile(rectangle, Color.RED);
+			}
+
+			// Blue End Tiles
+			t = 2 * Math.PI * 7 / 28;
+			baseX = (int) Math.round(width + diameter * Math.cos(t)) - radius;
+			baseY = (int) Math.round(height + diameter * Math.sin(t)) - (tileSize + 2) - radius;
+
+			for (int i = 0; i < 4; i++) {
+				rectangle = new Rectangle(baseX, baseY - i * (tileSize - 2), tileSize - 2, tileSize - 2);
+				board.getBlueEndZone().get(i).setTile(rectangle, Color.BLUE);
+			}
+
+			// Yellow End Tiles
+			t = 2 * Math.PI * 14 / 28;
+			baseX = (int) Math.round(width + diameter * Math.cos(t)) + (tileSize + 2) - radius;
+			baseY = (int) Math.round(height + diameter * Math.sin(t)) - radius;
+
+			for (int i = 0; i < 4; i++) {
+				rectangle = new Rectangle(baseX + i * (tileSize - 2), baseY, tileSize - 2, tileSize - 2);
+				board.getYellowEndZone().get(i).setTile(rectangle, Color.YELLOW);
+			}
+
+			// Green End Tiles
+			t = 2 * Math.PI * 21 / 28;
+			baseX = (int) Math.round(width + diameter * Math.cos(t)) - radius;
+			baseY = (int) Math.round(height + diameter * Math.sin(t)) + (tileSize + 2) - radius;
+
+			for (int i = 0; i < 4; i++) {
+				rectangle = new Rectangle(baseX, baseY + i * (tileSize - 2), tileSize - 2, tileSize - 2);
+				board.getGreenEndZone().get(i).setTile(rectangle, Color.GREEN);
+			}
+
+			/*
+			for (int i = 0; i < 28; i++) {
+				// sets the location for the normal tiles && home tiles
+				int tileSize = 25;
+				Rectangle rectangle = new Rectangle(i * tileSize, tileSize, tileSize - 2, tileSize - 2);
+				if (i == 0) {
+					int count = 0;
+					board.getMainZone().get(i).setTile(rectangle, Color.RED);
+					for (int j = i; j < i + 4; j++) {
+						Rectangle homeRectangle = new Rectangle(j * tileSize, tileSize - tileSize, tileSize - 2, tileSize - 2);
+						board.getRedHomeZone().get(count).setTile(homeRectangle, Color.RED);
+						count++;
+					}
+				} else if (i == 7) {
+					int count = 0;
+					board.getMainZone().get(i).setTile(rectangle, Color.BLUE);
+					for (int j = i; j < i + 4; j++) {
+						Rectangle homeRectangle = new Rectangle(j * tileSize, tileSize - tileSize, tileSize - 2, tileSize - 2);
+						board.getBlueHomeZone().get(count).setTile(homeRectangle, Color.BLUE);
+						count++;
+					}
+				} else if (i == 14) {
+					int count = 0;
+					board.getMainZone().get(i).setTile(rectangle, Color.YELLOW);
+					for (int j = i; j < i + 4; j++) {
+						Rectangle homeRectangle = new Rectangle(j * tileSize, tileSize - tileSize, tileSize - 2, tileSize - 2);
+						board.getYellowHomeZone().get(count).setTile(homeRectangle, Color.YELLOW);
+						count++;
+					}
+				} else if (i == 21) {
+					int count = 0;
+					board.getMainZone().get(i).setTile(rectangle, Color.GREEN);
+					for (int j = i; j < i + 4; j++) {
+						Rectangle homeRectangle = new Rectangle(j * tileSize, tileSize - tileSize, tileSize - 2, tileSize - 2);
+						board.getGreenHomeZone().get(count).setTile(homeRectangle, Color.GREEN);
+						count++;
+					}
+				} else {
+					board.getMainZone().get(i).setTile(rectangle, Color.LIGHT_GRAY);
+				}
+				
+				if (i == 6) {
+					int count = 0;
+					for (int j = 2; j < 6; j++) {
+						Rectangle endRectangle = new Rectangle(i * tileSize, j * tileSize, tileSize - 2, tileSize - 2);
+						board.getBlueEndZone().get(count).setTile(endRectangle, Color.BLUE);
+						count++;
+					}
+				} else if (i == 13) {
+					int count = 0;
+					for (int j = 2; j < 6; j++) {
+						Rectangle endRectangle = new Rectangle(i * tileSize, j * tileSize, tileSize - 2, tileSize - 2);
+						board.getYellowEndZone().get(count).setTile(endRectangle, Color.YELLOW);
+						count++;
+					}
+				} else if (i == 20) {
+					int count = 0;
+					for (int j = 2; j < 6; j++) {
+						Rectangle endRectangle = new Rectangle(i * tileSize, j * tileSize, tileSize - 2, tileSize - 2);
+						board.getGreenEndZone().get(count).setTile(endRectangle, Color.GREEN);
+						count++;
+					}
+				} else if (i == 27) {
+					int count = 0;
+					for (int j = 2; j < 6; j++) {
+						Rectangle endRectangle = new Rectangle(i * tileSize, j * tileSize, tileSize - 2, tileSize - 2);
+						board.getRedEndZone().get(count).setTile(endRectangle, Color.RED);
+						count++;
+					}
+				}
+			}*/
+		}
+		
+		/**
+		 * Create a list of the tokens
+		 */
+		public void createTokens() {
+			for (Tile token : board.getRedTokens()) {
+				Tile tile;
+				switch (token.getZone()) {
+					case Board.SLOT_HOME:
+						tile = board.getRedHomeZone().get(token.getIndex());
+						token.setTile(tile.getShape(), Color.RED);
+						break;
+					case Board.SLOT_MAIN:
+						tile = board.getMainZone().get(token.getIndex());
+						token.setTile(tile.getShape(), Color.RED);
+						break;
+					case Board.SLOT_END:
+						tile = board.getRedEndZone().get(token.getIndex());
+						token.setTile(tile.getShape(), Color.RED);
+						break;
+				}
+			}
+			
+			for (Tile token : board.getBlueTokens()) {
+				Tile tile;
+				switch (token.getZone()) {
+					case Board.SLOT_HOME:
+						tile = board.getBlueHomeZone().get(token.getIndex());
+						token.setTile(tile.getShape(), Color.BLUE);
+						break;
+					case Board.SLOT_MAIN:
+						tile = board.getMainZone().get(token.getIndex());
+						token.setTile(tile.getShape(), Color.BLUE);
+						break;
+					case Board.SLOT_END:
+						tile = board.getBlueEndZone().get(token.getIndex());
+						token.setTile(tile.getShape(), Color.BLUE);
+						break;
+				}
+			}
+			
+			for (Tile token : board.getYellowTokens()) {
+				Tile tile;
+				switch (token.getZone()) {
+					case Board.SLOT_HOME:
+						tile = board.getYellowHomeZone().get(token.getIndex());
+						token.setTile(tile.getShape(), Color.YELLOW);
+						break;
+					case Board.SLOT_MAIN:
+						tile = board.getMainZone().get(token.getIndex());
+						token.setTile(tile.getShape(), Color.YELLOW);
+						break;
+					case Board.SLOT_END:
+						tile = board.getYellowEndZone().get(token.getIndex());
+						token.setTile(tile.getShape(), Color.YELLOW);
+						break;
+				}
+			}
+			
+			for (Tile token : board.getGreenTokens()) {
+				Tile tile;
+				switch (token.getZone()) {
+					case Board.SLOT_HOME:
+						tile = board.getGreenHomeZone().get(token.getIndex());
+						token.setTile(tile.getShape(), Color.GREEN);
+						break;
+					case Board.SLOT_MAIN:
+						tile = board.getMainZone().get(token.getIndex());
+						token.setTile(tile.getShape(), Color.GREEN);
+						break;
+					case Board.SLOT_END:
+						tile = board.getGreenEndZone().get(token.getIndex());
+						token.setTile(tile.getShape(), Color.GREEN);
+						break;
+				}
+			}
+			/*
+			// Circular Board Tokens
+			int width = getWidth() / 2;
+			int height = getHeight() / 2;
+			int min = Math.min(width, height);
+	        int diameter = 4 * min / 5;
+	        int radius = Math.abs(min - diameter) / 3;
+	        int tileSize = 25;
+
+			double t;
+			int x, y, baseX, baseY;
+			Rectangle rectangle;
+
+			// Red Home Tiles
+			// Home 1
+			baseX = (int) Math.round(width + diameter * Math.cos(0)) + tileSize - radius;
+			baseY = (int) Math.round(height + diameter * Math.sin(0)) - radius;
+			rectangle = new Rectangle(baseX, baseY, tileSize - 2, tileSize - 2);
+			board.getRedTokens().get(0).setTile(rectangle, Color.RED);
+
+			// Home 2
+			x = baseX + (tileSize - 2);
+			rectangle = new Rectangle(x, baseY, tileSize - 2, tileSize - 2);
+			board.getRedTokens().get(1).setTile(rectangle, Color.RED);
+
+			// Home 3
+			y = baseY - (tileSize - 2);
+			rectangle = new Rectangle(baseX, y, tileSize - 2, tileSize - 2);
+			board.getRedTokens().get(2).setTile(rectangle, Color.RED);
+
+			// Home 4
+			y = baseY + (tileSize - 2);
+			rectangle = new Rectangle(baseX, y, tileSize - 2, tileSize - 2);
+			board.getRedTokens().get(3).setTile(rectangle, Color.RED);
+
+
+			// Blue Home Tiles
+			// Home 1
+			t = 2 * Math.PI * 7 / 28;
+			baseX = (int) Math.round(width + diameter * Math.cos(t)) - radius;
+			baseY = (int) Math.round(height + diameter * Math.sin(t)) + tileSize - radius;
+			rectangle = new Rectangle(baseX, baseY, tileSize - 2, tileSize - 2);
+			board.getBlueTokens().get(0).setTile(rectangle, Color.BLUE);
+
+			// Home 2
+			y = baseY + (tileSize - 2);
+			rectangle = new Rectangle(baseX, y, tileSize - 2, tileSize - 2);
+			board.getBlueTokens().get(1).setTile(rectangle, Color.BLUE);
+
+			// Home 3
+			x = baseX + (tileSize - 2);
+			rectangle = new Rectangle(x, baseY, tileSize - 2, tileSize - 2);
+			board.getBlueTokens().get(2).setTile(rectangle, Color.BLUE);
+
+			// Home 4
+			x = baseX - (tileSize - 2);
+			rectangle = new Rectangle(x, baseY, tileSize - 2, tileSize - 2);
+			board.getBlueTokens().get(3).setTile(rectangle, Color.BLUE);
+
+			// Yellow Home Tiles
+			// Home 1
+			t = 2 * Math.PI * 14 / 28;
+			baseX = (int) Math.round(width + diameter * Math.cos(t)) - tileSize - radius;
+			baseY = (int) Math.round(diameter + diameter * Math.sin(t)) - radius;
+			rectangle = new Rectangle(baseX, baseY, tileSize - 2, tileSize - 2);
+			board.getYellowTokens().get(0).setTile(rectangle, Color.YELLOW);
+
+			// Home 2
+			x = baseX - (tileSize - 2);
+			rectangle = new Rectangle(x, baseY, tileSize - 2, tileSize - 2);
+			board.getYellowTokens().get(1).setTile(rectangle, Color.YELLOW);
+
+			// Home 3
+			y = baseY + (tileSize - 2);
+			rectangle = new Rectangle(baseX, y, tileSize - 2, tileSize - 2);
+			board.getYellowTokens().get(2).setTile(rectangle, Color.YELLOW);
+
+			// Home 4
+			y = baseY - (tileSize - 2);
+			rectangle = new Rectangle(baseX, y, tileSize - 2, tileSize - 2);
+			board.getYellowTokens().get(3).setTile(rectangle, Color.YELLOW);
+
+			// Green Home Tiles
+			// Home 1
+			t = 2 * Math.PI * 21 / 28;
+			baseX = (int) Math.round(width + diameter * Math.cos(t)) - radius;
+			baseY = (int) Math.round(height + diameter * Math.sin(t)) - tileSize - radius;
+			rectangle = new Rectangle(baseX, baseY, tileSize - 2, tileSize - 2);
+			board.getGreenTokens().get(0).setTile(rectangle, Color.GREEN);
+
+			// Home 2
+			y = baseY - (tileSize - 2);
+			rectangle = new Rectangle(baseX, y, tileSize - 2, tileSize - 2);
+			board.getGreenTokens().get(1).setTile(rectangle, Color.GREEN);
+
+			// Home 3
+			x = baseX - (tileSize - 2);
+			rectangle = new Rectangle(x, baseY, tileSize - 2, tileSize - 2);
+			board.getGreenTokens().get(2).setTile(rectangle, Color.GREEN);
+
+			// Home 4
+			x = baseX + (tileSize - 2);
+			rectangle = new Rectangle(x, baseY, tileSize - 2, tileSize - 2);
+			board.getGreenTokens().get(3).setTile(rectangle, Color.GREEN);*/
+
+			// Linear Board Tokens
+
+			/*
+			for (int i = 0; i < 28; i++) {
+				// sets the location for the tokens
+				int tileSize = 25;
+				if (i == 0) {
+					int count = 0;
+					for (int j = i; j < i + 4; j++) {
+						Rectangle homeRectangle = new Rectangle(j * tileSize, tileSize - tileSize, tileSize - 3, tileSize - 3);
+						board.getRedTokens().get(count).setTile(homeRectangle, Color.RED);
+						count++;
+					}
+				} else if (i == 7) {
+					int count = 0;
+					for (int j = i; j < i + 4; j++) {
+						Rectangle homeRectangle = new Rectangle(j * tileSize, tileSize - tileSize, tileSize - 3, tileSize - 3);
+						board.getBlueTokens().get(count).setTile(homeRectangle, Color.BLUE);
+						count++;
+					}
+				} else if (i == 14) {
+					int count = 0;
+					for (int j = i; j < i + 4; j++) {
+						Rectangle homeRectangle = new Rectangle(j * tileSize, tileSize - tileSize, tileSize - 3, tileSize - 3);
+						board.getYellowTokens().get(count).setTile(homeRectangle, Color.YELLOW);
+						count++;
+					}
+				} else if (i == 21) {
+					int count = 0;
+					for (int j = i; j < i + 4; j++) {
+						Rectangle homeRectangle = new Rectangle(j * tileSize, tileSize - tileSize, tileSize - 3, tileSize - 3);
+						board.getGreenTokens().get(count).setTile(homeRectangle, Color.GREEN);
+						count++;
+					}
+				}
+			}
+			*/
 		}
 		
 		@Override
 		protected void paintComponent(Graphics g) {
 			super.paintComponent(g);
 			Graphics2D g2d = (Graphics2D) g.create();
+			createTiles();
+			createTokens();
 			
 			// Draw mainZone tiles
 			for (Tile tile : board.getMainZone()) {
