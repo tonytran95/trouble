@@ -139,8 +139,14 @@ public class GameClient {
 		    				gameRoomPanel.clearUsers();
 		    			} else if (input.startsWith(CommunicationHandler.GAME_ROOM_LEAVE)) {
 		    				gameRoomPanel.removeUser(inputSplit[1]);
-		    			}
+		    			}  
 		    			break;
+		    		case USER_PROFILE:
+		    			if (input.startsWith(CommunicationHandler.UPDATE_SUCCESS)) {
+		    				JOptionPane.showMessageDialog(null, "Your Display name has been changed.");
+		    			} else if (input.startsWith(CommunicationHandler.UPDATE_FAIL)) {
+		    				JOptionPane.showMessageDialog(null, "Incorrect password.");
+		    			}
 		    		default:
 		    	}
 		    }

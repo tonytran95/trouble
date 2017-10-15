@@ -17,6 +17,7 @@ import troublegame.client.panels.GamePanel;
 import troublegame.client.panels.GameRoomPanel;
 import troublegame.client.panels.LobbyPanel;
 import troublegame.client.panels.LoginPanel;
+import troublegame.client.panels.ProfilePanel;
 import troublegame.client.panels.RulesPanel;
 import troublegame.client.panels.StartPanel;
 
@@ -88,6 +89,11 @@ public class SwingUI extends JFrame {
 	 * The rules panel.
 	 */
 	private RulesPanel rulesPanel;
+	
+	/**
+	 * The user profile panel.
+	 */
+	private ProfilePanel profilePanel;
 	
 	/**
 	 * The client state.
@@ -199,6 +205,7 @@ public class SwingUI extends JFrame {
 			case START:
 				if (startPanel == null)
 					startPanel = new StartPanel(this);
+				resizeFrame(800, 620);
 				switchPanel(startPanel);
 				break;
 			case IN_GAME:
@@ -209,11 +216,13 @@ public class SwingUI extends JFrame {
 			case LOBBY:
 				if (lobbyPanel == null)
 					lobbyPanel = new LobbyPanel(this);
+				resizeFrame(600, 550);
 				switchPanel(lobbyPanel);
 				break;
 			case LOGIN:
 				if (loginPanel == null)
 					loginPanel = new LoginPanel(this);
+				resizeFrame(600, 400);
 				switchPanel(loginPanel);
 				break;
 			case PARTY:
@@ -226,6 +235,12 @@ public class SwingUI extends JFrame {
 					rulesPanel = new RulesPanel(this);
 				resizeFrame(950, 870);
 				switchPanel(rulesPanel);
+				break;
+			case USER_PROFILE:
+				if (profilePanel == null)
+					profilePanel = new ProfilePanel(this);
+				resizeFrame(600, 550);
+				switchPanel(profilePanel);
 				break;
 			default:
 				// do nothing

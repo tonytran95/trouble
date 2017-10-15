@@ -125,6 +125,17 @@ public class SocketListener {
 										} else if (input.startsWith(CommunicationHandler.GAME_CHAT)) {
 											String message = input.substring(CommunicationHandler.GAME_CHAT.length());
 											gameEngine.handleChat(conn, message);
+										} else if (input.startsWith(CommunicationHandler.UPDATE_DISPLAYNAME)) {
+											String[] inputSplit = input.split(" ");
+											String newDisplayname = inputSplit[1];
+											String myPassword = inputSplit[2];
+											User u = conn.getUser();
+											if (myPassword.equals(u.getPassword())) {
+												u.updateUsername(newDisplayname);
+												conn.getOutputStream().println(CommunicationHandler.UPDATE_SUCCESS);
+											} else {
+												conn.getOutputStream().println(CommunicationHandler.UPDATE_FAIL);
+											}
 										} else {
 											System.out.println("Unknown Command: " + input);
 										}

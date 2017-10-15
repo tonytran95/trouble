@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import troublegame.client.Interface;
 import troublegame.client.SwingUI;
 import troublegame.communication.CommunicationHandler;
 
@@ -36,6 +37,7 @@ public class LobbyPanel extends JPanel {
 	private JList<String> gameRooms;
 	private JButton createRoom;
 	private JButton joinRoom;
+	private JButton userProfile;
 	
 	/**
 	 * The constructor for the Lobby panel.
@@ -76,6 +78,15 @@ public class LobbyPanel extends JPanel {
 		});
 		joinRoom.setEnabled(false);
 		
+		userProfile = new JButton("My Profile");
+		userProfile.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				swingUI.setInterface(Interface.USER_PROFILE);
+			}
+		});
+		
+		this.add(userProfile);
 		this.add(gameRooms);
 		this.add(createRoom);
 		this.add(joinRoom);

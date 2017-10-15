@@ -48,5 +48,8 @@ public final class CommunicationHandler {
 	public static final String GAME_EAT_TOKEN = "[GAME_EAT_TOKEN]";
 	public static final String GAME_CHAT= "[GAME_CHAT]";
 	
-	
+	// user profile
+	public static final String UPDATE_DISPLAYNAME= "[UPDATE_DISPLAYNAME]";
+	public static final String UPDATE_FAIL = "[UPDATE_FAIL]";
+	public static final String UPDATE_SUCCESS = "[UPDATE_SUCCESS]";
 }
