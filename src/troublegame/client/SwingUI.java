@@ -205,25 +205,22 @@ public class SwingUI extends JFrame {
 			case START:
 				if (startPanel == null)
 					startPanel = new StartPanel(this);
-				resizeFrame(800, 620);
 				switchPanel(startPanel);
 				break;
 			case IN_GAME:
 				if (gamePanel == null)
 					gamePanel = new GamePanel(this);
-				resizeFrame(800, 620);
 				switchPanel(gamePanel);
 				break;
 			case LOBBY:
 				if (lobbyPanel == null)
 					lobbyPanel = new LobbyPanel(this);
-				resizeFrame(600, 550);
+				resizeFrame(HEIGHT, WIDTH);
 				switchPanel(lobbyPanel);
 				break;
 			case LOGIN:
 				if (loginPanel == null)
 					loginPanel = new LoginPanel(this);
-				resizeFrame(600, 400);
 				switchPanel(loginPanel);
 				break;
 			case PARTY:
