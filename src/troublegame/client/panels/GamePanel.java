@@ -224,6 +224,19 @@ public class GamePanel extends JPanel {
 	 * Creates a list of tiles.
 	 */
 	public void createTiles() {
+		/*
+		int a = 500;
+		int b = 200;
+		int radius = 100;
+		int tileSize = 25;
+		
+		for (int i = 0; i < 28; i++) {
+			double t = 2 * Math.PI * i / 28;
+			int x = (int) Math.round(a + radius * Math.cos(t));
+			int y = (int) Math.round(b + radius * Math.sin(t));
+			Rectangle rectangle = new Rectangle(x - radius, y - radius, tileSize - 2, tileSize - 2);
+			board.getMainZone().get(i).setTile(rectangle, Color.LIGHT_GRAY);
+		}*/
 		for (int i = 0; i < 28; i++) {
 			// sets the location for the normal tiles && home tiles
 			int tileSize = 25;
