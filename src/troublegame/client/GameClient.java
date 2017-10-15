@@ -9,6 +9,7 @@ import java.net.UnknownHostException;
 
 import javax.swing.JOptionPane;
 
+import troublegame.client.model.User;
 import troublegame.client.panels.GamePanel;
 import troublegame.client.panels.GameRoomPanel;
 import troublegame.client.panels.LobbyPanel;
@@ -64,6 +65,8 @@ public class GameClient {
 		    			break;
 		    		case LOGIN:
 		    			if (input.startsWith(CommunicationHandler.LOGIN_SUCCESS)) {
+		    				String username = input.substring(CommunicationHandler.LOGIN_SUCCESS.length() + 1);
+		    				ui.setUser(new User(username));
 		    				ui.setInterface(Interface.LOBBY);
 				    	} else if (input.startsWith(CommunicationHandler.LOGIN_ERROR)) {
 				    		String errorMsg = input.substring(14);

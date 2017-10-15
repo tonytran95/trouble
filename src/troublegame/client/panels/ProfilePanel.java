@@ -185,9 +185,13 @@ public class ProfilePanel extends JPanel {
 				if (username.contains(" ") || password.contains(" ")) {
 					JOptionPane.showMessageDialog(null, "Space is not allowed in Display name or Password");
 					return;
-				}	
-				passwordField.setText("");
+				}
+				if(password.length() == 0 || username.length() == 0) {
+					JOptionPane.showMessageDialog(null, "Display name or password cannot be blank");
+					return;
+				}
 				swingUI.send(CommunicationHandler.UPDATE_DISPLAYNAME + " " + username + " " + password);
+				passwordField.setText("");
 			}
 		});
 		

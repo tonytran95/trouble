@@ -96,7 +96,7 @@ public class SocketListener {
 												serverStream.println(CommunicationHandler.LOGIN_ERROR + " No user with the email " + receivedEmail + " was found");
 											} else if (tmp.getPassword().equals(receivedPass)) {
 												conn.setUser(tmp);
-												serverStream.println(CommunicationHandler.LOGIN_SUCCESS);
+												serverStream.println(CommunicationHandler.LOGIN_SUCCESS + " " + tmp.getUsername());
 												loginHandler.addConnectionToQueue(conn);
 											} else {
 												conn.getOutputStream().println(CommunicationHandler.LOGIN_ERROR + " Incorrect password");
@@ -122,6 +122,7 @@ public class SocketListener {
 										} else if (input.startsWith(CommunicationHandler.GAME_START)) {
 											String gameRoomName = input.substring(CommunicationHandler.GAME_START.length() + 1);
 											gameEngine.createGame(lobby.getGameRoomByName(gameRoomName).getMembers());
+											
 										} else if (input.startsWith(CommunicationHandler.GAME_CHAT)) {
 											String message = input.substring(CommunicationHandler.GAME_CHAT.length());
 											gameEngine.handleChat(conn, message);
