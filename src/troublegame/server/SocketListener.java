@@ -96,7 +96,7 @@ public class SocketListener {
 												serverStream.println(CommunicationHandler.LOGIN_ERROR + " No user with the email " + receivedEmail + " was found");
 											} else if (tmp.getPassword().equals(receivedPass)) {
 												conn.setUser(tmp);
-												serverStream.println(CommunicationHandler.LOGIN_SUCCESS);
+												serverStream.println(CommunicationHandler.LOGIN_SUCCESS + " " + tmp.getUsername());
 												loginHandler.addConnectionToQueue(conn);
 											} else {
 												conn.getOutputStream().println(CommunicationHandler.LOGIN_ERROR + " Incorrect password");
