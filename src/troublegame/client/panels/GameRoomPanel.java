@@ -54,7 +54,7 @@ public class GameRoomPanel extends JPanel {
 		startGame.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				swingUI.send(CommunicationHandler.GAME_START + " " + swingUI.getUser().getUsername() + " " + name);
+				swingUI.send(CommunicationHandler.GAME_START + " " + name);
 			}
 		});
 		JButton leaveRoom = new JButton("Leave Room");

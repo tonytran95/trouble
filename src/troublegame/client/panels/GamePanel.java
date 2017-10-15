@@ -224,7 +224,6 @@ public class GamePanel extends JPanel {
 	 * Creates a list of tiles.
 	 */
 	public void createTiles() {
-		/*
 		int a = 500;
 		int b = 200;
 		int radius = 100;
@@ -236,8 +235,9 @@ public class GamePanel extends JPanel {
 			int y = (int) Math.round(b + radius * Math.sin(t));
 			Rectangle rectangle = new Rectangle(x - radius, y - radius, tileSize - 2, tileSize - 2);
 			board.getMainZone().get(i).setTile(rectangle, Color.LIGHT_GRAY);
-		}*/
-		for (int i = 0; i < 28; i++) {
+		}
+		
+		/*for (int i = 0; i < 28; i++) {
 			// sets the location for the normal tiles && home tiles
 			int tileSize = 25;
 			Rectangle rectangle = new Rectangle(i * tileSize, tileSize, tileSize - 2, tileSize - 2);
@@ -306,7 +306,7 @@ public class GamePanel extends JPanel {
 					count++;
 				}
 			}
-		}
+		}*/
 	}
 	
 	/**
@@ -498,7 +498,7 @@ public class GamePanel extends JPanel {
 					g2d.setColor(Color.LIGHT_GRAY);
 				g2d.draw(tile.getShape());
 			}
-			
+			/*
 			// Draw homeZone tiles
 			for (Tile tile : board.getRedHomeZone()) {
 				g2d.setColor(TRANSPARENT_RED);
@@ -599,7 +599,7 @@ public class GamePanel extends JPanel {
 						g2d.setColor(TRANSPARENT_YELLOW);
 				}
 				g2d.fill(token.getShape());
-			}
+			}*/
 			g2d.dispose();
 		}
 	}
