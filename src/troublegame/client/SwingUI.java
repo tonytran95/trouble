@@ -211,6 +211,7 @@ public class SwingUI extends JFrame {
 			case IN_GAME:
 				if (gamePanel == null)
 					gamePanel = new GamePanel(this);
+				resizeFrame(800, 620);
 				switchPanel(gamePanel);
 				break;
 			case LOBBY:
