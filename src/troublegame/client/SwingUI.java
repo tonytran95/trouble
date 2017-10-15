@@ -198,7 +198,7 @@ public class SwingUI extends JFrame {
 
 	/**
 	 * Sets the client state.
-	 * @param clientState is the client state of the player.
+	 * @param state is the client state of the player.
 	 */
 	public void setInterface(Interface state) {
 		switch (state) {
