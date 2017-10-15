@@ -277,4 +277,8 @@ public class SwingUI extends JFrame {
 	public void pushChat(String message) {
 		this.gameRoomPanel.updateChat(message);
 	}
+	
+	public void pushGameChat(String message) {
+		this.gamePanel.sendChatMessage(message);
+	}
 }

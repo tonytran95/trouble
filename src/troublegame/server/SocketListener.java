@@ -64,68 +64,71 @@ public class SocketListener {
 						Thread thread = new Thread(new Runnable() {
 							@Override
 							public void run() {
-				                try {
-				                	// Establish the client's input stream.
-					                BufferedReader clientInput = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-					                
-					                // Establish the server's output stream.
-					                PrintWriter clientOutput = new PrintWriter(clientSocket.getOutputStream(), true);
-					                
-					                Connection conn = new Connection(clientSocket, clientInput, clientOutput);
-					                addConnection(conn);
-					                
-					                // TODO:later on we will have a method that adds player connections to correct gameEngines
-					                
-					                
-					                while (true) {
-					                	
-					                	String input = clientInput.readLine();
-					                	System.out.println("Client Sent: " + input);
-					                	// TEMPORARY
-					                	if (input.startsWith(CommunicationHandler.LOGIN_REQUEST)) {
-					                		
-					                		String[] inputSplit = input.split(" ");
-					                		
-					                		String receivedEmail = inputSplit[1];
-					                		String receivedPass = inputSplit[2];
-					                		
-					                		User tmp = UserManager.loadUserByEmail(receivedEmail);
-					                		PrintWriter serverStream = conn.getOutputStream();
-					                		
-					                		if(tmp == null) {
-					                			serverStream.println(CommunicationHandler.LOGIN_ERROR + " No user with the email " + receivedEmail + " was found");
-					                		} else if (tmp.getPassword().equals(receivedPass)) {
-					                			conn.setUser(tmp);
-					                			serverStream.println(CommunicationHandler.LOGIN_SUCCESS);
-					                			loginHandler.addConnectionToQueue(conn);
-					                		} else {
-					                			conn.getOutputStream().println(CommunicationHandler.LOGIN_ERROR + " Incorrect password");
-					                		}
-					                		
-					                	} else if (input.equals(CommunicationHandler.GAME_ROOM_NEW)) {
-					                		System.out.println(conn.getUser().getUsername()+" created a room");
-					                		lobby.createGameRoom(conn);
-					                	} else if (input.startsWith(CommunicationHandler.GAME_ROOM_JOIN)) {
-					                		String[] inputSplit = input.split("] ");
-					                		lobby.joinGameRoom(conn, inputSplit[1]);
-					                	} else if (input.startsWith(CommunicationHandler.GAME_ROLL)) {
-					                		gameEngine.handleInput(conn, input);
-					                	} else if (input.startsWith(CommunicationHandler.GAME_ROOM_INFO)) {
-					                		lobby.handleGameRoomQuery(conn);
-					                	} else if (input.startsWith(CommunicationHandler.GAME_ROOM_CHAT)) {
-					                		String message = input.substring(CommunicationHandler.GAME_ROOM_CHAT.length());
-					                		lobby.handleChat(conn, message);
-					                	} else if(input.startsWith(CommunicationHandler.GAME_ROOM_LEAVE)) {
-					                		lobby.leaveGameRoom(conn);
-					                	} else if (input.startsWith(CommunicationHandler.LOGOUT_REQUEST)) {
-					                		// TODO Logout action
-					                	} else if (input.startsWith(CommunicationHandler.GAME_START)) {
-					                		String gameRoomName = input.substring(CommunicationHandler.GAME_START.length() + 1);
-					                		gameEngine.createGame(lobby.getGameRoomByName(gameRoomName).getMembers());
-					                	} else {
-					                		System.out.println("Unknown Command: " + input);
-					                	}
-					                }
+								try {
+									// Establish the client's input stream.
+									BufferedReader clientInput = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+									
+									// Establish the server's output stream.
+									PrintWriter clientOutput = new PrintWriter(clientSocket.getOutputStream(), true);
+									
+									Connection conn = new Connection(clientSocket, clientInput, clientOutput);
+									addConnection(conn);
+									
+									// TODO:later on we will have a method that adds player connections to correct gameEngines
+									
+									
+									while (true) {
+										
+										String input = clientInput.readLine();
+										System.out.println("Client Sent: " + input);
+										// TEMPORARY
+										if (input.startsWith(CommunicationHandler.LOGIN_REQUEST)) {
+											
+											String[] inputSplit = input.split(" ");
+											
+											String receivedEmail = inputSplit[1];
+											String receivedPass = inputSplit[2];
+											
+											User tmp = UserManager.loadUserByEmail(receivedEmail);
+											PrintWriter serverStream = conn.getOutputStream();
+											
+											if(tmp == null) {
+												serverStream.println(CommunicationHandler.LOGIN_ERROR + " No user with the email " + receivedEmail + " was found");
+											} else if (tmp.getPassword().equals(receivedPass)) {
+												conn.setUser(tmp);
+												serverStream.println(CommunicationHandler.LOGIN_SUCCESS);
+												loginHandler.addConnectionToQueue(conn);
+											} else {
+												conn.getOutputStream().println(CommunicationHandler.LOGIN_ERROR + " Incorrect password");
+											}
+											
+										} else if (input.equals(CommunicationHandler.GAME_ROOM_NEW)) {
+											System.out.println(conn.getUser().getUsername()+" created a room");
+											lobby.createGameRoom(conn);
+										} else if (input.startsWith(CommunicationHandler.GAME_ROOM_JOIN)) {
+											String[] inputSplit = input.split("] ");
+											lobby.joinGameRoom(conn, inputSplit[1]);
+										} else if (input.startsWith(CommunicationHandler.GAME_ROLL)) {
+											gameEngine.handleInput(conn, input);
+										} else if (input.startsWith(CommunicationHandler.GAME_ROOM_INFO)) {
+											lobby.handleGameRoomQuery(conn);
+										} else if (input.startsWith(CommunicationHandler.GAME_ROOM_CHAT)) {
+											String message = input.substring(CommunicationHandler.GAME_ROOM_CHAT.length());
+											lobby.handleChat(conn, message);
+										} else if(input.startsWith(CommunicationHandler.GAME_ROOM_LEAVE)) {
+											lobby.leaveGameRoom(conn);
+										} else if (input.startsWith(CommunicationHandler.LOGOUT_REQUEST)) {
+											// TODO Logout action
+										} else if (input.startsWith(CommunicationHandler.GAME_START)) {
+											String gameRoomName = input.substring(CommunicationHandler.GAME_START.length() + 1);
+											gameEngine.createGame(lobby.getGameRoomByName(gameRoomName).getMembers());
+										} else if (input.startsWith(CommunicationHandler.GAME_CHAT)) {
+											String message = input.substring(CommunicationHandler.GAME_CHAT.length());
+											gameEngine.handleChat(conn, message);
+										} else {
+											System.out.println("Unknown Command: " + input);
+										}
+									}
 								} catch (IOException e) {
 									e.printStackTrace();
 								}

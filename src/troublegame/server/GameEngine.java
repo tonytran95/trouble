@@ -1,5 +1,6 @@
 package troublegame.server;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -100,6 +101,21 @@ public class GameEngine {
 		if (gameConn.size() == 4) {
 			startGame(g);
 		}
+	}
+	
+	public void handleChat(Connection user, String message) {
+		for (Game g : games) {
+			for (Player player : g.getHumanPlayers()) {
+				if (player.getUsername().equals(user.getUsername())) {
+					for (Connection member: gameConns.get(g)) {
+						PrintWriter outputStream = member.getOutputStream();
+						String s = String.format(CommunicationHandler.GAME_CHAT + "%s: %s", user.getUsername(), message);
+						outputStream.println(s);
+					}
+				}
+			}
+		}
+
 	}
 	
 	// process runs the game

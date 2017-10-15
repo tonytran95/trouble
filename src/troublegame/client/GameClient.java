@@ -114,7 +114,10 @@ public class GameClient {
 				    		} else {
 				    			gamePanel.updateMessage(inputSplit[1] + "'s turn.", 1);
 				    		}
-				    	}
+		    			} else if (input.startsWith(CommunicationHandler.GAME_CHAT)) {
+		    				String chatMessage = input.substring(CommunicationHandler.GAME_CHAT.length());
+		    				ui.pushGameChat(chatMessage);
+		    			}
 		    			break;
 		    		case PARTY:
 		    			GameRoomPanel gameRoomPanel = (GameRoomPanel) ui.getCurrentPanel();
