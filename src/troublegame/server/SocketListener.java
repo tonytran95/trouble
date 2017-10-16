@@ -134,7 +134,7 @@ public class SocketListener {
 											User u = conn.getUser();
 											if (myPassword.equals(u.getPassword())) {
 												u.updateUsername(newDisplayname);
-												conn.getOutputStream().println(CommunicationHandler.UPDATE_SUCCESS);
+												conn.getOutputStream().println(CommunicationHandler.UPDATE_SUCCESS + " " + newDisplayname);
 											} else {
 												conn.getOutputStream().println(CommunicationHandler.UPDATE_FAIL);
 											}

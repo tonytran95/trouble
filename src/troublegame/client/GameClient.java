@@ -146,9 +146,11 @@ public class GameClient {
 		    			break;
 		    		case USER_PROFILE:
 		    			if (input.startsWith(CommunicationHandler.UPDATE_SUCCESS)) {
-		    				JOptionPane.showMessageDialog(null, "Your Display name has been changed.");
+		    				String username = input.substring(CommunicationHandler.UPDATE_SUCCESS.length() + 1);
+		    				ui.setUser(new User(username));
+		    				JOptionPane.showMessageDialog(null, "Your details have been updated");
 		    			} else if (input.startsWith(CommunicationHandler.UPDATE_FAIL)) {
-		    				JOptionPane.showMessageDialog(null, "Incorrect password.");
+		    				JOptionPane.showMessageDialog(null, "Error updating details");
 		    			}
 		    		default:
 		    	}
