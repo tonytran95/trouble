@@ -32,7 +32,9 @@ public class UserManagerTest {
 	public void removeExistingUsers() {
 		
 		File usrDir = new File(UserManager.USER_PATH);
-		for(File f : usrDir.listFiles()) {
+		File[] userFiles = usrDir.listFiles();
+		if(userFiles == null) return;
+		for(File f : userFiles) {
 			f.delete();
 		}
 		
