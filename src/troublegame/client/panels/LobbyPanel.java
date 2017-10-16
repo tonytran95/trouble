@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.event.ListSelectionEvent;
@@ -32,12 +33,7 @@ public class LobbyPanel extends JPanel {
 	/**
 	 * The Default List Model for JList of Users
 	 */
-	private DefaultListModel<String> gameRoomModel = new DefaultListModel<String>();
-	
-	private JList<String> gameRooms;
-	private JButton createRoom;
-	private JButton joinRoom;
-	private JButton userProfile;
+	private DefaultListModel<String> gameRoomModel;
 	
 	/**
 	 * The constructor for the Lobby panel.
@@ -52,44 +48,61 @@ public class LobbyPanel extends JPanel {
 	 * Initializes the Lobby panel.
 	 */
 	public void init() {
-		gameRoomModel = new DefaultListModel<String>();
-		gameRooms = new JList<String>(gameRoomModel);
-		gameRooms.addListSelectionListener(new ListSelectionListener() {
+		this.setLayout(null);
+		JList<String> list = new JList<String>();
+		list.setBounds(631, 105, 100, 349);
+		this.add(list);
+		
+		JButton btnProfile = new JButton("My profile");
+		btnProfile.setBounds(642, 11, 89, 23);
+		this.add(btnProfile);
+		btnProfile.addActionListener(new ActionListener() {
 			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				if (!joinRoom.isEnabled()) joinRoom.setEnabled(true);
+			public void actionPerformed(ActionEvent e) {
+				swingUI.setInterface(Interface.USER_PROFILE);
 			}
 		});
+
+		gameRoomModel = new DefaultListModel<String>();
+
+		JList<String> gameRoom = new JList<String>(gameRoomModel);
+		gameRoom.setBounds(35, 105, 482, 349);
+		this.add(gameRoom);
 		
-		createRoom = new JButton("Create Room");
-		createRoom.addActionListener(new ActionListener() {
+		JButton btnCreate = new JButton("Create");
+		btnCreate.setBounds(329, 76, 89, 23);
+		this.add(btnCreate);
+		btnCreate.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				swingUI.send(CommunicationHandler.GAME_ROOM_NEW);
 			}
 		});
 		
-		joinRoom = new JButton("Join Room");
-		joinRoom.addActionListener(new ActionListener() {
+		JButton btnJoin = new JButton("Join");
+		btnJoin.setBounds(428, 76, 89, 23);
+		this.add(btnJoin);
+		btnJoin.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				swingUI.send(CommunicationHandler.GAME_ROOM_JOIN + " " + gameRooms.getSelectedValue());
+				swingUI.send(CommunicationHandler.GAME_ROOM_JOIN + " " + gameRoom.getSelectedValue());
 			}
 		});
-		joinRoom.setEnabled(false);
-		
-		userProfile = new JButton("My Profile");
-		userProfile.addActionListener(new ActionListener() {
+		btnJoin.setEnabled(false);
+		gameRoom.addListSelectionListener(new ListSelectionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				swingUI.setInterface(Interface.USER_PROFILE);
+			public void valueChanged(ListSelectionEvent e) {
+				if (!btnJoin.isEnabled()) btnJoin.setEnabled(true);
 			}
 		});
 		
-		this.add(userProfile);
-		this.add(gameRooms);
-		this.add(createRoom);
-		this.add(joinRoom);
+		JLabel lblMyFriends = new JLabel("My Friends");
+		lblMyFriends.setBounds(669, 80, 62, 14);
+		this.add(lblMyFriends);
+		
+		JLabel lblRooms = new JLabel("Rooms");
+		lblRooms.setBounds(46, 80, 46, 14);
+		this.add(lblRooms);
 	}
 
 	/**

@@ -1,16 +1,20 @@
 package troublegame.client.panels;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.text.DefaultCaret;
 
 import troublegame.client.SwingUI;
 import troublegame.communication.CommunicationHandler;
@@ -32,8 +36,9 @@ public class GameRoomPanel extends JPanel {
 	/**
 	 * The Default List Model for JList of Users
 	 */
-	DefaultListModel<String> userModel;
-	JTextArea chatMessages;
+	private DefaultListModel<String> userModel;
+	private JTextArea chatMessages;
+	private JTextField newMessage;
 	
 	/**
 	 * The constructor for the Lobby panel.
@@ -48,65 +53,59 @@ public class GameRoomPanel extends JPanel {
 	 * Initializes the Lobby panel.
 	 */
 	public void init() {
+		this.setLayout(null);
 		userModel = new DefaultListModel<String>();
-		JList<String> users = new JList<String>(userModel);
-		JButton startGame = new JButton("Start Game");
-		startGame.addActionListener(new ActionListener() {
+		
+		JList<String> list = new JList<String>(userModel);
+		list.setBounds(125, 101, 95, 67);
+		this.add(list);
+		
+		JLabel lblMembers = new JLabel("Members");
+		lblMembers.setBounds(125, 76, 46, 14);
+		this.add(lblMembers);
+		
+		JButton btnStart = new JButton("Start");
+		btnStart.setBounds(248, 108, 89, 23);
+		this.add(btnStart);
+		btnStart.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				swingUI.send(CommunicationHandler.GAME_START + " " + name);
 			}
 		});
-		JButton leaveRoom = new JButton("Leave Room");
-		leaveRoom.addActionListener(new ActionListener() {
+		
+		JButton btnLeave = new JButton("Leave");
+		btnLeave.setBounds(248, 145, 89, 23);
+		this.add(btnLeave);
+		btnLeave.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				swingUI.send(CommunicationHandler.GAME_ROOM_LEAVE);
 			}
 		});
-		// chat stuff
-		JPanel chatPanel = new JPanel();
-		GridBagLayout gbpanel = new GridBagLayout();
-		GridBagConstraints gbcPanel = new GridBagConstraints();
-		chatPanel.setLayout(gbpanel);
-
-		chatMessages = new JTextArea(10,40);
-		chatMessages.setEditable(false);
-		gbcPanel.gridx = 1;
-		gbcPanel.gridy = 1;
-		gbcPanel.gridwidth = 48;
-		gbcPanel.gridheight = 43;
-		gbcPanel.fill = GridBagConstraints.BOTH;
-		gbcPanel.weightx = 1;
-		gbcPanel.weighty = 1;
-		gbcPanel.anchor = GridBagConstraints.NORTH;
-		gbpanel.setConstraints(chatMessages, gbcPanel);
-		chatPanel.add(chatMessages);
-		JTextField newMessage = new JTextField();
-		gbcPanel.gridx = 1;
-		gbcPanel.gridy = 45;
-		gbcPanel.gridwidth = 45;
-		gbcPanel.gridheight = 3;
-		gbcPanel.fill = GridBagConstraints.BOTH;
-		gbcPanel.weightx = 1;
-		gbcPanel.weighty = 1;
-		gbcPanel.anchor = GridBagConstraints.NORTH;
-		gbpanel.setConstraints(newMessage, gbcPanel);
-		chatPanel.add(newMessage);
-
-		JButton sendButton = new JButton("Send");
-		gbcPanel.gridx = 150;
-		gbcPanel.gridy = 45;
-		gbcPanel.gridwidth = 5;
-		gbcPanel.gridheight = 3;
-		gbcPanel.fill = GridBagConstraints.BOTH;
-		gbcPanel.weightx = 1;
-		gbcPanel.weighty = 1;
-		gbcPanel.anchor = GridBagConstraints.NORTH;
-		gbpanel.setConstraints(sendButton, gbcPanel );
-		chatPanel.add(sendButton);
 		
-		sendButton.addActionListener(new ActionListener() {
+		JPanel panel = new JPanel();
+		panel.setBounds(103, 214, 503, 161);
+		chatMessages = new JTextArea();
+		DefaultCaret caret = (DefaultCaret)chatMessages.getCaret();
+		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+		//chatMessages.setBounds(103, 220, 503, 151);
+		JScrollPane scroll = new JScrollPane(chatMessages);
+		chatMessages.setEditable(false);
+		panel.setLayout(new GridLayout(1, 0, 0, 0));
+		panel.add(scroll);
+		this.add(panel);
+		
+		newMessage = new JTextField();
+		newMessage.setBounds(103, 382, 503, 27);
+		this.add(newMessage);
+		newMessage.setColumns(10);
+		
+		JButton btnSend = new JButton("Send");
+		btnSend.setBounds(611, 384, 82, 23);
+		this.add(btnSend);
+
+		btnSend.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				sendChatMessage(newMessage);
@@ -118,10 +117,6 @@ public class GameRoomPanel extends JPanel {
 				sendChatMessage(newMessage);	
 			}
 		});
-		this.add(chatPanel);
-		this.add(users);
-		this.add(startGame);
-		this.add(leaveRoom);
 		
 	}
 	
