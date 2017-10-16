@@ -1,11 +1,10 @@
 package troublegame.client.panels;
 
-import java.awt.BorderLayout;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
@@ -35,72 +34,76 @@ public class LoginPanel extends JPanel {
 	private SwingUI swingUI;
 	
 	/**
-	 * The username text field.
+	 * The email field.
 	 */
-	private JTextField email;
+	private JTextField emailField;
 	
 	/**
-	 * The password text field.
+	 * The password field.
 	 */
-	private JPasswordField password;
-	
-	/**
-	 * The button to set the name.
-	 */
-	private JButton enter;
-	
-	/**
-	 * The button to return to main menu.
-	 */
-	private JButton exit;
-	
+	private JPasswordField passwordField;
+
 	/**
 	 * The constructor for the Login panel.
 	 * @param swingUI is the swing user interface.
 	 */
 	public LoginPanel(SwingUI swingUI) {
 		this.swingUI = swingUI;
-		this.swingUI = swingUI;
-		this.email = new JTextField();
-		this.password = new JPasswordField();
-		this.enter = new JButton("Enter");
-		this.exit = new JButton("Return to menu");
-		enter.setFont(new Font("Arial", Font.PLAIN, 15));
-		exit.setFont(new Font("Arial", Font.PLAIN, 15));
 		this.init();
 	}
 	
 	/**
 	 * Initializes the Login panel.
 	 */
-	public void init() {
-		JLabel usernameLabel = new JLabel("Enter your email: ");
-		JLabel passwordLabel = new JLabel("Enter your password: ");
-		JPanel subPanel1 = new JPanel();
-		JPanel subPanel2 = new JPanel();
-		this.setLayout(new BorderLayout());
-		this.email.setColumns(10);
-		this.password.setColumns(10);
-		enter.addActionListener(new ActionListener() {
+	private void init() {
+		this.setLayout(null);
+		JLabel lblEmail = new JLabel("Email:");
+		lblEmail.setBounds(271, 178, 62, 14);
+		this.add(lblEmail);
+		
+		JLabel lblPassword = new JLabel("Password:");
+		lblPassword.setBounds(271, 206, 62, 14);
+		this.add(lblPassword);
+		
+		emailField = new JTextField();
+		emailField.setBounds(343, 175, 143, 20);
+		this.add(emailField);
+		emailField.setColumns(10);
+		
+		passwordField = new JPasswordField();
+		passwordField.setBounds(343, 203, 143, 20);
+		this.add(passwordField);
+		passwordField.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				swingUI.send(CommunicationHandler.LOGIN_REQUEST + " " + email.getText() + " " + String.valueOf(password.getPassword()));
+				swingUI.send(CommunicationHandler.LOGIN_REQUEST + " " + emailField.getText() + " " + String.valueOf(passwordField.getPassword()));
 			}
 		});
-		exit.addActionListener(new ActionListener() {
+		
+		JCheckBox btnRememberMe = new JCheckBox("Remember email");
+		btnRememberMe.setBounds(353, 230, 108, 23);
+		this.add(btnRememberMe);
+		// TODO remember email
+		
+		JButton btnLogin = new JButton("Login");
+		btnLogin.setBounds(271, 275, 89, 23);
+		this.add(btnLogin);
+		btnLogin.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				swingUI.send(CommunicationHandler.LOGIN_REQUEST + " " + emailField.getText() + " " + String.valueOf(passwordField.getPassword()));
+			}
+		});
+		
+		JButton btnReturnToMain = new JButton("Return to main menu");
+		btnReturnToMain.setBounds(370, 275, 143, 23);
+		this.add(btnReturnToMain);
+		btnReturnToMain.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				swingUI.setInterface(Interface.START);
 			}
 		});
-		subPanel1.add(usernameLabel);
-		subPanel1.add(email);
-		subPanel1.add(passwordLabel);
-		subPanel1.add(password);
-		subPanel2.add(enter);
-		subPanel2.add(exit);
-		this.add(subPanel1, BorderLayout.CENTER);
-		this.add(subPanel2, BorderLayout.SOUTH);
 	}
 
 	/**

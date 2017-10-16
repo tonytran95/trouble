@@ -1,7 +1,5 @@
 package troublegame.client;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import troublegame.client.model.User;
 import troublegame.client.panels.GamePanel;
@@ -43,17 +42,12 @@ public class SwingUI extends JFrame {
 	/**
 	 * The height of the display.
 	 */
-	public final static int HEIGHT = 800;
+	public final static int HEIGHT = 550;
 	
 	/**
 	 * The width of the display.
 	 */
-	public final static int WIDTH = 620;
-	
-	/**
-	 * The stretch value.
-	 */
-	public final static int STRETCH = 50;
+	public final static int WIDTH = 780;
 	
 	/**
 	 * The current panel being displayed.
@@ -124,42 +118,25 @@ public class SwingUI extends JFrame {
 		
 		this.startPanel = new StartPanel(this);
 		this.currentPanel = startPanel;
+		this.setBounds(100, 100, SwingUI.WIDTH, SwingUI.HEIGHT);
+		JPopupMenu.setDefaultLightWeightPopupEnabled(false);
 		try {
-			JPopupMenu.setDefaultLightWeightPopupEnabled(false);
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			this.setTitle(SwingUI.GAME_NAME);
-			this.setLayout(new BorderLayout());
-			this.setBackground(Color.WHITE);
-			resizeFrame();
-			this.setVisible(true);
-			this.setResizable(false);
-			this.state = Interface.START;
-			this.switchPanel(this.startPanel);
-			/**
-			 * Side panels.
-			 */
-			JPanel westPanel = new JPanel();
-			JPanel eastPanel = new JPanel();
-			JPanel southPanel = new JPanel();
-			JPanel northPanel = new JPanel();
-			westPanel.setPreferredSize(new Dimension(SwingUI.STRETCH, SwingUI.STRETCH));
-			eastPanel.setPreferredSize(new Dimension(SwingUI.STRETCH, SwingUI.STRETCH));
-			northPanel.setPreferredSize(new Dimension(SwingUI.STRETCH * 2, SwingUI.STRETCH * 2));
-			southPanel.setPreferredSize(new Dimension(SwingUI.STRETCH * 2, SwingUI.STRETCH * 2));
-			this.add(westPanel, BorderLayout.WEST);
-			this.add(eastPanel, BorderLayout.EAST);
-			this.add(southPanel, BorderLayout.SOUTH);
-			this.add(northPanel, BorderLayout.NORTH);
-		} catch(Exception e) {
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+				| UnsupportedLookAndFeelException e) {
 			e.printStackTrace();
 		}
+		this.setTitle(SwingUI.GAME_NAME);
+		this.state = Interface.START;
+		this.switchPanel(this.startPanel);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 	/**
 	 * Resizes the main frame i.e. {@link SwingUI} to the default size.
 	 */
 	public void resizeFrame() {
-		this.resizeFrame(SwingUI.HEIGHT + SwingUI.STRETCH, SwingUI.WIDTH + (SwingUI.STRETCH * 2));
+		//this.resizeFrame(SwingUI.HEIGHT + SwingUI.STRETCH, SwingUI.WIDTH + (SwingUI.STRETCH * 2));
 	}
 	/**
 	 * Resizes the main frame i.e. {@link SwingUI}.
@@ -176,10 +153,12 @@ public class SwingUI extends JFrame {
 	 */
 	public void switchPanel(JPanel newPanel) {
 		this.setResizable(true);
-		this.getContentPane().remove(currentPanel);
-		this.getContentPane().add(newPanel, BorderLayout.CENTER);
+		this.getContentPane().removeAll();
+		this.getContentPane().add(newPanel);
 		this.currentPanel = newPanel;
-		this.pack();
+		this.validate();
+		this.repaint();
+		//this.pack();
 	}
 	
 	/**
