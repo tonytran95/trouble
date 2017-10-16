@@ -2,6 +2,12 @@ package troublegame.client.panels;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -65,7 +71,9 @@ public class LoginPanel extends JPanel {
 		lblPassword.setBounds(271, 206, 62, 14);
 		this.add(lblPassword);
 		
-		emailField = new JTextField();
+		String email = getLastEmail();
+		
+		emailField = new JTextField(email);
 		emailField.setBounds(343, 175, 143, 20);
 		this.add(emailField);
 		emailField.setColumns(10);
@@ -73,25 +81,36 @@ public class LoginPanel extends JPanel {
 		passwordField = new JPasswordField();
 		passwordField.setBounds(343, 203, 143, 20);
 		this.add(passwordField);
-		passwordField.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent event) {
-				swingUI.send(CommunicationHandler.LOGIN_REQUEST + " " + emailField.getText() + " " + String.valueOf(passwordField.getPassword()));
-			}
-		});
 		
 		JCheckBox btnRememberMe = new JCheckBox("Remember email");
 		btnRememberMe.setBounds(353, 230, 108, 23);
+		if (email.length() > 0)
+			btnRememberMe.setSelected(true);
 		this.add(btnRememberMe);
 		// TODO remember email
 		
 		JButton btnLogin = new JButton("Login");
 		btnLogin.setBounds(271, 275, 89, 23);
 		this.add(btnLogin);
+		
+		passwordField.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				swingUI.send(CommunicationHandler.LOGIN_REQUEST + " " + emailField.getText() + " " + String.valueOf(passwordField.getPassword()));
+				if (btnRememberMe.isSelected())
+					setLastEmail(emailField.getText());
+				else if (email.length() > 0)
+					setLastEmail("");
+			}
+		});
 		btnLogin.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				swingUI.send(CommunicationHandler.LOGIN_REQUEST + " " + emailField.getText() + " " + String.valueOf(passwordField.getPassword()));
+				if (btnRememberMe.isSelected())
+					setLastEmail(emailField.getText());
+				else if (email.length() > 0)
+					setLastEmail("");
 			}
 		});
 		
@@ -106,6 +125,55 @@ public class LoginPanel extends JPanel {
 		});
 	}
 
+	/**
+	 * Writes the last email inside the cache.
+	 * @param email is the email
+	 */
+	private void setLastEmail(String email) {
+
+		File f = new File("./data/client");
+		FileOutputStream outputStream = null;
+		try {
+			if (!f.exists())
+				f.createNewFile();
+			outputStream = new FileOutputStream(f);
+			byte[] contentInBytes = email.getBytes(Charset.forName("UTF-8"));
+			outputStream.write(contentInBytes);
+			outputStream.flush();
+			outputStream.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (outputStream != null)
+					outputStream.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	/**
+	 * Reads the last email inside the cache.
+	 * @param email is the email
+	 */
+	private String getLastEmail() {
+		File f = new File("./data/client");
+		FileInputStream inputStream = null;
+		byte fileContent[] = new byte[(int)f.length()];
+		try {
+			if (!f.exists())
+				f.createNewFile();
+			inputStream = new FileInputStream(f);
+			inputStream.read(fileContent);
+			inputStream.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return new String(fileContent, StandardCharsets.UTF_8);
+	}
+	
 	/**
 	 * @return the swing user interface.
 	 */
