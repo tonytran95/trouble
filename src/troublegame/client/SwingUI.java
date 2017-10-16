@@ -42,12 +42,12 @@ public class SwingUI extends JFrame {
 	/**
 	 * The height of the display.
 	 */
-	public final static int HEIGHT = 550;
+	public final static int HEIGHT = 576;
 	
 	/**
 	 * The width of the display.
 	 */
-	public final static int WIDTH = 780;
+	public final static int WIDTH = 1024;
 	
 	/**
 	 * The current panel being displayed.
@@ -113,12 +113,14 @@ public class SwingUI extends JFrame {
 	 * The constructor for the swing user interface.
 	 */
 	public SwingUI(BufferedReader in, PrintWriter out) {
+		
 		this.in = in;
 		this.out = out;
-		
 		this.startPanel = new StartPanel(this);
 		this.currentPanel = startPanel;
-		this.setBounds(100, 100, SwingUI.WIDTH, SwingUI.HEIGHT);
+		this.setSize(WIDTH, HEIGHT);
+		this.setLocationRelativeTo(null);
+		
 		JPopupMenu.setDefaultLightWeightPopupEnabled(false);
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());

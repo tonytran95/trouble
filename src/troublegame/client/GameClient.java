@@ -53,6 +53,7 @@ public class GameClient {
 			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		    out = new PrintWriter(socket.getOutputStream(), true);
 			SwingUI ui = new SwingUI(in , out);
+			ui.setResizable(false);
 			ui.setVisible(true);
 		    while (true) {
 		    	

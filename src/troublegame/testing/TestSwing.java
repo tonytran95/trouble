@@ -1,25 +1,13 @@
 package troublegame.testing;
 import java.awt.EventQueue;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import javax.swing.JFrame;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-import troublegame.client.Interface;
-import troublegame.communication.CommunicationHandler;
-
-import javax.swing.JPasswordField;
-import javax.swing.JCheckBox;
 import javax.swing.JList;
-import javax.swing.BoxLayout;
-import javax.swing.DefaultListModel;
-import javax.swing.JTextPane;
 import javax.swing.JTextArea;
-import javax.swing.JScrollBar;
 
 public class TestSwing {
 
@@ -59,7 +47,7 @@ public class TestSwing {
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 		
-		JList list = new JList();
+		JList<?> list = new JList<Object>();
 		list.setBounds(218, 67, 135, 67);
 		panel.add(list);
 		
