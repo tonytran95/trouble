@@ -154,7 +154,7 @@ public class UserManager {
 			}
 		}
 		
-		// Check user file already exists
+		// Check that user file already exists
 		if(userProfile.exists() == false) {
 			return ACCOUNT_NOT_FOUND;
 		}
@@ -202,7 +202,16 @@ public class UserManager {
 		}
 		
 		// Check that a user with this email doesnt exist already
-		if(userProfile.exists()) return EMAIL_EXISTS;
+		File[] existingUsers = userDirectory.listFiles(new FilenameFilter() {
+			
+			@Override
+			public boolean accept(File dir, String name) {
+				if(Pattern.matches("^" + emailHash + " .+\\.ser$", name)) return true;
+				return false;
+			}
+		});
+		
+		if(existingUsers != null && existingUsers.length != 0) return EMAIL_EXISTS;
 		
 		try {
 

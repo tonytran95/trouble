@@ -1,6 +1,5 @@
 package troublegame.client.panels;
 
-import java.awt.Color;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -30,9 +29,11 @@ import troublegame.communication.CommunicationHandler;
  * @author Jeffrey Ung and Tony Tran
  *
  */
-@SuppressWarnings("serial")
+
 public class LobbyPanel extends JPanel {
 	
+	private static final long serialVersionUID = 3647535279313225581L;
+
 	/**
 	 * The swing user interface.
 	 */

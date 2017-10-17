@@ -49,7 +49,7 @@ public class GameClient {
 	 * @param port is the port
 	 */
 	public GameClient(String ip, int port) {
-		Socket socket;
+		Socket socket = null;
 		try {
 			socket = new Socket(ip, port);
 			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -176,6 +176,12 @@ public class GameClient {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				socket.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
