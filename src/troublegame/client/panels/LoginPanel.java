@@ -111,6 +111,10 @@ public class LoginPanel extends JPanel {
 		btnLogin.setBounds(356, 275, 143, 23);
 		this.add(btnLogin);
 		
+		JButton btnRegister = new JButton("Sign up");
+		btnRegister.setBounds(500, 305, 143, 23);
+		this.add(btnRegister);
+		
 		passwordField.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
@@ -121,6 +125,13 @@ public class LoginPanel extends JPanel {
 					setLastEmail("");
 			}
 		});
+		
+		btnRegister.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				swingUI.setInterface(Interface.SIGN_UP);
+			}
+		});		
 		btnLogin.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
@@ -135,7 +146,22 @@ public class LoginPanel extends JPanel {
 					setLastEmail("");
 			}
 		});
-		
+		btnRegister.addMouseListener(new MouseListener() {			
+			@Override
+			public void mouseReleased(MouseEvent arg0) {}		   
+			@Override
+			public void mousePressed(MouseEvent arg0) {}			
+			@Override
+			public void mouseExited(MouseEvent arg0) { 
+				btnRegister.setIcon(imgIcon1);
+			}		   
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				btnRegister.setIcon(imgIcon2);
+			}		   
+			@Override
+			public void mouseClicked(MouseEvent arg0) {}
+		});		
 		btnLogin.addMouseListener(new MouseListener() {			
 			@Override
 			public void mouseReleased(MouseEvent arg0) {}		   
@@ -178,6 +204,10 @@ public class LoginPanel extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {}
 		});
+		
+		btnRegister.setIcon(imgIcon1);
+		btnRegister.setHorizontalTextPosition(SwingConstants.CENTER);
+		btnRegister.setBorderPainted(false);
 		
 		btnLogin.setIcon(imgIcon1);
 		btnLogin.setHorizontalTextPosition(SwingConstants.CENTER);

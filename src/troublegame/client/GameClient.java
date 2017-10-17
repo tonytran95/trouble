@@ -1,5 +1,6 @@
 package troublegame.client;
 
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -13,6 +14,7 @@ import troublegame.client.model.User;
 import troublegame.client.panels.GamePanel;
 import troublegame.client.panels.GameRoomPanel;
 import troublegame.client.panels.LobbyPanel;
+import troublegame.client.panels.RegisterPanel;
 import troublegame.communication.CommunicationHandler;
 
 public class GameClient {
@@ -157,6 +159,16 @@ public class GameClient {
 		    			} else if (input.startsWith(CommunicationHandler.UPDATE_FAIL)) {
 		    				JOptionPane.showMessageDialog(null, "Error updating details");
 		    			}
+		    		case SIGN_UP:
+		    			RegisterPanel registerPanel = (RegisterPanel) ui.getCurrentPanel();
+		    			if (input.equals(CommunicationHandler.REGISTER_SUCCESS)) {
+		    				ui.setInterface(Interface.LOGIN);
+		    				JOptionPane.showMessageDialog(null, "Account has been successfully created.");
+		    			} else if (input.equals(CommunicationHandler.REGISTER_ERROR)) {
+		    				JOptionPane.showMessageDialog(null, "The email you have entered already exist!", "Please Try again", JOptionPane.ERROR_MESSAGE);
+		    				registerPanel.setBackground(Color.RED);
+		    			}
+		    			break;
 		    		default:
 		    	}
 		    }

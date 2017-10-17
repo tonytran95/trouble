@@ -1,5 +1,5 @@
 package troublegame.client;
 
 public enum Interface {
-	START, LOGIN, LOBBY, IN_GAME, PARTY, RULES, USER_PROFILE;
+	START, LOGIN, LOBBY, IN_GAME, PARTY, RULES, USER_PROFILE, SIGN_UP;
 }

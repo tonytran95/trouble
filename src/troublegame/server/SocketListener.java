@@ -102,7 +102,18 @@ public class SocketListener {
 											} else {
 												conn.getOutputStream().println(CommunicationHandler.LOGIN_ERROR + " Incorrect password");
 											}
-											
+										} else if (input.startsWith(CommunicationHandler.REGISTER_REQUEST)) {
+											String[] registerSplit = input.split("\t");
+											Color favColor = null;
+											switch (registerSplit[4]) {
+											case "RED": favColor = Color.RED; break;
+											case "BLUE": favColor = Color.BLUE; break;
+											case "GREEN": favColor = Color.GREEN; break;
+											case "YELLOW": favColor = Color.YELLOW; break;
+											}
+											int i = UserManager.createAndSaveNewUser(registerSplit[1], registerSplit[2], registerSplit[3], favColor, registerSplit[5]);
+											if (i == 0) conn.getOutputStream().println(CommunicationHandler.REGISTER_SUCCESS);
+											else if (i == 1) conn.getOutputStream().println(CommunicationHandler.REGISTER_ERROR);
 										} else if (input.equals(CommunicationHandler.GAME_ROOM_NEW)) {
 											System.out.println(conn.getUser().getUsername()+" created a room");
 											lobby.createGameRoom(conn);
