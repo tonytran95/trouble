@@ -160,7 +160,7 @@ public class SwingUI extends JFrame {
 	 * @param newPanel is the new panel being displayed.
 	 */
 	public void switchPanel(JPanel newPanel) {
-		this.setResizable(true);
+		this.setResizable(false);
 		this.getContentPane().removeAll();
 		this.getContentPane().add(newPanel);
 		this.currentPanel = newPanel;
