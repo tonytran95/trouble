@@ -1,7 +1,6 @@
 package troublegame.client.panels;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -42,6 +41,8 @@ public class LoginPanel extends JPanel {
 	 * Serial ID for the serialisation of this class
 	 */
 	private static final long serialVersionUID = -7619006812649770179L;
+	
+	private static final String EMAIL_PRESERVE = "./data/client";///email.txt";
 
 	/**
 	 * The swing user interface.
@@ -194,7 +195,7 @@ public class LoginPanel extends JPanel {
 	 */
 	private void setLastEmail(String email) {
 
-		File f = new File("./data/client");
+		File f = new File(EMAIL_PRESERVE);
 		FileOutputStream outputStream = null;
 		try {
 			if (!f.exists())
@@ -221,7 +222,7 @@ public class LoginPanel extends JPanel {
 	 * @param email is the email
 	 */
 	private String getLastEmail() {
-		File f = new File("./data/client");
+		File f = new File(EMAIL_PRESERVE);
 		FileInputStream inputStream = null;
 		byte fileContent[] = new byte[(int)f.length()];
 		try {
