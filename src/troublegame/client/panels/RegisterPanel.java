@@ -280,6 +280,7 @@ public class RegisterPanel extends JPanel {
 			JOptionPane.showMessageDialog(null, "Please select a preferred color!", "Please Try again", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
+		if (quoteField.getText().equals("")) quoteField.setText("-");
 		this.swingUI.send(CommunicationHandler.REGISTER_REQUEST + "\t" +
 				emailField.getText() + "\t" +
 				nameField.getText() + "\t" +
