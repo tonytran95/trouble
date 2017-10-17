@@ -1,5 +1,6 @@
 package troublegame.client;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -163,9 +164,9 @@ public class SwingUI extends JFrame {
 		this.getContentPane().removeAll();
 		this.getContentPane().add(newPanel);
 		this.currentPanel = newPanel;
+		this.currentPanel.setBackground(Color.DARK_GRAY);
 		this.validate();
 		this.repaint();
-		//this.pack();
 	}
 	
 	/**

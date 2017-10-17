@@ -1,7 +1,13 @@
 package troublegame.client.panels;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -9,6 +15,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -16,6 +23,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import troublegame.client.Interface;
 import troublegame.client.SwingUI;
@@ -64,6 +72,15 @@ public class LoginPanel extends JPanel {
 	 */
 	private void init() {
 		this.setLayout(null);
+		
+		Image image1 = Toolkit.getDefaultToolkit().getImage("./data/img/button_1.png");
+		Image image2 = Toolkit.getDefaultToolkit().getImage("./data/img/button_2.png");
+		Image newimg1 = image1.getScaledInstance(143, 23, Image.SCALE_SMOOTH);
+		Image newimg2 = image2.getScaledInstance(143, 23, Image.SCALE_SMOOTH);
+		ImageIcon imgIcon1 = new ImageIcon(newimg1);
+		ImageIcon imgIcon2 = new ImageIcon(newimg2);
+		
+		
 		JLabel lblEmail = new JLabel("Email:");
 		lblEmail.setBounds(386, 178, 62, 14);
 		this.add(lblEmail);
@@ -85,13 +102,13 @@ public class LoginPanel extends JPanel {
 		
 		JCheckBox btnRememberMe = new JCheckBox("Remember email");
 		btnRememberMe.setBounds(468, 230, 108, 23);
+		btnRememberMe.setBackground(Color.DARK_GRAY);
 		if (email.length() > 0)
 			btnRememberMe.setSelected(true);
 		this.add(btnRememberMe);
-		// TODO remember email
 		
 		JButton btnLogin = new JButton("Login");
-		btnLogin.setBounds(386, 275, 89, 23);
+		btnLogin.setBounds(356, 275, 143, 23);
 		this.add(btnLogin);
 		
 		passwordField.addActionListener(new ActionListener() {
@@ -119,8 +136,25 @@ public class LoginPanel extends JPanel {
 			}
 		});
 		
+		btnLogin.addMouseListener(new MouseListener() {			
+			@Override
+			public void mouseReleased(MouseEvent arg0) {}		   
+			@Override
+			public void mousePressed(MouseEvent arg0) {}			
+			@Override
+			public void mouseExited(MouseEvent arg0) { 
+				btnLogin.setIcon(imgIcon1);
+			}		   
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				btnLogin.setIcon(imgIcon2);
+			}		   
+			@Override
+			public void mouseClicked(MouseEvent arg0) {}
+		});
+		
 		JButton btnReturnToMain = new JButton("Return to main menu");
-		btnReturnToMain.setBounds(485, 275, 143, 23);
+		btnReturnToMain.setBounds(500, 275, 143, 23);
 		this.add(btnReturnToMain);
 		btnReturnToMain.addActionListener(new ActionListener() {
 			@Override
@@ -128,6 +162,30 @@ public class LoginPanel extends JPanel {
 				swingUI.setInterface(Interface.START);
 			}
 		});
+		btnReturnToMain.addMouseListener(new MouseListener() {			
+			@Override
+			public void mouseReleased(MouseEvent arg0) {}		   
+			@Override
+			public void mousePressed(MouseEvent arg0) {}			
+			@Override
+			public void mouseExited(MouseEvent arg0) { 
+				btnReturnToMain.setIcon(imgIcon1);
+			}		   
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				btnReturnToMain.setIcon(imgIcon2);
+			}		   
+			@Override
+			public void mouseClicked(MouseEvent arg0) {}
+		});
+		
+		btnLogin.setIcon(imgIcon1);
+		btnLogin.setHorizontalTextPosition(SwingConstants.CENTER);
+		btnLogin.setBorderPainted(false);
+		
+		btnReturnToMain.setIcon(imgIcon1);
+		btnReturnToMain.setHorizontalTextPosition(SwingConstants.CENTER);
+		btnReturnToMain.setBorderPainted(false);
 	}
 
 	/**
