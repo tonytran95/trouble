@@ -254,6 +254,12 @@ public class RegisterPanel extends JPanel {
 	 * Handles the sign up here.
 	 */
 	private void sendSignUp() {
+		nameField.setBackground(Color.WHITE);
+		if (!nameField.equals("")) {
+			JOptionPane.showMessageDialog(null, "Display name cannot be empty!", "Please Try again", JOptionPane.ERROR_MESSAGE);
+			nameField.setBackground(Color.RED);
+			return;
+		}
 		emailField.setBackground(Color.WHITE);
 		if (!isValidEmailAddress(emailField.getText())) {
 			JOptionPane.showMessageDialog(null, "Enter a valid email!", "Please Try again", JOptionPane.ERROR_MESSAGE);
