@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Random;
 
 import troublegame.communication.CommunicationHandler;
 
@@ -15,12 +16,15 @@ public class GameEngine {
 	private HashMap<Game, ArrayList<Connection>> gameConns;
 	private HashMap<Game, Queue<String>> inputQueues;
 	private boolean allPlayersConnected;
+	private ArrayList<String> aiNames;
 	
 	public GameEngine() {
+		
 		System.out.println(CommunicationHandler.GAME_ENGINE_INFO + " Initializing game engine...");
 		games = new ArrayList<Game>();
 		gameConns = new HashMap<Game, ArrayList<Connection>>();
 		inputQueues = new HashMap<Game, Queue<String>>();
+		genAiNames();
 		allPlayersConnected = false;
 	}
 	
@@ -61,9 +65,9 @@ public class GameEngine {
 			count++;
 		}
 		for (int i = 0; i < (4 - count); i++) {
-			if (i == 0) g.join("AI_1", Color.BLUE, true);
-			if (i == 1) g.join("AI_2", Color.YELLOW, true);
-			if (i == 2) g.join("AI_3", Color.GREEN, true);
+			if (i == 0) g.join(getAiNames(), Color.BLUE, true);
+			if (i == 1) g.join(getAiNames(), Color.YELLOW, true);
+			if (i == 2) g.join(getAiNames(), Color.GREEN, true);
 		}
 		
 		games.add(g);
@@ -240,5 +244,35 @@ public class GameEngine {
 		return false;
 	}
 	
+	/**
+	 * Creates a name pool for ais to draw names from
+	 */
+	public void genAiNames() {
+		aiNames = new ArrayList<>();
+		aiNames.add("Aseihar");
+		aiNames.add("Adrarelind");
+		aiNames.add("Galeish");
+		aiNames.add("Ocigoron");
+		aiNames.add("Falian");
+		aiNames.add("Mireidric");
+		aiNames.add("Faeri");
+		aiNames.add("Etohaw");
+		aiNames.add("Cadelalith");
+		aiNames.add("Tulian");
+		aiNames.add("Haelannor");
+		aiNames.add("Jeroameth");
+	}
+	
+	/**
+	 * @return A random name for the ai player
+	 */
+	public String getAiNames() {
+		
+		int index = new Random().nextInt(aiNames.size());
+		String aiName = aiNames.get(index);
+		aiNames.remove(index);
+		return aiName;
+		
+	}
 	
 }

@@ -255,7 +255,9 @@ public class RegisterPanel extends JPanel {
 	 */
 	private void sendSignUp() {
 		nameField.setBackground(Color.WHITE);
-		if (!nameField.equals("")) {
+		String proposedName = nameField.getText();
+		proposedName.replaceAll(" ", "");
+		if (proposedName.length() == 0) {
 			JOptionPane.showMessageDialog(null, "Display name cannot be empty!", "Please Try again", JOptionPane.ERROR_MESSAGE);
 			nameField.setBackground(Color.RED);
 			return;
