@@ -52,4 +52,9 @@ public final class CommunicationHandler {
 	public static final String UPDATE_DISPLAYNAME= "[UPDATE_DISPLAYNAME]";
 	public static final String UPDATE_FAIL = "[UPDATE_FAIL]";
 	public static final String UPDATE_SUCCESS = "[UPDATE_SUCCESS]";
+	
+	// Registration constants
+	public static final String REGISTER_REQUEST = "[REGISTER_REQUEST]";
+	public static final String REGISTER_ERROR = "[REGISTER_ERROR]";
+	public static final String REGISTER_SUCCESS = "[REGISTER_SUCCESS]";
 }

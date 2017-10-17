@@ -21,6 +21,7 @@ import troublegame.client.panels.GameRoomPanel;
 import troublegame.client.panels.LobbyPanel;
 import troublegame.client.panels.LoginPanel;
 import troublegame.client.panels.ProfilePanel;
+import troublegame.client.panels.RegisterPanel;
 import troublegame.client.panels.RulesPanel;
 import troublegame.client.panels.StartPanel;
 import troublegame.communication.CommunicationHandler;
@@ -98,6 +99,11 @@ public class SwingUI extends JFrame {
 	 * The user profile panel.
 	 */
 	private ProfilePanel profilePanel;
+	
+	/**
+	 * The registration panel.
+	 */
+	private RegisterPanel registerPanel;
 	
 	/**
 	 * The client state.
@@ -240,6 +246,11 @@ public class SwingUI extends JFrame {
 					profilePanel = new ProfilePanel(this);
 				resizeFrame(550, 600);
 				switchPanel(profilePanel);
+				break;
+			case SIGN_UP:
+				if (registerPanel == null)
+					registerPanel = new RegisterPanel(this);
+				switchPanel(registerPanel);
 				break;
 			default:
 				// do nothing
