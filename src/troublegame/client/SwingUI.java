@@ -123,7 +123,7 @@ public class SwingUI extends JFrame {
 		this.out = out;
 		this.startPanel = new StartPanel(this);
 		this.currentPanel = startPanel;
-		this.setSize(WIDTH, HEIGHT);
+		this.resizeFrame();
 		this.setLocationRelativeTo(null);
 		
 		JPopupMenu.setDefaultLightWeightPopupEnabled(false);
@@ -143,7 +143,7 @@ public class SwingUI extends JFrame {
 	 * Resizes the main frame i.e. {@link SwingUI} to the default size.
 	 */
 	public void resizeFrame() {
-		//this.resizeFrame(SwingUI.HEIGHT + SwingUI.STRETCH, SwingUI.WIDTH + (SwingUI.STRETCH * 2));
+		this.resizeFrame(SwingUI.WIDTH, SwingUI.HEIGHT);
 	}
 	/**
 	 * Resizes the main frame i.e. {@link SwingUI}.
@@ -151,7 +151,7 @@ public class SwingUI extends JFrame {
 	 * @param width is the width of the view.
 	 */
 	public void resizeFrame(int height, int width) {
-		this.setPreferredSize(new Dimension(height , width));
+		this.setSize(new Dimension(height , width));
 	}
 
 	/**
@@ -201,7 +201,7 @@ public class SwingUI extends JFrame {
 			case LOBBY:
 				if (lobbyPanel == null)
 					lobbyPanel = new LobbyPanel(this);
-				resizeFrame(HEIGHT, WIDTH);
+				resizeFrame();
 				switchPanel(lobbyPanel);
 				break;
 			case LOGIN:
@@ -217,13 +217,13 @@ public class SwingUI extends JFrame {
 			case RULES:
 				if (rulesPanel == null)
 					rulesPanel = new RulesPanel(this);
-				resizeFrame(950, 870);
+				resizeFrame(870, 680);
 				switchPanel(rulesPanel);
 				break;
 			case USER_PROFILE:
 				if (profilePanel == null)
 					profilePanel = new ProfilePanel(this);
-				resizeFrame(600, 550);
+				resizeFrame(550, 600);
 				switchPanel(profilePanel);
 				break;
 			default:

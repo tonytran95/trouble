@@ -65,33 +65,33 @@ public class LoginPanel extends JPanel {
 	private void init() {
 		this.setLayout(null);
 		JLabel lblEmail = new JLabel("Email:");
-		lblEmail.setBounds(271, 178, 62, 14);
+		lblEmail.setBounds(386, 178, 62, 14);
 		this.add(lblEmail);
 		
 		JLabel lblPassword = new JLabel("Password:");
-		lblPassword.setBounds(271, 206, 62, 14);
+		lblPassword.setBounds(386, 206, 62, 14);
 		this.add(lblPassword);
 		
 		String email = getLastEmail();
 		
 		emailField = new JTextField(email);
-		emailField.setBounds(343, 175, 143, 20);
+		emailField.setBounds(458, 175, 143, 20);
 		this.add(emailField);
 		emailField.setColumns(10);
 		
 		passwordField = new JPasswordField();
-		passwordField.setBounds(343, 203, 143, 20);
+		passwordField.setBounds(458, 203, 143, 20);
 		this.add(passwordField);
 		
 		JCheckBox btnRememberMe = new JCheckBox("Remember email");
-		btnRememberMe.setBounds(353, 230, 108, 23);
+		btnRememberMe.setBounds(468, 230, 108, 23);
 		if (email.length() > 0)
 			btnRememberMe.setSelected(true);
 		this.add(btnRememberMe);
 		// TODO remember email
 		
 		JButton btnLogin = new JButton("Login");
-		btnLogin.setBounds(271, 275, 89, 23);
+		btnLogin.setBounds(386, 275, 89, 23);
 		this.add(btnLogin);
 		
 		passwordField.addActionListener(new ActionListener() {
@@ -120,7 +120,7 @@ public class LoginPanel extends JPanel {
 		});
 		
 		JButton btnReturnToMain = new JButton("Return to main menu");
-		btnReturnToMain.setBounds(370, 275, 143, 23);
+		btnReturnToMain.setBounds(485, 275, 143, 23);
 		this.add(btnReturnToMain);
 		btnReturnToMain.addActionListener(new ActionListener() {
 			@Override

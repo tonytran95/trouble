@@ -54,15 +54,15 @@ public class GameRoomPanel extends JPanel {
 		userModel = new DefaultListModel<String>();
 		
 		JList<String> list = new JList<String>(userModel);
-		list.setBounds(125, 101, 95, 67);
+		list.setBounds(240, 101, 95, 67);
 		this.add(list);
 		
 		JLabel lblMembers = new JLabel("Members");
-		lblMembers.setBounds(125, 76, 46, 14);
+		lblMembers.setBounds(240, 76, 46, 14);
 		this.add(lblMembers);
 		
 		JButton btnStart = new JButton("Start");
-		btnStart.setBounds(248, 108, 89, 23);
+		btnStart.setBounds(363, 108, 89, 23);
 		this.add(btnStart);
 		btnStart.addActionListener(new ActionListener() {
 			@Override
@@ -72,7 +72,7 @@ public class GameRoomPanel extends JPanel {
 		});
 		
 		JButton btnLeave = new JButton("Leave");
-		btnLeave.setBounds(248, 145, 89, 23);
+		btnLeave.setBounds(363, 145, 89, 23);
 		this.add(btnLeave);
 		btnLeave.addActionListener(new ActionListener() {
 			@Override
@@ -82,7 +82,7 @@ public class GameRoomPanel extends JPanel {
 		});
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(103, 214, 503, 161);
+		panel.setBounds(218, 214, 503, 161);
 		chatMessages = new JTextArea();
 		DefaultCaret caret = (DefaultCaret)chatMessages.getCaret();
 		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
@@ -94,12 +94,12 @@ public class GameRoomPanel extends JPanel {
 		this.add(panel);
 		
 		newMessage = new JTextField();
-		newMessage.setBounds(103, 382, 503, 27);
+		newMessage.setBounds(218, 382, 503, 27);
 		this.add(newMessage);
 		newMessage.setColumns(10);
 		
 		JButton btnSend = new JButton("Send");
-		btnSend.setBounds(611, 384, 82, 23);
+		btnSend.setBounds(726, 384, 82, 23);
 		this.add(btnSend);
 
 		btnSend.addActionListener(new ActionListener() {

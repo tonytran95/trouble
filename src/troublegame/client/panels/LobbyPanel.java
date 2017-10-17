@@ -50,11 +50,11 @@ public class LobbyPanel extends JPanel {
 	public void init() {
 		this.setLayout(null);
 		JList<String> list = new JList<String>();
-		list.setBounds(631, 105, 100, 349);
+		list.setBounds(631+ 115, 105, 100, 349);
 		this.add(list);
 		
 		JButton btnProfile = new JButton("My profile");
-		btnProfile.setBounds(642, 11, 89, 23);
+		btnProfile.setBounds(642+ 115, 11, 89, 23);
 		this.add(btnProfile);
 		btnProfile.addActionListener(new ActionListener() {
 			@Override
@@ -66,11 +66,11 @@ public class LobbyPanel extends JPanel {
 		gameRoomModel = new DefaultListModel<String>();
 
 		JList<String> gameRoom = new JList<String>(gameRoomModel);
-		gameRoom.setBounds(35, 105, 482, 349);
+		gameRoom.setBounds(150, 105, 482, 349);
 		this.add(gameRoom);
 		
 		JButton btnCreate = new JButton("Create");
-		btnCreate.setBounds(329, 76, 89, 23);
+		btnCreate.setBounds(444, 76, 89, 23);
 		this.add(btnCreate);
 		btnCreate.addActionListener(new ActionListener() {
 			@Override
@@ -80,7 +80,7 @@ public class LobbyPanel extends JPanel {
 		});
 		
 		JButton btnJoin = new JButton("Join");
-		btnJoin.setBounds(428, 76, 89, 23);
+		btnJoin.setBounds(543, 76, 89, 23);
 		this.add(btnJoin);
 		btnJoin.addActionListener(new ActionListener() {
 			@Override
@@ -97,11 +97,11 @@ public class LobbyPanel extends JPanel {
 		});
 		
 		JLabel lblMyFriends = new JLabel("My Friends");
-		lblMyFriends.setBounds(669, 80, 62, 14);
+		lblMyFriends.setBounds(784, 80, 62, 14);
 		this.add(lblMyFriends);
 		
 		JLabel lblRooms = new JLabel("Rooms");
-		lblRooms.setBounds(46, 80, 46, 14);
+		lblRooms.setBounds(161, 80, 46, 14);
 		this.add(lblRooms);
 	}
 
