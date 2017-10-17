@@ -40,14 +40,19 @@ public class SwingUI extends JFrame {
 	public final static String GAME_NAME = "Trouble";
 	
 	/**
+	 * Height of the title bar in pixels
+	 */
+	public final static int TITLE_BAR_HEIGHT = 25;
+	
+	/**
 	 * The height of the display.
 	 */
-	public final static int HEIGHT = 576;
+	public final static int HEIGHT = 580 + TITLE_BAR_HEIGHT;
 	
 	/**
 	 * The width of the display.
 	 */
-	public final static int WIDTH = 1024;
+	public final static int WIDTH = 1030;
 	
 	/**
 	 * The current panel being displayed.
