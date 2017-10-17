@@ -13,6 +13,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
@@ -69,7 +70,7 @@ public class LobbyPanel extends JPanel {
 		this.add(list);
 		
 		JButton btnProfile = new JButton("My profile");
-		btnProfile.setBounds(642+ 115, 11, 89, 23);
+		btnProfile.setBounds(657, 11, 89, 23);
 		this.add(btnProfile);
 		btnProfile.addActionListener(new ActionListener() {
 			@Override
@@ -96,6 +97,41 @@ public class LobbyPanel extends JPanel {
 		btnProfile.setIcon(imgIcon1);
 		btnProfile.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnProfile.setBorderPainted(false);
+		
+		
+		JButton btnSignOff = new JButton("Sign off");
+		btnSignOff.setBounds(757, 11, 89, 23);
+		this.add(btnSignOff);
+		btnSignOff.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int confirmed = JOptionPane.showConfirmDialog(null, 
+						"Are you sure you want to exit the game?", "Exit Trouble Message",
+						JOptionPane.YES_NO_OPTION);
+					if (confirmed == JOptionPane.YES_OPTION)
+						swingUI.send(CommunicationHandler.LOGOUT_REQUEST);
+			}
+		});
+		btnSignOff.addMouseListener(new MouseListener() {			
+			@Override
+			public void mouseReleased(MouseEvent arg0) {}		   
+			@Override
+			public void mousePressed(MouseEvent arg0) {}			
+			@Override
+			public void mouseExited(MouseEvent arg0) { 
+				btnSignOff.setIcon(imgIcon1);
+			}		   
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				btnSignOff.setIcon(imgIcon2);
+			}		   
+			@Override
+			public void mouseClicked(MouseEvent arg0) {}
+		});
+		btnSignOff.setIcon(imgIcon1);
+		btnSignOff.setHorizontalTextPosition(SwingConstants.CENTER);
+		btnSignOff.setBorderPainted(false);
+		
 
 		gameRoomModel = new DefaultListModel<String>();
 

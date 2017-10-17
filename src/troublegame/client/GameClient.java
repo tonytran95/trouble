@@ -61,6 +61,10 @@ public class GameClient {
 		    	System.out.println("Server returned:" + input);
 	    		
 		    	String[] inputSplit = input.split(" ");
+		    	if (input.equals(CommunicationHandler.LOGOUT_SUCCESS)) {
+		    		System.exit(0);
+		    		return;
+		    	}
 		    	switch (ui.getInterface()) {
 		    		case START:
 		    			break;

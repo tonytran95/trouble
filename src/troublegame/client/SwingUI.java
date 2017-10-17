@@ -2,11 +2,14 @@ package troublegame.client;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.UIManager;
@@ -20,6 +23,7 @@ import troublegame.client.panels.LoginPanel;
 import troublegame.client.panels.ProfilePanel;
 import troublegame.client.panels.RulesPanel;
 import troublegame.client.panels.StartPanel;
+import troublegame.communication.CommunicationHandler;
 
 /**
  * 
@@ -134,10 +138,20 @@ public class SwingUI extends JFrame {
 				| UnsupportedLookAndFeelException e) {
 			e.printStackTrace();
 		}
+		this.addWindowListener(new WindowAdapter() {
+			  public void windowClosing(WindowEvent e) {
+				int confirmed = JOptionPane.showConfirmDialog(null, 
+					"Are you sure you want to exit the game?", "Exit Trouble Message",
+					JOptionPane.YES_NO_OPTION);
+
+				if (confirmed == JOptionPane.YES_OPTION)
+					send(CommunicationHandler.LOGOUT_REQUEST);
+			}
+		});
 		this.setTitle(SwingUI.GAME_NAME);
 		this.state = Interface.START;
 		this.switchPanel(this.startPanel);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 	}
 
 	/**

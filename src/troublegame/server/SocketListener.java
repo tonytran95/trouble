@@ -118,8 +118,12 @@ public class SocketListener {
 											lobby.handleChat(conn, message);
 										} else if(input.startsWith(CommunicationHandler.GAME_ROOM_LEAVE)) {
 											lobby.leaveGameRoom(conn);
-										} else if (input.startsWith(CommunicationHandler.LOGOUT_REQUEST)) {
-											// TODO Logout action
+										} else if (input.equals(CommunicationHandler.LOGOUT_REQUEST)) {
+											conn.getOutputStream().println(CommunicationHandler.LOGOUT_SUCCESS);
+											System.out.println("Connection closed: " + socket.getInetAddress());
+											lobby.leaveGameRoom(conn);
+											if (connections.contains(conn))
+												connections.remove(conn);
 										} else if (input.startsWith(CommunicationHandler.GAME_START)) {
 											String gameRoomName = input.substring(CommunicationHandler.GAME_START.length() + 1);
 											gameEngine.createGame(lobby.getGameRoomByName(gameRoomName).getMembers());
@@ -138,12 +142,13 @@ public class SocketListener {
 											} else {
 												conn.getOutputStream().println(CommunicationHandler.UPDATE_FAIL);
 											}
+
 										} else {
 											System.out.println("Unknown Command: " + input);
 										}
 									}
 								} catch (IOException e) {
-									e.printStackTrace();
+									//e.printStackTrace();
 								}
 
 							}
