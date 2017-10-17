@@ -1,11 +1,15 @@
 package troublegame.client;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.UIManager;
@@ -19,6 +23,7 @@ import troublegame.client.panels.LoginPanel;
 import troublegame.client.panels.ProfilePanel;
 import troublegame.client.panels.RulesPanel;
 import troublegame.client.panels.StartPanel;
+import troublegame.communication.CommunicationHandler;
 
 /**
  * 
@@ -123,7 +128,7 @@ public class SwingUI extends JFrame {
 		this.out = out;
 		this.startPanel = new StartPanel(this);
 		this.currentPanel = startPanel;
-		this.setSize(WIDTH, HEIGHT);
+		this.resizeFrame();
 		this.setLocationRelativeTo(null);
 		
 		JPopupMenu.setDefaultLightWeightPopupEnabled(false);
@@ -133,17 +138,27 @@ public class SwingUI extends JFrame {
 				| UnsupportedLookAndFeelException e) {
 			e.printStackTrace();
 		}
+		this.addWindowListener(new WindowAdapter() {
+			  public void windowClosing(WindowEvent e) {
+				int confirmed = JOptionPane.showConfirmDialog(null, 
+					"Are you sure you want to exit the game?", "Exit Trouble Message",
+					JOptionPane.YES_NO_OPTION);
+
+				if (confirmed == JOptionPane.YES_OPTION)
+					send(CommunicationHandler.LOGOUT_REQUEST);
+			}
+		});
 		this.setTitle(SwingUI.GAME_NAME);
 		this.state = Interface.START;
 		this.switchPanel(this.startPanel);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 	}
 
 	/**
 	 * Resizes the main frame i.e. {@link SwingUI} to the default size.
 	 */
 	public void resizeFrame() {
-		//this.resizeFrame(SwingUI.HEIGHT + SwingUI.STRETCH, SwingUI.WIDTH + (SwingUI.STRETCH * 2));
+		this.resizeFrame(SwingUI.WIDTH, SwingUI.HEIGHT);
 	}
 	/**
 	 * Resizes the main frame i.e. {@link SwingUI}.
@@ -151,7 +166,7 @@ public class SwingUI extends JFrame {
 	 * @param width is the width of the view.
 	 */
 	public void resizeFrame(int height, int width) {
-		this.setPreferredSize(new Dimension(height , width));
+		this.setSize(new Dimension(height , width));
 	}
 
 	/**
@@ -163,9 +178,9 @@ public class SwingUI extends JFrame {
 		this.getContentPane().removeAll();
 		this.getContentPane().add(newPanel);
 		this.currentPanel = newPanel;
+		this.currentPanel.setBackground(Color.DARK_GRAY);
 		this.validate();
 		this.repaint();
-		//this.pack();
 	}
 	
 	/**
@@ -201,7 +216,7 @@ public class SwingUI extends JFrame {
 			case LOBBY:
 				if (lobbyPanel == null)
 					lobbyPanel = new LobbyPanel(this);
-				resizeFrame(HEIGHT, WIDTH);
+				resizeFrame();
 				switchPanel(lobbyPanel);
 				break;
 			case LOGIN:
@@ -217,13 +232,13 @@ public class SwingUI extends JFrame {
 			case RULES:
 				if (rulesPanel == null)
 					rulesPanel = new RulesPanel(this);
-				resizeFrame(950, 870);
+				resizeFrame(870, 680);
 				switchPanel(rulesPanel);
 				break;
 			case USER_PROFILE:
 				if (profilePanel == null)
 					profilePanel = new ProfilePanel(this);
-				resizeFrame(600, 550);
+				resizeFrame(550, 600);
 				switchPanel(profilePanel);
 				break;
 			default:
