@@ -13,6 +13,7 @@ import java.net.UnknownHostException;
 import javax.swing.JOptionPane;
 
 import troublegame.client.model.User;
+import troublegame.client.panels.GameChatPanel;
 import troublegame.client.panels.GamePanel;
 import troublegame.client.panels.GameRoomPanel;
 import troublegame.client.panels.LobbyPanel;
@@ -20,7 +21,9 @@ import troublegame.client.panels.RegisterPanel;
 import troublegame.communication.CommunicationHandler;
 
 public class GameClient {
-
+	
+	public static final String GAME_MESSAGE = "GAME: ";
+	
 	/**
 	 * The IP Address.
 	 */
@@ -114,6 +117,7 @@ public class GameClient {
 		    			break;
 		    		case IN_GAME:
 		    			GamePanel gamePanel = (GamePanel) ui.getCurrentPanel();
+		    			GameChatPanel chatPanel = gamePanel.getChatPanel();
 //		    			gamePanel.setupPanel();
 		    			/*if (input.equals(CommunicationHandler.GAME_START)) {
 		    				gamePanel.setupPanel();
@@ -128,20 +132,24 @@ public class GameClient {
 				    	} else if (input.startsWith(CommunicationHandler.GAME_ROLL_SUCCESS)) {
 				    		gamePanel.sendChatMessage("You rolled a " + inputSplit[1] + ". Moving your token into the end zone!.");
 				    		gamePanel.updateToken(inputSplit[3], Integer.parseInt(inputSplit[2]), Integer.parseInt(inputSplit[4]), Integer.parseInt(inputSplit[5]));
-				    	} else if (input.startsWith(CommunicationHandler.GAME_ROLL_FAIL)) {
-				    		gamePanel.sendChatMessage("You rolled a " + inputSplit[1] + ". Unable to move.");
-				    	} else if (input.startsWith(CommunicationHandler.GAME_EAT_TOKEN)) {
+				    	} else */if (input.startsWith(CommunicationHandler.GAME_ROLL_FAIL)) {
+				    		chatPanel.sendMessageToChatBox(GAME_MESSAGE + "You rolled a " + inputSplit[1] + ". Unable to move.");
+				    	} /*else if (input.startsWith(CommunicationHandler.GAME_EAT_TOKEN)) {
 				    		gamePanel.updateToken(inputSplit[2], Integer.parseInt(inputSplit[1]), Integer.parseInt(inputSplit[3]), Integer.parseInt(inputSplit[1]));
-				    	} else if (input.startsWith(CommunicationHandler.GAME_TURN)) {
+				    	} */else if (input.startsWith(CommunicationHandler.GAME_TURN)) {
 				    		if (ui.getUser().getUsername().equals(inputSplit[1])) {
-				    			gamePanel.updateMessage("Your turn.", 1);
+				    			chatPanel.sendMessageToChatBox(GAME_MESSAGE + "It's your turn! Click the dice to roll");
 				    		} else {
-				    			gamePanel.updateMessage(inputSplit[1] + "'s turn.", 1);
+				    			String currPlayer = inputSplit[1];
+				    			int lastCharIndex = currPlayer.length() - 1;
+				    			char lastLetInPlayerName = Character.toLowerCase(currPlayer.charAt(lastCharIndex));
+				    			currPlayer = (lastLetInPlayerName == 's') ? "'" : "'s";
+				    			chatPanel.sendMessageToChatBox(GAME_MESSAGE + "It's " + currPlayer + " turn");
 				    		}
 		    			} else if (input.startsWith(CommunicationHandler.GAME_CHAT)) {
-		    				String chatMessage = input.substring(CommunicationHandler.GAME_CHAT.length());
-		    				ui.pushGameChat(chatMessage);
-		    			}*/
+		    				String message = input.substring(CommunicationHandler.GAME_CHAT.length() + 1);
+		    				chatPanel.sendMessageToChatBox(message);
+		    			}
 		    			break;
 		    		case PARTY:
 		    			GameRoomPanel gameRoomPanel = (GameRoomPanel) ui.getCurrentPanel();

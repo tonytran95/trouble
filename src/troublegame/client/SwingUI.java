@@ -24,7 +24,6 @@ import troublegame.client.panels.ProfilePanel;
 import troublegame.client.panels.RegisterPanel;
 import troublegame.client.panels.RulesPanel;
 import troublegame.client.panels.StartPanel;
-import troublegame.communication.CommunicationHandler;
 
 /**
  * 
@@ -191,7 +190,9 @@ public class SwingUI extends JFrame {
 		this.getContentPane().removeAll();
 		this.getContentPane().add(newPanel);
 		this.currentPanel = newPanel;
-		this.currentPanel.setBackground(Color.DARK_GRAY);
+		if(currentPanel instanceof GamePanel == false) {
+			this.currentPanel.setBackground(Color.DARK_GRAY);
+		}
 		this.validate();
 		this.repaint();
 	}
@@ -308,9 +309,5 @@ public class SwingUI extends JFrame {
 	
 	public void pushChat(String message) {
 		this.gameRoomPanel.updateChat(message);
-	}
-	
-	public void pushGameChat(String message) {
-		this.gamePanel.sendChatMessage(message);
 	}
 }

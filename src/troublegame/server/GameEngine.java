@@ -113,7 +113,7 @@ public class GameEngine {
 				if (player.getUsername().equals(user.getUsername())) {
 					for (Connection member: gameConns.get(g)) {
 						PrintWriter outputStream = member.getOutputStream();
-						String s = String.format(CommunicationHandler.GAME_CHAT + "%s: %s", user.getUsername(), message);
+						String s = String.format(CommunicationHandler.GAME_CHAT + " %s: %s", user.getUsername(), message);
 						outputStream.println(s);
 					}
 				}

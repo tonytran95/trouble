@@ -156,7 +156,7 @@ public class SocketListener {
 											//for (Connection c : lobby.getGameRoomByName(gameRoomName).getMembers())
 												//lobby.leaveGameRoom(c);
 										} else if (input.startsWith(CommunicationHandler.GAME_CHAT)) {
-											String message = input.substring(CommunicationHandler.GAME_CHAT.length());
+											String message = input.substring(CommunicationHandler.GAME_CHAT.length() + 1);
 											gameEngine.handleChat(conn, message);
 										} else if (input.startsWith(CommunicationHandler.UPDATE_DISPLAYNAME)) {
 											String[] inputSplit = input.split(" ");

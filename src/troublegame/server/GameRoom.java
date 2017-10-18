@@ -123,9 +123,9 @@ public class GameRoom {
 		
 		String ownerName = getOwner().getUsername();
 		int ConnectionnameLastIndex = ownerName.length() - 1;
-		char lastLetInConnectionname = Character.toLowerCase(ownerName.charAt(ConnectionnameLastIndex));
+		char lastLetInConnectionName = Character.toLowerCase(ownerName.charAt(ConnectionnameLastIndex));
 		this.name = ownerName;
-		this.name += (lastLetInConnectionname == 's') ? "' " : "'s ";
+		this.name += (lastLetInConnectionName == 's') ? "' " : "'s ";
 		this.name += "Trouble Game Room";
 	}
 	

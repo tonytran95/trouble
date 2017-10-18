@@ -8,18 +8,20 @@ import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Ellipse2D;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-import troublegame.server.Die;
-import troublegame.server.Slot;
+import troublegame.client.SwingUI;
+import troublegame.communication.CommunicationHandler;
 
-public class BoardPanel extends JPanel implements MouseListener {
+public class BoardPanel extends JPanel {
 
 	private static final long serialVersionUID = 997446065983298178L;
 	
@@ -50,9 +52,14 @@ public class BoardPanel extends JPanel implements MouseListener {
 	public static final int SLOT_END = 2;	
 	
 	/**
+	 * The main swing ui
+	 */
+	private SwingUI swingUI;
+	
+	/**
 	 * Background image for the board
 	 */
-	private BufferedImage boardBackground;
+	private Image boardBackground;
 	
 	/**
 	 * The rolling dice gif
@@ -60,14 +67,19 @@ public class BoardPanel extends JPanel implements MouseListener {
 	private Image rollingDie;
 	
 	/**
-	 * Each slots contains one die number
+	 * The image of the die showing the number rolled
 	 */
-	private BufferedImage[] dieNumbers;
+	private Image die;
 	
 	/**
-	 * The roll die button
+	 * Each slots contains one die number
 	 */
-	private BufferedImage rolledNumber;
+	private Image[] dieNumbers;
+	
+	/**
+	 * Boundary of the die bubble to detect button clicks
+	 */
+	private Ellipse2D dieHolder;
 	
 	// The main board
 	private ArrayList<Ellipse2D> mainSlots;
@@ -84,29 +96,32 @@ public class BoardPanel extends JPanel implements MouseListener {
 	private ArrayList<Ellipse2D> yellowEndZone;
 	private ArrayList<Ellipse2D> greenEndZone;
 	
-	// The die
-	private Die die;
-	
 	/**
 	 * JPanel containing the board
 	 */
-	public BoardPanel() {
+	public BoardPanel(SwingUI mainFrame) {
 		
 		try {
-			this.boardBackground = ImageIO.read(new File("C:/Users/Nick/Documents/UNSW Current Semester/COMP4920/Software Project/SoftwareTrouble/data/img/board.png"));
-			this.dieNumbers = new BufferedImage[6];
+			this.boardBackground = ImageIO.read(new File("data/img/board.png"));
+			this.dieNumbers = new Image[6];
 			for(int i = 0; i < dieNumbers.length; i++) {
 				this.dieNumbers[i] = 
-						ImageIO.read(new File("C:/Users/Nick/Documents/UNSW Current Semester/COMP4920/Software Project/SoftwareTrouble/data/img/roll_" + i + ".png"));
+						ImageIO.read(new File("data/img/roll_" + (i + 1) + ".png"));
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
-		this.rollingDie = Toolkit.getDefaultToolkit().createImage("C:/Users/Nick/Documents/UNSW Current Semester/COMP4920/Software Project/SoftwareTrouble/data/img/die.gif");
+		this.rollingDie = Toolkit.getDefaultToolkit().createImage("data/img/die.gif");
 		generateMainSlots();
 		generateHomeZones();
 		generateEndZones();
+		
+		// TODO Request this number for all users so that the initial die roll is the same for everyone
+		this.die = dieNumbers[new Random().nextInt(6)];
+		this.swingUI = mainFrame;
+		this.dieHolder = new Ellipse2D.Double(232, 232, 113, 113);
+		this.addMouseListener(setMouseListener());
 		
 	}
 	
@@ -114,7 +129,99 @@ public class BoardPanel extends JPanel implements MouseListener {
 	 * Shows the number rolled on the die on the board
 	 * @param rolled The number that the player rolled
 	 */
-	public void showRollNumber(int rolled) {
+	public void rollAndShow(int rolled) {
+		
+		TimerTask showTimer = new TimerTask() {
+			
+			@Override
+			public void run() {
+				die = dieNumbers[rolled - 1];
+				repaint();
+			}
+		};
+		
+		new Timer().schedule(showTimer, 1500);
+		die = rollingDie;
+		repaint();
+		
+	}
+	
+	public MouseListener setMouseListener() {
+		return new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				if(dieHolder.contains(e.getPoint())) {
+					rollAndShow(3);
+					swingUI.send(CommunicationHandler.GAME_ROLL);
+				} else {
+					System.out.println("MOUSE AT X: " + e.getX() + ", Y:" + e.getY());
+				}
+			}
+		};
+	}
+	
+	@Override
+	protected void paintComponent(Graphics g) {
+		
+		super.paintComponent(g);
+		
+		// Draw the background image and die
+		g.drawImage(boardBackground, 13, 13, this);
+		g.drawImage(die, 251, 251, this);
+		
+		// Paint the three zones
+		Graphics2D artist = (Graphics2D) g;
+		paintSlots(artist, mainSlots);
+		paintSlots(artist, redHomeZone);
+		paintSlots(artist, redEndZone);
+		paintSlots(artist, greenHomeZone);
+		paintSlots(artist, greenEndZone);
+		paintSlots(artist, yellowHomeZone);
+		paintSlots(artist, yellowEndZone);
+		paintSlots(artist, blueHomeZone);
+		paintSlots(artist, blueEndZone);
+		
+		// Paint the die holder
+		artist.setColor(new Color(0, 0, 0, Color.OPAQUE));
+		artist.draw(dieHolder);
+		
+	}
+	
+	/**
+	 * Paints the given slots
+	 * @param artist A wonderful artist who can also paint main zones
+	 * @param slots The set of slots to paint
+	 */
+	public void paintSlots(Graphics2D artist, ArrayList<Ellipse2D> slots) {
+		
+		for(Ellipse2D slot : slots) {
+			artist.setColor(Color.WHITE);
+			artist.fill(slot);
+			artist.setColor(Color.BLACK);
+			artist.draw(slot);
+		}
 		
 	}
 	
@@ -131,14 +238,16 @@ public class BoardPanel extends JPanel implements MouseListener {
 		topMoveable = sideMoveable = 131;
 		int diff = 47;
 		
+		// Left Quarter
 		mainSlots.add(new Ellipse2D.Double(64, sideMoveable, 30, 30));
-		mainSlots.add(new Ellipse2D.Double(35, sideMoveable -= diff, 30, 30));
-		mainSlots.add(new Ellipse2D.Double(27, sideMoveable -= diff, 30, 30));
-		mainSlots.add(new Ellipse2D.Double(27, sideMoveable -= diff, 30, 30));
-		mainSlots.add(new Ellipse2D.Double(27, sideMoveable -= diff, 30, 30));
-		mainSlots.add(new Ellipse2D.Double(35, sideMoveable -= diff, 30, 30));
-		mainSlots.add(new Ellipse2D.Double(64, sideMoveable -= diff, 30, 30));
+		mainSlots.add(new Ellipse2D.Double(35, sideMoveable += diff, 30, 30));
+		mainSlots.add(new Ellipse2D.Double(27, sideMoveable += diff, 30, 30));
+		mainSlots.add(new Ellipse2D.Double(27, sideMoveable += diff, 30, 30));
+		mainSlots.add(new Ellipse2D.Double(27, sideMoveable += diff, 30, 30));
+		mainSlots.add(new Ellipse2D.Double(35, sideMoveable += diff, 30, 30));
+		mainSlots.add(new Ellipse2D.Double(64, sideMoveable += diff, 30, 30));
 		
+		// Top Quarter
 		mainSlots.add(new Ellipse2D.Double(topMoveable, 65, 30, 30));
 		mainSlots.add(new Ellipse2D.Double(topMoveable += diff, 36, 30, 30));
 		mainSlots.add(new Ellipse2D.Double(topMoveable += diff, 28, 30, 30));
@@ -147,14 +256,16 @@ public class BoardPanel extends JPanel implements MouseListener {
 		mainSlots.add(new Ellipse2D.Double(topMoveable += diff, 36, 30, 30));
 		mainSlots.add(new Ellipse2D.Double(topMoveable += diff, 65, 30, 30));
 		
+		// Right Quarter
 		mainSlots.add(new Ellipse2D.Double(482, sideMoveable, 30, 30));
-		mainSlots.add(new Ellipse2D.Double(511, sideMoveable += diff, 30, 30));
-		mainSlots.add(new Ellipse2D.Double(519, sideMoveable += diff, 30, 30));
-		mainSlots.add(new Ellipse2D.Double(519, sideMoveable += diff, 30, 30));
-		mainSlots.add(new Ellipse2D.Double(519, sideMoveable += diff, 30, 30));
-		mainSlots.add(new Ellipse2D.Double(511, sideMoveable += diff, 30, 30));
-		mainSlots.add(new Ellipse2D.Double(482, sideMoveable += diff, 30, 30));
+		mainSlots.add(new Ellipse2D.Double(511, sideMoveable -= diff, 30, 30));
+		mainSlots.add(new Ellipse2D.Double(519, sideMoveable -= diff, 30, 30));
+		mainSlots.add(new Ellipse2D.Double(519, sideMoveable -= diff, 30, 30));
+		mainSlots.add(new Ellipse2D.Double(519, sideMoveable -= diff, 30, 30));
+		mainSlots.add(new Ellipse2D.Double(511, sideMoveable -= diff, 30, 30));
+		mainSlots.add(new Ellipse2D.Double(482, sideMoveable -= diff, 30, 30));
 		
+		// Bottom Quarter
 		mainSlots.add(new Ellipse2D.Double(topMoveable, 482, 30, 30));
 		mainSlots.add(new Ellipse2D.Double(topMoveable -= diff, 511, 30, 30));
 		mainSlots.add(new Ellipse2D.Double(topMoveable -= diff, 519, 30, 30));
@@ -165,83 +276,55 @@ public class BoardPanel extends JPanel implements MouseListener {
 		
 	}
 	
-	@Override
-	protected void paintComponent(Graphics g) {
-		
-		super.paintComponent(g);
-		
-		// Draw the background image
-		g.drawImage(boardBackground, 13, 13, this);
-		
-		// Paint the three zones
-		Graphics2D artist = (Graphics2D) g;
-		paintHomeZones(artist);
-		paintEndZones(artist);
-		paintMainZone(artist);
-		
-	}
-	
 	/**
 	 * Paints user home zones
 	 * @param artist A wonderful artist who paints home zones
 	 */
-	public void paintHomeZones(Graphics2D artist) {
-		
-		// Green Home
-		paintDiagonalZones(2, 20, 110, 30, artist);
-		
-		// Yellow Home
-		paintDiagonalZones(1, 525, 110, 30, artist);
-		
-		// Blue Home
-		paintDiagonalZones(2, 435, 525, 30, artist);
-		
-		// Red Home
-		paintDiagonalZones(1, 110, 525, 30, artist);
-		
-	}
-	
-	/**
-	 * Paints user endzones
-	 * @param artist A wonderful artist who also paints endzones
-	 */
-	public void paintEndZones(Graphics2D artist) {
-		
-		// Green End
-		paintDiagonalZones(1, 200, 200, 30, artist);
-				
-		// Yellow End
-		paintDiagonalZones(2, 345, 200, 30, artist);
-		
-		// Blue End
-		paintDiagonalZones(1, 435, 435, 30, artist);
+	public void generateHomeZones() {
 		
 		// Red End
-		paintDiagonalZones(2, 110, 435, 30, artist);
+		generateDiagonalZone(2, 110, 435, 30, redHomeZone = new ArrayList<>());
+		
+		// Green End
+		generateDiagonalZone(1, 200, 200, 30, greenHomeZone = new ArrayList<>());
+				
+		// Yellow End
+		generateDiagonalZone(2, 345, 200, 30, yellowHomeZone = new ArrayList<>());
+		
+		// Blue End
+		generateDiagonalZone(1, 435, 435, 30, blueHomeZone = new ArrayList<>());
 		
 	}
 	
 	/**
-	 * Paints the main zone
-	 * @param artist A wonderful artist who can also paint main zones
+	 * Creates Ellipse2D to use for game endzones
+	 * @param artist A wonderful artist who also paints endzones
 	 */
-	public void paintMainZone(Graphics2D artist) {
+	public void generateEndZones() {
 		
+		// Red End
+		generateDiagonalZone(1, 110, 525, 30, redEndZone = new ArrayList<>());
 		
+		// Green End
+		generateDiagonalZone(2, 20, 110, 30, greenEndZone = new ArrayList<>());
+				
+		// Yellow End
+		generateDiagonalZone(1, 525, 110, 30, yellowEndZone = new ArrayList<>());
 		
-		
+		// Blue End
+		generateDiagonalZone(2, 435, 525, 30, blueEndZone = new ArrayList<>());
 		
 	}
 	
 	/**
-	 * Paints slot from bottom to top in the given direction (1 = left, 2 = right)
+	 * Adds Ellipse2D to the given arraylist in the given direction (1 = left, 2 = right)
 	 */
-	public void paintDiagonalZones(int direction, int x, int y, int spacing, Graphics2D artist) {
+	public void generateDiagonalZone(int direction, int x, int y, int spacing, ArrayList<Ellipse2D> slots) {
 		
 		int diametre = 30;
 		
 		for(int i = 0; i < 4; i++) {
-			artist.draw(new Ellipse2D.Double(x, y, diametre, diametre));
+			slots.add(new Ellipse2D.Double(x, y, diametre, diametre));
 			if(direction == 1) {
 				y -= spacing;
 				x -= spacing;
@@ -250,32 +333,6 @@ public class BoardPanel extends JPanel implements MouseListener {
 				x += spacing;
 			}
 		}
-		
-		
-	}
-
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-		
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
 		
 	}
 	
