@@ -123,6 +123,10 @@ public class LoginPanel extends JPanel {
 		passwordField.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
+				if(passwordField.getPassword().length == 0 || emailField.getText().length() == 0) {
+					JOptionPane.showMessageDialog(null, "Email and password cannot be blank");
+					return;
+				}
 				swingUI.send(CommunicationHandler.LOGIN_REQUEST + " " + emailField.getText() + " " + String.valueOf(passwordField.getPassword()));
 				if (btnRememberMe.isSelected())
 					setLastEmail(emailField.getText());
