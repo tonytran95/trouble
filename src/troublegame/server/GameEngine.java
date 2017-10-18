@@ -164,6 +164,19 @@ public class GameEngine {
 						broadcast(g, g.movePlayerToken(ai.getID(), tokenID, roll));
 					}
 				}
+			} else {
+				// if game is over
+				Player winner = g.getWinner();
+				
+				// update user statistics
+				for (Player p: g.getHumanPlayers()) {
+					User u = getUser(g, p.getUsername());
+					if (p.equals(winner)) {
+						u.finishedGame(true);
+					} else {
+						u.finishedGame(false);
+					}
+				}
 			}
 		}
 	}
@@ -216,16 +229,16 @@ public class GameEngine {
 	}
 	
 	/**
-	 * Gets the connection associated with the username
+	 * Gets the user from the connection associated with the username 
 	 * @param username
 	 * @return Connection or null if no such connection
 	 */
-//	private Connection getConnection(String username) {
-//		for (Connection c: gameConn) {
-//			if (c.getUsername().equals(username)) return c;
-//		}
-//		return null;
-//	}
+	private User getUser(Game g, String username) {
+		for (Connection c: gameConns.get(g)) {
+			if (c.getUsername().equals(username)) return c.getUser();
+		}
+		return null;
+	}
 	
 	// checks all if all human players have a connection, if it does, sets this.allPlayersConnected to true
 	private void checkPlayerConnections(Game g) {

@@ -81,12 +81,13 @@ public class GameClient {
 		    		case LOGIN:
 		    			if (input.startsWith(CommunicationHandler.LOGIN_SUCCESS)) {
 		    				String username = input.substring(CommunicationHandler.LOGIN_SUCCESS.length() + 1);
+		    				ui.send(CommunicationHandler.GET_STATISTICS);
 		    				ui.setUser(new User(username));
-		    				ui.setInterface(Interface.LOBBY);
+		    				ui.setInterface(Interface.LOBBY);							
 				    	} else if (input.startsWith(CommunicationHandler.LOGIN_ERROR)) {
 				    		String errorMsg = input.substring(14);
 				    		JOptionPane.showMessageDialog(null, errorMsg, "Please Try again", JOptionPane.PLAIN_MESSAGE);
-				    	}
+				    	} 
 		    			break;
 		    		case LOBBY:
 		    			String[] lobbySplit = input.split("] ");
@@ -105,7 +106,11 @@ public class GameClient {
 		    				lobbyPanel.clearGameRooms();
 		    			} else if (input.startsWith(CommunicationHandler.GAME_ROOM_CLOSE)) {
 		    				lobbyPanel.removeGameRoom(lobbySplit[1]);
-		    			}
+		    			} else if (input.startsWith(CommunicationHandler.GET_STATISTICS)) {
+				    		User me = ui.getUser();
+				    		me.setGamesPlayed(Integer.parseInt(inputSplit[1]));
+				    		me.setGamesWon(Integer.parseInt(inputSplit[2]));
+				    	}
 		    			break;
 		    		case IN_GAME:
 		    			GamePanel gamePanel = (GamePanel) ui.getCurrentPanel();

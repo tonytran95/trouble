@@ -161,6 +161,10 @@ public class SocketListener {
 												conn.getOutputStream().println(CommunicationHandler.UPDATE_FAIL);
 											}
 
+										} else if (input.startsWith(CommunicationHandler.GET_STATISTICS)) {
+											User u = conn.getUser();
+											String statistics = " "+u.getGamesPlayed()+" "+ u.getGamesWon();
+											conn.getOutputStream().println(CommunicationHandler.GET_STATISTICS+ statistics);
 										} else {
 											System.out.println("Unknown Command: " + input);
 										}

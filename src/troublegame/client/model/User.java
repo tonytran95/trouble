@@ -34,12 +34,24 @@ public class User {
 	private Color color;
 	
 	/**
+	 * User's games played
+	 */
+	private int gamesPlayed;
+	
+	/**
+	 * User's games won
+	 */
+	private int gamesWon;
+	
+	/**
 	 * Constructs a new user.
 	 * @param username is the username.
 	 */
 	public User(String username) {
 		this.username = username;
 		this.tokens = new ArrayList<Tile>();
+		this.gamesPlayed = 0;
+		this.gamesWon = 0;
 	}
 
 	/**
@@ -118,4 +130,31 @@ public class User {
 		this.color = color;
 	}
 
+	/**
+	 * get games played
+	 */
+	public int getGamesPlayed() {
+		return this.gamesPlayed;
+	}
+	
+	/**
+	 * get games won
+	 */
+	public int getGamesWon() {
+		return this.gamesWon;
+	}
+	
+	/**
+	 * set games played
+	 */
+	public void setGamesPlayed(int n) {
+		this.gamesPlayed = n;
+	}
+	
+	/**
+	 * set games won
+	 */
+	public void setGamesWon(int n) {
+		this.gamesWon = n;
+	}
 }
