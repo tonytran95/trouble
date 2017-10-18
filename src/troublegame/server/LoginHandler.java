@@ -3,6 +3,8 @@ package troublegame.server;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import troublegame.communication.CommunicationHandler;
+
 /**
  * 
  * A connection that has been entered in the server will be handled
@@ -41,12 +43,17 @@ public class LoginHandler {
 	
 	/**
 	 * @param player is the user connecting the server.
-	 * @return true if the player is new or has the correct credential and
-	 * 			false if the credential is invalid
+	 * @return true if the player is not already logged in.
 	 */
-	public boolean login(Connection connection) {
+	public void login(Connection connection) {
+		for (Connection other : gameServer.getSocketListener().getConnections()) {
+			if (connection != other && connection.getUser().getEmail().equals(other.getUser().getEmail())) {
+				connection.getOutputStream().println(CommunicationHandler.LOGIN_ERROR + " The user you have entered is already connected!");
+				return;
+			}
+		}
 		this.gameServer.login(connection);
-		return true;
+		connection.getOutputStream().println(CommunicationHandler.LOGIN_SUCCESS + " " + connection.getUsername());
 	}
 	
 	/**

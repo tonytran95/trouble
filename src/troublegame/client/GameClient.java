@@ -2,9 +2,11 @@ package troublegame.client;
 
 import java.awt.Color;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.lang.management.ManagementFactory;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -39,6 +41,11 @@ public class GameClient {
 	 */
     private PrintWriter out;
 	
+    /**
+     * The socket.
+     */
+    private Socket socket;
+    
 	public static void main(String[] args) {		
 		new GameClient(GameClient.IP_ADDRESS, GameClient.port);
 	}
@@ -49,12 +56,12 @@ public class GameClient {
 	 * @param port is the port
 	 */
 	public GameClient(String ip, int port) {
-		Socket socket = null;
+		this.socket = null;
 		try {
 			socket = new Socket(ip, port);
 			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		    out = new PrintWriter(socket.getOutputStream(), true);
-			SwingUI ui = new SwingUI(in , out);
+			SwingUI ui = new SwingUI(this, in , out);
 			
 			ui.setVisible(true);
 		    while (true) {
@@ -64,7 +71,8 @@ public class GameClient {
 	    		
 		    	String[] inputSplit = input.split(" ");
 		    	if (input.equals(CommunicationHandler.LOGOUT_SUCCESS)) {
-		    		System.exit(0);
+		    		this.socket.close();
+		    		this.restart();
 		    		return;
 		    	}
 		    	switch (ui.getInterface()) {
@@ -183,6 +191,29 @@ public class GameClient {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	/**
+	 * Restart the program
+	 * @throws IOException 
+	 */
+	public void restart() throws IOException {
+        StringBuilder cmd = new StringBuilder();
+        cmd.append(System.getProperty("java.home") + File.separator + "bin" + File.separator + "java ");
+        for (String jvmArg : ManagementFactory.getRuntimeMXBean().getInputArguments()) {
+            cmd.append(jvmArg + " ");
+        }
+        cmd.append("-cp ").append(ManagementFactory.getRuntimeMXBean().getClassPath()).append(" ");
+        cmd.append(GameClient.class.getName()).append(" ");
+        Runtime.getRuntime().exec(cmd.toString());
+        System.exit(0);
+	}
+	
+	/**
+	 * Gets the socket.
+	 */
+	public Socket getSocket() {
+		return socket;
 	}
 	
 }

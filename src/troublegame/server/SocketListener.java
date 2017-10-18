@@ -78,10 +78,16 @@ public class SocketListener {
 									// TODO:later on we will have a method that adds player connections to correct gameEngines
 									
 									
-									while (true) {
+									while (clientSocket.isConnected()) {
 										
 										String input = clientInput.readLine();
-										
+										if (input == null) {
+											System.out.println(conn.getUsername() + " has disconnected from the server.");
+											connections.remove(conn);
+											clients.remove(clientSocket);
+											clientSocket.close();
+											return;
+										}
 										System.out.println("Client Sent: " + input);
 										// TEMPORARY
 										if (input.startsWith(CommunicationHandler.LOGIN_REQUEST)) {
@@ -98,7 +104,6 @@ public class SocketListener {
 												serverStream.println(CommunicationHandler.LOGIN_ERROR + " No user with the email " + receivedEmail + " was found");
 											} else if (tmp.getPassword().equals(receivedPass)) {
 												conn.setUser(tmp);
-												serverStream.println(CommunicationHandler.LOGIN_SUCCESS + " " + tmp.getUsername());
 												loginHandler.addConnectionToQueue(conn);
 											} else {
 												conn.getOutputStream().println(CommunicationHandler.LOGIN_ERROR + " Incorrect password");
@@ -209,6 +214,10 @@ public class SocketListener {
 		serverThread.start();
 	}
 
+	public ArrayList<Connection> getConnections() {
+		return connections;
+	}
+	
 	public void setLoginHandler(LoginHandler loginHandler) {
 		this.loginHandler = loginHandler;
 	}
