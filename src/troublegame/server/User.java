@@ -39,6 +39,18 @@ public class User implements Serializable {
 	private int gamesPlayed;
 	private int gamesWon;
 	
+	/**
+	 * Constructor used specifically to create Guest users
+	 * when a player clicks 'Play as Guest' on the login screen
+	 * 
+	 * @param username of the guest
+	 */
+	public User(String username) {
+		this.email = username.toLowerCase() + "@guest.com";
+		setUsername(username);
+		setFavouriteColor(Color.RANDOM);
+	}
+	
 	public User(String email, String username, String password, Color favColor, String pQuot) {
 		Objects.requireNonNull(email, "email must not be null");
 		Objects.requireNonNull(username, "username must not be null");

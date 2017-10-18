@@ -19,6 +19,7 @@ public final class CommunicationHandler {
 	public static final String LOGIN_REQUEST = "[LOGIN]";
 	public static final String LOGIN_SUCCESS = "[LOGIN_SUCCESS]";
 	public static final String LOGIN_ERROR = "[LOGIN_ERROR]";
+	public static final String LOGIN_GUEST = "[LOGIN_GUEST]";
 	
 	// Logout constants
 	public static final String LOGOUT_REQUEST = "[LOGOUT]";
