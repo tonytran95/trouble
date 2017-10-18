@@ -91,7 +91,7 @@ public class LobbyPanel extends JPanel {
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
 				btnProfile.setIcon(imgIcon2);
-			}		   
+			}
 			@Override
 			public void mouseClicked(MouseEvent arg0) {}
 		});

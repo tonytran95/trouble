@@ -101,7 +101,8 @@ public class GameClient {
 		    			break;
 		    		case IN_GAME:
 		    			GamePanel gamePanel = (GamePanel) ui.getCurrentPanel();
-		    			if (input.equals(CommunicationHandler.GAME_START)) {
+//		    			gamePanel.setupPanel();
+		    			/*if (input.equals(CommunicationHandler.GAME_START)) {
 		    				gamePanel.setupPanel();
 				    	} else if (input.startsWith(CommunicationHandler.GAME_COLORS)) {
 				    		gamePanel.getPlayers().put(inputSplit[1], inputSplit[2]);
@@ -127,7 +128,7 @@ public class GameClient {
 		    			} else if (input.startsWith(CommunicationHandler.GAME_CHAT)) {
 		    				String chatMessage = input.substring(CommunicationHandler.GAME_CHAT.length());
 		    				ui.pushGameChat(chatMessage);
-		    			}
+		    			}*/
 		    			break;
 		    		case PARTY:
 		    			GameRoomPanel gameRoomPanel = (GameRoomPanel) ui.getCurrentPanel();
