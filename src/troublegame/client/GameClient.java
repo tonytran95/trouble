@@ -2,9 +2,11 @@ package troublegame.client;
 
 import java.awt.Color;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.lang.management.ManagementFactory;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -39,6 +41,11 @@ public class GameClient {
 	 */
     private PrintWriter out;
 	
+    /**
+     * The socket.
+     */
+    private Socket socket;
+    
 	public static void main(String[] args) {		
 		new GameClient(GameClient.IP_ADDRESS, GameClient.port);
 	}
@@ -49,12 +56,12 @@ public class GameClient {
 	 * @param port is the port
 	 */
 	public GameClient(String ip, int port) {
-		Socket socket = null;
+		this.socket = null;
 		try {
 			socket = new Socket(ip, port);
 			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		    out = new PrintWriter(socket.getOutputStream(), true);
-			SwingUI ui = new SwingUI(in , out);
+			SwingUI ui = new SwingUI(this, in , out);
 			
 			ui.setVisible(true);
 		    while (true) {
@@ -64,7 +71,8 @@ public class GameClient {
 	    		
 		    	String[] inputSplit = input.split(" ");
 		    	if (input.equals(CommunicationHandler.LOGOUT_SUCCESS)) {
-		    		System.exit(0);
+		    		this.socket.close();
+		    		this.restart();
 		    		return;
 		    	}
 		    	switch (ui.getInterface()) {
@@ -73,12 +81,13 @@ public class GameClient {
 		    		case LOGIN:
 		    			if (input.startsWith(CommunicationHandler.LOGIN_SUCCESS)) {
 		    				String username = input.substring(CommunicationHandler.LOGIN_SUCCESS.length() + 1);
+		    				ui.send(CommunicationHandler.GET_STATISTICS);
 		    				ui.setUser(new User(username));
-		    				ui.setInterface(Interface.LOBBY);
+		    				ui.setInterface(Interface.LOBBY);							
 				    	} else if (input.startsWith(CommunicationHandler.LOGIN_ERROR)) {
 				    		String errorMsg = input.substring(14);
 				    		JOptionPane.showMessageDialog(null, errorMsg, "Please Try again", JOptionPane.PLAIN_MESSAGE);
-				    	}
+				    	} 
 		    			break;
 		    		case LOBBY:
 		    			String[] lobbySplit = input.split("] ");
@@ -97,7 +106,11 @@ public class GameClient {
 		    				lobbyPanel.clearGameRooms();
 		    			} else if (input.startsWith(CommunicationHandler.GAME_ROOM_CLOSE)) {
 		    				lobbyPanel.removeGameRoom(lobbySplit[1]);
-		    			}
+		    			} else if (input.startsWith(CommunicationHandler.GET_STATISTICS)) {
+				    		User me = ui.getUser();
+				    		me.setGamesPlayed(Integer.parseInt(inputSplit[1]));
+				    		me.setGamesWon(Integer.parseInt(inputSplit[2]));
+				    	}
 		    			break;
 		    		case IN_GAME:
 		    			GamePanel gamePanel = (GamePanel) ui.getCurrentPanel();
@@ -184,6 +197,29 @@ public class GameClient {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	/**
+	 * Restart the program
+	 * @throws IOException 
+	 */
+	public void restart() throws IOException {
+        StringBuilder cmd = new StringBuilder();
+        cmd.append(System.getProperty("java.home") + File.separator + "bin" + File.separator + "java ");
+        for (String jvmArg : ManagementFactory.getRuntimeMXBean().getInputArguments()) {
+            cmd.append(jvmArg + " ");
+        }
+        cmd.append("-cp ").append(ManagementFactory.getRuntimeMXBean().getClassPath()).append(" ");
+        cmd.append(GameClient.class.getName()).append(" ");
+        Runtime.getRuntime().exec(cmd.toString());
+        System.exit(0);
+	}
+	
+	/**
+	 * Gets the socket.
+	 */
+	public Socket getSocket() {
+		return socket;
 	}
 	
 }

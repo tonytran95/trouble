@@ -274,6 +274,22 @@ public class Game {
 		return false;
 	}
 	
+	/**
+	 * If game is over, returns the winner, else returns null
+	 * @return
+	 */
+	public Player getWinner() {
+		for (Player p: players) {
+			ArrayList<Slot> homeslot = board.getPlayerEndZone(p);
+			int filledSlots = 0;
+			for (Slot s: homeslot) {
+				if (s.isOccupied()) filledSlots++;
+			}
+			if (filledSlots == Player.NUM_TOKENS) return p;
+		}
+		return null;
+	}
+		
 	public int getTurnNum() {
 		return this.turnNum;
 	}

@@ -36,6 +36,12 @@ public class ProfilePanel extends JPanel {
 	 * Create the panel.
 	 */
 	public ProfilePanel(SwingUI swingUI) {
+		User me = swingUI.getUser();
+		String username = me.getUsername();
+		int gamesPlayed = me.getGamesPlayed();
+		int gamesWon = me.getGamesWon();
+		float winRate = (gamesWon * 100.0f) / gamesPlayed;
+		
 		this.swingUI = swingUI;
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{73, 31, 248, 0};
@@ -62,8 +68,7 @@ public class ProfilePanel extends JPanel {
 		add(lblUsername, gbc_lblUsername);
 		
 		usernameTextField = new JTextField();
-		User me = swingUI.getUser();
-		usernameTextField.setText(me.getUsername());
+		usernameTextField.setText(username);
 		GridBagConstraints gbc_usernameTextField = new GridBagConstraints();
 		gbc_usernameTextField.insets = new Insets(0, 0, 5, 0);
 		gbc_usernameTextField.fill = GridBagConstraints.HORIZONTAL;
@@ -125,7 +130,7 @@ public class ProfilePanel extends JPanel {
 		gbc_label_2.gridy = 7;
 		add(label_2, gbc_label_2);
 		
-		JLabel gamesPlayedDisplay = new JLabel("0");
+		JLabel gamesPlayedDisplay = new JLabel(Integer.toString(gamesPlayed));
 		GridBagConstraints gbc_gamesPlayedDisplay = new GridBagConstraints();
 		gbc_gamesPlayedDisplay.fill = GridBagConstraints.HORIZONTAL;
 		gbc_gamesPlayedDisplay.insets = new Insets(0, 0, 5, 0);
@@ -142,7 +147,7 @@ public class ProfilePanel extends JPanel {
 		gbc_label_1.gridy = 8;
 		add(label_1, gbc_label_1);
 		
-		JLabel gamesWonDisplay = new JLabel("0");
+		JLabel gamesWonDisplay = new JLabel(Integer.toString(gamesWon));
 		GridBagConstraints gbc_gamesWonDisplay = new GridBagConstraints();
 		gbc_gamesWonDisplay.fill = GridBagConstraints.HORIZONTAL;
 		gbc_gamesWonDisplay.insets = new Insets(0, 0, 5, 0);
@@ -159,7 +164,7 @@ public class ProfilePanel extends JPanel {
 		gbc_lblWinRate.gridy = 9;
 		add(lblWinRate, gbc_lblWinRate);
 		
-		JLabel winRateDisplay = new JLabel("0%");
+		JLabel winRateDisplay = new JLabel(String.format ("%.1f%%", winRate));
 		GridBagConstraints gbc_winRateDisplay = new GridBagConstraints();
 		gbc_winRateDisplay.fill = GridBagConstraints.HORIZONTAL;
 		gbc_winRateDisplay.insets = new Insets(0, 0, 5, 0);

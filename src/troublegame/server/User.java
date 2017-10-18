@@ -36,6 +36,8 @@ public class User implements Serializable {
 	private String personalQuote;
 	private int onlineStatus;
 	private ArrayList<UUID> friends;
+	private int gamesPlayed;
+	private int gamesWon;
 	
 	public User(String email, String username, String password, Color favColor, String pQuot) {
 		Objects.requireNonNull(email, "email must not be null");
@@ -43,6 +45,8 @@ public class User implements Serializable {
 		Objects.requireNonNull(password, "password must not be null");
 		this.id = UUID.randomUUID();
 		this.email = email.toLowerCase();
+		this.gamesPlayed = 0;
+		this.gamesWon = 0;
 		setUsername(username);
 		setPassword(password);
 		setFavouriteColor(favColor);
@@ -163,6 +167,28 @@ public class User implements Serializable {
 	 */
 	public String getPersonalQuote() {
 		return this.personalQuote;
+	}
+	
+	/**
+	 * @return number of games this user played
+	 */
+	public int getGamesPlayed() {
+		return this.gamesPlayed;
+	}
+	
+	/**
+	 * @return number of games this user won
+	 */
+	public int getGamesWon() {
+		return this.gamesWon;
+	}
+	
+	/**
+	 * call this function after a game to increase statistics
+	 */
+	public void finishedGame(boolean won) {
+		if (won) this.gamesWon++;
+		this.gamesPlayed++;
 	}
 	
 	/**
@@ -322,7 +348,8 @@ public class User implements Serializable {
 		}
 		return true;
 	}
-
+	
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

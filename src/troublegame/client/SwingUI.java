@@ -128,7 +128,7 @@ public class SwingUI extends JFrame {
 	/**
 	 * The constructor for the swing user interface.
 	 */
-	public SwingUI(BufferedReader in, PrintWriter out) {
+	public SwingUI(GameClient client, BufferedReader in, PrintWriter out) {
 		
 		this.in = in;
 		this.out = out;
@@ -150,8 +150,15 @@ public class SwingUI extends JFrame {
 					"Are you sure you want to exit the game?", "Exit Trouble Message",
 					JOptionPane.YES_NO_OPTION);
 
-				if (confirmed == JOptionPane.YES_OPTION)
-					send(CommunicationHandler.LOGOUT_REQUEST);
+				if (confirmed == JOptionPane.YES_OPTION) {
+					try {
+						client.getSocket().close();
+						System.exit(0);
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+					//send(CommunicationHandler.LOGOUT_REQUEST);
+				}
 			}
 		});
 		this.setTitle(SwingUI.GAME_NAME);
