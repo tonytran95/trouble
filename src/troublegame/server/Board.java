@@ -12,9 +12,10 @@ public class Board {
 	
 	// Starting positions
 	public static final int RED_START = 0;
-	public static final int BLUE_START = 7;
+	public static final int GREEN_START = 7;
 	public static final int YELLOW_START = 14;
-	public static final int GREEN_START = 21;
+	public static final int BLUE_START = 21;
+	
 	
 	// Ending positions
 	public static final int RED_END = NUM_MAIN_SLOTS - 1;
