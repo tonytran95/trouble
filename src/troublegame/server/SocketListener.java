@@ -120,6 +120,15 @@ public class SocketListener {
 											int i = UserManager.createAndSaveNewUser(registerSplit[1], registerSplit[2], registerSplit[3], favColor, registerSplit[5]);
 											if (i == 0) conn.getOutputStream().println(CommunicationHandler.REGISTER_SUCCESS);
 											else if (i == 1) conn.getOutputStream().println(CommunicationHandler.REGISTER_ERROR);
+										} else if (input.startsWith(CommunicationHandler.LOGIN_GUEST)) {
+											int guestCount = 0;
+											for (Connection user : connections) {
+												if (user.equals(conn)) continue;
+												if (user.getUser().getPassword() == null) guestCount++;
+											}
+											User guestUser = new User("GUEST_" + guestCount);
+											conn.setUser(guestUser);
+											loginHandler.addConnectionToQueue(conn);
 										} else if (input.equals(CommunicationHandler.GAME_ROOM_NEW)) {
 											System.out.println(conn.getUser().getUsername()+" created a room");
 											lobby.createGameRoom(conn);

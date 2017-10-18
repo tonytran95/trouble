@@ -116,6 +116,10 @@ public class LoginPanel extends JPanel {
 		btnRegister.setBounds(500, 305, 143, 23);
 		this.add(btnRegister);
 		
+		JButton btnPlayAsGuest = new JButton("Play as Guest");
+		btnPlayAsGuest.setBounds(356, 305, 143, 23);
+		this.add(btnPlayAsGuest);
+		
 		passwordField.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
@@ -145,6 +149,12 @@ public class LoginPanel extends JPanel {
 					setLastEmail(emailField.getText());
 				else if (email.length() > 0)
 					setLastEmail("");
+			}
+		});
+		btnPlayAsGuest.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				swingUI.send(CommunicationHandler.LOGIN_GUEST);
 			}
 		});
 		btnRegister.addMouseListener(new MouseListener() {			
@@ -178,6 +188,23 @@ public class LoginPanel extends JPanel {
 			}		   
 			@Override
 			public void mouseClicked(MouseEvent arg0) {}
+		});
+		btnPlayAsGuest.addMouseListener(new MouseListener() {
+			@Override
+			public void mouseReleased(MouseEvent arg0) {}
+			@Override
+			public void mousePressed(MouseEvent arg0) {}
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+				btnPlayAsGuest.setIcon(imgIcon1);
+			}
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				btnPlayAsGuest.setIcon(imgIcon2);
+			}
+			@Override
+			public void mouseClicked(MouseEvent arg0) {}
+
 		});
 		
 		JButton btnReturnToMain = new JButton("Return to main menu");
@@ -213,6 +240,10 @@ public class LoginPanel extends JPanel {
 		btnLogin.setIcon(imgIcon1);
 		btnLogin.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnLogin.setBorderPainted(false);
+		
+		btnPlayAsGuest.setIcon(imgIcon1);
+		btnPlayAsGuest.setHorizontalTextPosition(SwingConstants.CENTER);
+		btnPlayAsGuest.setBorderPainted(false);
 		
 		btnReturnToMain.setIcon(imgIcon1);
 		btnReturnToMain.setHorizontalTextPosition(SwingConstants.CENTER);
