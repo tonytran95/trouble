@@ -91,6 +91,13 @@ public class GameRoom {
 	}
 	
 	/**
+	 * returns a count of members in the room
+	 */
+	public int joinedMembers() {
+		return members.size();
+	}
+	
+	/**
 	 * @return The list of all Connections who are members of this room
 	 */
 	public ArrayList<Connection> getMembers() {
