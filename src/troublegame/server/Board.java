@@ -1,13 +1,12 @@
 package troublegame.server;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Board {
 	
 	// Number of slot constants
-	public static final int NUM_MAIN_SLOTS = 28;
 	public static final int NUM_HOME_SLOTS = 4;
+	public static final int NUM_MAIN_SLOTS = 28;
 	public static final int NUM_END_SLOTS = 4;
 	
 	// Starting positions
@@ -16,12 +15,11 @@ public class Board {
 	public static final int YELLOW_START = 14;
 	public static final int BLUE_START = 21;
 	
-	
 	// Ending positions
 	public static final int RED_END = NUM_MAIN_SLOTS - 1;
-	public static final int BLUE_END = BLUE_START - 1;
-	public static final int YELLOW_END = YELLOW_START - 1;
 	public static final int GREEN_END = GREEN_START - 1;
+	public static final int YELLOW_END = YELLOW_START - 1;
+	public static final int BLUE_END = BLUE_START - 1;
 	
 	public static final int SLOT_HOME = 0;
 	public static final int SLOT_MAIN = 1;
@@ -32,15 +30,15 @@ public class Board {
 	
 	// Each players home base where the tokens spawn
 	private ArrayList<Slot> redHomeZone;
-	private ArrayList<Slot> blueHomeZone;
-	private ArrayList<Slot> yellowHomeZone;
 	private ArrayList<Slot> greenHomeZone;
+	private ArrayList<Slot> yellowHomeZone;
+	private ArrayList<Slot> blueHomeZone;
 	
 	// Each players end zone where the tokens are safe
 	private ArrayList<Slot> redEndZone;
-	private ArrayList<Slot> blueEndZone;
-	private ArrayList<Slot> yellowEndZone;
 	private ArrayList<Slot> greenEndZone;
+	private ArrayList<Slot> yellowEndZone;
+	private ArrayList<Slot> blueEndZone;
 	
 	// The die
 	private Die die;
@@ -60,12 +58,12 @@ public class Board {
 	public Slot getTokenLoc(Token token) {
 		
 		Player owner = token.getOwner();
-		ArrayList<Slot> homeZone = getPlayerHomeZone(owner);
-		ArrayList<Slot> endZone = getPlayerEndZone(owner);
-		List<Slot> combinedSlots = new ArrayList<Slot>();
+		ArrayList<Slot> homeZone = getPlayerHomeZone(owner.getColour());
+		ArrayList<Slot> endZone = getPlayerEndZone(owner.getColour());
+		ArrayList<Slot> combinedSlots = new ArrayList<Slot>();
 		
-		combinedSlots.addAll(mainSlots);
 		combinedSlots.addAll(homeZone);
+		combinedSlots.addAll(mainSlots);
 		combinedSlots.addAll(endZone);
 		
 		// look through and find the slot containing the token
@@ -83,7 +81,7 @@ public class Board {
 		Slot currentSlot = getTokenLoc(token);
 		if (currentSlot != null) currentSlot.removeOccupyingToken();
 		if (zone == SLOT_HOME) {
-			for (Slot s : getPlayerHomeZone(owner)) {
+			for (Slot s : getPlayerHomeZone(owner.getColour())) {
 				if (index == s.getSlotIndex()) {
 					s.setOccupyingToken(token);
 					break;
@@ -97,7 +95,7 @@ public class Board {
 				}
 			}
 		} else if (zone == SLOT_END) {
-			for (Slot s : getPlayerEndZone(owner)) {
+			for (Slot s : getPlayerEndZone(owner.getColour())) {
 				if (index == s.getSlotIndex()) {
 					s.setOccupyingToken(token);
 					break;
@@ -154,16 +152,16 @@ public class Board {
 				case RED: 
 					redHomeZone = new ArrayList<Slot>(NUM_HOME_SLOTS);
 					break;
-				case BLUE: 
-					blueHomeZone = new ArrayList<Slot>(NUM_HOME_SLOTS);
-					break;
 				case GREEN: 
 					greenHomeZone = new ArrayList<Slot>(NUM_HOME_SLOTS);
 					break;
-				default: 
+				case YELLOW: 
 					yellowHomeZone = new ArrayList<Slot>(NUM_HOME_SLOTS);
+					break;
+				default: 
+					blueHomeZone = new ArrayList<Slot>(NUM_HOME_SLOTS);
 			}
-			generateSlots(getPlayerHomeZone(p), p, SLOT_HOME, NUM_HOME_SLOTS);
+			generateSlots(getPlayerHomeZone(p.getColour()), p, SLOT_HOME, NUM_HOME_SLOTS);
 		}
 	}
 	
@@ -174,47 +172,47 @@ public class Board {
 	private void generateEndZones(Player[] players) {
 		for(Player p: players) {
 			switch(p.getColour()) {
-				case BLUE: 
-					blueEndZone = new ArrayList<Slot>(NUM_END_SLOTS);
-					break;
-				case YELLOW: 
-					yellowEndZone = new ArrayList<Slot>(NUM_END_SLOTS);
+				case RED: 
+					redEndZone = new ArrayList<Slot>(NUM_END_SLOTS);
 					break;
 				case GREEN: 
 					greenEndZone = new ArrayList<Slot>(NUM_END_SLOTS);
 					break;
+				case YELLOW: 
+					yellowEndZone = new ArrayList<Slot>(NUM_END_SLOTS);
+					break;
 				default: 
-					redEndZone = new ArrayList<Slot>(NUM_END_SLOTS);
+					blueEndZone = new ArrayList<Slot>(NUM_END_SLOTS);
 			}
-			generateSlots(getPlayerEndZone(p), SLOT_END, NUM_END_SLOTS);
+			generateSlots(getPlayerEndZone(p.getColour()), SLOT_END, NUM_END_SLOTS);
 		}
 	}
 	
 	/**
 	 * Gets the home zone for the given player
-	 * @param player The player who's home zone to get
+	 * @param c The color of the player for the home zone to get
 	 * @return The home zone for the given player
 	 */
-	public ArrayList<Slot> getPlayerHomeZone(Player player) {
-		switch(player.getColour()) {
+	public ArrayList<Slot> getPlayerHomeZone(Color c) {
+		switch(c) {
 			case RED: return redHomeZone;
-			case BLUE: return blueHomeZone;
 			case GREEN: return greenHomeZone;
-			default: return yellowHomeZone;
+			case YELLOW: return yellowHomeZone;
+			default: return blueHomeZone;
 		}
 	}
 	
 	/**
 	 * Gets the endzone for the given player
-	 * @param player The player who's endzone to get
+	 * @param c The player color for who's endzone to get
 	 * @return The end zone for the given player
 	 */
-	public ArrayList<Slot> getPlayerEndZone(Player player) {
-		switch(player.getColour()) {
+	public ArrayList<Slot> getPlayerEndZone(Color c) {
+		switch(c) {
 			case RED: return redEndZone;
-			case BLUE: return blueEndZone;
 			case GREEN: return greenEndZone;
-			default: return yellowEndZone;
+			case YELLOW: return yellowEndZone;
+			default: return blueEndZone;
 		}
 	}
 	
@@ -242,14 +240,14 @@ public class Board {
 		if(mainSlots.size() != NUM_MAIN_SLOTS) {
 			return false;
 		} else if ((redHomeZone != null && redHomeZone.size() != NUM_HOME_SLOTS) ||
+				(greenHomeZone != null && greenHomeZone.size() != NUM_HOME_SLOTS) ||
 				(yellowHomeZone != null && yellowHomeZone.size() != NUM_HOME_SLOTS) || 
-				(blueHomeZone != null && blueHomeZone.size() != NUM_HOME_SLOTS) || 
-				(greenHomeZone != null && greenHomeZone.size() != NUM_HOME_SLOTS)) {
+				(blueHomeZone != null && blueHomeZone.size() != NUM_HOME_SLOTS)) {
 			return false;
 		} else if ((redEndZone != null && redEndZone.size() != NUM_END_SLOTS) ||
+				(greenEndZone != null && greenEndZone.size() != NUM_END_SLOTS) || 
 				(yellowEndZone != null && yellowEndZone.size() != NUM_END_SLOTS) || 
-				(blueEndZone != null && blueEndZone.size() != NUM_END_SLOTS) || 
-				(greenEndZone != null && greenEndZone.size() != NUM_END_SLOTS)) {
+				(blueEndZone != null && blueEndZone.size() != NUM_END_SLOTS)) {
 			return false;
 		} else {
 			return true;
@@ -268,9 +266,6 @@ public class Board {
 			case RED:
 				startIndex = RED_START;
 				break;
-			case BLUE:
-				startIndex = BLUE_START;
-				break;
 			case GREEN:
 				startIndex = GREEN_START;
 				break;
@@ -278,8 +273,7 @@ public class Board {
 				startIndex = YELLOW_START;
 				break;
 			default:
-				startIndex = 0;
-				break;
+				startIndex = BLUE_START;
 		}
 		return startIndex;
 	}
@@ -295,9 +289,6 @@ public class Board {
 		case RED:
 			endIndex = RED_END;
 			break;
-		case BLUE:
-			endIndex = BLUE_END;
-			break;
 		case GREEN:
 			endIndex = GREEN_END;
 			break;
@@ -305,16 +296,45 @@ public class Board {
 			endIndex = YELLOW_END;
 			break;
 		default:
-			endIndex = 0;
-			break;
+			endIndex = BLUE_END;
 		}
 		return endIndex;
 	}
 	
 	/**
-	 * returns a slot in the mainSlots given the slotIndex
+	 * Gets the slot in the main zone at the specified index. Null is returned for index out of bounds
+	 * @param index The index of the slot to get the token for
+	 * @return null if slot not found, otherwise the slot at index in mainzone
 	 */
-	public Slot getMainSlot(int slotIndex) {
-		return mainSlots.get(slotIndex);
+	public Slot getSlot(int index) {
+		if(index < NUM_MAIN_SLOTS) return mainSlots.get(index);
+		return null;
 	}
+	
+	/**
+	 * Get the slot at the given index of the given zone for the given color
+	 * @param index The slot index to get
+	 * @param zone The zone the slot is in
+	 * @param col The color of the zone to get
+	 * @return The found slot in the given zone if it exists, otherwise null
+	 */
+	public Slot getSlot(int index, int zone, Color col) {
+		
+		Slot slot = null;
+		
+		switch (zone) {
+			case SLOT_HOME:
+				if(index < NUM_HOME_SLOTS) slot = getPlayerHomeZone(col).get(index);
+				break;
+			case SLOT_END:
+				if(index < NUM_END_SLOTS) slot = getPlayerEndZone(col).get(index);
+				break;
+			default:
+				slot = getSlot(index);
+		}
+		
+		return slot;
+		
+	}
+	
 }

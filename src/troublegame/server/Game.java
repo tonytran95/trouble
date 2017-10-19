@@ -164,8 +164,8 @@ public class Game {
 					engine.updateMessages(this);
 				} else {
 					int startIndex = board.getStartIndex(col);
-					if (board.getMainSlot(startIndex).isOccupied()) {
-						Token tokenToEat = board.getMainSlot(startIndex).getOccupyingToken();
+					if (board.getSlot(startIndex).isOccupied()) {
+						Token tokenToEat = board.getSlot(startIndex).getOccupyingToken();
 						Player owner = tokenToEat.getOwner();
 						board.setTokenLoc(tokenToEat, Board.SLOT_HOME, tokenToEat.getTokenID());
 						engine.broadcast(this, CommunicationHandler.GAME_EAT_TOKEN + " " + tokenToEat.getTokenID() + " " + owner.getUsername() + " " + Board.SLOT_HOME);
@@ -179,11 +179,12 @@ public class Game {
 			case Board.SLOT_MAIN:
 				int startIndex = board.getStartIndex(col);
 				int endIndex = board.getEndIndex(col);
+				int currZone = Board.SLOT_MAIN;
 				currPos = currentSlot.getSlotIndex();	
 				if (currPos == endIndex) { // move into endzone
 					switch (diceValue) {
 						case 1: 
-							if (board.getPlayerEndZone(p).get(0).getOccupyingToken() == null) {
+							if (board.getSlot(diceValue - 1, currZone, col).getOccupyingToken() == null) {
 								command = CommunicationHandler.GAME_ROLL_SUCCESS + " " + diceValue + " " + tokenID + " " + p.getUsername() + " " + Board.SLOT_END + " " + 0;
 								board.setTokenLoc(token, Board.SLOT_END, 0);
 							} else {
@@ -191,7 +192,7 @@ public class Game {
 							}
 							break;
 						case 2:
-							if (board.getPlayerEndZone(p).get(1).getOccupyingToken() == null) {
+							if (board.getSlot(diceValue - 1, currZone, col).getOccupyingToken() == null) {
 								command = CommunicationHandler.GAME_ROLL_SUCCESS + " " + diceValue + " " + tokenID + " " + p.getUsername() + " " + Board.SLOT_END + " " + 1;
 								board.setTokenLoc(token, Board.SLOT_END, 1);
 							} else {
@@ -199,7 +200,7 @@ public class Game {
 							}
 							break;
 						case 3:
-							if (board.getPlayerEndZone(p).get(2).getOccupyingToken() == null) {
+							if (board.getSlot(diceValue -1, currZone, col).getOccupyingToken() == null) {
 								command = CommunicationHandler.GAME_ROLL_SUCCESS + " " + diceValue + " " + tokenID + " " + p.getUsername() + " " + Board.SLOT_END + " " + 2;
 								board.setTokenLoc(token, Board.SLOT_END, 2);
 							} else {
@@ -207,7 +208,7 @@ public class Game {
 							}
 							break;
 						case 4:
-							if (board.getPlayerEndZone(p).get(3).getOccupyingToken() == null) {
+							if (board.getSlot(diceValue - 1, currZone, col).getOccupyingToken() == null) {
 								command = CommunicationHandler.GAME_ROLL_SUCCESS + " " + diceValue + " " + tokenID + " " + p.getUsername() + " " + Board.SLOT_END + " " + 3;
 								board.setTokenLoc(token, Board.SLOT_END, 3);
 							} else {
@@ -227,8 +228,8 @@ public class Game {
 							if (target > endIndex) target = endIndex;
 						}
 					}
-					if (board.getMainSlot(target).isOccupied()) {
-						Token tokenToEat = board.getMainSlot(target).getOccupyingToken();
+					if (board.getSlot(target).isOccupied()) {
+						Token tokenToEat = board.getSlot(target).getOccupyingToken();
 						Player owner = tokenToEat.getOwner();
 						board.setTokenLoc(tokenToEat, Board.SLOT_HOME, tokenToEat.getTokenID());
 						engine.broadcast(this, CommunicationHandler.GAME_EAT_TOKEN + " " + tokenToEat.getTokenID() + " " + owner.getUsername() + " " + Board.SLOT_HOME);
@@ -264,7 +265,7 @@ public class Game {
 		if (!started)
 			return false;
 		for (Player p: players) {
-			ArrayList<Slot> homeslot = board.getPlayerEndZone(p);
+			ArrayList<Slot> homeslot = board.getPlayerEndZone(p.getColour());
 			int filledSlots = 0;
 			for (Slot s: homeslot) {
 				if (s.isOccupied()) filledSlots++;
@@ -280,7 +281,7 @@ public class Game {
 	 */
 	public Player getWinner() {
 		for (Player p: players) {
-			ArrayList<Slot> homeslot = board.getPlayerEndZone(p);
+			ArrayList<Slot> homeslot = board.getPlayerEndZone(p.getColour());
 			int filledSlots = 0;
 			for (Slot s: homeslot) {
 				if (s.isOccupied()) filledSlots++;
