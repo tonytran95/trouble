@@ -9,6 +9,8 @@ import java.io.PrintWriter;
 import java.lang.management.ManagementFactory;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.JOptionPane;
 
@@ -140,17 +142,55 @@ public class GameClient {
 				    	} else if (input.startsWith(CommunicationHandler.GAME_COLORS)) {
 				    		boardPanel.setupPlayer(inputSplit[1], inputSplit[2]);
 				    	} else if (input.startsWith(CommunicationHandler.GAME_ROLL)) {
-				    		boardPanel.rollAndShow(Integer.parseInt(inputSplit[1]));
-				    		chatPanel.sendMessageToChatBox(GAME_MESSAGE + inputSplit[3] + " rolled a " + inputSplit[1]);
-				    		boardPanel.updateToken(inputSplit[3], Integer.parseInt(inputSplit[2]), Integer.parseInt(inputSplit[4]), Integer.parseInt(inputSplit[5]));
+				    		int rolled = Integer.valueOf(inputSplit[1]);
+				    		boardPanel.rollAndShow(rolled);
+				    		new Timer().schedule(new TimerTask() {
+								
+								@Override
+								public void run() {
+									chatPanel.sendMessageToChatBox(GAME_MESSAGE + inputSplit[3] + " rolled a " + rolled);
+						    		boardPanel.updateToken(inputSplit[3], Integer.parseInt(inputSplit[2]), Integer.parseInt(inputSplit[4]), Integer.parseInt(inputSplit[5]));
+								}
+							}, 1500);
+				    		
 				    	} else if (input.startsWith(CommunicationHandler.GAME_ROLL_AGAIN)) {
-				    		chatPanel.sendMessageToChatBox(GAME_MESSAGE + "You rolled a " + inputSplit[1] + ". Roll again to move.");
-				    		boardPanel.updateToken(inputSplit[3], Integer.parseInt(inputSplit[2]), Integer.parseInt(inputSplit[4]), Integer.parseInt(inputSplit[5]));
+				    		
+				    		int rolled = Integer.valueOf(inputSplit[1]);
+				    		boardPanel.rollAndShow(rolled);
+				    		new Timer().schedule(new TimerTask() {
+								
+								@Override
+								public void run() {
+									chatPanel.sendMessageToChatBox(GAME_MESSAGE + "You rolled a " + rolled + ". Roll again to move.");
+						    		boardPanel.updateToken(inputSplit[3], Integer.parseInt(inputSplit[2]), Integer.parseInt(inputSplit[4]), Integer.parseInt(inputSplit[5]));
+								}
+							}, 1500);
+				    		
 				    	} else if (input.startsWith(CommunicationHandler.GAME_ROLL_SUCCESS)) {
-				    		chatPanel.sendMessageToChatBox(GAME_MESSAGE + "You rolled a " + inputSplit[1] + "! Moving your token.");
-				    		boardPanel.updateToken(inputSplit[3], Integer.parseInt(inputSplit[2]), Integer.parseInt(inputSplit[4]), Integer.parseInt(inputSplit[5]));
+
+				    		int rolled = Integer.valueOf(inputSplit[1]);
+				    		boardPanel.rollAndShow(rolled);
+				    		new Timer().schedule(new TimerTask() {
+								
+								@Override
+								public void run() {
+									chatPanel.sendMessageToChatBox(GAME_MESSAGE + "You rolled a " + rolled + "! Moving your token.");
+						    		boardPanel.updateToken(inputSplit[3], Integer.parseInt(inputSplit[2]), Integer.parseInt(inputSplit[4]), Integer.parseInt(inputSplit[5]));
+								}
+							}, 1500);
+				    		
 				    	} else if (input.startsWith(CommunicationHandler.GAME_ROLL_FAIL)) {
-				    		chatPanel.sendMessageToChatBox(GAME_MESSAGE + "You rolled a " + inputSplit[1] + ". Unable to move.");
+				    		
+				    		int rolled = Integer.valueOf(inputSplit[1]);
+				    		boardPanel.rollAndShow(rolled);
+				    		new Timer().schedule(new TimerTask() {
+								
+								@Override
+								public void run() {
+									chatPanel.sendMessageToChatBox(GAME_MESSAGE + "You rolled a " + rolled + ". Unable to move.");
+								}
+							}, 1500);
+				    		
 				    	} else if (input.startsWith(CommunicationHandler.GAME_EAT_TOKEN)) {
 				    		boardPanel.updateToken(inputSplit[2], Integer.parseInt(inputSplit[1]), Integer.parseInt(inputSplit[3]), Integer.parseInt(inputSplit[1]));
 				    	} else if (input.startsWith(CommunicationHandler.GAME_TURN)) {

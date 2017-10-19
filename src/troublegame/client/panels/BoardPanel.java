@@ -1,5 +1,6 @@
 package troublegame.client.panels;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -33,27 +34,6 @@ public class BoardPanel extends JPanel {
 	public final static Color TRANSPARENT_BLUE = new Color(0f, 0f, 1f, 0.4f);
 	public final static Color TRANSPARENT_GREEN = new Color(0f, 1f, 0f, 0.4f);
 	public final static Color TRANSPARENT_YELLOW = new Color(1f, 1f, 0f, 0.3f);
-	
-	// Number of slot constants
-	public static final int NUM_MAIN_SLOTS = 28;
-	public static final int NUM_HOME_SLOTS = 4;
-	public static final int NUM_END_SLOTS = 4;
-	
-	// Starting positions
-	public static final int RED_START = 0;
-	public static final int GREEN_START = 7;
-	public static final int YELLOW_START = 14;
-	public static final int BLUE_START = 21;
-	
-	// Ending positions
-	public static final int RED_END = NUM_MAIN_SLOTS - 1;
-	public static final int BLUE_END = BLUE_START - 1;
-	public static final int YELLOW_END = YELLOW_START - 1;
-	public static final int GREEN_END = GREEN_START - 1;
-	
-	public static final int SLOT_HOME = 0;
-	public static final int SLOT_MAIN = 1;
-	public static final int SLOT_END = 2;	
 	
 	/**
 	 * The main swing ui
@@ -265,7 +245,8 @@ public class BoardPanel extends JPanel {
 		for (Slot slot : slots) {
 			artist.setColor(slot.getColor());
 			artist.fill(slot.getShape());
-			artist.setColor(Color.BLACK);
+			artist.setColor(Color.DARK_GRAY);
+			artist.setStroke(new BasicStroke(2));
 			artist.draw(slot.getShape());
 		}
 		
@@ -277,18 +258,20 @@ public class BoardPanel extends JPanel {
 				artist.setColor(slot.getColor());
 			} else {
 				if (slot.getColor() == Color.RED) {
-					artist.setColor(TRANSPARENT_RED);
+					artist.setColor(Color.RED);
 				} else if (slot.getColor() == Color.GREEN) {
-					artist.setColor(TRANSPARENT_GREEN);
+					artist.setColor(Color.GREEN);
 				} else if (slot.getColor() == Color.YELLOW) {
-					artist.setColor(TRANSPARENT_YELLOW);
+					artist.setColor(Color.YELLOW);
 				} else {
-					artist.setColor(TRANSPARENT_BLUE);
+					artist.setColor(Color.BLUE);
 				}
 			}
-			artist.fill(slot.getShape());
-			artist.setColor(Color.BLACK);
-			artist.draw(slot.getShape());
+			
+			Ellipse2D tmp = (Ellipse2D) slot.getShape();
+			Ellipse2D token = new Ellipse2D.Double(tmp.getX(), tmp.getY(), 24, 24);
+			token.setFrame(token.getX() + 3, token.getY() + 3, 24, 24);
+			artist.fill(token);
 		}
 	}
 	
@@ -302,25 +285,25 @@ public class BoardPanel extends JPanel {
 		switch (color) {
 			case "red":
 				token = board.getRedTokens().get(tokenID);
-				paintColor = Color.RED;
+				paintColor = TRANSPARENT_RED;
 				homeZone = board.getRedHomeZone();
 				endZone = board.getRedEndZone();
 				break;
 			case "green":
 				token = board.getGreenTokens().get(tokenID);
-				paintColor = Color.GREEN;
+				paintColor = TRANSPARENT_GREEN;
 				homeZone = board.getGreenHomeZone();
 				endZone = board.getGreenEndZone();
 				break;
 			case "yellow":
 				token = board.getYellowTokens().get(tokenID);
-				paintColor = Color.YELLOW;
+				paintColor = TRANSPARENT_YELLOW;
 				homeZone = board.getYellowHomeZone();
 				endZone = board.getYellowEndZone();
 				break;
 			case "blue":
 				token = board.getBlueTokens().get(tokenID);
-				paintColor = Color.BLUE;
+				paintColor = TRANSPARENT_BLUE;
 				homeZone = board.getBlueHomeZone();
 				endZone = board.getBlueEndZone();
 				break;

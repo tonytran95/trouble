@@ -1,34 +1,12 @@
 package troublegame.client.panels;
 
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.AdjustmentEvent;
-import java.awt.event.AdjustmentListener;
 import java.awt.event.MouseListener;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-
 import troublegame.client.SwingUI;
-import troublegame.client.UserInput;
-import troublegame.client.model.Board;
-import troublegame.client.model.Slot;
-import troublegame.communication.CommunicationHandler;
 
 /**
  * 
