@@ -48,6 +48,14 @@ public class SocketListener {
 		return listening;
 	}
 	
+	public void disconnect(Connection conn, Socket clientSocket) throws IOException {
+		System.out.println(conn.getUsername() + " has disconnected from the server.");
+		connections.remove(conn);
+		clients.remove(clientSocket);
+		lobby.leaveGameRoom(conn);
+		gameEngine.removeConnection(conn);
+		clientSocket.close();
+	}
 	public void init() {
 		System.out.println(CommunicationHandler.SOCKET_LISTENER_INFO + " Socket listening on port: " + this.port);
 		Runnable serverTask = new Runnable() {
@@ -82,10 +90,7 @@ public class SocketListener {
 										
 										String input = clientInput.readLine();
 										if (input == null) {
-											System.out.println(conn.getUsername() + " has disconnected from the server.");
-											connections.remove(conn);
-											clients.remove(clientSocket);
-											clientSocket.close();
+											disconnect(conn, clientSocket);
 											return;
 										}
 										System.out.println("Client Sent: " + input);
@@ -146,10 +151,7 @@ public class SocketListener {
 											lobby.leaveGameRoom(conn);
 										} else if (input.equals(CommunicationHandler.LOGOUT_REQUEST)) {
 											conn.getOutputStream().println(CommunicationHandler.LOGOUT_SUCCESS);
-											System.out.println("Connection closed: " + socket.getInetAddress());
-											lobby.leaveGameRoom(conn);
-											if (connections.contains(conn))
-												connections.remove(conn);
+											disconnect(conn, clientSocket);
 										} else if (input.startsWith(CommunicationHandler.GAME_START)) {
 											String gameRoomName = input.substring(CommunicationHandler.GAME_START.length() + 1);
 											gameEngine.createGame(lobby.getGameRoomByName(gameRoomName).getMembers());

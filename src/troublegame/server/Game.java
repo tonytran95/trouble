@@ -34,7 +34,7 @@ public class Game {
 	public void start() {
 		startTime = Calendar.getInstance();
 		setAvailableColours();
-		players = new Player[MAX_PLAYERS];
+		players = new Player[Game.MAX_PLAYERS];
 		int i = 0;
 		// make the humans players
 		for (Map.Entry<Color, String> entry : humans.entrySet()) {
@@ -90,6 +90,17 @@ public class Game {
 	 */
 	public void create() {
 
+	}
+	
+	/**
+	 * Sets every variable to null.
+	 */
+	public void destruct() {
+		this.players = null;
+		this.board = null;
+		this.started = false;
+		this.humans = null;
+		this.computers = null;
 	}
 	
 	/**
@@ -256,7 +267,7 @@ public class Game {
 	// uses turn number to determine who's turn it is, then returns the player object
 	// by using the store players - this means players must always be ordered red blue yellow green as 0-3
 	public Player getWhoseTurn() {
-		int turnID = turnNum % MAX_PLAYERS;
+		int turnID = turnNum % Game.MAX_PLAYERS;
 		return players[turnID];
 	}
 	
@@ -324,7 +335,7 @@ public class Game {
 	
 	public void showPlayers() {
 		System.out.print(CommunicationHandler.GAME_INFO + " Players: ");
-		for(int i = 0; i < MAX_PLAYERS; i++) {
+		for(int i = 0; i < Game.MAX_PLAYERS; i++) {
 			System.out.print(players[i].getUsername()+" ");
 		}
 		System.out.print("\n");
