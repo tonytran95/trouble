@@ -4,11 +4,19 @@ import javax.swing.JPanel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 
+import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.IOException;
 
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.text.DefaultCaret;
@@ -17,7 +25,9 @@ import troublegame.client.Interface;
 import troublegame.client.SwingUI;
 import troublegame.communication.CommunicationHandler;
 
+import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
@@ -39,12 +49,24 @@ public class LobbyPanel extends JPanel {
 	 */
 	private DefaultListModel<String> gameRoomModel;
 	
+	private Image backgroundImage;
 	/**
 	 * The constructor for the Lobby panel.
 	 * @param swingUI is the swing user interface.
 	 */
 	public LobbyPanel(SwingUI swingUI) {
 		this.swingUI = swingUI;
+		
+		/**
+		 * set background image
+		 */
+		try {
+			backgroundImage = ImageIO.read(new File("./data/img/background2.jpg"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		this.init();
 	}
 
@@ -57,6 +79,13 @@ public class LobbyPanel extends JPanel {
 	public void init() {
 		
 		setLayout(null);
+		
+		Image image1 = Toolkit.getDefaultToolkit().getImage("./data/img/button_1x.png");
+		Image image2 = Toolkit.getDefaultToolkit().getImage("./data/img/button_3.png");
+		Image newimg1 = image1.getScaledInstance(143, 23, Image.SCALE_SMOOTH);
+		Image newimg2 = image2.getScaledInstance(143, 23, Image.SCALE_SMOOTH);
+		ImageIcon imgIcon1 = new ImageIcon(newimg1);
+		ImageIcon imgIcon2 = new ImageIcon(newimg2);
 		
 		gameRoomModel = new DefaultListModel<String>();
 		onlineUserlistModel = new DefaultListModel<String>();
@@ -75,6 +104,25 @@ public class LobbyPanel extends JPanel {
 				swingUI.send(CommunicationHandler.GAME_ROOM_NEW);
 			}
 		});
+		createButton.addMouseListener(new MouseListener() {			
+			@Override
+			public void mouseReleased(MouseEvent arg0) {}		   
+			@Override
+			public void mousePressed(MouseEvent arg0) {}			
+			@Override
+			public void mouseExited(MouseEvent arg0) { 
+				createButton.setIcon(imgIcon1);
+			}		   
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				createButton.setIcon(imgIcon2);
+			}		   
+			@Override
+			public void mouseClicked(MouseEvent arg0) {}
+		});		
+		createButton.setIcon(imgIcon1);
+		createButton.setHorizontalTextPosition(SwingConstants.CENTER);
+		createButton.setBorderPainted(false);
 		
 		JButton joinButton = new JButton("Join");
 		joinButton.setBounds(499, 263, 97, 25);
@@ -86,7 +134,25 @@ public class LobbyPanel extends JPanel {
 				swingUI.send(CommunicationHandler.GAME_ROOM_JOIN + " " + gameList.getSelectedValue());
 			}
 		});
-		
+		joinButton.addMouseListener(new MouseListener() {			
+			@Override
+			public void mouseReleased(MouseEvent arg0) {}		   
+			@Override
+			public void mousePressed(MouseEvent arg0) {}			
+			@Override
+			public void mouseExited(MouseEvent arg0) { 
+				joinButton.setIcon(imgIcon1);
+			}		   
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				joinButton.setIcon(imgIcon2);
+			}		   
+			@Override
+			public void mouseClicked(MouseEvent arg0) {}
+		});		
+		joinButton.setIcon(imgIcon1);
+		joinButton.setHorizontalTextPosition(SwingConstants.CENTER);
+		joinButton.setBorderPainted(false);
 		gameList.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
@@ -104,6 +170,25 @@ public class LobbyPanel extends JPanel {
 				swingUI.setInterface(Interface.USER_PROFILE);
 			}
 		});
+		profileButton.addMouseListener(new MouseListener() {			
+			@Override
+			public void mouseReleased(MouseEvent arg0) {}		   
+			@Override
+			public void mousePressed(MouseEvent arg0) {}			
+			@Override
+			public void mouseExited(MouseEvent arg0) { 
+				profileButton.setIcon(imgIcon1);
+			}		   
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				profileButton.setIcon(imgIcon2);
+			}		   
+			@Override
+			public void mouseClicked(MouseEvent arg0) {}
+		});		
+		profileButton.setIcon(imgIcon1);
+		profileButton.setHorizontalTextPosition(SwingConstants.CENTER);
+		profileButton.setBorderPainted(false);
 		
 		JButton logoutButton = new JButton("Logout");
 		logoutButton.setBounds(827, 13, 97, 25);
@@ -119,6 +204,25 @@ public class LobbyPanel extends JPanel {
 						swingUI.send(CommunicationHandler.LOGOUT_REQUEST);
 			}
 		});
+		logoutButton.addMouseListener(new MouseListener() {			
+			@Override
+			public void mouseReleased(MouseEvent arg0) {}		   
+			@Override
+			public void mousePressed(MouseEvent arg0) {}			
+			@Override
+			public void mouseExited(MouseEvent arg0) { 
+				logoutButton.setIcon(imgIcon1);
+			}		   
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				logoutButton.setIcon(imgIcon2);
+			}		   
+			@Override
+			public void mouseClicked(MouseEvent arg0) {}
+		});		
+		logoutButton.setIcon(imgIcon1);
+		logoutButton.setHorizontalTextPosition(SwingConstants.CENTER);
+		logoutButton.setBorderPainted(false);
 		
 		JList<String> onlineUsers = new JList<String>(onlineUserlistModel);
 		onlineUsers.setBounds(615, 67, 309, 196);
@@ -171,6 +275,25 @@ public class LobbyPanel extends JPanel {
 				sendChatMessage(newMessage);	
 			}
 		});
+		sendChatButton.addMouseListener(new MouseListener() {			
+			@Override
+			public void mouseReleased(MouseEvent arg0) {}		   
+			@Override
+			public void mousePressed(MouseEvent arg0) {}			
+			@Override
+			public void mouseExited(MouseEvent arg0) { 
+				sendChatButton.setIcon(imgIcon1);
+			}		   
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				sendChatButton.setIcon(imgIcon2);
+			}		   
+			@Override
+			public void mouseClicked(MouseEvent arg0) {}
+		});		
+		sendChatButton.setIcon(imgIcon1);
+		sendChatButton.setHorizontalTextPosition(SwingConstants.CENTER);
+		sendChatButton.setBorderPainted(false);
 		
 		JTextArea activityTextArea = new JTextArea();
 		activityTextArea.setBounds(43, 318, 376, 222);
@@ -192,6 +315,25 @@ public class LobbyPanel extends JPanel {
 				refreshGameRooms();	
 			}
 		});
+		refreshButton.addMouseListener(new MouseListener() {			
+			@Override
+			public void mouseReleased(MouseEvent arg0) {}		   
+			@Override
+			public void mousePressed(MouseEvent arg0) {}			
+			@Override
+			public void mouseExited(MouseEvent arg0) { 
+				refreshButton.setIcon(imgIcon1);
+			}		   
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				refreshButton.setIcon(imgIcon2);
+			}		   
+			@Override
+			public void mouseClicked(MouseEvent arg0) {}
+		});		
+		refreshButton.setIcon(imgIcon1);
+		refreshButton.setHorizontalTextPosition(SwingConstants.CENTER);
+		refreshButton.setBorderPainted(false);
 	}
 	
 	/**
@@ -255,5 +397,13 @@ public class LobbyPanel extends JPanel {
 			
 			onlineUserlistModel.addElement(user);
 		}
+	}
+	
+	@Override
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+	
+		// Draw the background image.
+		g.drawImage(backgroundImage, 0, 0, this);
 	}
 }
