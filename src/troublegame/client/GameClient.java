@@ -128,8 +128,6 @@ public class GameClient {
 					    		for (String room: rooms) {
 					    			lobbyPanel.addGameRoom(room);
 					    		}
-				    		}else {
-				    			System.out.println("test");
 				    		}
 				    	}
 		    			break;
