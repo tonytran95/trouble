@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map.Entry;
 import java.util.Queue;
 import java.util.Random;
 
@@ -50,6 +51,19 @@ public class GameEngine {
 		}
 		updateMessages();
 	}*/
+	
+	public void removeConnection(Connection conn) {
+		for (Entry<Game, ArrayList<Connection>> c : gameConns.entrySet()) {
+			Game g = c.getKey();
+			ArrayList<Connection> conns = c.getValue();
+			conns.remove(conn);
+			if (conns.size() == 0) {
+				gameConns.remove(g);
+				inputQueues.remove(g);
+				g.destruct();
+			}
+		}
+	}
 	
 	public void createGame(ArrayList<Connection> players) {
 		Game g = new Game(this);
@@ -281,7 +295,8 @@ public class GameEngine {
 	 */
 	public String getAiNames() {
 		
-		int index = new Random().nextInt(aiNames.size());
+		int index = new Random().nextInt(aiNames.size() - 1);
+		if (index < 0) index = 0;
 		String aiName = aiNames.get(index);
 		aiNames.remove(index);
 		return aiName;
