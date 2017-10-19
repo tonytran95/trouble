@@ -1,6 +1,7 @@
 package troublegame.client.panels;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -14,6 +15,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -59,12 +61,25 @@ public class LoginPanel extends JPanel {
 	 */
 	private JPasswordField passwordField;
 
+	private Image backgroundImage;
 	/**
 	 * The constructor for the Login panel.
 	 * @param swingUI is the swing user interface.
+	 * @throws IOException 
 	 */
 	public LoginPanel(SwingUI swingUI) {
 		this.swingUI = swingUI;
+		
+		/**
+		 * set background image
+		 */
+		try {
+			backgroundImage = ImageIO.read(new File("./data/img/background.jpg"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		this.init();
 	}
 	
@@ -102,7 +117,7 @@ public class LoginPanel extends JPanel {
 		this.add(passwordField);
 		
 		JCheckBox btnRememberMe = new JCheckBox("Remember email");
-		btnRememberMe.setBounds(468, 230, 108, 23);
+		btnRememberMe.setBounds(468, 230, 130, 23);
 		btnRememberMe.setBackground(new Color(211, 211, 211));
 		if (email.length() > 0)
 			btnRememberMe.setSelected(true);
@@ -316,6 +331,14 @@ public class LoginPanel extends JPanel {
 	 */
 	public void setSwingUI(SwingUI swingUI) {
 		this.swingUI = swingUI;
+	}
+	
+	@Override
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+	
+		// Draw the background image.
+		g.drawImage(backgroundImage, 0, 0, this);
 	}
 
 }
