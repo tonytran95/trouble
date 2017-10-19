@@ -4,9 +4,9 @@ import java.awt.Color;
 import java.awt.Shape;
 
 /**
- * The Tile class contains data of a tile such as the color and the the shape.
+ * The Slot class contains data of a slot such as the color and the the shape.
  */
-public class Tile {
+public class Slot {
 
 	/**
 	 * The tile zone.
@@ -19,25 +19,25 @@ public class Tile {
 	private int index;
 	
 	/**
-	 * The tile color.
-	 */
-	private Color color;
-	
-	/**
 	 * The tile shape.
 	 */
 	private Shape shape;
+	
+	/**
+	 * The tile color.
+	 */
+	private Color color;
 	
 	/**
 	 * Constructs a new tile.
 	 * @param zone is the tile zone.
 	 * @param index is the tile index.
 	 */
-	public Tile(int zone, int index) {
+	public Slot(int zone, int index) {
 		this.zone = zone;
 		this.index = index;
-		color = null;
 		shape = null;
+		color = null;
 	}
 	
 	/**
@@ -55,17 +55,17 @@ public class Tile {
 	}
 	
 	/**
-	 * @return the tile color.
-	 */
-	public Color getColor() {
-		return color;
-	}
-	
-	/**
 	 * @return the tile shape.
 	 */
 	public Shape getShape() {
 		return shape;
+	}
+	
+	/**
+	 * @return the tile color.
+	 */
+	public Color getColor() {
+		return color;
 	}
 	
 	/**
@@ -85,13 +85,28 @@ public class Tile {
 	}
 	
 	/**
-	 * Sets the tile as a new shape and color.
+	 * Sets the tile's shape.
 	 * @param shape is the tile shape.
+	 */
+	public void setShape(Shape shape) {
+		this.shape = shape;
+	}
+	
+	/**
+	 * Sets the tile's color.
 	 * @param color is the tile color.
 	 */
-	public void setTile(Shape shape, Color color) {
-		this.shape = shape;
+	public void setColor(Color color) {
 		this.color = color;
 	}
 	
+	/**
+	 * Sets the slot's shape and color.
+	 * @param shape is the slot shape.
+	 * @param color is the slot color.
+	 */
+	public void setSlot(Shape shape, Color color) {
+		this.shape = shape;
+		this.color = color;
+	}
 }

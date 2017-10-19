@@ -6,7 +6,7 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import troublegame.client.model.Tile;
+import troublegame.client.model.Slot;
 import troublegame.client.panels.GamePanel;
 
 /**
@@ -27,7 +27,7 @@ public class UserInput implements MouseListener {
 	/**
 	 * A list of tiles.
 	 */
-	private List<Tile> tokens;
+	private List<Slot> tokens;
 	
 	/**
 	 * The constructor for the user input class.
@@ -62,14 +62,14 @@ public class UserInput implements MouseListener {
 	@Override
 	public void mousePressed(MouseEvent me) {
 		GamePanel gamePanel = (GamePanel) swingUI.getCurrentPanel();
-		for (Tile tile : tokens) {
-			if (tile.getShape().contains(me.getPoint())) {
+		for (Slot slot : tokens) {
+			if (slot.getShape().contains(me.getPoint())) {
 				try {
-					if (swingUI.getUser().isSelectedTile(tile)) {
-						swingUI.getUser().deselectTile();
-					} else if (gamePanel.getPlayers().get(
-							swingUI.getUser().getUsername()).equals(getColor(tile.getColor()))) {
-						swingUI.getUser().selectTile(tile);
+					if (swingUI.getUser().isSelectedSlot(slot)) {
+						swingUI.getUser().deselectSlot();
+					} else if (gamePanel.getBoardPanel().getPlayers().get(
+							swingUI.getUser().getUsername()).equals(getColor(slot.getColor()))) {
+						swingUI.getUser().selectSlot(slot);
 					}
 					swingUI.getCurrentPanel().repaint();
 				} catch (Exception e) {	

@@ -13,6 +13,7 @@ import java.net.UnknownHostException;
 import javax.swing.JOptionPane;
 
 import troublegame.client.model.User;
+import troublegame.client.panels.BoardPanel;
 import troublegame.client.panels.GameChatPanel;
 import troublegame.client.panels.GamePanel;
 import troublegame.client.panels.GameRoomPanel;
@@ -124,32 +125,34 @@ public class GameClient {
 		    		case IN_GAME:
 		    			GamePanel gamePanel = (GamePanel) ui.getCurrentPanel();
 		    			GameChatPanel chatPanel = gamePanel.getChatPanel();
-//		    			gamePanel.setupPanel();
-		    			/*if (input.equals(CommunicationHandler.GAME_START)) {
-		    				gamePanel.setupPanel();
+		    			BoardPanel boardPanel = gamePanel.getBoardPanel();
+		    			if (input.equals(CommunicationHandler.GAME_START)) {
+		    				boardPanel.setupPanel();
 				    	} else if (input.startsWith(CommunicationHandler.GAME_COLORS)) {
-				    		gamePanel.getPlayers().put(inputSplit[1], inputSplit[2]);
+				    		boardPanel.setupPlayer(inputSplit[1], inputSplit[2]);
 				    	} else if (input.startsWith(CommunicationHandler.GAME_ROLL)) {
-				    		gamePanel.sendChatMessage(inputSplit[3] + " rolled a " + inputSplit[1]);
-				    		gamePanel.updateToken(inputSplit[3], Integer.parseInt(inputSplit[2]), Integer.parseInt(inputSplit[4]), Integer.parseInt(inputSplit[5]));
+				    		boardPanel.rollAndShow(Integer.parseInt(inputSplit[1]));
+				    		chatPanel.sendMessageToChatBox(GAME_MESSAGE + inputSplit[3] + " rolled a " + inputSplit[1]);
+				    		boardPanel.updateToken(inputSplit[3], Integer.parseInt(inputSplit[2]), Integer.parseInt(inputSplit[4]), Integer.parseInt(inputSplit[5]));
 				    	} else if (input.startsWith(CommunicationHandler.GAME_ROLL_AGAIN)) {
-				    		gamePanel.sendChatMessage("You rolled a " + inputSplit[1] + ". Roll again to move.");
-				    		gamePanel.updateToken(inputSplit[3], Integer.parseInt(inputSplit[2]), Integer.parseInt(inputSplit[4]), Integer.parseInt(inputSplit[5]));
+				    		chatPanel.sendMessageToChatBox(GAME_MESSAGE + "You rolled a " + inputSplit[1] + ". Roll again to move.");
+				    		boardPanel.updateToken(inputSplit[3], Integer.parseInt(inputSplit[2]), Integer.parseInt(inputSplit[4]), Integer.parseInt(inputSplit[5]));
 				    	} else if (input.startsWith(CommunicationHandler.GAME_ROLL_SUCCESS)) {
-				    		gamePanel.sendChatMessage("You rolled a " + inputSplit[1] + ". Moving your token into the end zone!.");
-				    		gamePanel.updateToken(inputSplit[3], Integer.parseInt(inputSplit[2]), Integer.parseInt(inputSplit[4]), Integer.parseInt(inputSplit[5]));
-				    	} else */if (input.startsWith(CommunicationHandler.GAME_ROLL_FAIL)) {
+				    		chatPanel.sendMessageToChatBox(GAME_MESSAGE + "You rolled a " + inputSplit[1] + "! Moving your token.");
+				    		boardPanel.updateToken(inputSplit[3], Integer.parseInt(inputSplit[2]), Integer.parseInt(inputSplit[4]), Integer.parseInt(inputSplit[5]));
+				    	} else if (input.startsWith(CommunicationHandler.GAME_ROLL_FAIL)) {
 				    		chatPanel.sendMessageToChatBox(GAME_MESSAGE + "You rolled a " + inputSplit[1] + ". Unable to move.");
-				    	} /*else if (input.startsWith(CommunicationHandler.GAME_EAT_TOKEN)) {
-				    		gamePanel.updateToken(inputSplit[2], Integer.parseInt(inputSplit[1]), Integer.parseInt(inputSplit[3]), Integer.parseInt(inputSplit[1]));
-				    	} */else if (input.startsWith(CommunicationHandler.GAME_TURN)) {
+				    	} else if (input.startsWith(CommunicationHandler.GAME_EAT_TOKEN)) {
+				    		boardPanel.updateToken(inputSplit[2], Integer.parseInt(inputSplit[1]), Integer.parseInt(inputSplit[3]), Integer.parseInt(inputSplit[1]));
+				    	} else if (input.startsWith(CommunicationHandler.GAME_TURN)) {
+				    		boardPanel.updateTurn(inputSplit[1]);
 				    		if (ui.getUser().getUsername().equals(inputSplit[1])) {
 				    			chatPanel.sendMessageToChatBox(GAME_MESSAGE + "It's your turn! Click the dice to roll");
 				    		} else {
 				    			String currPlayer = inputSplit[1];
 				    			int lastCharIndex = currPlayer.length() - 1;
 				    			char lastLetInPlayerName = Character.toLowerCase(currPlayer.charAt(lastCharIndex));
-				    			currPlayer = (lastLetInPlayerName == 's') ? "'" : "'s";
+				    			currPlayer += (lastLetInPlayerName == 's') ? "'" : "'s";
 				    			chatPanel.sendMessageToChatBox(GAME_MESSAGE + "It's " + currPlayer + " turn");
 				    		}
 		    			} else if (input.startsWith(CommunicationHandler.GAME_CHAT)) {

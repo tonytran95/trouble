@@ -158,7 +158,7 @@ public class Game {
 	 * @param tokenID
 	 * @param diceValue
 	 */
-	public String movePlayerToken(int playerID, int tokenID, int diceValue) {
+	public String movePlayerToken(int playerID, int tokenID) {
 		String command = null;
 		Player p = players[playerID];
 		Token token = p.getToken(tokenID);
@@ -166,15 +166,17 @@ public class Game {
 		Color col = token.getColour();
 		int currPos = -1;
 		int target = -1;
-		// first we check if token is already in play		
+		int startIndex = -1;
+		int diceValue = board.getDie().getLastRolledValue();
+		// first we check if token is already in play
 		switch (currentSlot.getSlotZone()) {
 			case Board.SLOT_HOME:
 				// sorry can't move
 				if (diceValue == 6) {
 					command = CommunicationHandler.GAME_ROLL_FAIL + " " + diceValue;
-					engine.updateMessages(this);
+					engine.updateTurns(this);
 				} else {
-					int startIndex = board.getStartIndex(col);
+					startIndex = board.getStartIndex(col);
 					if (board.getSlot(startIndex).isOccupied()) {
 						Token tokenToEat = board.getSlot(startIndex).getOccupyingToken();
 						Player owner = tokenToEat.getOwner();
@@ -188,7 +190,7 @@ public class Game {
 				}
 				break;
 			case Board.SLOT_MAIN:
-				int startIndex = board.getStartIndex(col);
+				startIndex = board.getStartIndex(col);
 				int endIndex = board.getEndIndex(col);
 				int currZone = Board.SLOT_MAIN;
 				currPos = currentSlot.getSlotIndex();	
@@ -229,7 +231,7 @@ public class Game {
 						default:
 							command = CommunicationHandler.GAME_ROLL_FAIL + " " + diceValue + ", must roll a value of 1-4 to enter the end zone";
 					}
-				} else { // keep moving alone mainzone
+				} else { // keep moving along mainzone
 					target = currPos + diceValue;
 					if (startIndex < endIndex) { // ONLY TRUE FOR RED
 						if (target > endIndex) target = endIndex;
@@ -250,9 +252,6 @@ public class Game {
 				break;
 		}
 		
-		// Wraparound
-		//if (target >= Board.NUM_MAIN_SLOTS) 	target -= Board.NUM_MAIN_SLOTS;
-		
 		// actually do the move
 		if (target != -1) {
 			command = CommunicationHandler.GAME_ROLL + " " + diceValue + " " + tokenID + " " + p.getUsername() + " " + Board.SLOT_MAIN + " " + target;
@@ -260,7 +259,8 @@ public class Game {
 		}
 		
 		turnNum++;
-		engine.updateMessages(this);
+		engine.updateTurns(this);
+		
 		return command;
 	}
 	
