@@ -95,7 +95,7 @@ public class GameEngine {
 		g.showPlayers();
 		for (Connection c : gameConns.get(g))
 			c.getOutputStream().println(CommunicationHandler.GAME_START);
-		updateMessages(g);
+		updateTurns(g);
 	}
 
 	public void add(Game g, Connection c) {
@@ -157,13 +157,13 @@ public class GameEngine {
 						String in = inputQueues.get(g).poll();
 						
 						// die rolls
-						if (in.startsWith(CommunicationHandler.GAME_ROLL)) {	
+						if (in.startsWith(CommunicationHandler.GAME_ROLL)) {
 							String[] input = in.split(" ");
 							int tokenID = Integer.parseInt(input[1]);
 							System.out.println(CommunicationHandler.GAME_INFO + " Rolling Token ID: " + tokenID);
 							
-							int roll = g.rollDie();
-							broadcast(g, g.movePlayerToken(playerID, tokenID, roll));
+							g.rollDie();
+							broadcast(g, g.movePlayerToken(playerID, tokenID));
 						}
 					}
 				} else {
@@ -174,8 +174,8 @@ public class GameEngine {
 					if (move.startsWith(CommunicationHandler.GAME_ROLL)) {
 						String input[] = move.split(" ");
 						int tokenID = Integer.parseInt(input[1]);
-						int roll = g.rollDie();
-						broadcast(g, g.movePlayerToken(ai.getID(), tokenID, roll));
+						g.rollDie();
+						broadcast(g, g.movePlayerToken(ai.getID(), tokenID));
 					}
 				}
 			} else {
@@ -203,7 +203,7 @@ public class GameEngine {
 	/**
 	 * Sends a message to all client on whose move.
 	 */
-	public void updateMessages(Game g) {
+	public void updateTurns(Game g) {
 		for (Connection clientConn : gameConns.get(g))
 			clientConn.getOutputStream().println(CommunicationHandler.GAME_TURN + " " + g.getWhoseTurn().getUsername());
 	}

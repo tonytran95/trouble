@@ -19,14 +19,14 @@ public class User {
 	private String username;
 	
 	/**
-	 * The selected tile of a Token.
+	 * The selected slot of a Token.
 	 */
-	private Tile selectedTile;
+	private Slot selectedSlot;
 	
 	/**
 	 * The list of tokens.
 	 */
-	private List<Tile> tokens;
+	private List<Slot> tokens;
 	
 	/**
 	 * The user's current Color.
@@ -49,48 +49,48 @@ public class User {
 	 */
 	public User(String username) {
 		this.username = username;
-		this.tokens = new ArrayList<Tile>();
+		this.tokens = new ArrayList<Slot>();
 		this.gamesPlayed = 0;
 		this.gamesWon = 0;
 	}
 
 	/**
-	 * Deselects the current selected tile.
+	 * Deselects the current selected slot.
 	 */
-	public boolean deselectTile() {
-		if (selectedTile == null) // nothing to deselect
+	public boolean deselectSlot() {
+		if (selectedSlot == null) // nothing to deselect
 			return false;
-		this.selectedTile = null;
+		this.selectedSlot = null;
 		return true;
 	}
 	
 	/**
-	 * @return if the tile is the current selected tile.
+	 * @return if the slot is the current selected slot.
 	 */
-	public boolean isSelectedTile(Tile tile) {
-		return this.selectedTile == tile;
+	public boolean isSelectedSlot(Slot slot) {
+		return this.selectedSlot == slot;
 	}
 
 	/**
-	 * Sets the selected tile.
-	 * @param selectedTile is the tile that is selected.
+	 * Sets the selected slot.
+	 * @param selectedSlot is the slot that is selected.
 	 */
-	public void selectTile(Tile selectedTile) {
-		this.selectedTile = selectedTile;
+	public void selectSlot(Slot selectedSlot) {
+		this.selectedSlot = selectedSlot;
 	}
 	
 	/**
-	 * @return if a tile is selected.
+	 * @return if a slot is selected.
 	 */
-	public boolean isSelectedTile() {
-		return this.selectedTile != null;
+	public boolean isSelectedSlot() {
+		return this.selectedSlot != null;
 	}
 	
 	/**
-	 * @return the user's selected tile.
+	 * @return the user's selected slot.
 	 */
-	public Tile getSelectedTile() {
-		return this.selectedTile;
+	public Slot getSelectedSlot() {
+		return this.selectedSlot;
 	}
 
 	/**
@@ -103,15 +103,15 @@ public class User {
 	/**
 	 * @return the list of tokens.
 	 */
-	public List<Tile> getTokens() {
+	public List<Slot> getTokens() {
 		return tokens;
 	}
 	
 	/**
 	 * Sets the token list.
-	 * @param tokens is the list of tokens <Tile>.
+	 * @param tokens is the list of tokens <Slot>.
 	 */
-	public void setTokens(ArrayList<Tile> tokens) {
+	public void setTokens(ArrayList<Slot> tokens) {
 		this.tokens = tokens;
 	}
 	

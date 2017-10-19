@@ -14,22 +14,22 @@ public class Board {
 	
 	public static final int NUM_TOKENS = 4;
 	
-	private ArrayList<Tile> mainZone;
+	private ArrayList<Slot> mainZone;
 	
-	private ArrayList<Tile> redHomeZone;
-	private ArrayList<Tile> blueHomeZone;
-	private ArrayList<Tile> yellowHomeZone;
-	private ArrayList<Tile> greenHomeZone;
+	private ArrayList<Slot> redHomeZone;
+	private ArrayList<Slot> blueHomeZone;
+	private ArrayList<Slot> yellowHomeZone;
+	private ArrayList<Slot> greenHomeZone;
 	
-	private ArrayList<Tile> redEndZone;
-	private ArrayList<Tile> blueEndZone;
-	private ArrayList<Tile> yellowEndZone;
-	private ArrayList<Tile> greenEndZone;
+	private ArrayList<Slot> redEndZone;
+	private ArrayList<Slot> blueEndZone;
+	private ArrayList<Slot> yellowEndZone;
+	private ArrayList<Slot> greenEndZone;
 	
-	private ArrayList<Tile> redTokens;
-	private ArrayList<Tile> blueTokens;
-	private ArrayList<Tile> yellowTokens;
-	private ArrayList<Tile> greenTokens;
+	private ArrayList<Slot> redTokens;
+	private ArrayList<Slot> blueTokens;
+	private ArrayList<Slot> yellowTokens;
+	private ArrayList<Slot> greenTokens;
 	
 	public Board() {
 		initMainTiles();
@@ -39,104 +39,104 @@ public class Board {
 	}
 	
 	private void initMainTiles() {
-		mainZone = new ArrayList<Tile>(NUM_MAIN_SLOTS);
+		mainZone = new ArrayList<Slot>(NUM_MAIN_SLOTS);
 		
 		for (int i = 0; i < NUM_MAIN_SLOTS; i++) {
-			mainZone.add(new Tile(SLOT_MAIN, i));
+			mainZone.add(new Slot(SLOT_MAIN, i));
 		}
 	}
 	
 	private void initHomeTiles() {
-		redHomeZone = new ArrayList<Tile>(NUM_HOME_SLOTS);
-		blueHomeZone = new ArrayList<Tile>(NUM_HOME_SLOTS);
-		yellowHomeZone = new ArrayList<Tile>(NUM_HOME_SLOTS);
-		greenHomeZone = new ArrayList<Tile>(NUM_HOME_SLOTS);
+		redHomeZone = new ArrayList<Slot>(NUM_HOME_SLOTS);
+		blueHomeZone = new ArrayList<Slot>(NUM_HOME_SLOTS);
+		yellowHomeZone = new ArrayList<Slot>(NUM_HOME_SLOTS);
+		greenHomeZone = new ArrayList<Slot>(NUM_HOME_SLOTS);
 		
 		for (int i = 0; i < NUM_HOME_SLOTS; i++) {
-			redHomeZone.add(new Tile(SLOT_HOME, i));
-			blueHomeZone.add(new Tile(SLOT_HOME, i));
-			yellowHomeZone.add(new Tile(SLOT_HOME, i));
-			greenHomeZone.add(new Tile(SLOT_HOME, i));
+			redHomeZone.add(new Slot(SLOT_HOME, i));
+			blueHomeZone.add(new Slot(SLOT_HOME, i));
+			yellowHomeZone.add(new Slot(SLOT_HOME, i));
+			greenHomeZone.add(new Slot(SLOT_HOME, i));
 		}
 	}
 	
 	private void initEndTiles() {
-		redEndZone = new ArrayList<Tile>(NUM_END_SLOTS);
-		blueEndZone = new ArrayList<Tile>(NUM_END_SLOTS);
-		yellowEndZone = new ArrayList<Tile>(NUM_END_SLOTS);
-		greenEndZone = new ArrayList<Tile>(NUM_END_SLOTS);
+		redEndZone = new ArrayList<Slot>(NUM_END_SLOTS);
+		blueEndZone = new ArrayList<Slot>(NUM_END_SLOTS);
+		yellowEndZone = new ArrayList<Slot>(NUM_END_SLOTS);
+		greenEndZone = new ArrayList<Slot>(NUM_END_SLOTS);
 		
 		for (int i = 0; i < NUM_END_SLOTS; i++) {
-			redEndZone.add(new Tile(SLOT_END, i));
-			blueEndZone.add(new Tile(SLOT_END, i));
-			yellowEndZone.add(new Tile(SLOT_END, i));
-			greenEndZone.add(new Tile(SLOT_END, i));
+			redEndZone.add(new Slot(SLOT_END, i));
+			blueEndZone.add(new Slot(SLOT_END, i));
+			yellowEndZone.add(new Slot(SLOT_END, i));
+			greenEndZone.add(new Slot(SLOT_END, i));
 		}
 	}
 	
 	private void initTokens() {
-		redTokens = new ArrayList<Tile>(NUM_TOKENS);
-		blueTokens = new ArrayList<Tile>(NUM_TOKENS);
-		yellowTokens = new ArrayList<Tile>(NUM_TOKENS);
-		greenTokens = new ArrayList<Tile>(NUM_TOKENS);
+		redTokens = new ArrayList<Slot>(NUM_TOKENS);
+		blueTokens = new ArrayList<Slot>(NUM_TOKENS);
+		yellowTokens = new ArrayList<Slot>(NUM_TOKENS);
+		greenTokens = new ArrayList<Slot>(NUM_TOKENS);
 		
 		for (int i = 0; i < NUM_TOKENS; i++) {
-			redTokens.add(new Tile(SLOT_HOME, i));
-			blueTokens.add(new Tile(SLOT_HOME, i));
-			yellowTokens.add(new Tile(SLOT_HOME, i));
-			greenTokens.add(new Tile(SLOT_HOME, i));
+			redTokens.add(new Slot(SLOT_HOME, i));
+			blueTokens.add(new Slot(SLOT_HOME, i));
+			yellowTokens.add(new Slot(SLOT_HOME, i));
+			greenTokens.add(new Slot(SLOT_HOME, i));
 		}
 	}
 	
-	public ArrayList<Tile> getMainZone() {
+	public ArrayList<Slot> getMainZone() {
 		return mainZone;
 	}
 	
-	public ArrayList<Tile> getRedHomeZone() {
+	public ArrayList<Slot> getRedHomeZone() {
 		return redHomeZone;
 	}
 	
-	public ArrayList<Tile> getBlueHomeZone() {
+	public ArrayList<Slot> getBlueHomeZone() {
 		return blueHomeZone;
 	}
 	
-	public ArrayList<Tile> getYellowHomeZone() {
+	public ArrayList<Slot> getYellowHomeZone() {
 		return yellowHomeZone;
 	}
 	
-	public ArrayList<Tile> getGreenHomeZone() {
+	public ArrayList<Slot> getGreenHomeZone() {
 		return greenHomeZone;
 	}
 	
-	public ArrayList<Tile> getRedEndZone() {
+	public ArrayList<Slot> getRedEndZone() {
 		return redEndZone;
 	}
 	
-	public ArrayList<Tile> getBlueEndZone() {
+	public ArrayList<Slot> getBlueEndZone() {
 		return blueEndZone;
 	}
 	
-	public ArrayList<Tile> getYellowEndZone() {
+	public ArrayList<Slot> getYellowEndZone() {
 		return yellowEndZone;
 	}
 	
-	public ArrayList<Tile> getGreenEndZone() {
+	public ArrayList<Slot> getGreenEndZone() {
 		return greenEndZone;
 	}
 	
-	public ArrayList<Tile> getRedTokens() {
+	public ArrayList<Slot> getRedTokens() {
 		return redTokens;
 	}
 	
-	public ArrayList<Tile> getBlueTokens() {
+	public ArrayList<Slot> getBlueTokens() {
 		return blueTokens;
 	}
 	
-	public ArrayList<Tile> getYellowTokens() {
+	public ArrayList<Slot> getYellowTokens() {
 		return yellowTokens;
 	}
 	
-	public ArrayList<Tile> getGreenTokens() {
+	public ArrayList<Slot> getGreenTokens() {
 		return greenTokens;
 	}
 	

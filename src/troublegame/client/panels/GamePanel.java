@@ -27,7 +27,7 @@ import javax.swing.JTextField;
 import troublegame.client.SwingUI;
 import troublegame.client.UserInput;
 import troublegame.client.model.Board;
-import troublegame.client.model.Tile;
+import troublegame.client.model.Slot;
 import troublegame.communication.CommunicationHandler;
 
 /**
@@ -56,24 +56,6 @@ public class GamePanel extends JPanel {
 	 */
 	private GameChatPanel chatPanel;
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	/**
 	 * The map of tokens <position, color>
 	 */
@@ -84,8 +66,6 @@ public class GamePanel extends JPanel {
 	 */
 	private Map<String, String> players;
 	
-	
-	
 	/**
 	 * The user input
 	 */
@@ -95,12 +75,6 @@ public class GamePanel extends JPanel {
 	 * The game messages <index, message>.
 	 */
 	private Map<Integer, String> messages;
-	
-	
-	
-	
-	
-	
 	
 	/**
 	 * The constructor for the start panel.
@@ -246,182 +220,5 @@ public class GamePanel extends JPanel {
 //		return tokenMap;
 //	}
 //	
-//	public void setupPanel() {
-//		String color = players.get(swingUI.getUser().getUsername());
-//		
-//		switch(color) {
-//			case "red":
-//				swingUI.getUser().setColor(Color.RED);
-//				swingUI.getUser().setTokens(board.getRedTokens());
-//				break;
-//			case "blue":
-//				swingUI.getUser().setColor(Color.BLUE);
-//				swingUI.getUser().setTokens(board.getBlueTokens());
-//				break;
-//			case "yellow":
-//				swingUI.getUser().setColor(Color.YELLOW);
-//				swingUI.getUser().setTokens(board.getYellowTokens());
-//				break;
-//			case "green":
-//				swingUI.getUser().setColor(Color.GREEN);
-//				swingUI.getUser().setTokens(board.getGreenTokens());
-//				break;
-//			default:
-//		}
-//		
-//		this.userInput = new UserInput(swingUI);
-//		this.addMouseListener(this.userInput);
-//	}
-//		
-//		/**
-//		 * Create a list of the tokens
-//		 */
-//		public void createTokens() {
-//			for (Tile token : board.getRedTokens()) {
-//				Tile tile;
-//				switch (token.getZone()) {
-//					case Board.SLOT_HOME:
-//						tile = board.getRedHomeZone().get(token.getIndex());
-//						token.setTile(tile.getShape(), Color.RED);
-//						break;
-//					case Board.SLOT_MAIN:
-//						tile = board.getMainZone().get(token.getIndex());
-//						token.setTile(tile.getShape(), Color.RED);
-//						break;
-//					case Board.SLOT_END:
-//						tile = board.getRedEndZone().get(token.getIndex());
-//						token.setTile(tile.getShape(), Color.RED);
-//						break;
-//				}
-//			}
-//			
-//			for (Tile token : board.getBlueTokens()) {
-//				Tile tile;
-//				switch (token.getZone()) {
-//					case Board.SLOT_HOME:
-//						tile = board.getBlueHomeZone().get(token.getIndex());
-//						token.setTile(tile.getShape(), Color.BLUE);
-//						break;
-//					case Board.SLOT_MAIN:
-//						tile = board.getMainZone().get(token.getIndex());
-//						token.setTile(tile.getShape(), Color.BLUE);
-//						break;
-//					case Board.SLOT_END:
-//						tile = board.getBlueEndZone().get(token.getIndex());
-//						token.setTile(tile.getShape(), Color.BLUE);
-//						break;
-//				}
-//			}
-//			
-//			for (Tile token : board.getYellowTokens()) {
-//				Tile tile;
-//				switch (token.getZone()) {
-//					case Board.SLOT_HOME:
-//						tile = board.getYellowHomeZone().get(token.getIndex());
-//						token.setTile(tile.getShape(), Color.YELLOW);
-//						break;
-//					case Board.SLOT_MAIN:
-//						tile = board.getMainZone().get(token.getIndex());
-//						token.setTile(tile.getShape(), Color.YELLOW);
-//						break;
-//					case Board.SLOT_END:
-//						tile = board.getYellowEndZone().get(token.getIndex());
-//						token.setTile(tile.getShape(), Color.YELLOW);
-//						break;
-//				}
-//			}
-//			
-//			for (Tile token : board.getGreenTokens()) {
-//				Tile tile;
-//				switch (token.getZone()) {
-//					case Board.SLOT_HOME:
-//						tile = board.getGreenHomeZone().get(token.getIndex());
-//						token.setTile(tile.getShape(), Color.GREEN);
-//						break;
-//					case Board.SLOT_MAIN:
-//						tile = board.getMainZone().get(token.getIndex());
-//						token.setTile(tile.getShape(), Color.GREEN);
-//						break;
-//					case Board.SLOT_END:
-//						tile = board.getGreenEndZone().get(token.getIndex());
-//						token.setTile(tile.getShape(), Color.GREEN);
-//						break;
-//				}
-//			}
-//		}
-//		
-//		@Override
-//		protected void paintComponent(Graphics g) {
-//			super.paintComponent(g);
-//			Graphics2D g2d = (Graphics2D) g.create();
-//			
-//			createTokens();
-//			
-//			// Draw tokens
-//			for (Tile token : board.getRedTokens()) {
-//				g2d.setColor(token.getColor());
-//				if (swingUI.getUser().isSelectedTile(token))
-//					g2d.setColor(token.getColor());
-//				else {
-//					if (token.getColor() == Color.RED)
-//						g2d.setColor(TRANSPARENT_RED);
-//					else if (token.getColor() == Color.BLUE)
-//						g2d.setColor(TRANSPARENT_BLUE);
-//					else if (token.getColor() == Color.GREEN)
-//						g2d.setColor(TRANSPARENT_GREEN);
-//					else if (token.getColor() == Color.YELLOW)
-//						g2d.setColor(TRANSPARENT_YELLOW);
-//				}
-//				g2d.fill(token.getShape());
-//			}
-//			for (Tile token : board.getBlueTokens()) {
-//				g2d.setColor(token.getColor());
-//				if (swingUI.getUser().isSelectedTile(token))
-//					g2d.setColor(token.getColor());
-//				else {
-//					if (token.getColor() == Color.RED)
-//						g2d.setColor(TRANSPARENT_RED);
-//					else if (token.getColor() == Color.BLUE)
-//						g2d.setColor(TRANSPARENT_BLUE);
-//					else if (token.getColor() == Color.GREEN)
-//						g2d.setColor(TRANSPARENT_GREEN);
-//					else if (token.getColor() == Color.YELLOW)
-//						g2d.setColor(TRANSPARENT_YELLOW);
-//				}
-//				g2d.fill(token.getShape());
-//			}
-//			for (Tile token : board.getYellowTokens()) {
-//				g2d.setColor(token.getColor());
-//				if (swingUI.getUser().isSelectedTile(token))
-//					g2d.setColor(token.getColor());
-//				else {
-//					if (token.getColor() == Color.RED)
-//						g2d.setColor(TRANSPARENT_RED);
-//					else if (token.getColor() == Color.BLUE)
-//						g2d.setColor(TRANSPARENT_BLUE);
-//					else if (token.getColor() == Color.GREEN)
-//						g2d.setColor(TRANSPARENT_GREEN);
-//					else if (token.getColor() == Color.YELLOW)
-//						g2d.setColor(TRANSPARENT_YELLOW);
-//				}
-//				g2d.fill(token.getShape());
-//			}
-//			for (Tile token : board.getGreenTokens()) {
-//				g2d.setColor(token.getColor());
-//				if (swingUI.getUser().isSelectedTile(token))
-//					g2d.setColor(token.getColor());
-//				else {
-//					if (token.getColor() == Color.RED)
-//						g2d.setColor(TRANSPARENT_RED);
-//					else if (token.getColor() == Color.BLUE)
-//						g2d.setColor(TRANSPARENT_BLUE);
-//					else if (token.getColor() == Color.GREEN)
-//						g2d.setColor(TRANSPARENT_GREEN);
-//					else if (token.getColor() == Color.YELLOW)
-//						g2d.setColor(TRANSPARENT_YELLOW);
-//				}
-//				g2d.fill(token.getShape());
-//			}
-//
-//			g2d.dispose();
+	
 }
