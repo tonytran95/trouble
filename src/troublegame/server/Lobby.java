@@ -43,7 +43,7 @@ public class Lobby {
 	public void showGamerooms(Connection user) {
 		String gamerooms = "";
 		for (GameRoom gameRoom : gameRooms) {
-			gamerooms += gameRoom.getName()+ "@";
+			gamerooms += "@"+gameRoom.getName();
 		}
 		user.getOutputStream().println(CommunicationHandler.GAME_ROOM_QUERY + gamerooms);
 	}

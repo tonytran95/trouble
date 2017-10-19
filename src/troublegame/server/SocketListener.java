@@ -181,6 +181,8 @@ public class SocketListener {
 											lobby.handleLobbyChat(conn, message);
 										} else if (input.startsWith(CommunicationHandler.LOBBY_ONLINE_LIST)) {
 											lobby.broadcastOnlineList();
+										} else if (input.startsWith(CommunicationHandler.GAME_ROOM_QUERY)) {
+											lobby.showGamerooms(conn);
 										} else {
 											System.out.println("Unknown Command: " + input);
 										}

@@ -180,7 +180,18 @@ public class LobbyPanel extends JPanel {
 		lblActivity.setLabelFor(activityTextArea);
 		lblActivity.setBounds(43, 296, 106, 16);
 		this.add(lblActivity);
-
+		
+		JButton refreshButton = new JButton("Refresh");
+		refreshButton.setToolTipText("Refresh if your friend's room is not appearing!");
+		refreshButton.setBounds(499, 42, 97, 25);
+		add(refreshButton);
+		
+		refreshButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				refreshGameRooms();	
+			}
+		});
 	}
 	
 	/**
@@ -209,7 +220,16 @@ public class LobbyPanel extends JPanel {
 		this.swingUI = swingUI;
 	}
 	
+	/**
+	 * queries server for current game rooms
+	 * @param username
+	 */
+	public void refreshGameRooms() {
+		swingUI.send(CommunicationHandler.GAME_ROOM_QUERY);
+	}
+	
 	public void addGameRoom(String username) {
+		if (gameRoomModel.contains(username)) return;
 		gameRoomModel.addElement(username);
 	}
 	

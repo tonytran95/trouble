@@ -120,6 +120,17 @@ public class GameClient {
 		    				ui.pushChat(chatMessage, SwingUI.LOBBY);
 		    			} else if (input.startsWith(CommunicationHandler.LOBBY_ONLINE_LIST)) {
 				    		ui.updateOnlineList(input.substring(CommunicationHandler.LOBBY_ONLINE_LIST.length() + 1));
+				    	} else if (input.startsWith(CommunicationHandler.GAME_ROOM_QUERY)) {
+				    		input = input.substring(CommunicationHandler.GAME_ROOM_QUERY.length());
+				    		
+				    		if(input != null && !input.isEmpty()) {
+					    		String[] rooms = input.split("@");
+					    		for (String room: rooms) {
+					    			lobbyPanel.addGameRoom(room);
+					    		}
+				    		}else {
+				    			System.out.println("test");
+				    		}
 				    	}
 		    			break;
 		    		case IN_GAME:
