@@ -58,8 +58,8 @@ public class GameRoomPanel extends JPanel {
 	 */
 	public void init() {
 		
-		Image image1 = Toolkit.getDefaultToolkit().getImage("./data/img/button_1.png");
-		Image image2 = Toolkit.getDefaultToolkit().getImage("./data/img/button_2.png");
+		Image image1 = Toolkit.getDefaultToolkit().getImage("./data/img/button_1x.png");
+		Image image2 = Toolkit.getDefaultToolkit().getImage("./data/img/button_2x.png");
 		Image newimg1 = image1.getScaledInstance(89, 23, Image.SCALE_SMOOTH);
 		Image newimg2 = image2.getScaledInstance(89, 23, Image.SCALE_SMOOTH);
 		ImageIcon imgIcon1 = new ImageIcon(newimg1);

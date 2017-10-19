@@ -191,7 +191,7 @@ public class SwingUI extends JFrame {
 		this.getContentPane().add(newPanel);
 		this.currentPanel = newPanel;
 		if(currentPanel instanceof GamePanel == false) {
-			this.currentPanel.setBackground(Color.DARK_GRAY);
+			this.currentPanel.setBackground(new Color(211, 211, 211));
 		}
 		this.validate();
 		this.repaint();

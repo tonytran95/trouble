@@ -74,8 +74,8 @@ public class LoginPanel extends JPanel {
 	private void init() {
 		this.setLayout(null);
 		
-		Image image1 = Toolkit.getDefaultToolkit().getImage("./data/img/button_1.png");
-		Image image2 = Toolkit.getDefaultToolkit().getImage("./data/img/button_2.png");
+		Image image1 = Toolkit.getDefaultToolkit().getImage("./data/img/button_1x.png");
+		Image image2 = Toolkit.getDefaultToolkit().getImage("./data/img/button_2x.png");
 		Image newimg1 = image1.getScaledInstance(143, 23, Image.SCALE_SMOOTH);
 		Image newimg2 = image2.getScaledInstance(143, 23, Image.SCALE_SMOOTH);
 		ImageIcon imgIcon1 = new ImageIcon(newimg1);
@@ -103,7 +103,7 @@ public class LoginPanel extends JPanel {
 		
 		JCheckBox btnRememberMe = new JCheckBox("Remember email");
 		btnRememberMe.setBounds(468, 230, 108, 23);
-		btnRememberMe.setBackground(Color.DARK_GRAY);
+		btnRememberMe.setBackground(new Color(211, 211, 211));
 		if (email.length() > 0)
 			btnRememberMe.setSelected(true);
 		this.add(btnRememberMe);
