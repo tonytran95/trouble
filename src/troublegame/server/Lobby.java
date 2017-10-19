@@ -29,11 +29,14 @@ public class Lobby {
 		users.add(user);
 	}
 	
-	// TODO
 	public void broadcastOnlineList() {
 		String onlineList = "";
 		for (Connection conn: users) {
-			
+			onlineList += " "+conn.getUsername();
+		}
+		
+		for (Connection conn: users) {
+			conn.getOutputStream().println(CommunicationHandler.LOBBY_ONLINE_LIST + onlineList);
 		}
 	}
 	

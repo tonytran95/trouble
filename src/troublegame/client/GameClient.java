@@ -118,7 +118,7 @@ public class GameClient {
 		    				String chatMessage = input.substring(CommunicationHandler.LOBBY_CHAT.length());
 		    				ui.pushChat(chatMessage, SwingUI.LOBBY);
 		    			} else if (input.startsWith(CommunicationHandler.LOBBY_ONLINE_LIST)) {
-				    		
+				    		ui.updateOnlineList(input.substring(CommunicationHandler.LOBBY_ONLINE_LIST.length() + 1));
 				    	}
 		    			break;
 		    		case IN_GAME:

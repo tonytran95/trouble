@@ -16,6 +16,7 @@ import javax.swing.text.DefaultCaret;
 import troublegame.client.Interface;
 import troublegame.client.SwingUI;
 import troublegame.communication.CommunicationHandler;
+
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -48,6 +49,7 @@ public class LobbyPanel extends JPanel {
 	}
 
 	private JTextArea chatMessages;
+	private DefaultListModel<String> onlineUserlistModel;
 	
 	/**
 	 * Create the panel.
@@ -57,6 +59,7 @@ public class LobbyPanel extends JPanel {
 		setLayout(null);
 		
 		gameRoomModel = new DefaultListModel<String>();
+		onlineUserlistModel = new DefaultListModel<String>();
 		
 		JList<String> gameList = new JList<String>(gameRoomModel);
 		gameList.setBounds(43, 67, 553, 196);
@@ -117,8 +120,9 @@ public class LobbyPanel extends JPanel {
 			}
 		});
 		
-		JList<String> onlineUsers = new JList<String>();
+		JList<String> onlineUsers = new JList<String>(onlineUserlistModel);
 		onlineUsers.setBounds(615, 67, 309, 196);
+		onlineUsers.setEnabled(false);
 		this.add(onlineUsers);
 		
 		JLabel lblGameRooms = new JLabel("Game Rooms");
@@ -126,9 +130,9 @@ public class LobbyPanel extends JPanel {
 		lblGameRooms.setBounds(43, 46, 90, 16);
 		this.add(lblGameRooms);
 		
-		JLabel lblUsersOnline = new JLabel("Users Online");
+		JLabel lblUsersOnline = new JLabel("Users in Lobby");
 		lblUsersOnline.setLabelFor(onlineUsers);
-		lblUsersOnline.setBounds(616, 46, 84, 16);
+		lblUsersOnline.setBounds(616, 46, 114, 16);
 		this.add(lblUsersOnline);
 		
 		JPanel panel = new JPanel();
@@ -219,5 +223,17 @@ public class LobbyPanel extends JPanel {
 	
 	public void updateChat(String message) {
 		chatMessages.append(message+"\n");
+	}
+	
+	/**
+	 * Updates the online list
+	 * @param array of strings containing usernames
+	 */
+	public void updateOnlineList(String[] users) {
+		onlineUserlistModel.clear();
+		for (String user: users) {
+			
+			onlineUserlistModel.addElement(user);
+		}
 	}
 }

@@ -310,6 +310,11 @@ public class SwingUI extends JFrame {
 		this.gameRoomPanel.setGameRoomName(name);
 	}
 	
+	/**
+	 * Handles gameroom and lobby chat
+	 * @param message
+	 * @param type
+	 */
 	public void pushChat(String message, int type) {
 		switch (type) {
 			case GAME_ROOM:
@@ -319,5 +324,13 @@ public class SwingUI extends JFrame {
 				this.lobbyPanel.updateChat(message);
 				break;
 		}
+	}
+	
+	/**
+	 * Handles Lobby online list
+	 */
+	public void updateOnlineList(String onlineUsers) {
+		String[] users = onlineUsers.split(" ");
+		this.lobbyPanel.updateOnlineList(users);
 	}
 }
