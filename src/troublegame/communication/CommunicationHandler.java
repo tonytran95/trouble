@@ -15,6 +15,10 @@ public final class CommunicationHandler {
 	// Game Server
 	public static final String GAME_SERVER_INFO = "[GAME_SERVER_INFO]";
 	
+	// Lobby 
+	public static final String LOBBY_CHAT = "[LOBBY_CHAT]";
+	public static final String LOBBY_ONLINE_LIST = "[LOBBY_ONLINE_LIST]";
+	
 	// Login constants
 	public static final String LOGIN_REQUEST = "[LOGIN]";
 	public static final String LOGIN_SUCCESS = "[LOGIN_SUCCESS]";
@@ -28,6 +32,7 @@ public final class CommunicationHandler {
 	
 	// Game room constants
 	public static final String GAME_ROOM_OPEN = "[GAME_ROOM_OPEN]";
+	public static final String GAME_ROOM_QUERY = "[GAME_ROOM_QUERY]";
 	public static final String GAME_ROOM_NEW = "[GAME_ROOM_NEW]";
 	public static final String GAME_ROOM_CHAT = "[GAME_ROOM_CHAT]";
 	public static final String GAME_ROOM_INFO = "[GAME_ROOM_INFO]";

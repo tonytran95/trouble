@@ -34,6 +34,9 @@ import troublegame.client.panels.StartPanel;
  */
 public class SwingUI extends JFrame {
 	
+	public static final int LOBBY = 0;
+	public static final int GAME_ROOM = 1;
+	
 	/**
 	 * Serial ID for object serialisation
 	 */
@@ -307,7 +310,14 @@ public class SwingUI extends JFrame {
 		this.gameRoomPanel.setGameRoomName(name);
 	}
 	
-	public void pushChat(String message) {
-		this.gameRoomPanel.updateChat(message);
+	public void pushChat(String message, int type) {
+		switch (type) {
+			case GAME_ROOM:
+				this.gameRoomPanel.updateChat(message);
+				break;
+			case LOBBY:
+				this.lobbyPanel.updateChat(message);
+				break;
+		}
 	}
 }

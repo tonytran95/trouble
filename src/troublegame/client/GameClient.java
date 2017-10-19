@@ -113,6 +113,12 @@ public class GameClient {
 				    		User me = ui.getUser();
 				    		me.setGamesPlayed(Integer.parseInt(inputSplit[1]));
 				    		me.setGamesWon(Integer.parseInt(inputSplit[2]));
+				    		ui.send((CommunicationHandler.LOBBY_ONLINE_LIST));
+				    	} else if (input.startsWith(CommunicationHandler.LOBBY_CHAT)) {
+		    				String chatMessage = input.substring(CommunicationHandler.LOBBY_CHAT.length());
+		    				ui.pushChat(chatMessage, SwingUI.LOBBY);
+		    			} else if (input.startsWith(CommunicationHandler.LOBBY_ONLINE_LIST)) {
+				    		
 				    	}
 		    			break;
 		    		case IN_GAME:
@@ -165,7 +171,7 @@ public class GameClient {
 		    				ui.setGameRoomName(name);	
 		    			} else if (input.startsWith(CommunicationHandler.GAME_ROOM_CHAT)) {
 		    				String chatMessage = input.substring(CommunicationHandler.GAME_ROOM_CHAT.length());
-		    				ui.pushChat(chatMessage);
+		    				ui.pushChat(chatMessage, SwingUI.GAME_ROOM);
 		    			} else if (input.equals(CommunicationHandler.GAME_ROOM_LEAVE)) {
 		    				ui.setInterface(Interface.LOBBY);
 		    				gameRoomPanel.clearUsers();

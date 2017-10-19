@@ -3,12 +3,15 @@ package troublegame.client.panels;
 import javax.swing.JPanel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
+
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.text.DefaultCaret;
 
 import troublegame.client.Interface;
 import troublegame.client.SwingUI;
@@ -44,6 +47,8 @@ public class LobbyPanel extends JPanel {
 		this.init();
 	}
 
+	private JTextArea chatMessages;
+	
 	/**
 	 * Create the panel.
 	 */
@@ -126,12 +131,24 @@ public class LobbyPanel extends JPanel {
 		lblUsersOnline.setBounds(616, 46, 84, 16);
 		this.add(lblUsersOnline);
 		
-		JTextArea chatTextArea = new JTextArea();
-		chatTextArea.setBounds(440, 318, 484, 196);
-		this.add(chatTextArea);
+		JPanel panel = new JPanel();
+		panel.setBounds(440, 318, 484, 196);
+		chatMessages = new JTextArea();
+		DefaultCaret caret = (DefaultCaret)chatMessages.getCaret();
+		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+		//chatMessages.setBounds(103, 220, 503, 151);
+		JScrollPane scroll = new JScrollPane(chatMessages);
+		chatMessages.setEditable(false);
+		panel.setLayout(new GridLayout(1, 0, 0, 0));
+		panel.add(scroll);
+		this.add(panel);
+		
+		//chatMessages = new JTextArea();
+		//chatMessages.setBounds(440, 318, 484, 196);
+		//this.add(chatMessages);
 		
 		JLabel lblChat = new JLabel("Chat");
-		lblChat.setLabelFor(chatTextArea);
+		lblChat.setLabelFor(chatMessages);
 		lblChat.setBounds(440, 296, 56, 16);
 		this.add(lblChat);
 		
@@ -144,6 +161,13 @@ public class LobbyPanel extends JPanel {
 		sendChatButton.setBounds(827, 516, 97, 25);
 		this.add(sendChatButton);
 		
+		sendChatButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				sendChatMessage(newMessage);	
+			}
+		});
+		
 		JTextArea activityTextArea = new JTextArea();
 		activityTextArea.setBounds(43, 318, 376, 222);
 		this.add(activityTextArea);
@@ -152,10 +176,6 @@ public class LobbyPanel extends JPanel {
 		lblActivity.setLabelFor(activityTextArea);
 		lblActivity.setBounds(43, 296, 106, 16);
 		this.add(lblActivity);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(903, 516, 21, -195);
-		this.add(scrollPane);
 
 	}
 	
@@ -166,6 +186,17 @@ public class LobbyPanel extends JPanel {
 		return swingUI;
 	}
 
+	/**
+	 * Handles the chat message by reading the text field
+	 * @param textField is the {@link JTextField} in the game room.
+	 */
+	private void sendChatMessage(JTextField textField) {
+		String toSend = textField.getText();
+		if(toSend.equals("")) return;
+		swingUI.send(CommunicationHandler.LOBBY_CHAT + " " + toSend);
+		textField.setText("");	
+	}
+	
 	/**
 	 * Sets the swing user interface.
 	 * @param swingUI is the swing user interface.
@@ -184,5 +215,9 @@ public class LobbyPanel extends JPanel {
 	
 	public void clearGameRooms() {
 		gameRoomModel.clear();
+	}
+	
+	public void updateChat(String message) {
+		chatMessages.append(message+"\n");
 	}
 }

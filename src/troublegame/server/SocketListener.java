@@ -146,7 +146,7 @@ public class SocketListener {
 											lobby.handleGameRoomQuery(conn);
 										} else if (input.startsWith(CommunicationHandler.GAME_ROOM_CHAT)) {
 											String message = input.substring(CommunicationHandler.GAME_ROOM_CHAT.length());
-											lobby.handleChat(conn, message);
+											lobby.handleGameroomChat(conn, message);
 										} else if(input.startsWith(CommunicationHandler.GAME_ROOM_LEAVE)) {
 											lobby.leaveGameRoom(conn);
 										} else if (input.equals(CommunicationHandler.LOGOUT_REQUEST)) {
@@ -176,6 +176,11 @@ public class SocketListener {
 											User u = conn.getUser();
 											String statistics = " "+u.getGamesPlayed()+" "+ u.getGamesWon();
 											conn.getOutputStream().println(CommunicationHandler.GET_STATISTICS+ statistics);
+										} else if (input.startsWith(CommunicationHandler.LOBBY_CHAT)) {
+											String message = input.substring(CommunicationHandler.LOBBY_CHAT.length());
+											lobby.handleLobbyChat(conn, message);
+										} else if (input.startsWith(CommunicationHandler.LOBBY_ONLINE_LIST)) {
+											lobby.broadcastOnlineList();
 										} else {
 											System.out.println("Unknown Command: " + input);
 										}

@@ -27,8 +27,22 @@ public class Lobby {
 	
 	public void addUser(Connection user) {
 		users.add(user);
-		for (GameRoom gameRoom : gameRooms)
-			user.getOutputStream().println(CommunicationHandler.GAME_ROOM_OPEN + " " + gameRoom.getName());
+	}
+	
+	// TODO
+	public void broadcastOnlineList() {
+		String onlineList = "";
+		for (Connection conn: users) {
+			
+		}
+	}
+	
+	public void showGamerooms(Connection user) {
+		String gamerooms = "";
+		for (GameRoom gameRoom : gameRooms) {
+			gamerooms += gameRoom.getName()+ "@";
+		}
+		user.getOutputStream().println(CommunicationHandler.GAME_ROOM_QUERY + gamerooms);
 	}
 	
 	public void createGameRoom(Connection owner) {
@@ -91,9 +105,17 @@ public class Lobby {
 		}
 	}
 	
-	public void handleChat(Connection user, String message) {
+	public void handleGameroomChat(Connection user, String message) {
 		GameRoom gameroom = gameServer.getGameRoomName(user);
 		gameroom.doChat(user, message);
+	}
+	
+	public void handleLobbyChat(Connection conn, String message) {
+		for (Connection user: users) {
+			PrintWriter outputStream = user.getOutputStream();
+			String s = String.format(CommunicationHandler.LOBBY_CHAT + "%s: %s", conn.getUsername(), message);
+			outputStream.println(s);
+		}		
 	}
 	
 	public GameRoom getGameRoomByName(String gameRoomName) {
