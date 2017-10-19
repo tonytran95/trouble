@@ -154,7 +154,12 @@ public class SocketListener {
 											disconnect(conn, clientSocket);
 										} else if (input.startsWith(CommunicationHandler.GAME_START)) {
 											String gameRoomName = input.substring(CommunicationHandler.GAME_START.length() + 1);
-											gameEngine.createGame(lobby.getGameRoomByName(gameRoomName).getMembers());
+											GameRoom g= lobby.getGameRoomByName(gameRoomName);
+											if (g.isOwner(conn)) {
+												gameEngine.createGame(lobby.getGameRoomByName(gameRoomName).getMembers());
+											} else {
+												conn.getOutputStream().println(CommunicationHandler.GAME_START_FAIL);
+											}
 											//for (Connection c : lobby.getGameRoomByName(gameRoomName).getMembers())
 												//lobby.leaveGameRoom(c);
 										} else if (input.startsWith(CommunicationHandler.GAME_CHAT)) {

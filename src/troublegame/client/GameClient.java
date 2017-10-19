@@ -189,7 +189,9 @@ public class GameClient {
 		    				gameRoomPanel.clearUsers();
 		    			} else if (input.startsWith(CommunicationHandler.GAME_ROOM_LEAVE)) {
 		    				gameRoomPanel.removeUser(inputSplit[1]);
-		    			}  
+		    			} else if (input.startsWith(CommunicationHandler.GAME_START_FAIL)) {
+		    				JOptionPane.showMessageDialog(null, "Only the owner can start the game!");
+		    			} 
 		    			break;
 		    		case USER_PROFILE:
 		    			if (input.startsWith(CommunicationHandler.UPDATE_SUCCESS)) {

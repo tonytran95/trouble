@@ -45,6 +45,7 @@ public final class CommunicationHandler {
 	public static final String GAME_INFO = "[GAME_INFO]";
 	public static final String GAME_ROLL = "[GAME_ROLL]";
 	public static final String GAME_START = "[GAME_START]";
+	public static final String GAME_START_FAIL = "[GAME_START_FAIL]";
 	public static final String GAME_TURN = "[GAME_TURN]";
 	public static final String GAME_COLORS = "[GAME_COLORS]";
 	public static final String GAME_SETUP = "[GAME_SETUP]";

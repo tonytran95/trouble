@@ -32,6 +32,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
+import java.awt.Font;
 
 public class LobbyPanel extends JPanel {
 	/**
@@ -230,11 +231,13 @@ public class LobbyPanel extends JPanel {
 		this.add(onlineUsers);
 		
 		JLabel lblGameRooms = new JLabel("Game Rooms");
+		lblGameRooms.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblGameRooms.setLabelFor(gameList);
-		lblGameRooms.setBounds(43, 46, 90, 16);
+		lblGameRooms.setBounds(43, 46, 106, 16);
 		this.add(lblGameRooms);
 		
 		JLabel lblUsersOnline = new JLabel("Users in Lobby");
+		lblUsersOnline.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblUsersOnline.setLabelFor(onlineUsers);
 		lblUsersOnline.setBounds(616, 46, 114, 16);
 		this.add(lblUsersOnline);
@@ -256,6 +259,7 @@ public class LobbyPanel extends JPanel {
 		//this.add(chatMessages);
 		
 		JLabel lblChat = new JLabel("Chat");
+		lblChat.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblChat.setLabelFor(chatMessages);
 		lblChat.setBounds(440, 296, 56, 16);
 		this.add(lblChat);
@@ -300,6 +304,7 @@ public class LobbyPanel extends JPanel {
 		this.add(activityTextArea);
 		
 		JLabel lblActivity = new JLabel("Activity Feed");
+		lblActivity.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblActivity.setLabelFor(activityTextArea);
 		lblActivity.setBounds(43, 296, 106, 16);
 		this.add(lblActivity);

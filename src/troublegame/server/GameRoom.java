@@ -164,4 +164,11 @@ public class GameRoom {
 			outputStream.println(s);
 		}
 	}
+	
+	/**
+	 * @return true if user is owner, false otherwise
+	 */
+	public boolean isOwner(Connection user) {
+		return getOwner().equals(user);
+	}
 }
