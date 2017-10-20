@@ -406,7 +406,7 @@ public class LobbyPanel extends JPanel {
 		refreshButton.setBorderPainted(false);
 		
 		JLabel usernameLabel = new JLabel("You are logged in as: "+myUsername);
-		usernameLabel.setBounds(43, 17, 246, 16);
+		usernameLabel.setBounds(43, 17, 394, 16);
 		add(usernameLabel);
 		
 		
