@@ -3,6 +3,7 @@ package troublegame.client.panels;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import java.awt.Font;
@@ -23,6 +24,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.text.DefaultCaret;
 
 import troublegame.client.SwingUI;
@@ -79,8 +82,8 @@ public class GameRoomPanel extends JPanel {
 		
 		Image image1 = Toolkit.getDefaultToolkit().getImage("./data/img/button_1x.png");
 		Image image2 = Toolkit.getDefaultToolkit().getImage("./data/img/button_3.png");
-		Image newimg1 = image1.getScaledInstance(143, 23, Image.SCALE_SMOOTH);
-		Image newimg2 = image2.getScaledInstance(143, 23, Image.SCALE_SMOOTH);
+		Image newimg1 = image1.getScaledInstance(109, 25, Image.SCALE_SMOOTH);
+		Image newimg2 = image2.getScaledInstance(109, 25, Image.SCALE_SMOOTH);
 		ImageIcon imgIcon1 = new ImageIcon(newimg1);
 		ImageIcon imgIcon2 = new ImageIcon(newimg2);
 		
@@ -118,7 +121,7 @@ public class GameRoomPanel extends JPanel {
 		add(lblChat);
 		
 		JButton startButton = new JButton("Start Game");
-		startButton.setBounds(371, 140, 108, 25);
+		startButton.setBounds(371, 140, 109, 25);
 		add(startButton);
 		
 		startButton.addActionListener(new ActionListener() {
@@ -150,7 +153,7 @@ public class GameRoomPanel extends JPanel {
 		startButton.setBorderPainted(false);
 		
 		JButton leaveButton = new JButton("Leave Room");
-		leaveButton.setBounds(371, 178, 108, 25);
+		leaveButton.setBounds(371, 178, 109, 25);
 		add(leaveButton);
 		
 		leaveButton.addActionListener(new ActionListener() {
@@ -191,12 +194,51 @@ public class GameRoomPanel extends JPanel {
 		lblNewLabel.setBounds(592, 96, 62, 16);
 		add(lblNewLabel);
 		
-		JButton btnNewButton = new JButton("Invite");
-		btnNewButton.setBounds(766, 228, 97, 25);
-		add(btnNewButton);
+		JButton inviteButton = new JButton("Invite");
+		inviteButton.setBounds(755, 228, 109, 25);
+		inviteButton.setVisible(false);
+		inviteButton.setToolTipText("Invite your friend to the game room");
+		add(inviteButton);
+		
+		inviteButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				swingUI.playButtonSound();
+				swingUI.send(CommunicationHandler.FRIEND_INVITE + friendList.getSelectedValue()
+							 + "%"+ getGameRoomName());
+				JOptionPane.showMessageDialog(null, "Your Friend has been invited to join the game");
+			}
+		});
+		
+		inviteButton.addMouseListener(new MouseListener() {			
+			@Override
+			public void mouseReleased(MouseEvent arg0) {}		   
+			@Override
+			public void mousePressed(MouseEvent arg0) {}			
+			@Override
+			public void mouseExited(MouseEvent arg0) { 
+				inviteButton.setIcon(imgIcon1);
+			}		   
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				inviteButton.setIcon(imgIcon2);
+			}		   
+			@Override
+			public void mouseClicked(MouseEvent arg0) {}
+		});
+		inviteButton.setIcon(imgIcon1);
+		inviteButton.setHorizontalTextPosition(SwingConstants.CENTER);
+		inviteButton.setBorderPainted(false);
+		
+		friendList.addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				if (!inviteButton.isVisible()) inviteButton.setVisible(true);
+			}
+		});
 		
 		newMessage = new JTextField();
-		newMessage.setBounds(227, 512, 535, 22);
+		newMessage.setBounds(227, 512, 528, 22);
 		add(newMessage);
 		newMessage.setColumns(10);
 		newMessage.addActionListener(new ActionListener() {
@@ -207,7 +249,7 @@ public class GameRoomPanel extends JPanel {
 		});
 		
 		JButton sendButton = new JButton("Send");
-		sendButton.setBounds(767, 511, 97, 25);
+		sendButton.setBounds(755, 511, 109, 25);
 		add(sendButton);
 		sendButton.addActionListener(new ActionListener() {
 			@Override
@@ -295,10 +337,19 @@ public class GameRoomPanel extends JPanel {
 		this.name = name;
 	}
 	
+	public String getGameRoomName() {
+		return this.name;
+	}
+	
 	public void updateChat(String message) {
 		chatMessages.append(message+"\n");
 	}
 	
+	public void displayFriendList(String[] friends) {
+		for (String friend: friends) {
+			friendsModel.addElement(friend);
+		}
+	}
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);

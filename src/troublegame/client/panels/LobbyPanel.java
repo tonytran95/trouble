@@ -85,6 +85,7 @@ public class LobbyPanel extends JPanel {
 	public void init() {
 		
 		setLayout(null);
+		String myUsername = swingUI.getUser().getUsername();
 		
 		Image image1 = Toolkit.getDefaultToolkit().getImage("./data/img/button_1x.png");
 		Image image2 = Toolkit.getDefaultToolkit().getImage("./data/img/button_3.png");
@@ -235,10 +236,54 @@ public class LobbyPanel extends JPanel {
 		logoutButton.setHorizontalTextPosition(SwingConstants.CENTER);
 		logoutButton.setBorderPainted(false);
 		
+		JButton addFriendButton = new JButton("Add Friend");
+		addFriendButton.setBounds(810, 263, 114, 25);
+		addFriendButton.setVisible(false);
+		add(addFriendButton);
+		
+		addFriendButton.addMouseListener(new MouseListener() {			
+			@Override
+			public void mouseReleased(MouseEvent arg0) {}		   
+			@Override
+			public void mousePressed(MouseEvent arg0) {}			
+			@Override
+			public void mouseExited(MouseEvent arg0) { 
+				addFriendButton.setIcon(imgIcon1);
+			}		   
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				addFriendButton.setIcon(imgIcon2);
+			}		   
+			@Override
+			public void mouseClicked(MouseEvent arg0) {}
+		});		
+		addFriendButton.setIcon(imgIcon1);
+		addFriendButton.setHorizontalTextPosition(SwingConstants.CENTER);
+		addFriendButton.setBorderPainted(false);
+		
+		
 		JList<String> onlineUsers = new JList<String>(onlineUserlistModel);
 		onlineUsers.setBounds(615, 67, 309, 196);
-		onlineUsers.setEnabled(false);
 		this.add(onlineUsers);
+		
+		onlineUsers.addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				if (onlineUsers.getSelectedValue().equals(myUsername)) {
+					addFriendButton.setVisible(false);
+					return;
+				}
+				if (!addFriendButton.isVisible()) addFriendButton.setVisible(true);
+			}
+		});
+		
+		addFriendButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				swingUI.playButtonSound();
+				swingUI.send(CommunicationHandler.FRIEND_ADD_ATTEMPT + " " + onlineUsers.getSelectedValue());
+			}
+		});
 		
 		JLabel lblGameRooms = new JLabel("Game Rooms");
 		lblGameRooms.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -359,6 +404,13 @@ public class LobbyPanel extends JPanel {
 		refreshButton.setIcon(imgIcon1);
 		refreshButton.setHorizontalTextPosition(SwingConstants.CENTER);
 		refreshButton.setBorderPainted(false);
+		
+		JLabel usernameLabel = new JLabel("You are logged in as: "+myUsername);
+		usernameLabel.setBounds(43, 17, 246, 16);
+		add(usernameLabel);
+		
+		
+		
 	}
 	
 	/**

@@ -1,10 +1,12 @@
 package troublegame.server;
 
+import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.UUID;
 
+import troublegame.communication.CommunicationHandler;
 import troublegame.server.io.UserManager;
 
 /**
@@ -245,6 +247,21 @@ public class User implements Serializable {
 	}
 	
 	/**
+	 * Checks if this user is friends with user
+	 * @return true if friends, false otherwise
+	 */
+	public boolean isFriend(User user) {
+		ArrayList<UUID> friendList = this.getFriendList();
+		UUID userID = user.getId();
+		for (UUID id: friendList) {
+			if (id.equals(userID)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
 	 * Add the given user to this user's friends list and the friends friend list. Friendships must be symmetric,
 	 * then save both users
 	 * @param newFriend The new friend to add
@@ -314,6 +331,18 @@ public class User implements Serializable {
 		
 	}
 	
+	/**
+	 * Given the user's outputstream, send his friends over in a string, separated by %
+	 */
+	public void sendFriendList(PrintWriter outputStream) {
+		String friends = "";
+		for(UUID friendID: this.getFriendList()) {
+			if (!friends.equals("")) friends += "%";
+			User friend = UserManager.loadUserById(friendID);
+			friends += friend.getUsername();
+		}
+		outputStream.println(CommunicationHandler.GAME_ROOM_FRIENDS+friends);
+	}
 	/**
 	 * Representation of this user as a string
 	 */

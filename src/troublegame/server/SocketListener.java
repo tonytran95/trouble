@@ -7,6 +7,8 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import troublegame.communication.CommunicationHandler;
 import troublegame.server.io.UserManager;
@@ -191,6 +193,33 @@ public class SocketListener {
 											lobby.broadcastOnlineList();
 										} else if (input.startsWith(CommunicationHandler.GAME_ROOM_QUERY)) {
 											lobby.showGamerooms(conn);
+										} else if (input.startsWith(CommunicationHandler.FRIEND_ADD_ATTEMPT)) {
+											String userName = input.substring(CommunicationHandler.FRIEND_ADD_ATTEMPT.length()+1);
+											User u = UserManager.loadUserByEmail(conn.getUser().getEmail());
+											User userToAdd = getUserByUsername(userName);
+											
+											// some error occured, maybe guy disconnected
+											if (userToAdd == null) {
+												conn.getOutputStream().println(CommunicationHandler.FRIEND_ADD_FAIL);
+											} else if (u.isFriend(userToAdd)) {
+												conn.getOutputStream().println(CommunicationHandler.FRIENDS_ALREADY + userToAdd.getUsername());
+											} else {
+												if (u.addFriend(userToAdd))
+													conn.getOutputStream().println(CommunicationHandler.FRIEND_ADD_SUCCESS + userToAdd.getUsername());
+												else
+													conn.getOutputStream().println(CommunicationHandler.FRIEND_ADD_FAIL);
+											}
+										}  else if (input.startsWith(CommunicationHandler.GAME_ROOM_FRIENDS)) {
+											User u = UserManager.loadUserByEmail(conn.getUser().getEmail());
+											u.sendFriendList(conn.getOutputStream());
+										} else if (input.startsWith(CommunicationHandler.FRIEND_INVITE)) {
+											input = input.substring(CommunicationHandler.FRIEND_INVITE.length());
+											String[] inputSplit = input.split("%");
+											Connection c = getConnection(inputSplit[0]);
+											if (c != null) {
+												c.getOutputStream().println(CommunicationHandler.FRIEND_INVITE+conn.getUsername()
+																			+ "%"+ inputSplit[1]);
+											}
 										} else {
 											System.out.println("Unknown Command: " + input);
 										}
@@ -248,6 +277,18 @@ public class SocketListener {
 		return connections;
 	}
 	
+	/**
+	 * Get the connection given a username
+	 * @param username
+	 * @return username if found, null otherwise
+	 */
+	public Connection getConnection(String username) {
+		for (Connection c: this.getConnections()) {
+			if (c.getUsername().equals(username)) return c;
+		}
+		return null;
+	}
+	
 	public void setLoginHandler(LoginHandler loginHandler) {
 		this.loginHandler = loginHandler;
 	}
@@ -260,4 +301,15 @@ public class SocketListener {
 		this.gameEngine = g;
 	}
 	
+	/**
+	 * Gets the user if he is in the lobby, else returns null
+	 * @param username
+	 * @return
+	 */
+	private User getUserByUsername(String username) {
+		for (Connection conn: connections) {
+			if (conn.getUsername().equals(username)) return conn.getUser();
+		}
+		return null;
+	}
 }

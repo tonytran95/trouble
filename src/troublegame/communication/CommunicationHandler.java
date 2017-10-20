@@ -20,6 +20,13 @@ public final class CommunicationHandler {
 	public static final String LOBBY_ONLINE_LIST = "[LOBBY_ONLINE_LIST]";
 	public static final String LOBBY_ACTIVITY_FEED = "[LOBBY_ACTIVITY_FEED]";
 	
+	//friends
+	public static final String FRIEND_ADD_ATTEMPT = "[FRIEND_ADD_ATTEMPT]";
+	public static final String FRIEND_ADD_FAIL = "[FRIEND_ADD_FAIL]";
+	public static final String FRIEND_ADD_SUCCESS = "[FRIEND_ADD_SUCCESS]";
+	public static final String FRIENDS_ALREADY = "[FRIENDS_ALREADY]";
+	public static final String FRIEND_INVITE = "[FRIEND_INVITE]";
+	
 	// Login constants
 	public static final String LOGIN_REQUEST = "[LOGIN]";
 	public static final String LOGIN_SUCCESS = "[LOGIN_SUCCESS]";
@@ -41,6 +48,7 @@ public final class CommunicationHandler {
 	public static final String GAME_ROOM_LEAVE = "[GAME_ROOM_LEAVE]";
 	public static final String GAME_ROOM_CLOSE = "[GAME_ROOM_CLOSE]";
 	public static final String GAME_ROOM_MEMBER = "[GAME_ROOM_MEMBER]";
+	public static final String GAME_ROOM_FRIENDS = "[GAME_ROOM_FRIENDS]";
 	
 	// Game constants
 	public static final String GAME_INFO = "[GAME_INFO]";

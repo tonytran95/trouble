@@ -411,4 +411,11 @@ public class SwingUI extends JFrame {
 	public void addActivityFeed(String feed) {
 		this.lobbyPanel.addActivityFeed("[Server] "+feed);
 	}
+	
+	/**
+	 * populates friend list in game room
+	 */
+	public void displayFriends(String[] friends) {
+		this.gameRoomPanel.displayFriendList(friends);	
+	}
 }

@@ -134,6 +134,18 @@ public class GameClient {
 				    		}
 				    	} else if (input.startsWith(CommunicationHandler.LOBBY_ACTIVITY_FEED)) {
 				    		ui.addActivityFeed(input.substring(CommunicationHandler.LOBBY_ACTIVITY_FEED.length() + 1));
+				    	} else if (input.startsWith(CommunicationHandler.FRIEND_ADD_FAIL)) {
+				    		JOptionPane.showMessageDialog(null, "Unable to add friend, please try again later.");
+				    	} else if (input.startsWith(CommunicationHandler.FRIEND_ADD_SUCCESS)) {
+				    		String username = input.substring(CommunicationHandler.FRIEND_ADD_SUCCESS.length());
+				    		JOptionPane.showMessageDialog(null, "You are now friends with "+username);
+				    	} else if (input.startsWith(CommunicationHandler.FRIENDS_ALREADY)) {
+				    		String username = input.substring(CommunicationHandler.FRIENDS_ALREADY.length());
+				    		JOptionPane.showMessageDialog(null, "You are already friends with "+username);
+				    	} else if (input.startsWith(CommunicationHandler.FRIEND_INVITE)) {
+				    		input = input.substring(CommunicationHandler.FRIEND_INVITE.length());
+				    		String[] split = input.split("%");
+				    		JOptionPane.showMessageDialog(null, split[0]+" invites you for a game! Join "+split[1]+" to play!");
 				    	}
 		    			break;
 		    		case IN_GAME:
@@ -227,7 +239,9 @@ public class GameClient {
 		    			} else if (input.startsWith(CommunicationHandler.GAME_ROOM_INFO)) {
 		    				String name = input.substring(16);
 		    				name = name.trim();
-		    				ui.setGameRoomName(name);	
+		    				ui.setGameRoomName(name);
+		    				// query for friend list
+		    				ui.send(CommunicationHandler.GAME_ROOM_FRIENDS);
 		    			} else if (input.startsWith(CommunicationHandler.GAME_ROOM_CHAT)) {
 		    				String chatMessage = input.substring(CommunicationHandler.GAME_ROOM_CHAT.length());
 		    				ui.pushChat(chatMessage, SwingUI.GAME_ROOM);
@@ -238,7 +252,11 @@ public class GameClient {
 		    				gameRoomPanel.removeUser(inputSplit[1]);
 		    			} else if (input.startsWith(CommunicationHandler.GAME_START_FAIL)) {
 		    				JOptionPane.showMessageDialog(null, "Only the owner can start the game!");
-		    			} 
+		    			} else if (input.startsWith(CommunicationHandler.GAME_ROOM_FRIENDS)) {
+		    				input = input.substring(CommunicationHandler.GAME_ROOM_FRIENDS.length());
+		    				String[] friends = input.split("%");
+		    				ui.displayFriends(friends);
+		    			}
 		    			break;
 		    		case USER_PROFILE:
 		    			if (input.startsWith(CommunicationHandler.UPDATE_SUCCESS)) {
