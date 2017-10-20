@@ -86,8 +86,8 @@ public class LobbyPanel extends JPanel {
 		
 		Image image1 = Toolkit.getDefaultToolkit().getImage("./data/img/button_1x.png");
 		Image image2 = Toolkit.getDefaultToolkit().getImage("./data/img/button_3.png");
-		Image newimg1 = image1.getScaledInstance(143, 23, Image.SCALE_SMOOTH);
-		Image newimg2 = image2.getScaledInstance(143, 23, Image.SCALE_SMOOTH);
+		Image newimg1 = image1.getScaledInstance(114, 23, Image.SCALE_SMOOTH);
+		Image newimg2 = image2.getScaledInstance(114, 23, Image.SCALE_SMOOTH);
 		ImageIcon imgIcon1 = new ImageIcon(newimg1);
 		ImageIcon imgIcon2 = new ImageIcon(newimg2);
 		
@@ -99,7 +99,7 @@ public class LobbyPanel extends JPanel {
 		this.add(gameList);
 		
 		JButton createButton = new JButton("Create Game");
-		createButton.setBounds(371, 263, 125, 25);
+		createButton.setBounds(366, 263, 114, 25);
 		this.add(createButton);
 		
 		createButton.addActionListener(new ActionListener() {
@@ -130,7 +130,7 @@ public class LobbyPanel extends JPanel {
 		createButton.setBorderPainted(false);
 		
 		JButton joinButton = new JButton("Join");
-		joinButton.setBounds(499, 263, 97, 25);
+		joinButton.setBounds(482, 263, 114, 25);
 		this.add(joinButton);
 		joinButton.setEnabled(false);	
 		joinButton.addActionListener(new ActionListener() {
@@ -167,7 +167,7 @@ public class LobbyPanel extends JPanel {
 		});
 		
 		JButton profileButton = new JButton("My Profile");
-		profileButton.setBounds(718, 13, 97, 25);
+		profileButton.setBounds(695, 13, 114, 25);
 		this.add(profileButton);
 		
 		profileButton.addActionListener(new ActionListener() {
@@ -198,7 +198,7 @@ public class LobbyPanel extends JPanel {
 		profileButton.setBorderPainted(false);
 		
 		JButton logoutButton = new JButton("Logout");
-		logoutButton.setBounds(827, 13, 97, 25);
+		logoutButton.setBounds(810, 13, 114, 25);
 		this.add(logoutButton);
 		
 		logoutButton.addActionListener(new ActionListener() {
@@ -272,12 +272,12 @@ public class LobbyPanel extends JPanel {
 		this.add(lblChat);
 		
 		JTextField newMessage = new JTextField();
-		newMessage.setBounds(440, 516, 386, 24);
+		newMessage.setBounds(440, 516, 367, 24);
 		this.add(newMessage);
 		newMessage.setColumns(10);
 		
 		JButton sendChatButton = new JButton("Send");
-		sendChatButton.setBounds(827, 516, 97, 25);
+		sendChatButton.setBounds(810, 516, 114, 25);
 		this.add(sendChatButton);
 
 		newMessage.addActionListener(new ActionListener() {
@@ -326,7 +326,7 @@ public class LobbyPanel extends JPanel {
 		
 		JButton refreshButton = new JButton("Refresh");
 		refreshButton.setToolTipText("Refresh if your friend's room is not appearing!");
-		refreshButton.setBounds(499, 42, 97, 25);
+		refreshButton.setBounds(482, 42, 114, 25);
 		add(refreshButton);
 		
 		refreshButton.addActionListener(new ActionListener() {

@@ -2,6 +2,7 @@ package troublegame.client.panels;
 
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import troublegame.client.Interface;
 import troublegame.client.SwingUI;
@@ -11,12 +12,19 @@ import troublegame.communication.CommunicationHandler;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.IOException;
+
 import javax.swing.JPasswordField;
 
 public class ProfilePanel extends JPanel {
@@ -25,6 +33,11 @@ public class ProfilePanel extends JPanel {
 	 */
 	private static final long serialVersionUID = 1959684201644950741L;
 
+	/**
+	 * The background image.
+	 */
+	private Image backgroundImage;
+	
 	/**
 	 * The swing user interface.
 	 */
@@ -36,6 +49,22 @@ public class ProfilePanel extends JPanel {
 	 * Create the panel.
 	 */
 	public ProfilePanel(SwingUI swingUI) {
+		/**
+		 * set background image
+		 */
+		try {
+			backgroundImage = ImageIO.read(new File("./data/img/background4.jpg"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		Image image1 = Toolkit.getDefaultToolkit().getImage("./data/img/button_1x.png");
+		Image image2 = Toolkit.getDefaultToolkit().getImage("./data/img/button_3.png");
+		Image newimg1 = image1.getScaledInstance(252, 25, Image.SCALE_SMOOTH);
+		Image newimg2 = image2.getScaledInstance(252, 25, Image.SCALE_SMOOTH);
+		ImageIcon imgIcon1 = new ImageIcon(newimg1);
+		ImageIcon imgIcon2 = new ImageIcon(newimg2);
+		
 		User me = swingUI.getUser();
 		String username = me.getUsername();
 		int gamesPlayed = me.getGamesPlayed();
@@ -43,143 +72,68 @@ public class ProfilePanel extends JPanel {
 		float winRate = (gamesWon * 100.0f) / gamesPlayed;
 		
 		this.swingUI = swingUI;
-		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{73, 31, 248, 0};
-		gridBagLayout.rowHeights = new int[]{16, 22, 22, 22, 25, 2, 16, 16, 16, 16, 25, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		setLayout(gridBagLayout);
+		setLayout(null);
 		
 		JLabel lblUpdateParticulars = new JLabel("Update Particulars");
-		GridBagConstraints gbc_lblUpdateParticulars = new GridBagConstraints();
-		gbc_lblUpdateParticulars.anchor = GridBagConstraints.NORTH;
-		gbc_lblUpdateParticulars.fill = GridBagConstraints.HORIZONTAL;
-		gbc_lblUpdateParticulars.insets = new Insets(0, 0, 5, 0);
-		gbc_lblUpdateParticulars.gridx = 2;
-		gbc_lblUpdateParticulars.gridy = 0;
-		add(lblUpdateParticulars, gbc_lblUpdateParticulars);
+		lblUpdateParticulars.setBounds(126, 35, 267, 16);
+		add(lblUpdateParticulars);
 		
 		JLabel lblUsername = new JLabel("Display Name");
-		GridBagConstraints gbc_lblUsername = new GridBagConstraints();
-		gbc_lblUsername.anchor = GridBagConstraints.EAST;
-		gbc_lblUsername.insets = new Insets(0, 0, 5, 5);
-		gbc_lblUsername.gridx = 0;
-		gbc_lblUsername.gridy = 1;
-		add(lblUsername, gbc_lblUsername);
+		lblUsername.setBounds(27, 67, 77, 16);
+		add(lblUsername);
 		
 		usernameTextField = new JTextField();
+		usernameTextField.setBounds(128, 64, 252, 22);
 		usernameTextField.setText(username);
-		GridBagConstraints gbc_usernameTextField = new GridBagConstraints();
-		gbc_usernameTextField.insets = new Insets(0, 0, 5, 0);
-		gbc_usernameTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_usernameTextField.gridx = 2;
-		gbc_usernameTextField.gridy = 1;
-		add(usernameTextField, gbc_usernameTextField);
+		add(usernameTextField);
 		
 		JLabel lblPassword = new JLabel("Password");
-		GridBagConstraints gbc_lblPassword = new GridBagConstraints();
-		gbc_lblPassword.anchor = GridBagConstraints.EAST;
-		gbc_lblPassword.insets = new Insets(0, 0, 5, 5);
-		gbc_lblPassword.gridx = 0;
-		gbc_lblPassword.gridy = 2;
-		add(lblPassword, gbc_lblPassword);
+		lblPassword.setBounds(49, 102, 55, 16);
+		add(lblPassword);
 		
 		passwordField = new JPasswordField();
-		GridBagConstraints gbc_passwordField = new GridBagConstraints();
-		gbc_passwordField.insets = new Insets(0, 0, 5, 0);
-		gbc_passwordField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_passwordField.gridx = 2;
-		gbc_passwordField.gridy = 2;
-		add(passwordField, gbc_passwordField);
+		passwordField.setBounds(128, 99, 252, 22);
+		add(passwordField);
 		
 		JButton updateButton = new JButton("Update Display Name");
-		GridBagConstraints gbc_updateButton = new GridBagConstraints();
-		gbc_updateButton.anchor = GridBagConstraints.NORTH;
-		gbc_updateButton.fill = GridBagConstraints.HORIZONTAL;
-		gbc_updateButton.insets = new Insets(0, 0, 5, 0);
-		gbc_updateButton.gridwidth = 3;
-		gbc_updateButton.gridx = 0;
-		gbc_updateButton.gridy = 4;
-		add(updateButton, gbc_updateButton);
+		updateButton.setBounds(128, 134, 252, 25);
+		add(updateButton);
 		
 		JSeparator separator = new JSeparator();
-		GridBagConstraints gbc_separator = new GridBagConstraints();
-		gbc_separator.anchor = GridBagConstraints.NORTH;
-		gbc_separator.fill = GridBagConstraints.HORIZONTAL;
-		gbc_separator.insets = new Insets(0, 0, 5, 0);
-		gbc_separator.gridwidth = 3;
-		gbc_separator.gridx = 0;
-		gbc_separator.gridy = 5;
-		add(separator, gbc_separator);
+		separator.setBounds(0, 172, 459, 2);
+		add(separator);
 		
 		JLabel label_3 = new JLabel("Game Statistics");
-		GridBagConstraints gbc_label_3 = new GridBagConstraints();
-		gbc_label_3.anchor = GridBagConstraints.NORTH;
-		gbc_label_3.fill = GridBagConstraints.HORIZONTAL;
-		gbc_label_3.insets = new Insets(0, 0, 5, 0);
-		gbc_label_3.gridx = 2;
-		gbc_label_3.gridy = 6;
-		add(label_3, gbc_label_3);
+		label_3.setBounds(126, 184, 267, 16);
+		add(label_3);
 		
 		JLabel label_2 = new JLabel("Games Played");
-		GridBagConstraints gbc_label_2 = new GridBagConstraints();
-		gbc_label_2.anchor = GridBagConstraints.NORTHEAST;
-		gbc_label_2.insets = new Insets(0, 0, 5, 5);
-		gbc_label_2.gridwidth = 2;
-		gbc_label_2.gridx = 0;
-		gbc_label_2.gridy = 7;
-		add(label_2, gbc_label_2);
+		label_2.setBounds(24, 213, 80, 16);
+		add(label_2);
 		
 		JLabel gamesPlayedDisplay = new JLabel(Integer.toString(gamesPlayed));
-		GridBagConstraints gbc_gamesPlayedDisplay = new GridBagConstraints();
-		gbc_gamesPlayedDisplay.fill = GridBagConstraints.HORIZONTAL;
-		gbc_gamesPlayedDisplay.insets = new Insets(0, 0, 5, 0);
-		gbc_gamesPlayedDisplay.gridx = 2;
-		gbc_gamesPlayedDisplay.gridy = 7;
-		add(gamesPlayedDisplay, gbc_gamesPlayedDisplay);
+		gamesPlayedDisplay.setBounds(126, 213, 198, 16);
+		add(gamesPlayedDisplay);
 		
 		JLabel label_1 = new JLabel("Games Won");
-		GridBagConstraints gbc_label_1 = new GridBagConstraints();
-		gbc_label_1.anchor = GridBagConstraints.NORTHEAST;
-		gbc_label_1.insets = new Insets(0, 0, 5, 5);
-		gbc_label_1.gridwidth = 2;
-		gbc_label_1.gridx = 0;
-		gbc_label_1.gridy = 8;
-		add(label_1, gbc_label_1);
+		label_1.setBounds(35, 242, 69, 16);
+		add(label_1);
 		
 		JLabel gamesWonDisplay = new JLabel(Integer.toString(gamesWon));
-		GridBagConstraints gbc_gamesWonDisplay = new GridBagConstraints();
-		gbc_gamesWonDisplay.fill = GridBagConstraints.HORIZONTAL;
-		gbc_gamesWonDisplay.insets = new Insets(0, 0, 5, 0);
-		gbc_gamesWonDisplay.gridx = 2;
-		gbc_gamesWonDisplay.gridy = 8;
-		add(gamesWonDisplay, gbc_gamesWonDisplay);
+		gamesWonDisplay.setBounds(128, 242, 135, 16);
+		add(gamesWonDisplay);
 		
 		JLabel lblWinRate = new JLabel("Win Rate");
-		GridBagConstraints gbc_lblWinRate = new GridBagConstraints();
-		gbc_lblWinRate.anchor = GridBagConstraints.NORTHEAST;
-		gbc_lblWinRate.insets = new Insets(0, 0, 5, 5);
-		gbc_lblWinRate.gridwidth = 2;
-		gbc_lblWinRate.gridx = 0;
-		gbc_lblWinRate.gridy = 9;
-		add(lblWinRate, gbc_lblWinRate);
+		lblWinRate.setBounds(52, 270, 52, 16);
+		add(lblWinRate);
 		
 		JLabel winRateDisplay = new JLabel(String.format ("%.1f%%", winRate));
-		GridBagConstraints gbc_winRateDisplay = new GridBagConstraints();
-		gbc_winRateDisplay.fill = GridBagConstraints.HORIZONTAL;
-		gbc_winRateDisplay.insets = new Insets(0, 0, 5, 0);
-		gbc_winRateDisplay.gridx = 2;
-		gbc_winRateDisplay.gridy = 9;
-		add(winRateDisplay, gbc_winRateDisplay);
+		winRateDisplay.setBounds(125, 270, 161, 16);
+		add(winRateDisplay);
 		
 		JButton backButton = new JButton("Back to Lobby");
-		GridBagConstraints gbc_backButton = new GridBagConstraints();
-		gbc_backButton.anchor = GridBagConstraints.NORTH;
-		gbc_backButton.fill = GridBagConstraints.HORIZONTAL;
-		gbc_backButton.gridwidth = 3;
-		gbc_backButton.gridx = 0;
-		gbc_backButton.gridy = 10;
-		add(backButton, gbc_backButton);
+		backButton.setBounds(128, 299, 252, 25);
+		add(backButton);
 		
 		updateButton.addActionListener(new ActionListener() {
 			@Override
@@ -200,6 +154,25 @@ public class ProfilePanel extends JPanel {
 				passwordField.setText("");
 			}
 		});
+		updateButton.addMouseListener(new MouseListener() {			
+			@Override
+			public void mouseReleased(MouseEvent arg0) {}		   
+			@Override
+			public void mousePressed(MouseEvent arg0) {}			
+			@Override
+			public void mouseExited(MouseEvent arg0) { 
+				updateButton.setIcon(imgIcon1);
+			}		   
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				updateButton.setIcon(imgIcon2);
+			}		   
+			@Override
+			public void mouseClicked(MouseEvent arg0) {}
+		});		
+		updateButton.setIcon(imgIcon1);
+		updateButton.setHorizontalTextPosition(SwingConstants.CENTER);
+		updateButton.setBorderPainted(false);
 		
 		backButton.addActionListener(new ActionListener() {
 			@Override
@@ -208,6 +181,26 @@ public class ProfilePanel extends JPanel {
 				swingUI.setInterface(Interface.LOBBY);
 			}
 		});
+		
+		backButton.addMouseListener(new MouseListener() {			
+			@Override
+			public void mouseReleased(MouseEvent arg0) {}		   
+			@Override
+			public void mousePressed(MouseEvent arg0) {}			
+			@Override
+			public void mouseExited(MouseEvent arg0) { 
+				backButton.setIcon(imgIcon1);
+			}		   
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				backButton.setIcon(imgIcon2);
+			}		   
+			@Override
+			public void mouseClicked(MouseEvent arg0) {}
+		});		
+		backButton.setIcon(imgIcon1);
+		backButton.setHorizontalTextPosition(SwingConstants.CENTER);
+		backButton.setBorderPainted(false);
 	}
 	
 	/**
@@ -223,5 +216,13 @@ public class ProfilePanel extends JPanel {
 	 */
 	public void setSwingUI(SwingUI swingUI) {
 		this.swingUI = swingUI;
+	}
+	
+	@Override
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+	
+		// Draw the background image.
+		g.drawImage(backgroundImage, 0, 0, this);
 	}
 }
