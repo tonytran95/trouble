@@ -53,6 +53,7 @@ public class SocketListener {
 		connections.remove(conn);
 		clients.remove(clientSocket);
 		lobby.leaveGameRoom(conn);
+		lobby.removeUser(conn);
 		gameEngine.removeConnection(conn);
 		clientSocket.close();
 	}
