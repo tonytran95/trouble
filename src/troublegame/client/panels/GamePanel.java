@@ -1,11 +1,15 @@
 package troublegame.client.panels;
 
 import java.awt.Color;
-import java.awt.event.MouseListener;
+import java.awt.Desktop.Action;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import javax.swing.JPanel;
+
+import troublegame.client.Interface;
 import troublegame.client.SwingUI;
 
 /**
@@ -35,24 +39,10 @@ public class GamePanel extends JPanel {
 	private GameChatPanel chatPanel;
 	
 	/**
-	 * The map of tokens <position, color>
-	 */
-	private Map<Integer, Color> tokenMap;
-	
-	/**
 	 * The map of players <username, color>
 	 */
 	private Map<String, String> players;
 	
-	/**
-	 * The user input
-	 */
-	private MouseListener userInput;
-	
-	/**
-	 * The game messages <index, message>.
-	 */
-	private Map<Integer, String> messages;
 	
 	/**
 	 * The constructor for the start panel.
@@ -63,10 +53,7 @@ public class GamePanel extends JPanel {
 		this.swingUI = swingUI;
 		this.boardPanel = new BoardPanel(swingUI);
 		this.chatPanel = new GameChatPanel(swingUI);
-		
-		this.tokenMap = new HashMap<Integer, Color>();
 		this.players = new HashMap<String, String>();
-		this.messages = new LinkedHashMap<Integer, String>();
 		
 		this.init();
 	}
@@ -79,7 +66,34 @@ public class GamePanel extends JPanel {
 		this.setLayout(null);
 		this.setFocusable(true);
 		this.requestFocusInWindow();
+		this.swingUI.setFocusable(true);
 		this.swingUI.requestFocusInWindow();
+
+		swingUI.addKeyListener(new KeyListener() {
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				switch (e.getKeyCode()) {
+				case KeyEvent.VK_ESCAPE:
+				case KeyEvent.VK_P:
+					swingUI.setInterface(Interface.PAUSE);
+					break;
+				default:
+					System.out.println("Unhandled key button in game panel: " + e.getKeyChar());
+					break;
+				}
+			}
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+			}
+
+		});
+		
 		
 		boardPanel.setBounds(0, 0, 576, 576);
 		chatPanel.setBounds(589, 301, 422, 262);

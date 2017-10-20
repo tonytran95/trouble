@@ -26,6 +26,7 @@ import troublegame.client.panels.GamePanel;
 import troublegame.client.panels.GameRoomPanel;
 import troublegame.client.panels.LobbyPanel;
 import troublegame.client.panels.LoginPanel;
+import troublegame.client.panels.PausePanel;
 import troublegame.client.panels.ProfilePanel;
 import troublegame.client.panels.RegisterPanel;
 import troublegame.client.panels.RulesPanel;
@@ -74,6 +75,11 @@ public class SwingUI extends JFrame {
 	private JPanel currentPanel;
 	
 	/**
+	 * The previous panel being displayed.
+	 */
+	private JPanel previousPanel;
+	
+	/**
 	 * The start panel.
 	 */
 	private StartPanel startPanel;
@@ -112,6 +118,11 @@ public class SwingUI extends JFrame {
 	 * The registration panel.
 	 */
 	private RegisterPanel registerPanel;
+	
+	/**
+	 * The pause panel.
+	 */
+	private PausePanel pausePanel;
 	
 	/**
 	 * The client state.
@@ -201,6 +212,7 @@ public class SwingUI extends JFrame {
 	 */
 	public void switchPanel(JPanel newPanel) {
 		this.setResizable(false);
+		this.previousPanel = currentPanel;
 		this.getContentPane().removeAll();
 		this.getContentPane().add(newPanel);
 		this.currentPanel = newPanel;
@@ -260,7 +272,7 @@ public class SwingUI extends JFrame {
 			case RULES:
 				if (rulesPanel == null)
 					rulesPanel = new RulesPanel(this);
-				resizeFrame(870, 680);
+				//resizeFrame(870, 680);
 				switchPanel(rulesPanel);
 				break;
 			case USER_PROFILE:
@@ -273,6 +285,11 @@ public class SwingUI extends JFrame {
 				if (registerPanel == null)
 					registerPanel = new RegisterPanel(this);
 				switchPanel(registerPanel);
+				break;
+			case PAUSE:
+				if (pausePanel == null)
+					pausePanel = new PausePanel(this);
+				switchPanel(pausePanel);
 				break;
 			default:
 				// do nothing
@@ -376,4 +393,12 @@ public class SwingUI extends JFrame {
 	public void setSoundEffect(boolean soundEffect) {
 		this.soundEffect = soundEffect;
 	}
+
+	/**
+	 * @return the previous panel.
+	 */
+	public JPanel getPreviousPanel() {
+		return previousPanel;
+	}
+
 }
