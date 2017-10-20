@@ -229,7 +229,7 @@ public class LoginPanel extends JPanel {
 
 		});
 		
-		JButton btnReturnToMain = new JButton("Return to main menu");
+		JButton btnReturnToMain = new JButton("Main Menu");
 		btnReturnToMain.setBounds(500, 275, 143, 23);
 		this.add(btnReturnToMain);
 		btnReturnToMain.addActionListener(new ActionListener() {
