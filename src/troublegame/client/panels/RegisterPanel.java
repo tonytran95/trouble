@@ -264,6 +264,11 @@ public class RegisterPanel extends JPanel {
 			nameField.setBackground(Color.RED);
 			return;
 		}
+		if (proposedName.contains(" ")) {
+			JOptionPane.showMessageDialog(null, "Display name and password cannot have space(s)!", "Please Try again", JOptionPane.ERROR_MESSAGE);
+			nameField.setBackground(Color.RED);
+			return;
+		}
 		emailField.setBackground(Color.WHITE);
 		if (!isValidEmailAddress(emailField.getText())) {
 			JOptionPane.showMessageDialog(null, "Enter a valid email!", "Please Try again", JOptionPane.ERROR_MESSAGE);
@@ -278,7 +283,18 @@ public class RegisterPanel extends JPanel {
 			confirmPasswordField.setBackground(Color.RED);
 			return;
 		}
+		if (passwordField.getPassword().length != confirmPasswordField.getPassword().length) {
+			JOptionPane.showMessageDialog(null, "Passwords do not match!", "Please Try again", JOptionPane.ERROR_MESSAGE);
+			passwordField.setBackground(Color.RED);
+			confirmPasswordField.setBackground(Color.RED);
+			return;
+		}
 		for (int i = 0; i < passwordField.getPassword().length; i++) {
+			if (passwordField.getPassword()[i] == ' ') {
+				JOptionPane.showMessageDialog(null, "Display name and password cannot have space(s)!", "Please Try again", JOptionPane.ERROR_MESSAGE);
+				passwordField.setBackground(Color.RED);
+				return;
+			}
 			if (passwordField.getPassword()[i] != confirmPasswordField.getPassword()[i]) {
 				JOptionPane.showMessageDialog(null, "Passwords do not match!", "Please Try again", JOptionPane.ERROR_MESSAGE);
 				passwordField.setBackground(Color.RED);
