@@ -329,6 +329,7 @@ public class LobbyPanel extends JPanel {
 		refreshButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				swingUI.playButtonSound();
 				refreshGameRooms();	
 			}
 		});

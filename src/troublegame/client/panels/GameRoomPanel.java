@@ -199,6 +199,12 @@ public class GameRoomPanel extends JPanel {
 		newMessage.setBounds(227, 512, 535, 22);
 		add(newMessage);
 		newMessage.setColumns(10);
+		newMessage.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				sendChatMessage(newMessage);
+			}
+		});
 		
 		JButton sendButton = new JButton("Send");
 		sendButton.setBounds(767, 511, 97, 25);
