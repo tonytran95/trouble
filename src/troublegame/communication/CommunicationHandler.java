@@ -18,6 +18,7 @@ public final class CommunicationHandler {
 	// Lobby 
 	public static final String LOBBY_CHAT = "[LOBBY_CHAT]";
 	public static final String LOBBY_ONLINE_LIST = "[LOBBY_ONLINE_LIST]";
+	public static final String LOBBY_ACTIVITY_FEED = "[LOBBY_ACTIVITY_FEED]";
 	
 	// Login constants
 	public static final String LOGIN_REQUEST = "[LOGIN]";
@@ -54,6 +55,7 @@ public final class CommunicationHandler {
 	public static final String GAME_ROLL_FAIL = "[GAME_ROLL_FAIL]";
 	public static final String GAME_EAT_TOKEN = "[GAME_EAT_TOKEN]";
 	public static final String GAME_CHAT= "[GAME_CHAT]";
+	public static final String GAME_OVER= "[GAME_OVER]";
 	
 	// user profile
 	public static final String UPDATE_DISPLAYNAME= "[UPDATE_DISPLAYNAME]";

@@ -182,8 +182,21 @@ public class GameEngine {
 						g.setTick(g.getTick() - 1);
 				}
 			} else {
+				
 				// if game is over
 				Player winner = g.getWinner();
+				
+				// grab the connections and message them
+				ArrayList<Connection> gameConnections = getConnections(g);
+				
+				for (Connection c: gameConnections) {
+					PrintWriter clientOutput = c.getOutputStream();
+					if (c.getUsername().equals(winner.getUsername())) {
+						clientOutput.println(CommunicationHandler.GAME_OVER+"Congratulations, you have won!");
+					} else {
+						clientOutput.println(CommunicationHandler.GAME_OVER+ winner.getUsername()+" has won the game!");
+					}
+				}
 				
 				// update user statistics
 				for (Player p: g.getHumanPlayers()) {
@@ -193,9 +206,13 @@ public class GameEngine {
 					} else {
 						u.finishedGame(false);
 					}
-				}
+				}		
 			}
 		}
+	}
+	
+	public ArrayList<Connection> getConnections(Game g) {
+		return gameConns.get(g);
 	}
 	
 	public void broadcast(Game g, String move) {

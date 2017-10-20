@@ -14,6 +14,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -76,6 +77,7 @@ public class LobbyPanel extends JPanel {
 
 	private JTextArea chatMessages;
 	private DefaultListModel<String> onlineUserlistModel;
+	private DefaultListModel<String> activityFeedModel;
 	
 	/**
 	 * Create the panel.
@@ -93,6 +95,7 @@ public class LobbyPanel extends JPanel {
 		
 		gameRoomModel = new DefaultListModel<String>();
 		onlineUserlistModel = new DefaultListModel<String>();
+		activityFeedModel = new DefaultListModel<String>();
 		
 		JList<String> gameList = new JList<String>(gameRoomModel);
 		gameList.setBounds(43, 67, 553, 196);
@@ -314,13 +317,14 @@ public class LobbyPanel extends JPanel {
 		sendChatButton.setHorizontalTextPosition(SwingConstants.CENTER);
 		sendChatButton.setBorderPainted(false);
 		
-		JTextArea activityTextArea = new JTextArea();
-		activityTextArea.setBounds(43, 318, 376, 222);
-		this.add(activityTextArea);
+		JList<String> activityFeed = new JList<String>(activityFeedModel);
+		activityFeed.setBounds(43, 318, 376, 222);
+		activityFeed.setEnabled(false);
+		this.add(activityFeed);
 		
 		JLabel lblActivity = new JLabel("Activity Feed");
 		lblActivity.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblActivity.setLabelFor(activityTextArea);
+		lblActivity.setLabelFor(activityFeed);
 		lblActivity.setBounds(43, 296, 106, 16);
 		this.add(lblActivity);
 		
@@ -408,14 +412,35 @@ public class LobbyPanel extends JPanel {
 		chatMessages.append(message+"\n");
 	}
 	
+	public void addActivityFeed(String feed) {
+		activityFeedModel.addElement(feed);
+	}
+	
+	public void clearActivityFeed() {
+		activityFeedModel.clear();
+	}
 	/**
 	 * Updates the online list
 	 * @param array of strings containing usernames
 	 */
-	public void updateOnlineList(String[] users) {
-		onlineUserlistModel.clear();
+	public void updateOnlineList(List<String> users) {
+		// first we look for the different users logged in or out
+		String myUsername = swingUI.getUser().getUsername();
+		
 		for (String user: users) {
-			
+			if (!onlineUserlistModel.contains(user) && !myUsername.equals(user) && !onlineUserlistModel.isEmpty()) {
+				addActivityFeed(user+ " has logged in.");
+			}
+		}
+		
+		while (!onlineUserlistModel.isEmpty()) {
+			String user = onlineUserlistModel.remove(0);
+			if (!users.contains(user)) {
+				addActivityFeed(user+" has logged out.");
+			}
+		}
+
+		for (String user: users) {		
 			onlineUserlistModel.addElement(user);
 		}
 	}

@@ -151,13 +151,15 @@ public class SocketListener {
 										} else if(input.startsWith(CommunicationHandler.GAME_ROOM_LEAVE)) {
 											lobby.leaveGameRoom(conn);
 										} else if (input.equals(CommunicationHandler.LOGOUT_REQUEST)) {
-											conn.getOutputStream().println(CommunicationHandler.LOGOUT_SUCCESS);
+											conn.getOutputStream().println(CommunicationHandler.LOGOUT_SUCCESS);				
 											disconnect(conn, clientSocket);
+											lobby.broadcastOnlineList();
 										} else if (input.startsWith(CommunicationHandler.GAME_START)) {
 											String gameRoomName = input.substring(CommunicationHandler.GAME_START.length() + 1);
 											GameRoom g= lobby.getGameRoomByName(gameRoomName);
 											if (g.isOwner(conn)) {
 												gameEngine.createGame(lobby.getGameRoomByName(gameRoomName).getMembers());
+												lobby.broadcastActivity(conn.getUsername()+ " has started his game.");
 											} else {
 												conn.getOutputStream().println(CommunicationHandler.GAME_START_FAIL);
 											}

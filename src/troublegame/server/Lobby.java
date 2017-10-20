@@ -28,6 +28,7 @@ public class Lobby {
 	public void addUser(Connection user) {
 		users.add(user);
 	}
+	
 	public void removeUser(Connection user) {
 		users.remove(user);
 	}
@@ -40,6 +41,12 @@ public class Lobby {
 		
 		for (Connection conn: users) {
 			conn.getOutputStream().println(CommunicationHandler.LOBBY_ONLINE_LIST + onlineList);
+		}
+	}
+	
+	public void broadcastActivity(String activity) {		
+		for (Connection conn: users) {
+			conn.getOutputStream().println(CommunicationHandler.LOBBY_ACTIVITY_FEED + activity);
 		}
 	}
 	

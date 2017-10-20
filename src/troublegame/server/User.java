@@ -201,6 +201,7 @@ public class User implements Serializable {
 	public void finishedGame(boolean won) {
 		if (won) this.gamesWon++;
 		this.gamesPlayed++;
+		UserManager.saveExistingUser(this);
 	}
 	
 	/**

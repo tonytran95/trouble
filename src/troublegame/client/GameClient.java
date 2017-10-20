@@ -100,6 +100,7 @@ public class GameClient {
 		    			LobbyPanel lobbyPanel = (LobbyPanel) ui.getCurrentPanel();
 		    			if (input.startsWith(CommunicationHandler.GAME_ROOM_OPEN)) {
 		    				lobbyPanel.addGameRoom(lobbySplit[1]);
+		    				lobbyPanel.addActivityFeed("[Server] A game has been created");
 		    			} else if (input.startsWith(CommunicationHandler.GAME_ROOM_NEW)) {
 		    				ui.setInterface(Interface.PARTY);
 		    				// query for game room name
@@ -131,6 +132,8 @@ public class GameClient {
 					    			lobbyPanel.addGameRoom(room);
 					    		}
 				    		}
+				    	} else if (input.startsWith(CommunicationHandler.LOBBY_ACTIVITY_FEED)) {
+				    		ui.addActivityFeed(input.substring(CommunicationHandler.LOBBY_ACTIVITY_FEED.length() + 1));
 				    	}
 		    			break;
 		    		case IN_GAME:
@@ -207,6 +210,10 @@ public class GameClient {
 		    			} else if (input.startsWith(CommunicationHandler.GAME_CHAT)) {
 		    				String message = input.substring(CommunicationHandler.GAME_CHAT.length() + 1);
 		    				chatPanel.sendMessageToChatBox(message);
+		    			} else if (input.startsWith(CommunicationHandler.GAME_OVER)) {
+		    				ui.setInterface(Interface.LOBBY);
+		    				String message = input.substring(CommunicationHandler.GAME_OVER.length() + 1);
+		    				ui.addActivityFeed(message);
 		    			}
 		    			break;
 		    		case PARTY:
