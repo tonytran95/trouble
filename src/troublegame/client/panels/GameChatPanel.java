@@ -163,7 +163,7 @@ public class GameChatPanel extends JPanel {
 				sendMessageToServer(newMessage.getText().trim());
 			}
 		});
-		sendButton.setBounds(302, 236, 60, 20);
+		sendButton.setBounds(302, 236, 65, 20);
 		
 		// Character counter
 		charCountLabel.setBounds(370, 236, 48, 20);
