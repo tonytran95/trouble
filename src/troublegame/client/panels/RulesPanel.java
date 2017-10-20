@@ -52,7 +52,7 @@ public class RulesPanel extends JPanel {
 	 * Initializes the rules panel.
 	 */
 	public void init() {
-		JButton exit = new JButton("Return to menu");
+		JButton exit = new JButton("Return");
 		exit.setFont(new Font("Arial", Font.PLAIN, 15));
 		this.setFocusable(true);
 		this.requestFocusInWindow();
@@ -71,7 +71,7 @@ public class RulesPanel extends JPanel {
 			public void actionPerformed(ActionEvent event) {
 				swingUI.playButtonSound();
 				swingUI.resizeFrame();
-				swingUI.setInterface(Interface.START);
+				swingUI.switchPanel(swingUI.getPreviousPanel());
 			}
 		});
 		this.add(exit);

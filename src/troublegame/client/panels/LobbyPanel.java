@@ -50,7 +50,11 @@ public class LobbyPanel extends JPanel {
 	 */
 	private DefaultListModel<String> gameRoomModel;
 	
+	/**
+	 * The background image.
+	 */
 	private Image backgroundImage;
+	
 	/**
 	 * The constructor for the Lobby panel.
 	 * @param swingUI is the swing user interface.
@@ -64,7 +68,6 @@ public class LobbyPanel extends JPanel {
 		try {
 			backgroundImage = ImageIO.read(new File("./data/img/background2.jpg"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

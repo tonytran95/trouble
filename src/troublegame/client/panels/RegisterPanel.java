@@ -115,7 +115,6 @@ public class RegisterPanel extends JPanel {
 		this.add(confirmPasswordField);
 		
 		rdbtnRed.setBounds(320, 317, 109, 23);
-		rdbtnRed.setBackground(Color.DARK_GRAY);
 		rdbtnRed.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
@@ -128,7 +127,6 @@ public class RegisterPanel extends JPanel {
 		this.add(rdbtnRed);
 		
 		rdbtnBlue.setBounds(320, 343, 109, 23);
-		rdbtnBlue.setBackground(Color.DARK_GRAY);
 		rdbtnBlue.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
@@ -141,7 +139,6 @@ public class RegisterPanel extends JPanel {
 		this.add(rdbtnBlue);
 		
 		rdbtnGreen.setBounds(320, 369, 109, 23);
-		rdbtnGreen.setBackground(Color.DARK_GRAY);
 		rdbtnGreen.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
@@ -154,7 +151,6 @@ public class RegisterPanel extends JPanel {
 		this.add(rdbtnGreen);
 		
 		rdbtnYellow.setBounds(320, 395, 109, 23);
-		rdbtnYellow.setBackground(Color.DARK_GRAY);
 		rdbtnYellow.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
