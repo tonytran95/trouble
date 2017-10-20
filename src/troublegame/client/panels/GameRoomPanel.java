@@ -32,8 +32,7 @@ import troublegame.client.SwingUI;
 import troublegame.communication.CommunicationHandler;
 
 public class GameRoomPanel extends JPanel {
-	private JTextField textField;
-
+	
 	private static final long serialVersionUID = 3282499101326401010L;
 
 	/**

@@ -1,11 +1,8 @@
 package troublegame.client.panels;
 
-import java.awt.Color;
-import java.awt.Desktop.Action;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import javax.swing.JPanel;
 
