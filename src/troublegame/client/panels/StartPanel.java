@@ -7,7 +7,6 @@ import troublegame.client.Interface;
 import troublegame.client.SwingUI;
 
 import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.Font;
@@ -20,7 +19,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
-import javax.swing.JLabel;
 
 public class StartPanel extends JPanel {
 

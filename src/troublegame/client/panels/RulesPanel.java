@@ -12,7 +12,6 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-import troublegame.client.Interface;
 import troublegame.client.SwingUI;
 
 /**
