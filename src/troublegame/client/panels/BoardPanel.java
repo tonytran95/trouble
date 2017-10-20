@@ -277,18 +277,22 @@ public class BoardPanel extends JPanel {
 	
 	public void paintTokens(Graphics2D artist, ArrayList<Slot> tokens) {
 		for (Slot slot : tokens) {
-			if (swingUI.getUser().isSelectedSlot(slot)) {
-				artist.setColor(slot.getColor());
-			} else {
-				if (slot.getColor() == Color.RED) {
-					artist.setColor(Color.RED);
-				} else if (slot.getColor() == Color.GREEN) {
-					artist.setColor(Color.GREEN);
-				} else if (slot.getColor() == Color.YELLOW) {
-					artist.setColor(Color.YELLOW);
+			if (swingUI.getUser().getColor() == slot.getColor()) {
+				if (swingUI.getUser().isSelectedSlot(slot)) {
+					artist.setColor(slot.getColor());
 				} else {
-					artist.setColor(Color.BLUE);
+					if (slot.getColor() == Color.RED) {
+						artist.setColor(TRANSPARENT_RED);
+					} else if (slot.getColor() == Color.GREEN) {
+						artist.setColor(TRANSPARENT_GREEN);
+					} else if (slot.getColor() == Color.YELLOW) {
+						artist.setColor(TRANSPARENT_YELLOW);
+					} else {
+						artist.setColor(TRANSPARENT_BLUE);
+					}
 				}
+			} else {
+				artist.setColor(slot.getColor());
 			}
 			
 			Ellipse2D tmp = (Ellipse2D) slot.getShape();
@@ -308,25 +312,25 @@ public class BoardPanel extends JPanel {
 		switch (color) {
 			case "red":
 				token = board.getRedTokens().get(tokenID);
-				paintColor = TRANSPARENT_RED;
+				paintColor = Color.RED;
 				homeZone = board.getRedHomeZone();
 				endZone = board.getRedEndZone();
 				break;
 			case "green":
 				token = board.getGreenTokens().get(tokenID);
-				paintColor = TRANSPARENT_GREEN;
+				paintColor = Color.GREEN;
 				homeZone = board.getGreenHomeZone();
 				endZone = board.getGreenEndZone();
 				break;
 			case "yellow":
 				token = board.getYellowTokens().get(tokenID);
-				paintColor = TRANSPARENT_YELLOW;
+				paintColor = Color.YELLOW;
 				homeZone = board.getYellowHomeZone();
 				endZone = board.getYellowEndZone();
 				break;
 			case "blue":
 				token = board.getBlueTokens().get(tokenID);
-				paintColor = TRANSPARENT_BLUE;
+				paintColor = Color.BLUE;
 				homeZone = board.getBlueHomeZone();
 				endZone = board.getBlueEndZone();
 				break;

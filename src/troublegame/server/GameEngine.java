@@ -29,29 +29,6 @@ public class GameEngine {
 		allPlayersConnected = false;
 	}
 	
-	/*public void testGame() {
-		g.join("test1", Color.BLUE, true);
-		g.join("test2", Color.YELLOW, true);
-		g.join("test3", Color.GREEN, true);
-		g.start();
-		g.showPlayers();
-		
-		for (Connection c : gameConn) {
-			c.getOutputStream().println("START_GAME");
-		}
-		updateMessages();
-	}*/
-	
-	/*public void testGame2() {
-		g.start();
-		g.showPlayers();
-		
-		for (Connection c : gameConn) {
-			c.getOutputStream().println("START_GAME");
-		}
-		updateMessages();
-	}*/
-	
 	public void removeConnection(Connection conn) {
 		for (Entry<Game, ArrayList<Connection>> c : gameConns.entrySet()) {
 			Game g = c.getKey();
