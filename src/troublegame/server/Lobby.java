@@ -28,6 +28,9 @@ public class Lobby {
 	public void addUser(Connection user) {
 		users.add(user);
 	}
+	public void removeUser(Connection user) {
+		users.remove(user);
+	}
 	
 	public void broadcastOnlineList() {
 		String onlineList = "";
