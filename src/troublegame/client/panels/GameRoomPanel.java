@@ -345,6 +345,7 @@ public class GameRoomPanel extends JPanel {
 	}
 	
 	public void displayFriendList(String[] friends) {
+		friendsModel.clear();
 		for (String friend: friends) {
 			friendsModel.addElement(friend);
 		}
