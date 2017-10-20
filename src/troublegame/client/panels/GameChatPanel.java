@@ -159,6 +159,7 @@ public class GameChatPanel extends JPanel {
 		sendButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				swingUI.playButtonSound();
 				sendMessageToServer(newMessage.getText().trim());
 			}
 		});

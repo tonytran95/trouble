@@ -19,6 +19,11 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JPanel;
 
 import troublegame.client.SwingUI;
@@ -113,6 +118,24 @@ public class BoardPanel extends JPanel {
 		generateTokens();
 	}
 	
+	/**
+	 * Plays the rolling die sound when this method is called.
+	 */
+	public void playDieSound() {
+		if (!swingUI.isSoundEffect())
+			return;
+		String soundName = "./data/sound/roll.wav";
+		try {
+			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
+			Clip clip;
+			clip = AudioSystem.getClip();
+			clip.open(audioInputStream);
+			clip.start();
+		} catch (LineUnavailableException | IOException | UnsupportedAudioFileException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public Map<String, String> getPlayers() {
 		return players;
 	}
@@ -131,7 +154,7 @@ public class BoardPanel extends JPanel {
 				repaint();
 			}
 		};
-		
+		this.playDieSound();
 		new Timer().schedule(showTimer, 1500);
 		die = rollingDie;
 		repaint();

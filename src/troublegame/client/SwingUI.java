@@ -5,9 +5,15 @@ import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -128,6 +134,11 @@ public class SwingUI extends JFrame {
 	private User user;
 	
 	/**
+	 * The sound effect boolean.
+	 */
+	private boolean soundEffect;
+	
+	/**
 	 * The constructor for the swing user interface.
 	 */
 	public SwingUI(GameClient client, BufferedReader in, PrintWriter out) {
@@ -138,7 +149,7 @@ public class SwingUI extends JFrame {
 		this.currentPanel = startPanel;
 		this.resizeFrame();
 		this.setLocationRelativeTo(null);
-		
+		this.soundEffect = true;
 		JPopupMenu.setDefaultLightWeightPopupEnabled(false);
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -327,10 +338,42 @@ public class SwingUI extends JFrame {
 	}
 	
 	/**
+	 * Plays the button click sound when this method is called
+	 */
+	public void playButtonSound() {
+		if (!this.isSoundEffect())
+			return;
+		String soundName = "./data/sound/button.wav";
+		try {
+			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
+			Clip clip;
+			clip = AudioSystem.getClip();
+			clip.open(audioInputStream);
+			clip.start();
+		} catch (LineUnavailableException | IOException | UnsupportedAudioFileException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
 	 * Handles Lobby online list
 	 */
 	public void updateOnlineList(String onlineUsers) {
 		String[] users = onlineUsers.split(" ");
 		this.lobbyPanel.updateOnlineList(users);
+	}
+
+	/**
+	 * @return the soundEffect
+	 */
+	public boolean isSoundEffect() {
+		return soundEffect;
+	}
+
+	/**
+	 * @param soundEffect the sound effect to set
+	 */
+	public void setSoundEffect(boolean soundEffect) {
+		this.soundEffect = soundEffect;
 	}
 }

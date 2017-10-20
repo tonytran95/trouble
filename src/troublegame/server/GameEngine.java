@@ -146,7 +146,6 @@ public class GameEngine {
 				checkPlayerConnections(g);	
 				return;
 			}
-			
 			if (!g.isOver()) {
 				Player curr = g.getWhoseTurn();
 				if (!(curr instanceof AI)) {
@@ -161,22 +160,26 @@ public class GameEngine {
 							String[] input = in.split(" ");
 							int tokenID = Integer.parseInt(input[1]);
 							System.out.println(CommunicationHandler.GAME_INFO + " Rolling Token ID: " + tokenID);
-							
 							g.rollDie();
+							g.setTick(2);
 							broadcast(g, g.movePlayerToken(playerID, tokenID));
 						}
 					}
 				} else {
-					AI ai = (AI) curr;
-					String move = ai.getMove(g.getBoard());
-					System.out.println("AI's MOVE: " + move);
-					
-					if (move.startsWith(CommunicationHandler.GAME_ROLL)) {
-						String input[] = move.split(" ");
-						int tokenID = Integer.parseInt(input[1]);
-						g.rollDie();
-						broadcast(g, g.movePlayerToken(ai.getID(), tokenID));
-					}
+					if (g.getTick() == 0) {
+						AI ai = (AI) curr;
+						String move = ai.getMove(g.getBoard());
+						System.out.println("AI's MOVE: " + move);
+						
+						g.setTick(2);
+						if (move.startsWith(CommunicationHandler.GAME_ROLL)) {
+							String input[] = move.split(" ");
+							int tokenID = Integer.parseInt(input[1]);
+							g.rollDie();
+							broadcast(g, g.movePlayerToken(ai.getID(), tokenID));
+						}
+					} else
+						g.setTick(g.getTick() - 1);
 				}
 			} else {
 				// if game is over

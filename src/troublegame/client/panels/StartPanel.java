@@ -63,18 +63,21 @@ public class StartPanel extends JPanel {
 		login.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				swingUI.playButtonSound();
 				swingUI.setInterface(Interface.LOGIN);
 			}
 		});
 		rules.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				swingUI.playButtonSound();
 				swingUI.setInterface(Interface.RULES);
 			}
 		});
 		exit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				swingUI.playButtonSound();
 				System.exit(0);
 			}
 		});

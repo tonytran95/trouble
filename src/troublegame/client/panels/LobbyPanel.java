@@ -102,6 +102,7 @@ public class LobbyPanel extends JPanel {
 		createButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				swingUI.playButtonSound();
 				swingUI.send(CommunicationHandler.GAME_ROOM_NEW);
 			}
 		});
@@ -132,6 +133,7 @@ public class LobbyPanel extends JPanel {
 		joinButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				swingUI.playButtonSound();
 				swingUI.send(CommunicationHandler.GAME_ROOM_JOIN + " " + gameList.getSelectedValue());
 			}
 		});
@@ -168,6 +170,7 @@ public class LobbyPanel extends JPanel {
 		profileButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				swingUI.playButtonSound();
 				swingUI.setInterface(Interface.USER_PROFILE);
 			}
 		});
@@ -198,6 +201,7 @@ public class LobbyPanel extends JPanel {
 		logoutButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				swingUI.playButtonSound();
 				int confirmed = JOptionPane.showConfirmDialog(null, 
 						"Are you sure you want to exit the game?", "Exit Trouble Message",
 						JOptionPane.YES_NO_OPTION);
@@ -272,10 +276,18 @@ public class LobbyPanel extends JPanel {
 		JButton sendChatButton = new JButton("Send");
 		sendChatButton.setBounds(827, 516, 97, 25);
 		this.add(sendChatButton);
+
+		newMessage.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				sendChatMessage(newMessage);	
+			}
+		});
 		
 		sendChatButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				swingUI.playButtonSound();
 				sendChatMessage(newMessage);	
 			}
 		});

@@ -153,12 +153,14 @@ public class LoginPanel extends JPanel {
 		btnRegister.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
+				swingUI.playButtonSound();
 				swingUI.setInterface(Interface.SIGN_UP);
 			}
 		});		
 		btnLogin.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
+				swingUI.playButtonSound();
 				if(passwordField.getPassword().length == 0 || emailField.getText().length() == 0) {
 					JOptionPane.showMessageDialog(null, "Email and password cannot be blank");
 					return;
@@ -173,6 +175,7 @@ public class LoginPanel extends JPanel {
 		btnPlayAsGuest.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				swingUI.playButtonSound();
 				swingUI.send(CommunicationHandler.LOGIN_GUEST);
 			}
 		});
@@ -232,6 +235,7 @@ public class LoginPanel extends JPanel {
 		btnReturnToMain.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
+				swingUI.playButtonSound();
 				swingUI.setInterface(Interface.START);
 			}
 		});

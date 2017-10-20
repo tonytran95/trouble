@@ -22,9 +22,10 @@ public class Game {
 	private boolean started;
 	private Map<Color, String> humans;
 	private Map<Color, String> computers;
-	
+	private int tick;
 	
 	public Game(GameEngine engine) {
+		this.tick = 0;
 		this.engine = engine;
 		humans = new HashMap<Color, String>();
 		computers = new HashMap<Color, String>();
@@ -355,6 +356,14 @@ public class Game {
 	
 	public void incrementTurn() {
 		turnNum++;
+	}
+
+	public int getTick() {
+		return tick;
+	}
+
+	public void setTick(int tick) {
+		this.tick = tick;
 	}
 	
 }

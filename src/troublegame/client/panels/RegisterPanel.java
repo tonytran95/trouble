@@ -194,6 +194,7 @@ public class RegisterPanel extends JPanel {
 		btnSignUp.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
+				swingUI.playButtonSound();
 				sendSignUp();
 			}
 		});
@@ -225,6 +226,7 @@ public class RegisterPanel extends JPanel {
 		btnCancel.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
+				swingUI.playButtonSound();
 				swingUI.setInterface(Interface.LOGIN);
 			}
 		});

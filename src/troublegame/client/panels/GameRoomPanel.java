@@ -124,6 +124,7 @@ public class GameRoomPanel extends JPanel {
 		startButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				swingUI.playButtonSound();
 				swingUI.send(CommunicationHandler.GAME_START + " " + name);
 			}
 		});
@@ -155,6 +156,7 @@ public class GameRoomPanel extends JPanel {
 		leaveButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				swingUI.playButtonSound();
 				swingUI.send(CommunicationHandler.GAME_ROOM_LEAVE);
 			}
 		});
@@ -204,6 +206,7 @@ public class GameRoomPanel extends JPanel {
 		sendButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				swingUI.playButtonSound();
 				sendChatMessage(newMessage);
 			}
 		});

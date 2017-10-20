@@ -13,7 +13,7 @@ import troublegame.communication.CommunicationHandler;
  */
 public class GameServer {
 	
-	private static final int TIME_PERIOD = 500;
+	private static final int TIME_PERIOD = 1000;
 	
 	/**
 	 * The port.

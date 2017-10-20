@@ -69,6 +69,7 @@ public class RulesPanel extends JPanel {
 		exit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
+				swingUI.playButtonSound();
 				swingUI.resizeFrame();
 				swingUI.setInterface(Interface.START);
 			}

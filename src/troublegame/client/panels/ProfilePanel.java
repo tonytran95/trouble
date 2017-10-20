@@ -186,7 +186,8 @@ public class ProfilePanel extends JPanel {
 			public void actionPerformed(ActionEvent event) {
 				String username = usernameTextField.getText();
 				String password = String.valueOf(passwordField.getPassword());
-				
+
+				swingUI.playButtonSound();
 				if (username.contains(" ") || password.contains(" ")) {
 					JOptionPane.showMessageDialog(null, "Space is not allowed in Display name or Password");
 					return;
@@ -203,6 +204,7 @@ public class ProfilePanel extends JPanel {
 		backButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
+				swingUI.playButtonSound();
 				swingUI.setInterface(Interface.LOBBY);
 			}
 		});
