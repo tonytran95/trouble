@@ -87,7 +87,7 @@ public class UserManagerTest {
 		bobby.addFriend(asdf);
 		bobby.addFriend(bobby);
 		bobby.updateEmail("itsAPiratesLifeForMe@gmail.com");
-		bobby.updateUsername("Jack Sparrow");
+		bobby.updateUsername("Jack-Sparrow");
 		
 	}
 	

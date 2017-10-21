@@ -30,6 +30,7 @@ import javax.swing.text.DefaultCaret;
 
 import troublegame.client.SwingUI;
 import troublegame.communication.CommunicationHandler;
+import troublegame.server.Die;
 
 public class GameRoomPanel extends JPanel {
 	
@@ -67,7 +68,6 @@ public class GameRoomPanel extends JPanel {
 		try {
 			backgroundImage = ImageIO.read(new File("./data/img/background2.jpg"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		this.init();
@@ -77,6 +77,7 @@ public class GameRoomPanel extends JPanel {
 	 * Create the panel.
 	 */
 	public void init() {
+		
 		setLayout(null);
 		
 		Image image1 = Toolkit.getDefaultToolkit().getImage("./data/img/button_1x.png");
@@ -127,7 +128,7 @@ public class GameRoomPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				swingUI.playButtonSound();
-				swingUI.send(CommunicationHandler.GAME_START + " " + name);
+				swingUI.send(CommunicationHandler.GAME_START + " " + name + " " + new Die().rollDie());
 			}
 		});
 		

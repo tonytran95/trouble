@@ -23,7 +23,7 @@ public class GameColorTesting {
 		conns.add(t1);
 		conns.add(a);
 		
-		ge.createGame(conns);
+		ge.createGame(conns, 5);
 		
 	}
 

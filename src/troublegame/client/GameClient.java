@@ -234,8 +234,11 @@ public class GameClient {
 		    				gameRoomPanel.addUser(inputSplit[1]);
 		    			} else if (input.startsWith(CommunicationHandler.GAME_ROOM_JOIN)) {
 		    				gameRoomPanel.addUser(inputSplit[1]);
-		    			} else if (input.equals(CommunicationHandler.GAME_SETUP)) {
+		    			} else if (input.startsWith(CommunicationHandler.GAME_SETUP)) {
 		    				ui.setInterface(Interface.IN_GAME);
+		    				BoardPanel board = ((GamePanel) ui.getCurrentPanel()).getBoardPanel();
+		    				String[] setupArgs = input.split(" ");
+		    				board.setDie(Integer.valueOf(setupArgs[1]));
 		    			} else if (input.startsWith(CommunicationHandler.GAME_ROOM_INFO)) {
 		    				String name = input.substring(16);
 		    				name = name.trim();
