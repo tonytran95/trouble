@@ -329,6 +329,7 @@ public class ProfilePanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				swingUI.playButtonSound();
 				swingUI.send(CommunicationHandler.UNFRIEND + friendlist.getSelectedValue());
+				unfriendButton.setVisible(false);
 			}
 		});
 		unfriendButton.addMouseListener(new MouseListener() {			
