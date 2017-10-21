@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -103,8 +102,6 @@ public class BoardPanel extends JPanel {
 		
 		this.rollingDie = Toolkit.getDefaultToolkit().createImage("data/img/die.gif");
 		
-		// TODO Request this number for all users so that the initial die roll is the same for everyone
-		this.die = dieNumbers[new Random().nextInt(6)];
 		this.swingUI = mainFrame;
 		this.board = new Board();
 		this.dieHolder = new Ellipse2D.Double(232, 232, 113, 113);
@@ -141,6 +138,14 @@ public class BoardPanel extends JPanel {
 	}
 	
 	/**
+	 * Set the value shown on the die to the given number
+	 * @param num Number to show on the die
+	 */
+	public void setDie(int num) {
+		die = dieNumbers[num - 1];
+	}
+	
+	/**
 	 * Shows the number rolled on the die on the board
 	 * @param rolled The number that the player rolled
 	 */
@@ -150,7 +155,7 @@ public class BoardPanel extends JPanel {
 			
 			@Override
 			public void run() {
-				die = dieNumbers[rolled - 1];
+				setDie(rolled);
 				repaint();
 			}
 		};

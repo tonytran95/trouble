@@ -41,7 +41,7 @@ public class GameEngine {
 		}
 	}
 	
-	public void createGame(ArrayList<Connection> players) {
+	public void createGame(ArrayList<Connection> players, int startingNum) {
 		Game g = new Game(this);
 		gameConns.put(g, players);
 		inputQueues.put(g, new LinkedList<String>());
@@ -61,40 +61,18 @@ public class GameEngine {
 		}
 		
 		games.add(g);
-		startGame(g);
+		startGame(g, startingNum);
 	}
 	
-	public void startGame(Game g) {
+	public void startGame(Game g, int startingNum) {
+		
 		for (Connection c : gameConns.get(g))
-			c.getOutputStream().println(CommunicationHandler.GAME_SETUP);
+			c.getOutputStream().println(CommunicationHandler.GAME_SETUP + " " + startingNum);
 		g.start();
 		g.showPlayers();
 		for (Connection c : gameConns.get(g))
 			c.getOutputStream().println(CommunicationHandler.GAME_START);
 		updateTurns(g);
-	}
-
-	public void add(Game g, Connection c) {
-		ArrayList<Connection> gameConn = gameConns.get(g);
-		gameConn.add(c);
-		switch (gameConn.size()) {
-			case 1:
-				g.join(c.getUsername(), Color.RED, false);
-				break;
-			case 2:
-				g.join(c.getUsername(), Color.BLUE, false);
-				break;
-			case 3:
-				g.join(c.getUsername(), Color.YELLOW, false);
-				break;
-			case 4:
-				g.join(c.getUsername(), Color.GREEN, false);
-				break;
-			default:
-		}
-		if (gameConn.size() == 4) {
-			startGame(g);
-		}
 	}
 	
 	/**

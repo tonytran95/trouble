@@ -160,10 +160,11 @@ public class SocketListener {
 											disconnect(conn, clientSocket);
 											lobby.broadcastOnlineList();
 										} else if (input.startsWith(CommunicationHandler.GAME_START)) {
-											String gameRoomName = input.substring(CommunicationHandler.GAME_START.length() + 1);
-											GameRoom g= lobby.getGameRoomByName(gameRoomName);
+											String gameRoomName = input.substring(CommunicationHandler.GAME_START.length() + 1, input.length() - 2);
+											int startNum = Integer.parseInt(input.substring(input.length() - 1));
+											GameRoom g = lobby.getGameRoomByName(gameRoomName);
 											if (g.isOwner(conn)) {
-												gameEngine.createGame(lobby.getGameRoomByName(gameRoomName).getMembers());
+												gameEngine.createGame(lobby.getGameRoomByName(gameRoomName).getMembers(), startNum);
 												lobby.broadcastActivity(conn.getUsername()+ " has started his game.");
 												for (Connection u : connections)
 													u.getOutputStream().println(CommunicationHandler.GAME_ROOM_CLOSE + " " + gameRoomName);

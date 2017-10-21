@@ -85,17 +85,6 @@ public class Game {
 		humans.put(color, username);
 	}
 	
-
-	// TODO Randomise assignment order to mix up order of play within the game
-	// TODO Assign actual requested colours to players instead of random colours
-	// game so turn play does not always go all humanss followed by all AI's
-	/**
-	 * Creates players for AI and humans users who want to play a game
-	 */
-	public void create() {
-
-	}
-	
 	/**
 	 * Sets every variable to null.
 	 */
@@ -118,13 +107,11 @@ public class Game {
 		return tmp;
 	}
 	
-	// TODO Is this player class or AI class?
 	/**
 	 * Creates a new AI
 	 * @return The newly created AI
 	 */
 	public AI createAIPlayer(int id, Color c, String username) {
-		
 		AI tmp = new AI(id, username, c);
 		return tmp;
 	}
