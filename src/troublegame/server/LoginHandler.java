@@ -46,10 +46,12 @@ public class LoginHandler {
 	 * @return true if the player is not already logged in.
 	 */
 	public void login(Connection connection) {
-		if (connection == null)
+		if (connection == null) {
 			System.out.println("An error has occured in login handler.");
+			return;
+		}
 		for (Connection other : gameServer.getSocketListener().getConnections()) {
-			if (connection != other && connection.getUser().getEmail().equals(other.getUser().getEmail())) {
+			if (other.getUser() != null && connection != other && connection.getUser().getEmail().equals(other.getUser().getEmail())) {
 				connection.getOutputStream().println(CommunicationHandler.LOGIN_ERROR + " The user you have entered is already connected!");
 				return;
 			}
