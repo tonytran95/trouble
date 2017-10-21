@@ -85,8 +85,10 @@ public class GameServer {
 		lobby.addUser(user);
 	}
 	
-	/*
-	 * finds which game room the user is in and returns the name of the game room
+	/**
+	 * Finds which game room the user is in and returns the name of the game room
+	 * @param user User to find
+	 * @return Game room the user is in
 	 */
 	public GameRoom getGameRoomName(Connection user) {
 		ArrayList<GameRoom> gameRooms = lobby.getGameRooms();

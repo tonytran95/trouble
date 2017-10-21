@@ -49,29 +49,18 @@ public class GameEngine {
 		gameConns.put(g, players);
 		inputQueues.put(g, new LinkedList<String>());
 		
-		ArrayList<Connection> t = sortByColorPref(players);
+		ArrayList<Connection> sortedPlayerColors = sortByColorPref(players);
 		
-		for(Connection c : t) {
-			System.out.println(c.getUser().getFavouriteColor());
-//			User curr = c.getUser();
-//			Color prefColor = curr.getFavouriteColor();
-//			g.ass
+		for(Connection c : sortedPlayerColors) {
+			
+			User curr = c.getUser();
+			Color prefColor = curr.getFavouriteColor();
+			g.join(curr.getUsername(), g.assignPlayerColour(prefColor), false);
 			
 		}
 		
-		
-		int count = 0;
-		for (int i = 0; i < players.size(); i++) {
-			if (i == 0) g.join(players.get(i).getUsername(), Color.RED, false);
-			if (i == 1) g.join(players.get(i).getUsername(), Color.BLUE, false);
-			if (i == 2) g.join(players.get(i).getUsername(), Color.YELLOW, false);
-			if (i == 3) g.join(players.get(i).getUsername(), Color.GREEN, false);
-			count++;
-		}
-		for (int i = 0; i < (4 - count); i++) {
-			if (i == 0) g.join(getAiNames(), Color.RANDOM, true);
-			if (i == 1) g.join(getAiNames(), Color.RANDOM, true);
-			if (i == 2) g.join(getAiNames(), Color.RANDOM, true);
+		for(int i = 0; i < (4 - players.size()); i++) {
+			g.join(getRandomAiName(), g.assignPlayerColour(Color.RANDOM), true);
 		}
 		
 		games.add(g);
@@ -111,6 +100,12 @@ public class GameEngine {
 		}
 	}
 	
+	/**
+	 * Sorts the list of player connections to put those with a color preference first and a random color last
+	 * so that colors can be distributed as fairly as possible to player preferences
+	 * @param connections List of player connections to the server
+	 * @return The sorted list of player connections
+	 */
 	public ArrayList<Connection> sortByColorPref(ArrayList<Connection> connections) {
 		
 		Collections.sort(connections, new Comparator<Connection>() {
@@ -118,11 +113,12 @@ public class GameEngine {
 			@Override
 			public int compare(Connection o1, Connection o2) {
 				
-				//negative first, actual colors
-				//pos last, random
 				if(o1.getUser().getFavouriteColor().equals(Color.RANDOM) && o2.getUser().getFavouriteColor().equals(Color.RANDOM) == false) {
 					return 1;
 				} else if(o1.getUser().getFavouriteColor().equals(Color.RANDOM) == false && o2.getUser().getFavouriteColor().equals(Color.RANDOM)) {
+					return -1;
+				} else if(o1.getUser().getFavouriteColor().equals(o2.getUser().getFavouriteColor())) {
+					// Two users have the same color, first user gets preference
 					return -1;
 				} else {
 					return 0;
@@ -327,7 +323,7 @@ public class GameEngine {
 	/**
 	 * @return A random name for the ai player
 	 */
-	public String getAiNames() {
+	public String getRandomAiName() {
 		
 		int index = new Random().nextInt(aiNames.size() - 1);
 		if (index < 0) index = 0;

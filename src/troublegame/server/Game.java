@@ -27,14 +27,15 @@ public class Game {
 	public Game(GameEngine engine) {
 		this.tick = 0;
 		this.engine = engine;
+		setAvailableColours();
 		humans = new HashMap<Color, String>();
 		computers = new HashMap<Color, String>();
 		started = false;
 	}
 	
 	public void start() {
+		
 		startTime = Calendar.getInstance();
-		setAvailableColours();
 		players = new Player[Game.MAX_PLAYERS];
 		int i = 0;
 		// make the humans players
@@ -111,7 +112,7 @@ public class Game {
 	 */
 	public Player createHumanPlayer(int id, Color c, String username) {
 		
-		Player tmp = new Player(id, username, assignPlayerColour(c), Player.HUMAN);
+		Player tmp = new Player(id, username, c, Player.HUMAN);
 		return tmp;
 	}
 	
@@ -122,7 +123,7 @@ public class Game {
 	 */
 	public AI createAIPlayer(int id, Color c, String username) {
 		
-		AI tmp = new AI(id, username, assignPlayerColour(c));
+		AI tmp = new AI(id, username, c);
 		return tmp;
 	}
 	
