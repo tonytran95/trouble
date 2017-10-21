@@ -123,13 +123,14 @@ public class GameEngine {
 				} else {
 					return 0;
 				}
-				
-			}
-		});
-		
-		return connections;
-		
-	}
+			
+		}
+	});
+	
+	return connections;
+	
+}
+
 	
 	public void handleChat(Connection user, String message) {
 		for (Game g : games) {
