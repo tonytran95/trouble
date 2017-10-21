@@ -165,11 +165,12 @@ public class SocketListener {
 											if (g.isOwner(conn)) {
 												gameEngine.createGame(lobby.getGameRoomByName(gameRoomName).getMembers());
 												lobby.broadcastActivity(conn.getUsername()+ " has started his game.");
+												for (Connection u : connections)
+													u.getOutputStream().println(CommunicationHandler.GAME_ROOM_CLOSE + " " + gameRoomName);
+												lobby.getGameRooms().remove(g);
 											} else {
 												conn.getOutputStream().println(CommunicationHandler.GAME_START_FAIL);
 											}
-											for (Connection c : lobby.getGameRoomByName(gameRoomName).getMembers())
-												lobby.leaveGameRoom(c);
 										} else if (input.startsWith(CommunicationHandler.GAME_CHAT)) {
 											String message = input.substring(CommunicationHandler.GAME_CHAT.length() + 1);
 											gameEngine.handleChat(conn, message);
