@@ -23,6 +23,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.DefaultCaret;
 
+import troublegame.client.Interface;
 import troublegame.client.SwingUI;
 import troublegame.communication.CommunicationHandler;
 
@@ -160,9 +161,16 @@ public class GameChatPanel extends JPanel {
 			
 			@Override
 			public void keyPressed(KeyEvent e) {
-				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-					sendMessageToServer(newMessage.getText().trim());
-				}
+				switch (e.getKeyCode()) {
+					case KeyEvent.VK_ESCAPE:
+						swingUI.setInterface(Interface.PAUSE);
+						break;
+					case KeyEvent.VK_ENTER:
+						sendMessageToServer();
+						break;
+					default:
+						break;
+					}
 			}
 		});
 		
@@ -171,7 +179,7 @@ public class GameChatPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				swingUI.playButtonSound();
-				sendMessageToServer(newMessage.getText().trim());
+				sendMessageToServer();
 			}
 		});
 		sendButton.setBounds(302, 236, 65, 20);
@@ -210,7 +218,8 @@ public class GameChatPanel extends JPanel {
 	 * Sends the given string to the server as a GAME_CHAT property
 	 * @param input The message to send
 	 */
-	private void sendMessageToServer(String input) {
+	private void sendMessageToServer() {
+		String input = newMessage.getText().trim();
 		if(input.length() != 0 && isDefaultText == false) {
 			if(input.length() > 256) input = input.substring(0, 256);
 			swingUI.send(CommunicationHandler.GAME_CHAT + " " + input);
