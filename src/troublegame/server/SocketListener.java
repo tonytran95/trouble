@@ -168,8 +168,8 @@ public class SocketListener {
 											} else {
 												conn.getOutputStream().println(CommunicationHandler.GAME_START_FAIL);
 											}
-											//for (Connection c : lobby.getGameRoomByName(gameRoomName).getMembers())
-												//lobby.leaveGameRoom(c);
+											for (Connection c : lobby.getGameRoomByName(gameRoomName).getMembers())
+												lobby.leaveGameRoom(c);
 										} else if (input.startsWith(CommunicationHandler.GAME_CHAT)) {
 											String message = input.substring(CommunicationHandler.GAME_CHAT.length() + 1);
 											gameEngine.handleChat(conn, message);
