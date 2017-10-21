@@ -173,7 +173,8 @@ public class Game {
 		switch (currentSlot.getSlotZone()) {
 			case Board.SLOT_HOME:
 				// sorry can't move
-				if (diceValue == 6) {
+				// Was 6, changed to -1 to allow all rolls
+				if (diceValue == -1) {
 					command = CommunicationHandler.GAME_ROLL_FAIL + " " + diceValue;
 					engine.updateTurns(this);
 				} else {
@@ -202,7 +203,7 @@ public class Game {
 								command = CommunicationHandler.GAME_ROLL_SUCCESS + " " + diceValue + " " + tokenID + " " + p.getUsername() + " " + Board.SLOT_END + " " + 0;
 								board.setTokenLoc(token, Board.SLOT_END, 0);
 							} else {
-								command = CommunicationHandler.GAME_ROLL_FAIL + " " + diceValue + ", token already occupying end slot";
+								command = CommunicationHandler.GAME_ROLL_FAIL + " " + diceValue + " , token already occupying end slot";
 							}
 							break;
 						case 2:
@@ -210,7 +211,7 @@ public class Game {
 								command = CommunicationHandler.GAME_ROLL_SUCCESS + " " + diceValue + " " + tokenID + " " + p.getUsername() + " " + Board.SLOT_END + " " + 1;
 								board.setTokenLoc(token, Board.SLOT_END, 1);
 							} else {
-								command = CommunicationHandler.GAME_ROLL_FAIL + " " + diceValue + ", token already occupying end slot";
+								command = CommunicationHandler.GAME_ROLL_FAIL + " " + diceValue + " , token already occupying end slot";
 							}
 							break;
 						case 3:
@@ -218,7 +219,7 @@ public class Game {
 								command = CommunicationHandler.GAME_ROLL_SUCCESS + " " + diceValue + " " + tokenID + " " + p.getUsername() + " " + Board.SLOT_END + " " + 2;
 								board.setTokenLoc(token, Board.SLOT_END, 2);
 							} else {
-								command = CommunicationHandler.GAME_ROLL_FAIL + " " + diceValue + ", token already occupying end slot";
+								command = CommunicationHandler.GAME_ROLL_FAIL + " " + diceValue + " , token already occupying end slot";
 							}
 							break;
 						case 4:
@@ -226,11 +227,11 @@ public class Game {
 								command = CommunicationHandler.GAME_ROLL_SUCCESS + " " + diceValue + " " + tokenID + " " + p.getUsername() + " " + Board.SLOT_END + " " + 3;
 								board.setTokenLoc(token, Board.SLOT_END, 3);
 							} else {
-								command = CommunicationHandler.GAME_ROLL_FAIL + " " + diceValue + ", token already occupying end slot";
+								command = CommunicationHandler.GAME_ROLL_FAIL + " " + diceValue + " , token already occupying end slot";
 							}
 							break;
 						default:
-							command = CommunicationHandler.GAME_ROLL_FAIL + " " + diceValue + ", must roll a value of 1-4 to enter the end zone";
+							command = CommunicationHandler.GAME_ROLL_FAIL + " " + diceValue + " , must roll a value of 1-4 to enter the end zone";
 					}
 				} else { // keep moving along mainzone
 					target = currPos + diceValue;
