@@ -280,7 +280,7 @@ public class SwingUI extends JFrame {
 			case USER_PROFILE:
 				if (profilePanel == null)
 					profilePanel = new ProfilePanel(this);
-				resizeFrame(450, 400);
+				resizeFrame(450, 535);
 				switchPanel(profilePanel);
 				break;
 			case SIGN_UP:

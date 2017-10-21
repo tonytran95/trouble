@@ -42,8 +42,8 @@ public class ProfilePanel extends JPanel {
 	 * The swing user interface.
 	 */
 	private SwingUI swingUI;
-	private JPasswordField passwordField;
 	private JTextField usernameTextField;
+	private JPasswordField newpassword;
 	
 	/**
 	 * Create the panel.
@@ -74,84 +74,96 @@ public class ProfilePanel extends JPanel {
 		this.swingUI = swingUI;
 		setLayout(null);
 		
-		JLabel lblUpdateParticulars = new JLabel("Update Particulars");
-		lblUpdateParticulars.setBounds(126, 35, 267, 16);
+		JLabel lblUpdateParticulars = new JLabel("Change Display Name");
+		lblUpdateParticulars.setBounds(128, 207, 267, 16);
 		add(lblUpdateParticulars);
 		
 		JLabel lblUsername = new JLabel("Display Name");
-		lblUsername.setBounds(27, 67, 77, 16);
+		lblUsername.setBounds(32, 239, 77, 16);
 		add(lblUsername);
 		
 		usernameTextField = new JTextField();
-		usernameTextField.setBounds(128, 64, 252, 22);
+		usernameTextField.setBounds(128, 236, 252, 22);
 		usernameTextField.setText(username);
 		add(usernameTextField);
 		
-		JLabel lblPassword = new JLabel("Password");
-		lblPassword.setBounds(49, 102, 55, 16);
-		add(lblPassword);
-		
-		passwordField = new JPasswordField();
-		passwordField.setBounds(128, 99, 252, 22);
-		add(passwordField);
-		
 		JButton updateButton = new JButton("Update Display Name");
-		updateButton.setBounds(128, 134, 252, 25);
+		updateButton.setBounds(128, 271, 252, 25);
 		add(updateButton);
 		
 		JSeparator separator = new JSeparator();
-		separator.setBounds(0, 172, 459, 2);
+		separator.setBounds(0, 185, 459, 2);
 		add(separator);
 		
 		JLabel label_3 = new JLabel("Game Statistics");
-		label_3.setBounds(126, 184, 267, 16);
+		label_3.setBounds(128, 13, 267, 16);
 		add(label_3);
 		
 		JLabel label_2 = new JLabel("Games Played");
-		label_2.setBounds(24, 213, 80, 16);
+		label_2.setBounds(32, 38, 80, 16);
 		add(label_2);
 		
 		JLabel gamesPlayedDisplay = new JLabel(Integer.toString(gamesPlayed));
-		gamesPlayedDisplay.setBounds(126, 213, 198, 16);
+		gamesPlayedDisplay.setBounds(121, 38, 198, 16);
 		add(gamesPlayedDisplay);
 		
 		JLabel label_1 = new JLabel("Games Won");
-		label_1.setBounds(35, 242, 69, 16);
+		label_1.setBounds(43, 67, 69, 16);
 		add(label_1);
 		
 		JLabel gamesWonDisplay = new JLabel(Integer.toString(gamesWon));
-		gamesWonDisplay.setBounds(128, 242, 135, 16);
+		gamesWonDisplay.setBounds(121, 67, 135, 16);
 		add(gamesWonDisplay);
 		
 		JLabel lblWinRate = new JLabel("Win Rate");
-		lblWinRate.setBounds(52, 270, 52, 16);
+		lblWinRate.setBounds(60, 96, 52, 16);
 		add(lblWinRate);
 		
 		JLabel winRateDisplay = new JLabel(String.format ("%.1f%%", winRate));
-		winRateDisplay.setBounds(125, 270, 161, 16);
+		winRateDisplay.setBounds(121, 96, 161, 16);
 		add(winRateDisplay);
 		
 		JButton backButton = new JButton("Back to Lobby");
-		backButton.setBounds(128, 299, 252, 25);
+		backButton.setBounds(128, 134, 252, 25);
 		add(backButton);
 		
 		updateButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				String username = usernameTextField.getText();
-				String password = String.valueOf(passwordField.getPassword());
-
 				swingUI.playButtonSound();
-				if (username.contains(" ") || password.contains(" ")) {
-					JOptionPane.showMessageDialog(null, "Space is not allowed in Display name or Password");
+				String username = usernameTextField.getText();
+				if (username.contains(" ")) {
+					JOptionPane.showMessageDialog(null, "Space is not allowed in Display name!");
+					return;
+				} else if (username.length() == 0) {
+					JOptionPane.showMessageDialog(null, "Display name cannot be blank");
 					return;
 				}
-				if(password.length() == 0 || username.length() == 0) {
-					JOptionPane.showMessageDialog(null, "Display name or password cannot be blank");
-					return;
+				String[] options = new String[]{"OK", "Cancel"};
+				JPanel passwordPanel = new JPanel();
+				JLabel label = new JLabel("Enter your password");
+				JPasswordField passwordField = new JPasswordField(10);
+				passwordPanel.add(label);
+				passwordPanel.add(passwordField);
+				int option = JOptionPane.showOptionDialog(null, passwordPanel, "Password Required",
+                        JOptionPane.NO_OPTION, JOptionPane.PLAIN_MESSAGE,
+                        null, options, options[1]);
+				if(option == 0) {
+					swingUI.playButtonSound();
+					String password = String.valueOf(passwordField.getPassword());
+					
+					if (password.contains(" ")) {
+						JOptionPane.showMessageDialog(null, "Space is not allowed in Password");
+						return;
+					}else if (password.length() == 0) {
+						JOptionPane.showMessageDialog(null, "Password cannot be blank");
+						return;
+					}
+					swingUI.send(CommunicationHandler.UPDATE_DISPLAYNAME + " " + username + " " + password);
 				}
-				swingUI.send(CommunicationHandler.UPDATE_DISPLAYNAME + " " + username + " " + password);
-				passwordField.setText("");
+				
+				
+				
 			}
 		});
 		updateButton.addMouseListener(new MouseListener() {			
@@ -201,6 +213,87 @@ public class ProfilePanel extends JPanel {
 		backButton.setIcon(imgIcon1);
 		backButton.setHorizontalTextPosition(SwingConstants.CENTER);
 		backButton.setBorderPainted(false);
+		
+		JSeparator separator_1 = new JSeparator();
+		separator_1.setBounds(-19, 319, 459, 2);
+		add(separator_1);
+		
+		JLabel lblChangePassword = new JLabel("Change Password");
+		lblChangePassword.setBounds(128, 340, 267, 16);
+		add(lblChangePassword);
+		
+		JLabel lblNewPassword = new JLabel("New Password");
+		lblNewPassword.setBounds(25, 372, 84, 16);
+		add(lblNewPassword);
+		
+		newpassword = new JPasswordField();
+		newpassword.setBounds(128, 369, 252, 22);
+		add(newpassword);
+		
+		JButton updatePassword = new JButton("Change Password");
+		updatePassword.setHorizontalTextPosition(SwingConstants.CENTER);
+		updatePassword.setBorderPainted(false);
+		updatePassword.setBounds(128, 404, 252, 25);
+		add(updatePassword);
+		
+		updatePassword.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				swingUI.playButtonSound();
+				String newpass = String.valueOf(newpassword.getPassword());
+				if (newpass.contains(" ")) {
+					JOptionPane.showMessageDialog(null, "Space is not allowed in passwords");
+					return;
+				} else if (newpass.length() == 0) {
+					JOptionPane.showMessageDialog(null, "Password cannot be blank");
+					return;
+				}
+				String[] options = new String[]{"OK", "Cancel"};
+				JPanel passwordPanel = new JPanel();
+				JLabel label = new JLabel("Enter your current password");
+				JPasswordField passwordField = new JPasswordField(10);
+				passwordPanel.add(label);
+				passwordPanel.add(passwordField);
+				int option = JOptionPane.showOptionDialog(null, passwordPanel, "Password Required",
+                        JOptionPane.NO_OPTION, JOptionPane.PLAIN_MESSAGE,
+                        null, options, options[1]);
+				if(option == 0) {
+					swingUI.playButtonSound();
+					String password = String.valueOf(passwordField.getPassword());
+					
+					if (password.contains(" ")) {
+						JOptionPane.showMessageDialog(null, "Space is not allowed in Password");
+						return;
+					}else if (password.length() == 0) {
+						JOptionPane.showMessageDialog(null, "Password cannot be blank");
+						return;
+					}
+					swingUI.send(CommunicationHandler.CHANGE_PASSWORD + " " + newpass + " " + password);
+				}
+				
+				
+				
+			}
+		});
+		updatePassword.addMouseListener(new MouseListener() {			
+			@Override
+			public void mouseReleased(MouseEvent arg0) {}		   
+			@Override
+			public void mousePressed(MouseEvent arg0) {}			
+			@Override
+			public void mouseExited(MouseEvent arg0) { 
+				updatePassword.setIcon(imgIcon1);
+			}		   
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				updatePassword.setIcon(imgIcon2);
+			}		   
+			@Override
+			public void mouseClicked(MouseEvent arg0) {}
+		});		
+		updatePassword.setIcon(imgIcon1);
+		updatePassword.setHorizontalTextPosition(SwingConstants.CENTER);
+		updatePassword.setBorderPainted(false);
 	}
 	
 	/**

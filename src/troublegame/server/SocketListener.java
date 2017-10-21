@@ -187,6 +187,18 @@ public class SocketListener {
 												conn.getOutputStream().println(CommunicationHandler.UPDATE_FAIL);
 											}
 
+										} else if (input.startsWith(CommunicationHandler.CHANGE_PASSWORD)) {
+											String[] inputSplit = input.split(" ");
+											String newPassword = inputSplit[1];
+											String myPassword = inputSplit[2];
+											User u = conn.getUser();
+											if (myPassword.equals(u.getPassword())) {
+												u.updatePassword(newPassword);
+												conn.getOutputStream().println(CommunicationHandler.CHANGE_SUCCESS);
+											} else {
+												conn.getOutputStream().println(CommunicationHandler.UPDATE_FAIL);
+											}
+
 										} else if (input.startsWith(CommunicationHandler.GET_STATISTICS)) {
 											User u = conn.getUser();
 											String statistics = " "+u.getGamesPlayed()+" "+ u.getGamesWon();

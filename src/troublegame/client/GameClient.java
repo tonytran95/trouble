@@ -265,10 +265,13 @@ public class GameClient {
 		    			if (input.startsWith(CommunicationHandler.UPDATE_SUCCESS)) {
 		    				String username = input.substring(CommunicationHandler.UPDATE_SUCCESS.length() + 1);
 		    				ui.setUser(new User(username));
-		    				JOptionPane.showMessageDialog(null, "Your details have been updated");
+		    				JOptionPane.showMessageDialog(null, "Your display name has been changed");
 		    			} else if (input.startsWith(CommunicationHandler.UPDATE_FAIL)) {
-		    				JOptionPane.showMessageDialog(null, "Error updating details");
+		    				JOptionPane.showMessageDialog(null, "Incorrect password.");
+		    			} else if (input.startsWith(CommunicationHandler.CHANGE_SUCCESS)) {
+		    				JOptionPane.showMessageDialog(null, "Your password has been changed");
 		    			}
+		    			break;
 		    		case SIGN_UP:
 		    			RegisterPanel registerPanel = (RegisterPanel) ui.getCurrentPanel();
 		    			if (input.equals(CommunicationHandler.REGISTER_SUCCESS)) {
