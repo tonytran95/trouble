@@ -2,6 +2,8 @@ package troublegame.server;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map.Entry;
@@ -47,6 +49,17 @@ public class GameEngine {
 		gameConns.put(g, players);
 		inputQueues.put(g, new LinkedList<String>());
 		
+		ArrayList<Connection> t = sortByColorPref(players);
+		
+		for(Connection c : t) {
+			System.out.println(c.getUser().getFavouriteColor());
+//			User curr = c.getUser();
+//			Color prefColor = curr.getFavouriteColor();
+//			g.ass
+			
+		}
+		
+		
 		int count = 0;
 		for (int i = 0; i < players.size(); i++) {
 			if (i == 0) g.join(players.get(i).getUsername(), Color.RED, false);
@@ -56,9 +69,9 @@ public class GameEngine {
 			count++;
 		}
 		for (int i = 0; i < (4 - count); i++) {
-			if (i == 0) g.join(getAiNames(), Color.BLUE, true);
-			if (i == 1) g.join(getAiNames(), Color.YELLOW, true);
-			if (i == 2) g.join(getAiNames(), Color.GREEN, true);
+			if (i == 0) g.join(getAiNames(), Color.RANDOM, true);
+			if (i == 1) g.join(getAiNames(), Color.RANDOM, true);
+			if (i == 2) g.join(getAiNames(), Color.RANDOM, true);
 		}
 		
 		games.add(g);
@@ -96,6 +109,30 @@ public class GameEngine {
 		if (gameConn.size() == 4) {
 			startGame(g);
 		}
+	}
+	
+	public ArrayList<Connection> sortByColorPref(ArrayList<Connection> connections) {
+		
+		Collections.sort(connections, new Comparator<Connection>() {
+
+			@Override
+			public int compare(Connection o1, Connection o2) {
+				
+				//negative first, actual colors
+				//pos last, random
+				if(o1.getUser().getFavouriteColor().equals(Color.RANDOM) && o2.getUser().getFavouriteColor().equals(Color.RANDOM) == false) {
+					return 1;
+				} else if(o1.getUser().getFavouriteColor().equals(Color.RANDOM) == false && o2.getUser().getFavouriteColor().equals(Color.RANDOM)) {
+					return -1;
+				} else {
+					return 0;
+				}
+				
+			}
+		});
+		
+		return connections;
+		
 	}
 	
 	public void handleChat(Connection user, String message) {
