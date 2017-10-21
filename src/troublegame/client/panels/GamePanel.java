@@ -1,9 +1,17 @@
 package troublegame.client.panels;
 
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import troublegame.client.Interface;
@@ -39,7 +47,7 @@ public class GamePanel extends JPanel {
 	 * The map of players <username, color>
 	 */
 	private Map<String, String> players;
-	
+	private Image backgroundImage;
 	
 	/**
 	 * The constructor for the start panel.
@@ -52,6 +60,16 @@ public class GamePanel extends JPanel {
 		this.chatPanel = new GameChatPanel(swingUI);
 		this.players = new HashMap<String, String>();
 		
+		/**
+		 * set background image
+		 */
+		try {
+			backgroundImage = ImageIO.read(new File("./data/img/background2.jpg"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		this.init();
+		
 		this.init();
 	}
 
@@ -61,6 +79,7 @@ public class GamePanel extends JPanel {
 	public void init() {
 		
 		this.setLayout(null);
+		
 		this.setFocusable(true);
 		this.requestFocusInWindow();
 		this.swingUI.setFocusable(true);
@@ -93,8 +112,9 @@ public class GamePanel extends JPanel {
 		
 		
 		boardPanel.setBounds(0, 0, 576, 576);
+		boardPanel.setOpaque(false);
 		chatPanel.setBounds(589, 301, 422, 262);
-		
+		chatPanel.setOpaque(false);
 		this.add(boardPanel);
 		this.add(chatPanel);
 		this.setVisible(true);
@@ -200,6 +220,14 @@ public class GamePanel extends JPanel {
 //	 */
 	public Map<String, String> getPlayers() {
 		return players;
+	}
+	
+	@Override
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+	
+		// Draw the background image.
+		g.drawImage(backgroundImage, 0, 0, this);
 	}
 //
 //	/**

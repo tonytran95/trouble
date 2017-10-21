@@ -1,12 +1,17 @@
 package troublegame.client.panels;
 
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -78,6 +83,12 @@ public class GameChatPanel extends JPanel {
 	public void init() {
 		
 		setLayout(null);
+		Image image1 = Toolkit.getDefaultToolkit().getImage("./data/img/button_1x.png");
+		Image image2 = Toolkit.getDefaultToolkit().getImage("./data/img/button_3.png");
+		Image newimg1 = image1.getScaledInstance(65, 20, Image.SCALE_SMOOTH);
+		Image newimg2 = image2.getScaledInstance(65, 20, Image.SCALE_SMOOTH);
+		ImageIcon imgIcon1 = new ImageIcon(newimg1);
+		ImageIcon imgIcon2 = new ImageIcon(newimg2);
 		
 		// Chat area
 		chatMessages.setEditable(false);
@@ -164,6 +175,26 @@ public class GameChatPanel extends JPanel {
 			}
 		});
 		sendButton.setBounds(302, 236, 65, 20);
+		
+		sendButton.addMouseListener(new MouseListener() {			
+			@Override
+			public void mouseReleased(MouseEvent arg0) {}		   
+			@Override
+			public void mousePressed(MouseEvent arg0) {}			
+			@Override
+			public void mouseExited(MouseEvent arg0) { 
+				sendButton.setIcon(imgIcon1);
+			}		   
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				sendButton.setIcon(imgIcon2);
+			}		   
+			@Override
+			public void mouseClicked(MouseEvent arg0) {}
+		});
+		sendButton.setIcon(imgIcon1);
+		sendButton.setHorizontalTextPosition(SwingConstants.CENTER);
+		sendButton.setBorderPainted(false);
 		
 		// Character counter
 		charCountLabel.setBounds(370, 236, 48, 20);
