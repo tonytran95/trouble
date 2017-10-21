@@ -9,6 +9,7 @@ public class Connection {
 	private PrintWriter output;
 	private BufferedReader input;
 	private User user;
+	private boolean guest;
 	
 	// creates a connection mapping, as well as keeps the input and output stream wrapper
 	public Connection(Socket socket, BufferedReader i, PrintWriter o) {
@@ -43,6 +44,14 @@ public class Connection {
 	 */
 	public String getUsername() {
 		return getUser().getUsername();
+	}
+
+	public boolean isGuest() {
+		return guest;
+	}
+
+	public void setGuest(boolean guest) {
+		this.guest = guest;
 	}
 	
 }

@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map.Entry;
 import java.util.Queue;
-import java.util.Random;
 
 import troublegame.communication.CommunicationHandler;
 
@@ -19,7 +18,6 @@ public class GameEngine {
 	private HashMap<Game, ArrayList<Connection>> gameConns;
 	private HashMap<Game, Queue<String>> inputQueues;
 	private boolean allPlayersConnected;
-	private ArrayList<String> aiNames;
 	
 	public GameEngine() {
 		
@@ -27,7 +25,6 @@ public class GameEngine {
 		games = new ArrayList<Game>();
 		gameConns = new HashMap<Game, ArrayList<Connection>>();
 		inputQueues = new HashMap<Game, Queue<String>>();
-		genAiNames();
 		allPlayersConnected = false;
 	}
 	
@@ -60,7 +57,7 @@ public class GameEngine {
 		}
 		
 		for(int i = 0; i < (4 - players.size()); i++) {
-			g.join(getRandomAiName(), g.assignPlayerColour(Color.RANDOM), true);
+			g.join(g.getRandomAiName(), g.assignPlayerColour(Color.RANDOM), true);
 		}
 		
 		games.add(g);
@@ -129,11 +126,11 @@ public class GameEngine {
 	public void process() {
 		for (Game g : games) {
 			// not processing game if not all players connected or game has not started
-			if (!g.isStarted()) {
-				return;
-			} else if (!allPlayersConnected) {
+			if (!g.isStarted())
+				continue;
+			if (!allPlayersConnected) {
 				checkPlayerConnections(g);	
-				return;
+				continue;
 			}
 			if (!g.isOver()) {
 				Player curr = g.getWhoseTurn();
@@ -278,38 +275,6 @@ public class GameEngine {
 			if (c.getUsername().equals(username)) return true;
 		}
 		return false;
-	}
-	
-	/**
-	 * Creates a name pool for ais to draw names from
-	 */
-	public void genAiNames() {
-		aiNames = new ArrayList<>();
-		aiNames.add("Aseihar");
-		aiNames.add("Adrarelind");
-		aiNames.add("Galeish");
-		aiNames.add("Ocigoron");
-		aiNames.add("Falian");
-		aiNames.add("Mireidric");
-		aiNames.add("Faeri");
-		aiNames.add("Etohaw");
-		aiNames.add("Cadelalith");
-		aiNames.add("Tulian");
-		aiNames.add("Haelannor");
-		aiNames.add("Jeroameth");
-	}
-	
-	/**
-	 * @return A random name for the ai player
-	 */
-	public String getRandomAiName() {
-		
-		int index = new Random().nextInt(aiNames.size() - 1);
-		if (index < 0) index = 0;
-		String aiName = aiNames.get(index);
-		aiNames.remove(index);
-		return aiName;
-		
 	}
 	
 }

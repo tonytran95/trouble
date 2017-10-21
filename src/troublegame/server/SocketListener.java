@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+
 import troublegame.communication.CommunicationHandler;
 import troublegame.server.io.UserManager;
 
@@ -109,6 +110,7 @@ public class SocketListener {
 												serverStream.println(CommunicationHandler.LOGIN_ERROR + " No user with the email " + receivedEmail + " was found");
 											} else if (tmp.getPassword().equals(receivedPass)) {
 												conn.setUser(tmp);
+												conn.setGuest(false);
 												loginHandler.addConnectionToQueue(conn);
 											} else {
 												conn.getOutputStream().println(CommunicationHandler.LOGIN_ERROR + " Incorrect password");
@@ -128,12 +130,16 @@ public class SocketListener {
 										} else if (input.startsWith(CommunicationHandler.LOGIN_GUEST)) {
 											int guestCount = 0;
 											for (Connection user : connections) {
-												if (user.equals(conn)) continue;
-												if (user.getUser().getPassword() == null) guestCount++;
+												if (user.equals(conn))
+													continue;
+												if (user.getUser().getPassword() == null) {
+													guestCount++;
+												}
 											}
 											User guestUser = new User("GUEST_" + guestCount);
 											conn.setUser(guestUser);
 											loginHandler.addConnectionToQueue(conn);
+											conn.setGuest(true);
 										} else if (input.equals(CommunicationHandler.GAME_ROOM_NEW)) {
 											System.out.println(conn.getUser().getUsername()+" created a room");
 											lobby.createGameRoom(conn);
@@ -163,8 +169,8 @@ public class SocketListener {
 											} else {
 												conn.getOutputStream().println(CommunicationHandler.GAME_START_FAIL);
 											}
-											//for (Connection c : lobby.getGameRoomByName(gameRoomName).getMembers())
-												//lobby.leaveGameRoom(c);
+											for (Connection c : lobby.getGameRoomByName(gameRoomName).getMembers())
+												lobby.leaveGameRoom(c);
 										} else if (input.startsWith(CommunicationHandler.GAME_CHAT)) {
 											String message = input.substring(CommunicationHandler.GAME_CHAT.length() + 1);
 											gameEngine.handleChat(conn, message);
@@ -191,34 +197,36 @@ public class SocketListener {
 											lobby.broadcastOnlineList();
 										} else if (input.startsWith(CommunicationHandler.GAME_ROOM_QUERY)) {
 											lobby.showGamerooms(conn);
-										} else if (input.startsWith(CommunicationHandler.FRIEND_ADD_ATTEMPT)) {
-											String userName = input.substring(CommunicationHandler.FRIEND_ADD_ATTEMPT.length()+1);
-											User u = UserManager.loadUserByEmail(conn.getUser().getEmail());
-											User userToAdd = getUserByUsername(userName);
-											
-											// some error occured, maybe guy disconnected
-											if (userToAdd == null) {
-												conn.getOutputStream().println(CommunicationHandler.FRIEND_ADD_FAIL);
-											} else if (u.isFriend(userToAdd)) {
-												conn.getOutputStream().println(CommunicationHandler.FRIENDS_ALREADY + userToAdd.getUsername());
-											} else {
-												if (u.addFriend(userToAdd))
-													conn.getOutputStream().println(CommunicationHandler.FRIEND_ADD_SUCCESS + userToAdd.getUsername());
-												else
+										} else if (!conn.isGuest()) {
+											if (input.startsWith(CommunicationHandler.FRIEND_ADD_ATTEMPT)) {
+												String userName = input.substring(CommunicationHandler.FRIEND_ADD_ATTEMPT.length()+1);
+												User u = UserManager.loadUserByEmail(conn.getUser().getEmail());
+												User userToAdd = getUserByUsername(userName);
+												
+												// some error occured, maybe guy disconnected
+												if (userToAdd == null) {
 													conn.getOutputStream().println(CommunicationHandler.FRIEND_ADD_FAIL);
+												} else if (u.isFriend(userToAdd)) {
+													conn.getOutputStream().println(CommunicationHandler.FRIENDS_ALREADY + userToAdd.getUsername());
+												} else {
+													if (u.addFriend(userToAdd))
+														conn.getOutputStream().println(CommunicationHandler.FRIEND_ADD_SUCCESS + userToAdd.getUsername());
+													else
+														conn.getOutputStream().println(CommunicationHandler.FRIEND_ADD_FAIL);
+												}
+											}  else if (input.startsWith(CommunicationHandler.GAME_ROOM_FRIENDS)) {
+												User u = UserManager.loadUserByEmail(conn.getUser().getEmail());
+												u.sendFriendList(conn.getOutputStream());
+											} else if (input.startsWith(CommunicationHandler.FRIEND_INVITE)) {
+												input = input.substring(CommunicationHandler.FRIEND_INVITE.length());
+												String[] inputSplit = input.split("%");
+												Connection c = getConnection(inputSplit[0]);
+												if (c != null) {
+													c.getOutputStream().println(CommunicationHandler.FRIEND_INVITE+conn.getUsername()
+																				+ "%"+ inputSplit[1]);
+												}
 											}
-										}  else if (input.startsWith(CommunicationHandler.GAME_ROOM_FRIENDS)) {
-											User u = UserManager.loadUserByEmail(conn.getUser().getEmail());
-											u.sendFriendList(conn.getOutputStream());
-										} else if (input.startsWith(CommunicationHandler.FRIEND_INVITE)) {
-											input = input.substring(CommunicationHandler.FRIEND_INVITE.length());
-											String[] inputSplit = input.split("%");
-											Connection c = getConnection(inputSplit[0]);
-											if (c != null) {
-												c.getOutputStream().println(CommunicationHandler.FRIEND_INVITE+conn.getUsername()
-																			+ "%"+ inputSplit[1]);
-											}
-										} else {
+										} else if (conn.isGuest()) {
 											System.out.println("Unknown Command: " + input);
 										}
 									}

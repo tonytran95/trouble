@@ -23,11 +23,13 @@ public class Game {
 	private Map<Color, String> humans;
 	private Map<Color, String> computers;
 	private int tick;
+	private ArrayList<String> aiNames;
 	
 	public Game(GameEngine engine) {
 		this.tick = 0;
 		this.engine = engine;
 		setAvailableColours();
+		genAiNames();
 		humans = new HashMap<Color, String>();
 		computers = new HashMap<Color, String>();
 		started = false;
@@ -321,6 +323,39 @@ public class Game {
 		}
 		
 		return human;
+	}
+	
+	
+	/**
+	 * Creates a name pool for ais to draw names from
+	 */
+	public void genAiNames() {
+		aiNames = new ArrayList<>();
+		aiNames.add("Aseihar");
+		aiNames.add("Adrarelind");
+		aiNames.add("Galeish");
+		aiNames.add("Ocigoron");
+		aiNames.add("Falian");
+		aiNames.add("Mireidric");
+		aiNames.add("Faeri");
+		aiNames.add("Etohaw");
+		aiNames.add("Cadelalith");
+		aiNames.add("Tulian");
+		aiNames.add("Haelannor");
+		aiNames.add("Jeroameth");
+	}
+	
+	/**
+	 * @return A random name for the ai player
+	 */
+	public String getRandomAiName() {
+		
+		int index = new Random().nextInt(aiNames.size() - 1);
+		if (index < 0) index = 0;
+		String aiName = aiNames.get(index);
+		aiNames.remove(index);
+		return aiName;
+		
 	}
 	
 	public void showPlayers() {

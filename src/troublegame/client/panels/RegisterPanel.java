@@ -115,6 +115,7 @@ public class RegisterPanel extends JPanel {
 		this.add(confirmPasswordField);
 		
 		rdbtnRed.setBounds(320, 317, 109, 23);
+		rdbtnRed.setBackground(new Color(211, 211, 211));
 		rdbtnRed.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
@@ -127,6 +128,7 @@ public class RegisterPanel extends JPanel {
 		this.add(rdbtnRed);
 		
 		rdbtnBlue.setBounds(320, 343, 109, 23);
+		rdbtnBlue.setBackground(new Color(211, 211, 211));
 		rdbtnBlue.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
@@ -139,6 +141,7 @@ public class RegisterPanel extends JPanel {
 		this.add(rdbtnBlue);
 		
 		rdbtnGreen.setBounds(320, 369, 109, 23);
+		rdbtnGreen.setBackground(new Color(211, 211, 211));
 		rdbtnGreen.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
@@ -151,6 +154,7 @@ public class RegisterPanel extends JPanel {
 		this.add(rdbtnGreen);
 		
 		rdbtnYellow.setBounds(320, 395, 109, 23);
+		rdbtnYellow.setBackground(new Color(211, 211, 211));
 		rdbtnYellow.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
@@ -176,8 +180,8 @@ public class RegisterPanel extends JPanel {
 		this.add(separator_2);
 		
 		
-		Image image1 = Toolkit.getDefaultToolkit().getImage("./data/img/button_1.png");
-		Image image2 = Toolkit.getDefaultToolkit().getImage("./data/img/button_2.png");
+		Image image1 = Toolkit.getDefaultToolkit().getImage("./data/img/button_1x.png");
+		Image image2 = Toolkit.getDefaultToolkit().getImage("./data/img/button_3.png");
 		Image newimg1 = image1.getScaledInstance(89, 23, Image.SCALE_SMOOTH);
 		Image newimg2 = image2.getScaledInstance(89, 23, Image.SCALE_SMOOTH);
 		ImageIcon imgIcon1 = new ImageIcon(newimg1);
