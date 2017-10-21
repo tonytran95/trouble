@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.UUID;
 
 import troublegame.communication.CommunicationHandler;
 import troublegame.server.io.UserManager;
@@ -210,6 +211,22 @@ public class SocketListener {
 											lobby.broadcastOnlineList();
 										} else if (input.startsWith(CommunicationHandler.GAME_ROOM_QUERY)) {
 											lobby.showGamerooms(conn);
+										} else if (input.startsWith(CommunicationHandler.UNFRIEND)) {
+											String userName = input.substring(CommunicationHandler.UNFRIEND.length());
+											User u = UserManager.loadUserByEmail(conn.getUser().getEmail());
+											User userToUnfriend = null;
+											for (UUID friendUID: u.getFriendList()) {
+												User tmp = UserManager.loadUserById(friendUID);
+												if (tmp.getUsername().equals(userName)) {
+													userToUnfriend = tmp;
+													break;
+												}
+											} 
+											if (userToUnfriend != null && u.removeFriend(userToUnfriend)) {
+												conn.getOutputStream().println(CommunicationHandler.UNFRIEND_SUCCESS + userName);
+											} else {
+												conn.getOutputStream().println(CommunicationHandler.UNFRIEND_FAIL);
+											}
 										} else if (!conn.isGuest()) {
 											if (input.startsWith(CommunicationHandler.FRIEND_ADD_ATTEMPT)) {
 												String userName = input.substring(CommunicationHandler.FRIEND_ADD_ATTEMPT.length()+1);
@@ -227,7 +244,7 @@ public class SocketListener {
 													else
 														conn.getOutputStream().println(CommunicationHandler.FRIEND_ADD_FAIL);
 												}
-											}  else if (input.startsWith(CommunicationHandler.GAME_ROOM_FRIENDS)) {
+											}  else if (input.startsWith(CommunicationHandler.FRIENDS_GET_LIST)) {
 												User u = UserManager.loadUserByEmail(conn.getUser().getEmail());
 												u.sendFriendList(conn.getOutputStream());
 											} else if (input.startsWith(CommunicationHandler.FRIEND_INVITE)) {

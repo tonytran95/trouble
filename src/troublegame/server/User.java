@@ -341,7 +341,7 @@ public class User implements Serializable {
 			User friend = UserManager.loadUserById(friendID);
 			friends += friend.getUsername();
 		}
-		outputStream.println(CommunicationHandler.GAME_ROOM_FRIENDS+friends);
+		outputStream.println(CommunicationHandler.FRIENDS_GET_LIST+friends);
 	}
 	/**
 	 * Representation of this user as a string

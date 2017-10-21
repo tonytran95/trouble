@@ -33,6 +33,7 @@ import troublegame.client.panels.ProfilePanel;
 import troublegame.client.panels.RegisterPanel;
 import troublegame.client.panels.RulesPanel;
 import troublegame.client.panels.StartPanel;
+import troublegame.communication.CommunicationHandler;
 
 /**
  * 
@@ -45,7 +46,7 @@ public class SwingUI extends JFrame {
 	
 	public static final int LOBBY = 0;
 	public static final int GAME_ROOM = 1;
-	
+	public static final int USER_PROFILE = 2;
 	/**
 	 * Serial ID for object serialisation
 	 */
@@ -280,8 +281,9 @@ public class SwingUI extends JFrame {
 			case USER_PROFILE:
 				if (profilePanel == null)
 					profilePanel = new ProfilePanel(this);
-				resizeFrame(450, 535);
+				resizeFrame(725, 501);
 				switchPanel(profilePanel);
+				this.send(CommunicationHandler.FRIENDS_GET_LIST);
 				break;
 			case SIGN_UP:
 				if (registerPanel == null)
@@ -412,9 +414,28 @@ public class SwingUI extends JFrame {
 	}
 	
 	/**
+	 * removes friend from friendlist
+	 */
+	public void removeFriend(String friendUsername, int type) {
+		switch (type) {
+			case USER_PROFILE:
+				this.profilePanel.removeFriend(friendUsername);
+				break;
+		}
+	}
+	
+	/**
 	 * populates friend list in game room
 	 */
-	public void displayFriends(String[] friends) {
-		this.gameRoomPanel.displayFriendList(friends);	
+	public void displayFriends(String[] friends, int type) {
+		switch (type) {
+			case GAME_ROOM:
+				this.gameRoomPanel.displayFriendList(friends);	
+				break;
+			case USER_PROFILE:
+				this.profilePanel.displayFriendList(friends);
+				break;
+		}
+		
 	}
 }

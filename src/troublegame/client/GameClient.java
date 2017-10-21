@@ -244,7 +244,7 @@ public class GameClient {
 		    				name = name.trim();
 		    				ui.setGameRoomName(name);
 		    				// query for friend list
-		    				ui.send(CommunicationHandler.GAME_ROOM_FRIENDS);
+		    				ui.send(CommunicationHandler.FRIENDS_GET_LIST);
 		    			} else if (input.startsWith(CommunicationHandler.GAME_ROOM_CHAT)) {
 		    				String chatMessage = input.substring(CommunicationHandler.GAME_ROOM_CHAT.length());
 		    				ui.pushChat(chatMessage, SwingUI.GAME_ROOM);
@@ -255,10 +255,10 @@ public class GameClient {
 		    				gameRoomPanel.removeUser(inputSplit[1]);
 		    			} else if (input.startsWith(CommunicationHandler.GAME_START_FAIL)) {
 		    				JOptionPane.showMessageDialog(null, "Only the owner can start the game!");
-		    			} else if (input.startsWith(CommunicationHandler.GAME_ROOM_FRIENDS)) {
-		    				input = input.substring(CommunicationHandler.GAME_ROOM_FRIENDS.length());
+		    			} else if (input.startsWith(CommunicationHandler.FRIENDS_GET_LIST)) {
+		    				input = input.substring(CommunicationHandler.FRIENDS_GET_LIST.length());
 		    				String[] friends = input.split("%");
-		    				ui.displayFriends(friends);
+		    				ui.displayFriends(friends, SwingUI.GAME_ROOM);
 		    			}
 		    			break;
 		    		case USER_PROFILE:
@@ -270,6 +270,16 @@ public class GameClient {
 		    				JOptionPane.showMessageDialog(null, "Incorrect password.");
 		    			} else if (input.startsWith(CommunicationHandler.CHANGE_SUCCESS)) {
 		    				JOptionPane.showMessageDialog(null, "Your password has been changed");
+		    			} else if (input.startsWith(CommunicationHandler.FRIENDS_GET_LIST)) {
+		    				input = input.substring(CommunicationHandler.FRIENDS_GET_LIST.length());
+		    				String[] friends = input.split("%");
+		    				ui.displayFriends(friends, SwingUI.USER_PROFILE);
+		    			} else if (input.startsWith(CommunicationHandler.UNFRIEND_SUCCESS)) {
+		    				String username = input.substring(CommunicationHandler.UNFRIEND_SUCCESS.length());
+		    				JOptionPane.showMessageDialog(null, "You have successfully removed "+ username +" from your friend list");
+		    				ui.removeFriend(username, SwingUI.USER_PROFILE);
+		    			} else if (input.startsWith(CommunicationHandler.UNFRIEND_FAIL)) {
+		    				JOptionPane.showMessageDialog(null, "An error occured while trying to remove this user.");
 		    			}
 		    			break;
 		    		case SIGN_UP:
@@ -283,6 +293,7 @@ public class GameClient {
 		    			}
 		    			break;
 		    		default:
+		    			break;
 		    	}
 		    }
 		} catch (UnknownHostException e) {

@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
 import javax.imageio.ImageIO;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.Image;
@@ -26,6 +27,10 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.swing.JPasswordField;
+import javax.swing.UIManager;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.JList;
 
 public class ProfilePanel extends JPanel {
 	/**
@@ -45,6 +50,7 @@ public class ProfilePanel extends JPanel {
 	private JTextField usernameTextField;
 	private JPasswordField newpassword;
 	
+	private DefaultListModel<String> friendlistModel;
 	/**
 	 * Create the panel.
 	 */
@@ -58,12 +64,17 @@ public class ProfilePanel extends JPanel {
 			e.printStackTrace();
 		}
 		
+		friendlistModel = new DefaultListModel<String>();
 		Image image1 = Toolkit.getDefaultToolkit().getImage("./data/img/button_1x.png");
 		Image image2 = Toolkit.getDefaultToolkit().getImage("./data/img/button_3.png");
 		Image newimg1 = image1.getScaledInstance(252, 25, Image.SCALE_SMOOTH);
 		Image newimg2 = image2.getScaledInstance(252, 25, Image.SCALE_SMOOTH);
+		Image newimg3 = image1.getScaledInstance(103, 25, Image.SCALE_SMOOTH);
+		Image newimg4 = image2.getScaledInstance(103, 25, Image.SCALE_SMOOTH);
 		ImageIcon imgIcon1 = new ImageIcon(newimg1);
 		ImageIcon imgIcon2 = new ImageIcon(newimg2);
+		ImageIcon imgIcon3 = new ImageIcon(newimg3);
+		ImageIcon imgIcon4 = new ImageIcon(newimg4);
 		
 		User me = swingUI.getUser();
 		String username = me.getUsername();
@@ -92,7 +103,7 @@ public class ProfilePanel extends JPanel {
 		add(updateButton);
 		
 		JSeparator separator = new JSeparator();
-		separator.setBounds(0, 185, 459, 2);
+		separator.setBounds(0, 185, 408, 2);
 		add(separator);
 		
 		JLabel label_3 = new JLabel("Game Statistics");
@@ -215,7 +226,7 @@ public class ProfilePanel extends JPanel {
 		backButton.setBorderPainted(false);
 		
 		JSeparator separator_1 = new JSeparator();
-		separator_1.setBounds(-19, 319, 459, 2);
+		separator_1.setBounds(-19, 309, 427, 18);
 		add(separator_1);
 		
 		JLabel lblChangePassword = new JLabel("Change Password");
@@ -294,6 +305,58 @@ public class ProfilePanel extends JPanel {
 		updatePassword.setIcon(imgIcon1);
 		updatePassword.setHorizontalTextPosition(SwingConstants.CENTER);
 		updatePassword.setBorderPainted(false);
+		
+		JSeparator separator_2 = new JSeparator();
+		separator_2.setOrientation(SwingConstants.VERTICAL);
+		separator_2.setBounds(407, 0, 2, 465);
+		add(separator_2);
+		
+		JList<String> friendlist = new JList<String>(friendlistModel);
+		friendlist.setBounds(437, 37, 260, 392);
+		add(friendlist);
+		
+		JLabel lblFriendList = new JLabel("My Friends");
+		lblFriendList.setLabelFor(friendlist);
+		lblFriendList.setBounds(437, 13, 103, 16);
+		add(lblFriendList);
+		
+		JButton unfriendButton = new JButton("Unfriend");
+		unfriendButton.setBounds(594, 9, 103, 25);
+		add(unfriendButton);
+		unfriendButton.setVisible(false);
+		unfriendButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				swingUI.playButtonSound();
+				swingUI.send(CommunicationHandler.UNFRIEND + friendlist.getSelectedValue());
+			}
+		});
+		unfriendButton.addMouseListener(new MouseListener() {			
+			@Override
+			public void mouseReleased(MouseEvent arg0) {}		   
+			@Override
+			public void mousePressed(MouseEvent arg0) {}			
+			@Override
+			public void mouseExited(MouseEvent arg0) { 
+				unfriendButton.setIcon(imgIcon3);
+			}		   
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				unfriendButton.setIcon(imgIcon4);
+			}		   
+			@Override
+			public void mouseClicked(MouseEvent arg0) {}
+		});		
+		unfriendButton.setIcon(imgIcon3);
+		unfriendButton.setHorizontalTextPosition(SwingConstants.CENTER);
+		unfriendButton.setBorderPainted(false);
+		
+		friendlist.addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				if (!unfriendButton.isVisible()) unfriendButton.setVisible(true);
+			}
+		});
 	}
 	
 	/**
@@ -309,6 +372,17 @@ public class ProfilePanel extends JPanel {
 	 */
 	public void setSwingUI(SwingUI swingUI) {
 		this.swingUI = swingUI;
+	}
+	
+	public void displayFriendList(String[] friends) {
+		friendlistModel.clear();
+		for (String friend: friends) {
+			friendlistModel.addElement(friend);
+		}
+	}
+	
+	public void removeFriend(String friend) {
+		friendlistModel.removeElement(friend);
 	}
 	
 	@Override
