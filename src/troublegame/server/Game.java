@@ -33,6 +33,19 @@ public class Game {
 	}
 	
 	public void start() {
+		
+		//	ArrayList<Connection> t = sortByColorPref(players);
+		 //	
+		 //	for(Connection c : t) {
+		 //		System.out.println(c.getUser().getFavouriteColor());
+		 //			User curr = c.getUser();
+		 //			Color prefColor = curr.getFavouriteColor();
+		 //			g.ass
+		 //		
+		 //	}
+		 //	
+		 
+		 
 		startTime = Calendar.getInstance();
 		setAvailableColours();
 		players = new Player[Game.MAX_PLAYERS];
