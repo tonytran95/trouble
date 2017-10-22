@@ -213,6 +213,9 @@ public class GameClient {
 							}, 1500);
 				    	} else if (input.startsWith(CommunicationHandler.GAME_EAT_TOKEN)) {
 				    		boardPanel.updateToken(inputSplit[2], Integer.parseInt(inputSplit[1]), Integer.parseInt(inputSplit[3]), Integer.parseInt(inputSplit[1]));
+				    		if (inputSplit[2].equals(ui.getUser().getUsername())) {
+				    			chatPanel.sendMessageToChatBox(GAME_MESSAGE + "Oh no! Your token has been eaten and sent back to home.");
+				    		}
 				    	} else if (input.startsWith(CommunicationHandler.GAME_TURN)) {
 				    		new Timer().schedule(new TimerTask() {
 								@Override
