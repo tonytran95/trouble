@@ -206,9 +206,11 @@ public class BoardPanel extends JPanel {
 						if (dieHolder.contains(e.getPoint())) {
 							for (int i = 0; i < swingUI.getUser().getTokens().size(); i++) {
 								if (swingUI.getUser().getTokens().get(i).equals(swingUI.getUser().getSelectedSlot())) {
-									swingUI.send(CommunicationHandler.GAME_ROLL + " " + i);
-									myTurn = false;
-									break;
+									if (swingUI.getUser().getTokens().get(i).getZone() != Board.SLOT_END) {
+										swingUI.send(CommunicationHandler.GAME_ROLL + " " + i);
+										myTurn = false;
+										break;
+									}
 								}
 							}
 						}

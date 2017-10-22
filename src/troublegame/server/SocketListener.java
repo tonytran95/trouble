@@ -23,14 +23,14 @@ public class SocketListener {
 	private Lobby lobby;
 	private GameEngine gameEngine;
 	
-	public SocketListener(int port) {
+	public SocketListener(String[] strings) {
 		System.out.println(CommunicationHandler.SOCKET_LISTENER_INFO + " Initializing socket listener...");
-		this.port = port;
+		this.port = Integer.parseInt(strings[1]);
 		clients = new ArrayList<Socket>();
 		connections = new ArrayList<Connection>();
 		listening = true;
 		try {
-			socket = new ServerSocket(port);
+			socket = new ServerSocket(this.port);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

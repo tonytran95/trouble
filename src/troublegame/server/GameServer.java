@@ -1,5 +1,8 @@
 package troublegame.server;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -14,11 +17,6 @@ import troublegame.communication.CommunicationHandler;
 public class GameServer {
 	
 	private static final int TIME_PERIOD = 1000;
-	
-	/**
-	 * The port.
-	 */
-	public final static int PORT = 4321;
 	
 	/**
 	 * The main function.
@@ -68,7 +66,7 @@ public class GameServer {
 		/**
 		 * Initializes the socket listener and login handler.
 		 */
-		this.socketListener = new SocketListener(GameServer.PORT);
+		this.socketListener = new SocketListener(getServerInfo().split(":"));
 		this.loginHandler = new LoginHandler(this);
 		this.lobby = new Lobby(this);
 		this.socketListener.setLoginHandler(loginHandler);
@@ -79,6 +77,22 @@ public class GameServer {
 		 * Add the gameengine to the socketListener (temporary)
 		 */
 		this.socketListener.addGameEngine(this.gameEngine);
+	}
+
+	/**
+	 * @return the server's ip and port in the format <ip:port>
+	 */
+	private String getServerInfo() {
+		String line = null;
+		try {
+			BufferedReader bufferedReader = new BufferedReader(new FileReader("./server.txt"));
+			line = bufferedReader.readLine();
+			bufferedReader.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return line;
 	}
 	
 	public void login(Connection user) {
