@@ -20,6 +20,7 @@ import troublegame.client.panels.BoardPanel;
 import troublegame.client.panels.GameChatPanel;
 import troublegame.client.panels.GamePanel;
 import troublegame.client.panels.GameRoomPanel;
+import troublegame.client.panels.InfoPanel;
 import troublegame.client.panels.LobbyPanel;
 import troublegame.client.panels.RegisterPanel;
 import troublegame.communication.CommunicationHandler;
@@ -144,12 +145,14 @@ public class GameClient {
 		    			GamePanel gamePanel = (GamePanel) ui.getCurrentPanel();
 		    			GameChatPanel chatPanel = gamePanel.getChatPanel();
 		    			BoardPanel boardPanel = gamePanel.getBoardPanel();
+		    			InfoPanel infoPanel = gamePanel.getInfoPanel();
 		    			if (input.startsWith(CommunicationHandler.GAME_START)) {
 		    				String startTime = input.substring(CommunicationHandler.GAME_START.length() + 1);
 		    				chatPanel.sendMessageToChatBox(startTime);
 		    				boardPanel.setupPanel();
 				    	} else if (input.startsWith(CommunicationHandler.GAME_COLORS)) {
 				    		boardPanel.setupPlayer(inputSplit[1], inputSplit[2]);
+				    		infoPanel.setupPlayer(inputSplit[1], inputSplit[2]);
 				    	} else if (input.startsWith(CommunicationHandler.GAME_ROLL)) {
 				    		int rolled = Integer.valueOf(inputSplit[1]);
 				    		boardPanel.rollAndShow(rolled);
@@ -215,6 +218,7 @@ public class GameClient {
 								@Override
 								public void run() {
 									boardPanel.updateTurn(inputSplit[1]);
+									infoPanel.updateTurn(inputSplit[1]);
 						    		if (ui.getUser().getUsername().equals(inputSplit[1])) {
 						    			chatPanel.sendMessageToChatBox(GAME_MESSAGE + "It's your turn! Click the dice to roll");
 						    		} else {
