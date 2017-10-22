@@ -324,10 +324,10 @@ public class Board {
 		
 		switch (zone) {
 			case SLOT_HOME:
-				if (index < NUM_HOME_SLOTS - 1) slot = getPlayerHomeZone(col).get(index);
+				if (index < NUM_HOME_SLOTS) slot = getPlayerHomeZone(col).get(index);
 				break;
 			case SLOT_END:
-				if (index < NUM_END_SLOTS - 1) slot = getPlayerEndZone(col).get(index);
+				if (index < NUM_END_SLOTS) slot = getPlayerEndZone(col).get(index);
 				break;
 			default:
 				slot = getSlot(index);
