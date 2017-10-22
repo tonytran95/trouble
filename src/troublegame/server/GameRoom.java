@@ -137,14 +137,6 @@ public class GameRoom {
 	}
 	
 	/**
-	 * Broadcasts to all members of this GameRoom to start the game
-	 */
-	public void startGame() {
-		for (Connection member : members) 
-			member.getOutputStream().println(CommunicationHandler.GAME_START);
-	}
-	
-	/**
 	 * checks if a connection is a member inside the game room
 	 */
 	public boolean isMember(Connection c) {

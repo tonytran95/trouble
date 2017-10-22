@@ -209,16 +209,26 @@ public class GameClient {
 				    	} else if (input.startsWith(CommunicationHandler.GAME_EAT_TOKEN)) {
 				    		boardPanel.updateToken(inputSplit[2], Integer.parseInt(inputSplit[1]), Integer.parseInt(inputSplit[3]), Integer.parseInt(inputSplit[1]));
 				    	} else if (input.startsWith(CommunicationHandler.GAME_TURN)) {
-				    		boardPanel.updateTurn(inputSplit[1]);
-				    		if (ui.getUser().getUsername().equals(inputSplit[1])) {
-				    			chatPanel.sendMessageToChatBox(GAME_MESSAGE + "It's your turn! Click the dice to roll");
-				    		} else {
-				    			String currPlayer = inputSplit[1];
-				    			int lastCharIndex = currPlayer.length() - 1;
-				    			char lastLetInPlayerName = Character.toLowerCase(currPlayer.charAt(lastCharIndex));
-				    			currPlayer += (lastLetInPlayerName == 's') ? "'" : "'s";
-				    			chatPanel.sendMessageToChatBox(GAME_MESSAGE + "It's " + currPlayer + " turn");
-				    		}
+				    		
+				    		new Timer().schedule(new TimerTask() {
+								
+								@Override
+								public void run() {
+									
+									boardPanel.updateTurn(inputSplit[1]);
+						    		if (ui.getUser().getUsername().equals(inputSplit[1])) {
+						    			chatPanel.sendMessageToChatBox(GAME_MESSAGE + "It's your turn! Click the dice to roll");
+						    		} else {
+						    			String currPlayer = inputSplit[1];
+						    			int lastCharIndex = currPlayer.length() - 1;
+						    			char lastLetInPlayerName = Character.toLowerCase(currPlayer.charAt(lastCharIndex));
+						    			currPlayer += (lastLetInPlayerName == 's') ? "'" : "'s";
+						    			chatPanel.sendMessageToChatBox(GAME_MESSAGE + "It's " + currPlayer + " turn");
+						    		}
+									
+								}
+							}, 1500);
+				    		
 		    			} else if (input.startsWith(CommunicationHandler.GAME_CHAT)) {
 		    				String message = input.substring(CommunicationHandler.GAME_CHAT.length() + 1);
 		    				chatPanel.sendMessageToChatBox(message);

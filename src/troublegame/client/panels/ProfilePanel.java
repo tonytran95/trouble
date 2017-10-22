@@ -27,7 +27,6 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.swing.JPasswordField;
-import javax.swing.UIManager;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.JList;

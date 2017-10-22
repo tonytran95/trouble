@@ -237,17 +237,6 @@ public class GameEngine {
 		}
 	}
 	
-	public void handleInput(Game g, Connection c, String input) {
-		// ignore the input if it's not user's turn
-		if(g.isStarted()) {
-			Player curr = g.getWhoseTurn();
-			
-			if (c.getUsername().equals(curr.getUsername())) {
-				inputQueues.get(g).add(input);
-			}
-		}
-	}
-	
 	/**
 	 * Gets the user from the connection associated with the username 
 	 * @param username

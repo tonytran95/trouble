@@ -25,11 +25,10 @@ public class GameServer {
 	 * @param args are the arguments.
 	 */
 	public static void main(String args[]) {
-		GameServer GS = new GameServer();
-		Runner gameRunner = GS.new Runner();
-		Timer serverTimer = new Timer();
 		
-		serverTimer.schedule(gameRunner, 0, TIME_PERIOD);
+		GameServer gs = new GameServer();
+		gs.startProcessing();
+		
 	}
 	
 	/**
@@ -56,6 +55,7 @@ public class GameServer {
 	 * Constructs a new server.
 	 */
 	public GameServer() {
+		
 		System.out.println(CommunicationHandler.GAME_SERVER_INFO + " Starting game server...");
 		
 		/**
@@ -111,10 +111,14 @@ public class GameServer {
 		return this.lobby;
 	}
 	
-	class Runner extends TimerTask {
-		public void run() {
-			gameEngine.process();
-			loginHandler.process();
-		}
+	private void startProcessing() {
+		new Timer().schedule(new TimerTask() {
+			
+			@Override
+			public void run() {
+				gameEngine.process();
+				loginHandler.process();
+			}
+		}, 0, TIME_PERIOD);
 	}
 }

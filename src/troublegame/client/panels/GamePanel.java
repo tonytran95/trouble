@@ -2,7 +2,6 @@ package troublegame.client.panels;
 
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
@@ -11,7 +10,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import troublegame.client.Interface;
@@ -113,7 +111,7 @@ public class GamePanel extends JPanel {
 		
 		boardPanel.setBounds(0, 0, 576, 576);
 		boardPanel.setOpaque(false);
-		chatPanel.setBounds(589, 301, 422, 262);
+		chatPanel.setBounds(589, 13, 422, 550);
 		chatPanel.setOpaque(false);
 		this.add(boardPanel);
 		this.add(chatPanel);
