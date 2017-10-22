@@ -171,14 +171,18 @@ public class GameClient {
 							}, 1500);
 				    		
 				    	} else if (input.startsWith(CommunicationHandler.GAME_ROLL_AGAIN)) {
-				    		
+				    		boardPanel.updateTurn(inputSplit[3]);
 				    		int rolled = Integer.valueOf(inputSplit[1]);
 				    		boardPanel.rollAndShow(rolled);
 				    		new Timer().schedule(new TimerTask() {
 								
 								@Override
 								public void run() {
-									chatPanel.sendMessageToChatBox(GAME_MESSAGE + "You rolled a " + rolled + ". Roll again to move.");
+									if (ui.getUser().getUsername().equals(inputSplit[3])) {
+										chatPanel.sendMessageToChatBox(GAME_MESSAGE + "You rolled a " + rolled + ". Roll again to move.");
+									} else {
+										chatPanel.sendMessageToChatBox(GAME_MESSAGE + inputSplit[3] + " rolled a " + rolled + ". They can roll again.");
+									}
 						    		boardPanel.updateToken(inputSplit[3], Integer.parseInt(inputSplit[2]), Integer.parseInt(inputSplit[4]), Integer.parseInt(inputSplit[5]));
 								}
 							}, 1500);

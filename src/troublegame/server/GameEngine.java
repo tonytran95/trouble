@@ -148,7 +148,13 @@ public class GameEngine {
 							System.out.println(CommunicationHandler.GAME_INFO + " Rolling Token ID: " + tokenID);
 							g.rollDie();
 							g.setTick(2);
-							broadcast(g, g.movePlayerToken(playerID, tokenID));
+							
+							String command = g.movePlayerToken(playerID, tokenID);
+							broadcast(g, command);
+							if (!command.startsWith(CommunicationHandler.GAME_ROLL_AGAIN)) {
+								g.incrementTurn();
+								updateTurns(g);
+							}
 						}
 					}
 				} else {
@@ -162,7 +168,12 @@ public class GameEngine {
 							String input[] = move.split(" ");
 							int tokenID = Integer.parseInt(input[1]);
 							g.rollDie();
-							broadcast(g, g.movePlayerToken(ai.getID(), tokenID));
+							String command = g.movePlayerToken(ai.getID(), tokenID);
+							broadcast(g, command);
+							if (!command.startsWith(CommunicationHandler.GAME_ROLL_AGAIN)) {
+								g.incrementTurn();
+								updateTurns(g);
+							}
 						}
 					} else
 						g.setTick(g.getTick() - 1);

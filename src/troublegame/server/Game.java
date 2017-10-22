@@ -178,7 +178,6 @@ public class Game {
 				// Was 6, changed to -1 to allow all rolls
 				if (diceValue == -1) {
 					command = CommunicationHandler.GAME_ROLL_FAIL + " " + diceValue;
-					engine.updateTurns(this);
 				} else {
 					startIndex = board.getStartIndex(col);
 					if (board.getSlot(startIndex).isOccupied()) {
@@ -190,7 +189,7 @@ public class Game {
 					
 					command = CommunicationHandler.GAME_ROLL_AGAIN + " " + diceValue + " " + tokenID + " " + p.getUsername() + " " + Board.SLOT_MAIN + " " + startIndex;
 					board.setTokenLoc(token, Board.SLOT_MAIN, startIndex);
-					turnNum--;
+					//turnNum--;
 				}
 				break;
 			case Board.SLOT_MAIN:
@@ -262,8 +261,8 @@ public class Game {
 			board.setTokenLoc(token, Board.SLOT_MAIN, target);
 		}
 		
-		turnNum++;
-		engine.updateTurns(this);
+		//turnNum++;
+		//engine.updateTurns(this);
 		
 		return command;
 	}
