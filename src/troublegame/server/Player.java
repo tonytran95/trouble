@@ -26,6 +26,10 @@ public class Player {
 		return username;
 	}
 	
+	public void setPID(int pid) {
+		this.id = pid;
+	}
+	
 	public void setColour(Color col) {
 		this.color = col;
 	}

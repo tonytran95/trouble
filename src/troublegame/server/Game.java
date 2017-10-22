@@ -2,7 +2,9 @@ package troublegame.server;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -54,6 +56,16 @@ public class Game {
 			players[i] = createAIPlayer(i, c, name);
 			i++;
 		}
+		
+		Arrays.sort(players, new Comparator<Player>() {
+			@Override
+			public int compare(Player p1, Player p2) {
+				return p1.getColour().compareTo(p2.getColour());
+			}
+		});
+		for (int j = 0; j < players.length; j++)
+			players[j].setPID(j);
+		
 		board = new Board(players);
 		this.started = true;
 		
