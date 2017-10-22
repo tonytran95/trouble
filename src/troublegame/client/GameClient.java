@@ -162,22 +162,24 @@ public class GameClient {
 				    		int rolled = Integer.valueOf(inputSplit[1]);
 				    		boardPanel.rollAndShow(rolled);
 				    		new Timer().schedule(new TimerTask() {
-								
 								@Override
 								public void run() {
-									chatPanel.sendMessageToChatBox(GAME_MESSAGE + inputSplit[3] + " rolled a " + rolled);
+									if (ui.getUser().getUsername().equals(inputSplit[3])) {
+										chatPanel.sendMessageToChatBox(GAME_MESSAGE + "You rolled a " + rolled);
+									} else {
+										chatPanel.sendMessageToChatBox(GAME_MESSAGE + inputSplit[3] + " rolled a " + rolled);
+									}
 						    		boardPanel.updateToken(inputSplit[3], Integer.parseInt(inputSplit[2]), Integer.parseInt(inputSplit[4]), Integer.parseInt(inputSplit[5]));
 								}
 							}, 1500);
 				    		
 				    	} else if (input.startsWith(CommunicationHandler.GAME_ROLL_AGAIN)) {
-				    		boardPanel.updateTurn(inputSplit[3]);
 				    		int rolled = Integer.valueOf(inputSplit[1]);
 				    		boardPanel.rollAndShow(rolled);
 				    		new Timer().schedule(new TimerTask() {
-								
 								@Override
 								public void run() {
+						    		boardPanel.updateTurn(inputSplit[3]);
 									if (ui.getUser().getUsername().equals(inputSplit[3])) {
 										chatPanel.sendMessageToChatBox(GAME_MESSAGE + "You rolled a " + rolled + ". Roll again to move.");
 									} else {
@@ -188,39 +190,38 @@ public class GameClient {
 							}, 1500);
 				    		
 				    	} else if (input.startsWith(CommunicationHandler.GAME_ROLL_SUCCESS)) {
-
 				    		int rolled = Integer.valueOf(inputSplit[1]);
 				    		boardPanel.rollAndShow(rolled);
 				    		new Timer().schedule(new TimerTask() {
-								
 								@Override
 								public void run() {
-									chatPanel.sendMessageToChatBox(GAME_MESSAGE + "You rolled a " + rolled + "! Moving your token.");
+									if (ui.getUser().getUsername().equals(inputSplit[4])) {
+										chatPanel.sendMessageToChatBox(GAME_MESSAGE + "You rolled a " + rolled + "! Moving token into end zone!");
+									} else {
+										chatPanel.sendMessageToChatBox(GAME_MESSAGE + inputSplit[3] + " rolled a " + rolled + "! Moving token into end zone!");
+									}
 						    		boardPanel.updateToken(inputSplit[3], Integer.parseInt(inputSplit[2]), Integer.parseInt(inputSplit[4]), Integer.parseInt(inputSplit[5]));
 								}
 							}, 1500);
-				    		
 				    	} else if (input.startsWith(CommunicationHandler.GAME_ROLL_FAIL)) {
-				    		
 				    		int rolled = Integer.valueOf(inputSplit[1]);
 				    		boardPanel.rollAndShow(rolled);
 				    		new Timer().schedule(new TimerTask() {
-								
 								@Override
 								public void run() {
-									chatPanel.sendMessageToChatBox(GAME_MESSAGE + "You rolled a " + rolled + ". Unable to move.");
+									if (ui.getUser().getUsername().equals(inputSplit[2])) {
+										chatPanel.sendMessageToChatBox(GAME_MESSAGE + "You rolled a " + rolled + ". Unable to move!");
+									} else {
+										chatPanel.sendMessageToChatBox(GAME_MESSAGE + inputSplit[2] + " rolled a " + rolled + ". Unable to move!");
+									}
 								}
 							}, 1500);
-				    		
 				    	} else if (input.startsWith(CommunicationHandler.GAME_EAT_TOKEN)) {
 				    		boardPanel.updateToken(inputSplit[2], Integer.parseInt(inputSplit[1]), Integer.parseInt(inputSplit[3]), Integer.parseInt(inputSplit[1]));
 				    	} else if (input.startsWith(CommunicationHandler.GAME_TURN)) {
-				    		
 				    		new Timer().schedule(new TimerTask() {
-								
 								@Override
 								public void run() {
-									
 									boardPanel.updateTurn(inputSplit[1]);
 						    		if (ui.getUser().getUsername().equals(inputSplit[1])) {
 						    			chatPanel.sendMessageToChatBox(GAME_MESSAGE + "It's your turn! Click the dice to roll");
@@ -231,10 +232,8 @@ public class GameClient {
 						    			currPlayer += (lastLetInPlayerName == 's') ? "'" : "'s";
 						    			chatPanel.sendMessageToChatBox(GAME_MESSAGE + "It's " + currPlayer + " turn");
 						    		}
-									
 								}
-							}, 1500);
-				    		
+							}, 1750);
 		    			} else if (input.startsWith(CommunicationHandler.GAME_CHAT)) {
 		    				String message = input.substring(CommunicationHandler.GAME_CHAT.length() + 1);
 		    				chatPanel.sendMessageToChatBox(message);
