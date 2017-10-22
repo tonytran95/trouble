@@ -333,7 +333,6 @@ public class GameClient {
 			line = bufferedReader.readLine();
 			bufferedReader.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return line;

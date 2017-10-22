@@ -46,7 +46,6 @@ public class StartPanel extends JPanel {
 		try {
 			backgroundImage = ImageIO.read(new File("./data/img/background3.jpg"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		this.init();
