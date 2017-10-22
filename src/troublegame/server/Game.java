@@ -305,8 +305,8 @@ public class Game {
 		if(startTime != null) {
 			
 			String date = new SimpleDateFormat("EEEE, dd/MM/yyyy").format(startTime.getTime());
-			String time = new SimpleDateFormat("hh:mm:ss.SSS a").format(startTime.getTime());
-			message = CommunicationHandler.GAME_INFO + " Game was started on " + date + " at " + time;
+			String time = new SimpleDateFormat("hh:mm:ss a").format(startTime.getTime());
+			message = "Game started on " + date + " at " + time;
 			 
 		}
 		

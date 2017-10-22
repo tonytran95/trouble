@@ -71,7 +71,7 @@ public class GameEngine {
 		g.start();
 		g.showPlayers();
 		for (Connection c : gameConns.get(g))
-			c.getOutputStream().println(CommunicationHandler.GAME_START);
+			c.getOutputStream().println(CommunicationHandler.GAME_START + " " + g.getStartTimeMessage());
 		updateTurns(g);
 	}
 	

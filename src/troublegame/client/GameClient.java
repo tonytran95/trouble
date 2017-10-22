@@ -152,7 +152,9 @@ public class GameClient {
 		    			GamePanel gamePanel = (GamePanel) ui.getCurrentPanel();
 		    			GameChatPanel chatPanel = gamePanel.getChatPanel();
 		    			BoardPanel boardPanel = gamePanel.getBoardPanel();
-		    			if (input.equals(CommunicationHandler.GAME_START)) {
+		    			if (input.startsWith(CommunicationHandler.GAME_START)) {
+		    				String startTime = input.substring(CommunicationHandler.GAME_START.length() + 1);
+		    				chatPanel.sendMessageToChatBox(startTime);
 		    				boardPanel.setupPanel();
 				    	} else if (input.startsWith(CommunicationHandler.GAME_COLORS)) {
 				    		boardPanel.setupPlayer(inputSplit[1], inputSplit[2]);
