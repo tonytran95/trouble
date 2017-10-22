@@ -281,7 +281,7 @@ public class SwingUI extends JFrame {
 			case USER_PROFILE:
 				if (profilePanel == null)
 					profilePanel = new ProfilePanel(this);
-				resizeFrame(725, 501);
+				resizeFrame(725, 500);
 				switchPanel(profilePanel);
 				this.send(CommunicationHandler.FRIENDS_GET_LIST);
 				break;

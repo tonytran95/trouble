@@ -63,6 +63,7 @@ public class ProfilePanel extends JPanel {
 			e.printStackTrace();
 		}
 		
+		backgroundImage = backgroundImage.getScaledInstance(725, 500, Image.SCALE_SMOOTH);
 		friendlistModel = new DefaultListModel<String>();
 		Image image1 = Toolkit.getDefaultToolkit().getImage("./data/img/button_1x.png");
 		Image image2 = Toolkit.getDefaultToolkit().getImage("./data/img/button_3.png");
@@ -314,7 +315,7 @@ public class ProfilePanel extends JPanel {
 		friendlist.setBounds(437, 37, 260, 392);
 		add(friendlist);
 		
-		JLabel lblFriendList = new JLabel("My Friends");
+		JLabel lblFriendList = new JLabel("Friend List");
 		lblFriendList.setLabelFor(friendlist);
 		lblFriendList.setBounds(437, 13, 103, 16);
 		add(lblFriendList);
@@ -389,7 +390,7 @@ public class ProfilePanel extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 	
-		// Draw the background image.
+		// Draw the background image
 		g.drawImage(backgroundImage, 0, 0, this);
 	}
 }
