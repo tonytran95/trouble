@@ -275,7 +275,7 @@ public class SwingUI extends JFrame {
 			case RULES:
 				if (rulesPanel == null)
 					rulesPanel = new RulesPanel(this);
-				//resizeFrame(870, 680);
+				resizeFrame(860, 600);
 				switchPanel(rulesPanel);
 				break;
 			case USER_PROFILE:
