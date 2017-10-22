@@ -1,15 +1,19 @@
 package troublegame.client.panels;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -38,6 +42,7 @@ public class RegisterPanel extends JPanel {
 	private JRadioButton rdbtnGreen;
 	private JRadioButton rdbtnYellow;
 	private String preferredColor;
+	private Image backgroundImage;
 	
 	/**
 	 * The swing user interface.
@@ -55,6 +60,16 @@ public class RegisterPanel extends JPanel {
 		this.rdbtnBlue = new JRadioButton("Blue");
 		this.rdbtnGreen = new JRadioButton("Green");
 		this.rdbtnYellow = new JRadioButton("Yellow");
+		
+		/**
+		 * set background image
+		 */
+		try {
+			backgroundImage = ImageIO.read(new File("./data/img/background5.jpg"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		this.init();
 	}
 	
@@ -65,31 +80,31 @@ public class RegisterPanel extends JPanel {
 		this.setLayout(null);
 		
 		JLabel lblDisplayName = new JLabel("Display name:");
-		lblDisplayName.setBounds(284, 173, 100, 14);
+		lblDisplayName.setBounds(260, 173, 124, 14);
 		this.add(lblDisplayName);
 		
 		JLabel lblEmailAddress = new JLabel("Email address:");
-		lblEmailAddress.setBounds(284, 198, 100, 14);
+		lblEmailAddress.setBounds(260, 198, 124, 14);
 		this.add(lblEmailAddress);
 		
 		JLabel lblPassword = new JLabel("Password:");
-		lblPassword.setBounds(284, 223, 100, 14);
+		lblPassword.setBounds(260, 223, 124, 14);
 		this.add(lblPassword);
 		
 		JLabel lblConfirmPassword = new JLabel("Confirm password:");
-		lblConfirmPassword.setBounds(284, 248, 100, 14);
+		lblConfirmPassword.setBounds(260, 248, 124, 14);
 		this.add(lblConfirmPassword);
 		
 		JSeparator separator = new JSeparator();
-		separator.setBounds(156, 273, 704, 2);
+		separator.setBounds(171, 275, 690, 2);
 		this.add(separator);
 		
 		JSeparator separator_1 = new JSeparator();
-		separator_1.setBounds(161, 157, 699, 2);
+		separator_1.setBounds(176, 159, 690, 2);
 		this.add(separator_1);
 		
 		JLabel lblAccountRegistration = new JLabel("Account Registration");
-		lblAccountRegistration.setBounds(171, 132, 117, 14);
+		lblAccountRegistration.setBounds(189, 132, 117, 14);
 		this.add(lblAccountRegistration);
 		
 		JLabel lblWhatIsYour = new JLabel("What is your preferred color?");
@@ -115,7 +130,7 @@ public class RegisterPanel extends JPanel {
 		this.add(confirmPasswordField);
 		
 		rdbtnRed.setBounds(320, 317, 109, 23);
-		rdbtnRed.setBackground(new Color(211, 211, 211));
+		rdbtnRed.setBackground(new Color(195, 195, 195));
 		rdbtnRed.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
@@ -128,7 +143,7 @@ public class RegisterPanel extends JPanel {
 		this.add(rdbtnRed);
 		
 		rdbtnBlue.setBounds(320, 343, 109, 23);
-		rdbtnBlue.setBackground(new Color(211, 211, 211));
+		rdbtnBlue.setBackground(new Color(195, 195, 195));
 		rdbtnBlue.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
@@ -141,7 +156,7 @@ public class RegisterPanel extends JPanel {
 		this.add(rdbtnBlue);
 		
 		rdbtnGreen.setBounds(320, 369, 109, 23);
-		rdbtnGreen.setBackground(new Color(211, 211, 211));
+		rdbtnGreen.setBackground(new Color(195, 195, 195));
 		rdbtnGreen.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
@@ -154,7 +169,7 @@ public class RegisterPanel extends JPanel {
 		this.add(rdbtnGreen);
 		
 		rdbtnYellow.setBounds(320, 395, 109, 23);
-		rdbtnYellow.setBackground(new Color(211, 211, 211));
+		rdbtnYellow.setBackground(new Color(195, 195, 195));
 		rdbtnYellow.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
@@ -172,11 +187,11 @@ public class RegisterPanel extends JPanel {
 		quoteField.setColumns(10);
 		
 		JLabel lblTellUsAbout = new JLabel("Tell us about yourself. (Optional)");
-		lblTellUsAbout.setBounds(284, 425, 166, 14);
+		lblTellUsAbout.setBounds(284, 425, 349, 14);
 		this.add(lblTellUsAbout);
 		
 		JSeparator separator_2 = new JSeparator();
-		separator_2.setBounds(156, 495, 704, 13);
+		separator_2.setBounds(171, 485, 690, 13);
 		this.add(separator_2);
 		
 		
@@ -188,7 +203,7 @@ public class RegisterPanel extends JPanel {
 		ImageIcon imgIcon2 = new ImageIcon(newimg2);
 		
 		JButton btnSignUp = new JButton("Sign up");
-		btnSignUp.setBounds(394, 519, 89, 23);
+		btnSignUp.setBounds(390, 499, 89, 23);
 		this.add(btnSignUp);
 		
 		btnSignUp.addActionListener(new ActionListener() {
@@ -220,7 +235,7 @@ public class RegisterPanel extends JPanel {
 		
 		
 		JButton btnCancel = new JButton("Cancel");
-		btnCancel.setBounds(504, 519, 89, 23);
+		btnCancel.setBounds(503, 499, 89, 23);
 		this.add(btnCancel);
 		
 		btnCancel.addActionListener(new ActionListener() {
@@ -341,6 +356,14 @@ public class RegisterPanel extends JPanel {
 	 */
 	public void setSwingUI(SwingUI swingUI) {
 		this.swingUI = swingUI;
+	}
+	
+	@Override
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+	
+		// Draw the background image.
+		g.drawImage(backgroundImage, 0, 0, this);
 	}
 	
 }
