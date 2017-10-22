@@ -465,14 +465,27 @@ public class BoardPanel extends JPanel {
 		
 		int diametre = 30;
 		
-		for(int i = 0; i < 4; i++) {
-			slots.get(i).setSlot(new Ellipse2D.Double(x, y, diametre, diametre), Color.WHITE);
-			if(direction == 1) {
-				y -= spacing;
-				x -= spacing;
-			} else if(direction == 2) {
-				y -= spacing;
-				x += spacing;
+		if (slots.equals(board.getGreenEndZone()) || slots.equals(board.getYellowEndZone())) {
+			for(int i = 3; i >= 0; i--) {
+				slots.get(i).setSlot(new Ellipse2D.Double(x, y, diametre, diametre), Color.WHITE);
+				if(direction == 1) {
+					y -= spacing;
+					x -= spacing;
+				} else if(direction == 2) {
+					y -= spacing;
+					x += spacing;
+				}
+			}
+		} else {
+			for(int i = 0; i < 4; i++) {
+				slots.get(i).setSlot(new Ellipse2D.Double(x, y, diametre, diametre), Color.WHITE);
+				if(direction == 1) {
+					y -= spacing;
+					x -= spacing;
+				} else if(direction == 2) {
+					y -= spacing;
+					x += spacing;
+				}
 			}
 		}
 		

@@ -189,9 +189,9 @@ public class GameEngine {
 				for (Connection c: gameConnections) {
 					PrintWriter clientOutput = c.getOutputStream();
 					if (c.getUsername().equals(winner.getUsername())) {
-						clientOutput.println(CommunicationHandler.GAME_OVER+"Congratulations, you have won!");
+						clientOutput.println(CommunicationHandler.GAME_OVER + " Congratulations, you have won!");
 					} else {
-						clientOutput.println(CommunicationHandler.GAME_OVER+ winner.getUsername()+" has won the game!");
+						clientOutput.println(CommunicationHandler.GAME_OVER + " " +  winner.getUsername() + " has won the game!");
 					}
 				}
 				

@@ -208,11 +208,6 @@ public class Game {
 					if (currPos <= endIndex && endPos >= endZoneMin && endPos <= endZoneMax) {
 						int slotIndex = (endPos % endIndex) - 1;
 
-						// Green and Yellow End Zone Slots are indexed inside out for some reason so need to reverse the index
-						if (col.equals("GREEN") || col.equals("YELLOW")) {
-							slotIndex = (slotIndex - 3) * -1;
-						}
-
 						// If that slot is unoccupied
 						if (board.getSlot(slotIndex, Board.SLOT_END, col).getOccupyingToken() == null) {
 							command = CommunicationHandler.GAME_ROLL_SUCCESS + " " + diceValue + " " + tokenID + " " + p.getUsername() + " " + Board.SLOT_END + " " + slotIndex;
