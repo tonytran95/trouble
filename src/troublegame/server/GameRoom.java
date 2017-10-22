@@ -55,7 +55,7 @@ public class GameRoom {
 		for (Connection member : members)
 			member.getOutputStream().println(CommunicationHandler.GAME_ROOM_JOIN + " " + u.getUsername());
 		for (Connection member : members)
-			if (member.getUser().equals(u.getUser()) == false) u.getOutputStream().println(CommunicationHandler.GAME_ROOM_MEMBER + " " + member.getUsername());
+			if (!member.getUser().getUsername().equals(u.getUser().getUsername())) u.getOutputStream().println(CommunicationHandler.GAME_ROOM_MEMBER + " " + member.getUsername());
 	}
 	
 	/**

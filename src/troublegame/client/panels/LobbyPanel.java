@@ -73,6 +73,8 @@ public class LobbyPanel extends JPanel {
 		}
 		
 		this.init();
+		refreshGameRooms();	
+
 	}
 
 	private JTextArea chatMessages;
