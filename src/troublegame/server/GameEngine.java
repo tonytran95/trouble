@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map.Entry;
 import java.util.Queue;
@@ -29,6 +30,19 @@ public class GameEngine {
 	}
 	
 	public void removeConnection(Connection conn) {
+		Iterator<Entry<Game, ArrayList<Connection>>> it = gameConns.entrySet().iterator();
+	    while (it.hasNext()) {
+	    	Entry<Game, ArrayList<Connection>> entry = it.next();
+	    	Game g = entry.getKey();
+	    	ArrayList<Connection> conns = entry.getValue();
+	    	conns.remove(conn);
+	        if (conns.size() == 0) {
+				gameConns.remove(g);
+				inputQueues.remove(g);
+				g.destruct();
+			}
+	    }
+	    /*
 		for (Entry<Game, ArrayList<Connection>> c : gameConns.entrySet()) {
 			Game g = c.getKey();
 			ArrayList<Connection> conns = c.getValue();
@@ -39,6 +53,7 @@ public class GameEngine {
 				g.destruct();
 			}
 		}
+		*/
 	}
 	
 	public void createGame(ArrayList<Connection> players, int startingNum) {
