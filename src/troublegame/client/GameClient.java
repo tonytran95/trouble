@@ -179,9 +179,9 @@ public class GameClient {
 								@Override
 								public void run() {
 									if (ui.getUser().getUsername().equals(inputSplit[3])) {
-										chatPanel.sendMessageToChatBox(GAME_MESSAGE + "You rolled a " + rolled + ". Roll again to move.");
+										chatPanel.sendMessageToChatBox(GAME_MESSAGE + "You rolled a " + rolled + ". Roll again to move");
 									} else {
-										chatPanel.sendMessageToChatBox(GAME_MESSAGE + inputSplit[3] + " rolled a " + rolled + ". They can roll again.");
+										chatPanel.sendMessageToChatBox(GAME_MESSAGE + inputSplit[3] + " rolled a " + rolled + ". They can roll again");
 									}
 						    		boardPanel.updateToken(inputSplit[3], Integer.parseInt(inputSplit[2]), Integer.parseInt(inputSplit[4]), Integer.parseInt(inputSplit[5]));
 								}
@@ -195,7 +195,7 @@ public class GameClient {
 								
 								@Override
 								public void run() {
-									chatPanel.sendMessageToChatBox(GAME_MESSAGE + "You rolled a " + rolled + "! Moving your token.");
+									chatPanel.sendMessageToChatBox(GAME_MESSAGE + "You rolled a " + rolled + "! Moving your token");
 						    		boardPanel.updateToken(inputSplit[3], Integer.parseInt(inputSplit[2]), Integer.parseInt(inputSplit[4]), Integer.parseInt(inputSplit[5]));
 								}
 							}, 1500);
@@ -208,7 +208,7 @@ public class GameClient {
 								
 								@Override
 								public void run() {
-									chatPanel.sendMessageToChatBox(GAME_MESSAGE + "You rolled a " + rolled + ". Unable to move.");
+									chatPanel.sendMessageToChatBox(GAME_MESSAGE + "You rolled a " + rolled + ". Unable to move");
 								}
 							}, 1500);
 				    		

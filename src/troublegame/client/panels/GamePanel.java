@@ -41,6 +41,8 @@ public class GamePanel extends JPanel {
 	 */
 	private GameChatPanel chatPanel;
 	
+	private InfoPanel infoPanel;
+	
 	/**
 	 * The map of players <username, color>
 	 */
@@ -56,6 +58,7 @@ public class GamePanel extends JPanel {
 		this.swingUI = swingUI;
 		this.boardPanel = new BoardPanel(swingUI);
 		this.chatPanel = new GameChatPanel(swingUI);
+		this.infoPanel = new InfoPanel();
 		this.players = new HashMap<String, String>();
 		
 		/**
@@ -66,7 +69,6 @@ public class GamePanel extends JPanel {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		this.init();
 		
 		this.init();
 	}
@@ -111,10 +113,13 @@ public class GamePanel extends JPanel {
 		
 		boardPanel.setBounds(0, 0, 576, 576);
 		boardPanel.setOpaque(false);
-		chatPanel.setBounds(589, 13, 422, 550);
+		chatPanel.setBounds(589, 263, 422, 300);
 		chatPanel.setOpaque(false);
+		infoPanel.setBounds(595, 13, 410, 237);
+		infoPanel.setOpaque(false);
 		this.add(boardPanel);
 		this.add(chatPanel);
+		this.add(infoPanel);
 		this.setVisible(true);
 		
 	}

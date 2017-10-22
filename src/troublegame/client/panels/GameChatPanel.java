@@ -97,10 +97,10 @@ public class GameChatPanel extends JPanel {
 		((DefaultCaret) chatMessages.getCaret()).setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 		
 		// Chat scroll bar
-		chatMessageScroll.setBounds(6, 0, 410, 512);
+		chatMessageScroll.setBounds(6, 0, 410, 274);
 		
 		// New message area
-		newMessage.setBounds(6, 524, 290, 20);
+		newMessage.setBounds(6, 280, 290, 20);
 		
 		// TODO Possibly change this over to just flat out limit the number of characters if we have time
 		// For now substring is extractacted from 0 to 256 if len > 256 when sending message
@@ -182,7 +182,7 @@ public class GameChatPanel extends JPanel {
 				sendMessageToServer();
 			}
 		});
-		sendButton.setBounds(302, 524, 65, 20);
+		sendButton.setBounds(302, 280, 65, 20);
 		
 		sendButton.addMouseListener(new MouseListener() {			
 			@Override
@@ -205,7 +205,7 @@ public class GameChatPanel extends JPanel {
 		sendButton.setBorderPainted(false);
 		
 		// Character counter
-		charCountLabel.setBounds(370, 524, 48, 20);
+		charCountLabel.setBounds(370, 280, 48, 20);
 		
 		this.add(chatMessageScroll);
 		this.add(newMessage);

@@ -25,9 +25,9 @@ import troublegame.client.Interface;
 import troublegame.client.SwingUI;
 import troublegame.communication.CommunicationHandler;
 
-@SuppressWarnings("serial")
 public class RegisterPanel extends JPanel {
 	
+	private static final long serialVersionUID = -6169128406502978993L;
 	private JTextField nameField;
 	private JTextField emailField;
 	private JPasswordField passwordField;
