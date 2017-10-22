@@ -159,7 +159,6 @@ public class Game {
 	 * Applies a roll to a player's token given the playerID, tokenID and the roll value
 	 * @param playerID
 	 * @param tokenID
-	 * @param diceValue
 	 */
 	public String movePlayerToken(int playerID, int tokenID) {
 		String command = null;
@@ -186,7 +185,7 @@ public class Game {
 						board.setTokenLoc(tokenToEat, Board.SLOT_HOME, tokenToEat.getTokenID());
 						engine.broadcast(this, CommunicationHandler.GAME_EAT_TOKEN + " " + tokenToEat.getTokenID() + " " + owner.getUsername() + " " + Board.SLOT_HOME);
 					}
-					
+
 					command = CommunicationHandler.GAME_ROLL_AGAIN + " " + diceValue + " " + tokenID + " " + p.getUsername() + " " + Board.SLOT_MAIN + " " + startIndex;
 					board.setTokenLoc(token, Board.SLOT_MAIN, startIndex);
 				}
@@ -196,6 +195,67 @@ public class Game {
 				int endIndex = board.getEndIndex(col);
 				//int currZone = Board.SLOT_MAIN;
 				currPos = currentSlot.getSlotIndex();
+
+
+				int endZoneMin = endIndex + 1;
+				int endZoneMax = endZoneMin + 3;
+				int endPos = currPos + diceValue;
+
+				// If within movable slots on board
+				if (endPos <= endZoneMax) {
+
+					// If dice roll would land inside end zone
+					if (currPos <= endIndex && endPos >= endZoneMin && endPos <= endZoneMax) {
+						int slotIndex = (endPos % endIndex) - 1;
+
+						// Green and Yellow End Zone Slots are indexed inside out for some reason so need to reverse the index
+						if (col.equals("GREEN") || col.equals("YELLOW")) {
+							slotIndex = (slotIndex - 3) * -1;
+						}
+
+						// If that slot is unoccupied
+						if (board.getSlot(slotIndex, Board.SLOT_END, col).getOccupyingToken() == null) {
+							command = CommunicationHandler.GAME_ROLL_SUCCESS + " " + diceValue + " " + tokenID + " " + p.getUsername() + " " + Board.SLOT_END + " " + slotIndex;
+							board.setTokenLoc(token, Board.SLOT_END, slotIndex);
+						} else {
+							command = CommunicationHandler.GAME_ROLL_FAIL + " " + diceValue + " " + p.getUsername();
+						}
+						// Move as normal - must be on the Main board still
+					} else {
+						target = endPos;
+
+						// Wrap around the indices if you pass red section
+						if (target > (Board.NUM_MAIN_SLOTS - 1)) target = target % Board.NUM_MAIN_SLOTS;
+
+						// Eat token if you land on it
+						if (board.getSlot(target).isOccupied()) {
+							Token tokenToEat = board.getSlot(target).getOccupyingToken();
+							Player owner = tokenToEat.getOwner();
+							board.setTokenLoc(tokenToEat, Board.SLOT_HOME, tokenToEat.getTokenID());
+							engine.broadcast(this, CommunicationHandler.GAME_EAT_TOKEN + " " + tokenToEat.getTokenID() + " " + owner.getUsername() + " " + Board.SLOT_HOME);
+						}
+					}
+				// Might be just after the home zone - move normally
+				} else if (currPos > endIndex) {
+					target = endPos;
+
+					// Wrap around the indices if you pass red section
+					if (target > (Board.NUM_MAIN_SLOTS - 1)) target = target % Board.NUM_MAIN_SLOTS;
+
+					// Eat token if you land on it
+					if (board.getSlot(target).isOccupied()) {
+						Token tokenToEat = board.getSlot(target).getOccupyingToken();
+						Player owner = tokenToEat.getOwner();
+						board.setTokenLoc(tokenToEat, Board.SLOT_HOME, tokenToEat.getTokenID());
+						engine.broadcast(this, CommunicationHandler.GAME_EAT_TOKEN + " " + tokenToEat.getTokenID() + " " + owner.getUsername() + " " + Board.SLOT_HOME);
+					}
+				// Rolled too high for end zone
+				} else {
+					command = CommunicationHandler.GAME_ROLL_FAIL + " " + diceValue + " " + p.getUsername();
+				}
+
+				/*
+				//TODO: Remove this once rework complete
 				if (currPos == endIndex) { // move into endzone
 					switch (diceValue) {
 						case 1: 
@@ -250,7 +310,8 @@ public class Game {
 						engine.broadcast(this, CommunicationHandler.GAME_EAT_TOKEN + " " + tokenToEat.getTokenID() + " " + owner.getUsername() + " " + Board.SLOT_HOME);
 					}
 				}
-				
+
+				*/
 				break;
 		}
 		
