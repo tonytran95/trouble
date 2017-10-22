@@ -52,19 +52,19 @@ public class InfoPanel extends JPanel {
 		playersLabel.setBounds(0, 98, 84, 20);
 		redPlayerLabel = new JLabel("@");
 		redPlayerLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
-		redPlayerLabel.setBounds(86, 102, 19, 19);
+		redPlayerLabel.setBounds(86, 101, 19, 17);
 		redPlayerLabel.setForeground(Color.RED);
 		greenPlayerLabel = new JLabel("@");
 		greenPlayerLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
-		greenPlayerLabel.setBounds(86, 122, 19, 19);
+		greenPlayerLabel.setBounds(86, 120, 19, 17);
 		greenPlayerLabel.setForeground(Color.GREEN);
 		yellowPlayerLabel = new JLabel("@");
 		yellowPlayerLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
-		yellowPlayerLabel.setBounds(86, 142, 19, 19);
+		yellowPlayerLabel.setBounds(86, 137, 19, 17);
 		yellowPlayerLabel.setForeground(new Color(255, 215, 0));
 		bluePlayerLabel = new JLabel("@");
 		bluePlayerLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
-		bluePlayerLabel.setBounds(86, 162, 19, 19);
+		bluePlayerLabel.setBounds(86, 156, 19, 17);
 		bluePlayerLabel.setForeground(Color.BLUE);
 		
 		
