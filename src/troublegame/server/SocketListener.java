@@ -205,7 +205,7 @@ public class SocketListener {
 											String statistics = " "+u.getGamesPlayed()+" "+ u.getGamesWon();
 											conn.getOutputStream().println(CommunicationHandler.GET_STATISTICS+ statistics);
 										} else if (input.startsWith(CommunicationHandler.LOBBY_CHAT)) {
-											String message = input.substring(CommunicationHandler.LOBBY_CHAT.length());
+											String message = input.substring(CommunicationHandler.LOBBY_CHAT.length() + 1);
 											lobby.handleLobbyChat(conn, message);
 										} else if (input.startsWith(CommunicationHandler.LOBBY_ONLINE_LIST)) {
 											lobby.broadcastOnlineList();

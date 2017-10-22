@@ -112,7 +112,7 @@ public class GameClient {
 				    		me.setGamesWon(Integer.parseInt(inputSplit[2]));
 				    		ui.send((CommunicationHandler.LOBBY_ONLINE_LIST));
 				    	} else if (input.startsWith(CommunicationHandler.LOBBY_CHAT)) {
-		    				String chatMessage = input.substring(CommunicationHandler.LOBBY_CHAT.length());
+		    				String chatMessage = input.substring(CommunicationHandler.LOBBY_CHAT.length() + 1);
 		    				ui.pushChat(chatMessage, SwingUI.LOBBY);
 		    			} else if (input.startsWith(CommunicationHandler.LOBBY_ONLINE_LIST)) {
 				    		ui.updateOnlineList(input.substring(CommunicationHandler.LOBBY_ONLINE_LIST.length() + 1));

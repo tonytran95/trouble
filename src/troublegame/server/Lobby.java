@@ -38,7 +38,7 @@ public class Lobby {
 	public void broadcastOnlineList() {
 		String onlineList = "";
 		for (Connection conn: users) {
-			onlineList += " "+conn.getUsername();
+			onlineList += " " + conn.getUsername();
 		}
 		
 		for (Connection conn: users) {
@@ -128,7 +128,7 @@ public class Lobby {
 	public void handleLobbyChat(Connection conn, String message) {
 		for (Connection user: users) {
 			PrintWriter outputStream = user.getOutputStream();
-			String s = String.format(CommunicationHandler.LOBBY_CHAT + "%s: %s", conn.getUsername(), message);
+			String s = String.format(CommunicationHandler.LOBBY_CHAT + " %s: %s", conn.getUsername(), message);
 			outputStream.println(s);
 		}		
 	}
