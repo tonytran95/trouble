@@ -26,6 +26,8 @@ public class Lobby {
 	}
 	
 	public void addUser(Connection user) {
+		if (users.contains(user))
+			return;
 		users.add(user);
 	}
 	

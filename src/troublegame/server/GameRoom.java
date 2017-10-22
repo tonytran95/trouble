@@ -50,7 +50,7 @@ public class GameRoom {
 	 * @param u The Connection to add to the room
 	 */
 	public void addConnection(Connection u) {
-		if(isRoomFull()) return;
+		if(isRoomFull() || members.contains(u)) return;
 		members.add(u);
 		for (Connection member : members)
 			member.getOutputStream().println(CommunicationHandler.GAME_ROOM_JOIN + " " + u.getUsername());
