@@ -296,7 +296,7 @@ public class GameClient {
 		    				JOptionPane.showMessageDialog(null, "Account has been successfully created.");
 		    			} else if (input.equals(CommunicationHandler.REGISTER_ERROR)) {
 		    				JOptionPane.showMessageDialog(null, "The email you have entered already exists!", "Please Try again", JOptionPane.ERROR_MESSAGE);
-		    				registerPanel.setBackground(Color.RED);
+		    				registerPanel.getEmailField().setBackground(Color.RED);
 		    			}
 		    			break;
 		    		default:
