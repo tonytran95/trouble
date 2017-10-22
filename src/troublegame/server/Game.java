@@ -177,7 +177,7 @@ public class Game {
 				// sorry can't move
 				// Was 6, changed to -1 to allow all rolls
 				if (diceValue == -1) {
-					command = CommunicationHandler.GAME_ROLL_FAIL + " " + diceValue;
+					command = CommunicationHandler.GAME_ROLL_FAIL + " " + diceValue + " " + p.getUsername();
 				} else {
 					startIndex = board.getStartIndex(col);
 					if (board.getSlot(startIndex).isOccupied()) {
@@ -189,50 +189,49 @@ public class Game {
 					
 					command = CommunicationHandler.GAME_ROLL_AGAIN + " " + diceValue + " " + tokenID + " " + p.getUsername() + " " + Board.SLOT_MAIN + " " + startIndex;
 					board.setTokenLoc(token, Board.SLOT_MAIN, startIndex);
-					//turnNum--;
 				}
 				break;
 			case Board.SLOT_MAIN:
 				startIndex = board.getStartIndex(col);
 				int endIndex = board.getEndIndex(col);
-				int currZone = Board.SLOT_MAIN;
-				currPos = currentSlot.getSlotIndex();	
+				//int currZone = Board.SLOT_MAIN;
+				currPos = currentSlot.getSlotIndex();
 				if (currPos == endIndex) { // move into endzone
 					switch (diceValue) {
 						case 1: 
-							if (board.getSlot(diceValue - 1, currZone, col).getOccupyingToken() == null) {
+							if (board.getSlot(diceValue - 1, Board.SLOT_END, col).getOccupyingToken() == null) {
 								command = CommunicationHandler.GAME_ROLL_SUCCESS + " " + diceValue + " " + tokenID + " " + p.getUsername() + " " + Board.SLOT_END + " " + 0;
 								board.setTokenLoc(token, Board.SLOT_END, 0);
 							} else {
-								command = CommunicationHandler.GAME_ROLL_FAIL + " " + diceValue + " , token already occupying end slot";
+								command = CommunicationHandler.GAME_ROLL_FAIL + " " + diceValue + " " + p.getUsername();
 							}
 							break;
 						case 2:
-							if (board.getSlot(diceValue - 1, currZone, col).getOccupyingToken() == null) {
+							if (board.getSlot(diceValue - 1, Board.SLOT_END, col).getOccupyingToken() == null) {
 								command = CommunicationHandler.GAME_ROLL_SUCCESS + " " + diceValue + " " + tokenID + " " + p.getUsername() + " " + Board.SLOT_END + " " + 1;
 								board.setTokenLoc(token, Board.SLOT_END, 1);
 							} else {
-								command = CommunicationHandler.GAME_ROLL_FAIL + " " + diceValue + " , token already occupying end slot";
+								command = CommunicationHandler.GAME_ROLL_FAIL + " " + diceValue + " " + p.getUsername();
 							}
 							break;
 						case 3:
-							if (board.getSlot(diceValue -1, currZone, col).getOccupyingToken() == null) {
+							if (board.getSlot(diceValue - 1, Board.SLOT_END, col).getOccupyingToken() == null) {
 								command = CommunicationHandler.GAME_ROLL_SUCCESS + " " + diceValue + " " + tokenID + " " + p.getUsername() + " " + Board.SLOT_END + " " + 2;
 								board.setTokenLoc(token, Board.SLOT_END, 2);
 							} else {
-								command = CommunicationHandler.GAME_ROLL_FAIL + " " + diceValue + " , token already occupying end slot";
+								command = CommunicationHandler.GAME_ROLL_FAIL + " " + diceValue + " " + p.getUsername();
 							}
 							break;
 						case 4:
-							if (board.getSlot(diceValue - 1, currZone, col).getOccupyingToken() == null) {
+							if (board.getSlot(diceValue - 1, Board.SLOT_END, col).getOccupyingToken() == null) {
 								command = CommunicationHandler.GAME_ROLL_SUCCESS + " " + diceValue + " " + tokenID + " " + p.getUsername() + " " + Board.SLOT_END + " " + 3;
 								board.setTokenLoc(token, Board.SLOT_END, 3);
 							} else {
-								command = CommunicationHandler.GAME_ROLL_FAIL + " " + diceValue + " , token already occupying end slot";
+								command = CommunicationHandler.GAME_ROLL_FAIL + " " + diceValue + " " + p.getUsername();
 							}
 							break;
 						default:
-							command = CommunicationHandler.GAME_ROLL_FAIL + " " + diceValue + " , must roll a value of 1-4 to enter the end zone";
+							command = CommunicationHandler.GAME_ROLL_FAIL + " " + diceValue + " " + p.getUsername();
 					}
 				} else { // keep moving along mainzone
 					target = currPos + diceValue;
@@ -260,9 +259,6 @@ public class Game {
 			command = CommunicationHandler.GAME_ROLL + " " + diceValue + " " + tokenID + " " + p.getUsername() + " " + Board.SLOT_MAIN + " " + target;
 			board.setTokenLoc(token, Board.SLOT_MAIN, target);
 		}
-		
-		//turnNum++;
-		//engine.updateTurns(this);
 		
 		return command;
 	}

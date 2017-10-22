@@ -3,6 +3,7 @@ package troublegame.client;
 import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -28,16 +29,6 @@ public class GameClient {
 	public static final String GAME_MESSAGE = "GAME: ";
 	
 	/**
-	 * The IP Address.
-	 */
-	public final static String IP_ADDRESS = "127.0.0.1";
-	
-	/**
-	 * The port.
-	 */
-	public final static int port = 4321;
-	
-	/**
 	 * The buffered reader.
 	 */
 	private BufferedReader in;
@@ -52,8 +43,9 @@ public class GameClient {
      */
     private Socket socket;
     
-	public static void main(String[] args) {		
-		new GameClient(GameClient.IP_ADDRESS, GameClient.port);
+	public static void main(String[] args) {
+		String[] info = getServerInfo().split(":");
+		new GameClient(info[0], Integer.parseInt(info[1]));
 	}
 	
 	/**
@@ -162,22 +154,24 @@ public class GameClient {
 				    		int rolled = Integer.valueOf(inputSplit[1]);
 				    		boardPanel.rollAndShow(rolled);
 				    		new Timer().schedule(new TimerTask() {
-								
 								@Override
 								public void run() {
-									chatPanel.sendMessageToChatBox(GAME_MESSAGE + inputSplit[3] + " rolled a " + rolled);
+									if (ui.getUser().getUsername().equals(inputSplit[3])) {
+										chatPanel.sendMessageToChatBox(GAME_MESSAGE + "You rolled a " + rolled);
+									} else {
+										chatPanel.sendMessageToChatBox(GAME_MESSAGE + inputSplit[3] + " rolled a " + rolled);
+									}
 						    		boardPanel.updateToken(inputSplit[3], Integer.parseInt(inputSplit[2]), Integer.parseInt(inputSplit[4]), Integer.parseInt(inputSplit[5]));
 								}
 							}, 1500);
 				    		
 				    	} else if (input.startsWith(CommunicationHandler.GAME_ROLL_AGAIN)) {
-				    		boardPanel.updateTurn(inputSplit[3]);
 				    		int rolled = Integer.valueOf(inputSplit[1]);
 				    		boardPanel.rollAndShow(rolled);
 				    		new Timer().schedule(new TimerTask() {
-								
 								@Override
 								public void run() {
+						    		boardPanel.updateTurn(inputSplit[3]);
 									if (ui.getUser().getUsername().equals(inputSplit[3])) {
 										chatPanel.sendMessageToChatBox(GAME_MESSAGE + "You rolled a " + rolled + ". Roll again to move.");
 									} else {
@@ -188,39 +182,38 @@ public class GameClient {
 							}, 1500);
 				    		
 				    	} else if (input.startsWith(CommunicationHandler.GAME_ROLL_SUCCESS)) {
-
 				    		int rolled = Integer.valueOf(inputSplit[1]);
 				    		boardPanel.rollAndShow(rolled);
 				    		new Timer().schedule(new TimerTask() {
-								
 								@Override
 								public void run() {
-									chatPanel.sendMessageToChatBox(GAME_MESSAGE + "You rolled a " + rolled + "! Moving your token.");
+									if (ui.getUser().getUsername().equals(inputSplit[4])) {
+										chatPanel.sendMessageToChatBox(GAME_MESSAGE + "You rolled a " + rolled + "! Moving token into end zone!");
+									} else {
+										chatPanel.sendMessageToChatBox(GAME_MESSAGE + inputSplit[3] + " rolled a " + rolled + "! Moving token into end zone!");
+									}
 						    		boardPanel.updateToken(inputSplit[3], Integer.parseInt(inputSplit[2]), Integer.parseInt(inputSplit[4]), Integer.parseInt(inputSplit[5]));
 								}
 							}, 1500);
-				    		
 				    	} else if (input.startsWith(CommunicationHandler.GAME_ROLL_FAIL)) {
-				    		
 				    		int rolled = Integer.valueOf(inputSplit[1]);
 				    		boardPanel.rollAndShow(rolled);
 				    		new Timer().schedule(new TimerTask() {
-								
 								@Override
 								public void run() {
-									chatPanel.sendMessageToChatBox(GAME_MESSAGE + "You rolled a " + rolled + ". Unable to move.");
+									if (ui.getUser().getUsername().equals(inputSplit[2])) {
+										chatPanel.sendMessageToChatBox(GAME_MESSAGE + "You rolled a " + rolled + ". Unable to move!");
+									} else {
+										chatPanel.sendMessageToChatBox(GAME_MESSAGE + inputSplit[2] + " rolled a " + rolled + ". Unable to move!");
+									}
 								}
 							}, 1500);
-				    		
 				    	} else if (input.startsWith(CommunicationHandler.GAME_EAT_TOKEN)) {
 				    		boardPanel.updateToken(inputSplit[2], Integer.parseInt(inputSplit[1]), Integer.parseInt(inputSplit[3]), Integer.parseInt(inputSplit[1]));
 				    	} else if (input.startsWith(CommunicationHandler.GAME_TURN)) {
-				    		
 				    		new Timer().schedule(new TimerTask() {
-								
 								@Override
 								public void run() {
-									
 									boardPanel.updateTurn(inputSplit[1]);
 						    		if (ui.getUser().getUsername().equals(inputSplit[1])) {
 						    			chatPanel.sendMessageToChatBox(GAME_MESSAGE + "It's your turn! Click the dice to roll");
@@ -231,10 +224,8 @@ public class GameClient {
 						    			currPlayer += (lastLetInPlayerName == 's') ? "'" : "'s";
 						    			chatPanel.sendMessageToChatBox(GAME_MESSAGE + "It's " + currPlayer + " turn");
 						    		}
-									
 								}
-							}, 1500);
-				    		
+							}, 1750);
 		    			} else if (input.startsWith(CommunicationHandler.GAME_CHAT)) {
 		    				String message = input.substring(CommunicationHandler.GAME_CHAT.length() + 1);
 		    				chatPanel.sendMessageToChatBox(message);
@@ -323,6 +314,22 @@ public class GameClient {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	/**
+	 * @return the server's ip and port in the format <ip:port>
+	 */
+	private static String getServerInfo() {
+		String line = null;
+		try {
+			BufferedReader bufferedReader = new BufferedReader(new FileReader("./client.txt"));
+			line = bufferedReader.readLine();
+			bufferedReader.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return line;
 	}
 	
 	/**
