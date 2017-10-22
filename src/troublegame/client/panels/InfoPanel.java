@@ -5,8 +5,11 @@ import java.awt.Font;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.ListSelectionModel;
 
 import troublegame.client.SwingUI;
 
@@ -15,8 +18,6 @@ public class InfoPanel extends JPanel {
 	private static final long serialVersionUID = 4335278227443750057L;
 	
 	private SwingUI swingUI;
-	
-	private JLabel currTurnLabel;
 	private JLabel timeElapsedLabel;
 	
 	private JLabel playersLabel;
@@ -24,7 +25,8 @@ public class InfoPanel extends JPanel {
 	private JLabel greenPlayerLabel;
 	private JLabel yellowPlayerLabel;
 	private JLabel bluePlayerLabel;
-	
+	private DefaultListModel<String> playerListModel;
+	private JList<String> playerList;
 	private int secondsTime;
 	private int minutesTime;
 	
@@ -41,32 +43,37 @@ public class InfoPanel extends JPanel {
 	private void init() {
 		setLayout(null);
 		
-		Font titleFont = new Font("Tahoma", Font.BOLD, 18);
-		Font playerFont = new Font("Tahoma", Font.PLAIN, 12);
-		
 		timeElapsedLabel = new JLabel();
-		timeElapsedLabel.setFont(titleFont);
+		timeElapsedLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		timeElapsedLabel.setBounds(0, 40, 410, 20);
 		
 		playersLabel = new JLabel("Players");
-		playersLabel.setFont(titleFont);
-		playersLabel.setBounds(0, 80, 410, 20);
-		redPlayerLabel = new JLabel("");
-		redPlayerLabel.setFont(playerFont);
-		redPlayerLabel.setBounds(0, 100, 410, 20);
-		greenPlayerLabel = new JLabel("");
-		greenPlayerLabel.setFont(playerFont);
-		greenPlayerLabel.setBounds(0, 120, 410, 20);
-		yellowPlayerLabel = new JLabel("");
-		yellowPlayerLabel.setFont(playerFont);
-		yellowPlayerLabel.setBounds(0, 140, 410, 20);
-		bluePlayerLabel = new JLabel("");
-		bluePlayerLabel.setFont(playerFont);
-		bluePlayerLabel.setBounds(0, 160, 410, 20);
+		playersLabel.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		playersLabel.setBounds(0, 98, 84, 20);
+		redPlayerLabel = new JLabel("@");
+		redPlayerLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
+		redPlayerLabel.setBounds(86, 102, 19, 19);
+		redPlayerLabel.setForeground(Color.RED);
+		greenPlayerLabel = new JLabel("@");
+		greenPlayerLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
+		greenPlayerLabel.setBounds(86, 122, 19, 19);
+		greenPlayerLabel.setForeground(Color.GREEN);
+		yellowPlayerLabel = new JLabel("@");
+		yellowPlayerLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
+		yellowPlayerLabel.setBounds(86, 142, 19, 19);
+		yellowPlayerLabel.setForeground(new Color(255, 215, 0));
+		bluePlayerLabel = new JLabel("@");
+		bluePlayerLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
+		bluePlayerLabel.setBounds(86, 162, 19, 19);
+		bluePlayerLabel.setForeground(Color.BLUE);
 		
-		currTurnLabel = new JLabel("Current turn: ");
-		currTurnLabel.setFont(titleFont);
-		currTurnLabel.setBounds(0, 200, 410, 20);
+		
+		playerListModel = new DefaultListModel<String>();
+		
+		playerList = new JList<String>(playerListModel);
+		playerList.setEnabled(false);
+		playerList.setBounds(117, 101, 132, 79);
+		add(playerList);
 		
 		this.add(timeElapsedLabel);
 		this.add(playersLabel);
@@ -74,7 +81,6 @@ public class InfoPanel extends JPanel {
 		this.add(greenPlayerLabel);
 		this.add(yellowPlayerLabel);
 		this.add(bluePlayerLabel);
-		this.add(currTurnLabel);
 	}
 	
 	private void doTime() {
@@ -100,7 +106,7 @@ public class InfoPanel extends JPanel {
 					minutes = String.valueOf(minutesTime);
 				}
 				
-				timeElapsedLabel.setText("Time in game: " + minutes + ":" + seconds);
+				timeElapsedLabel.setText("Game Time: " + minutes + ":" + seconds);
 				
 			}
 		}, 0, 1000);
@@ -108,24 +114,35 @@ public class InfoPanel extends JPanel {
 	}
 	
 	public void updateTurn(String username) {
-		currTurnLabel.setText("Current turn: " + username);
+		//currTurnLabel.setText("Current turn: " + username);
+		if (swingUI.getUser().getUsername().equals(username)) username = username + " (YOU)";
+		ListSelectionModel sm = playerList.getSelectionModel();
+		sm.clearSelection();
+		playerList.setSelectedIndex(getIndex(username));
 	}
 	
 	public void setupPlayer(String username, String color) {
 		if (swingUI.getUser().getUsername().equals(username)) username = username + " (YOU)";
-		if (color.equals("red")) {
-			redPlayerLabel.setText(username);
-			redPlayerLabel.setForeground(Color.RED);
-		} else if (color.equals("green")) {
-			greenPlayerLabel.setText(username);
-			greenPlayerLabel.setForeground(Color.GREEN);
-		} else if (color.equals("yellow")) {
-			yellowPlayerLabel.setText(username);
-			yellowPlayerLabel.setForeground(Color.YELLOW);
-		} else {
-			bluePlayerLabel.setText(username);
-			bluePlayerLabel.setForeground(Color.BLUE);
-		}
+		addUser(username);
 	}
 
+	public int getIndex(String username) {
+		return playerListModel.indexOf(username);
+	}
+	/**
+	 * Adds the user to our user list.
+	 * @param username the username to add.
+	 */
+	public void addUser(String username) {
+		playerListModel.addElement(username);
+	}
+	
+	/**
+	 * Removes the users from our user list.
+	 * @param username is the name to remove.
+	 */
+	public void removeUser(String username) {
+		playerListModel.removeElement(username);
+	}
+	
 }

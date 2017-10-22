@@ -373,6 +373,16 @@ public class Game {
 		System.out.print("\n");
 	}
 	
+	public String getPlayers() {
+
+		String playerString = "";
+		for(int i = 0; i < Game.MAX_PLAYERS; i++) {
+			playerString += " " + players[i].getUsername();
+		}
+
+		return playerString;
+	}
+	
 	public boolean isStarted() {
 		return started;
 	}
