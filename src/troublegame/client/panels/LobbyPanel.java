@@ -302,6 +302,7 @@ public class LobbyPanel extends JPanel {
 		chatMessages = new JTextArea();
 		DefaultCaret caret = (DefaultCaret)chatMessages.getCaret();
 		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+		chatMessages.setLineWrap(true);
 		//chatMessages.setBounds(103, 220, 503, 151);
 		JScrollPane scroll = new JScrollPane(chatMessages);
 		chatMessages.setEditable(false);

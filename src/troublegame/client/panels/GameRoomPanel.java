@@ -107,6 +107,7 @@ public class GameRoomPanel extends JPanel {
 		//chatMessages.setBounds(103, 220, 503, 151);
 		JScrollPane scroll = new JScrollPane(chatMessages);
 		chatMessages.setEditable(false);
+		chatMessages.setLineWrap(true);
 		panel.setLayout(new GridLayout(1, 0, 0, 0));
 		panel.add(scroll);
 		this.add(panel);
